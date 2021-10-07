@@ -7,6 +7,6 @@ Blake Del Rey\
 Isabel Guzman\
 Jacob Sunia\
 James Austin Jr\
-Naeun Yu\
+Naeun Yu
 
-Team Leader: James Austin Jr\
+Team Leader: James Austin Jr
