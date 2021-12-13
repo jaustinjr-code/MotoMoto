@@ -1,4 +1,5 @@
 using TheNewPanelists.ApplicationLayer.Authentication;
+using TheNewPanelists.DataAccessLayer.Logging;
 
 namespace app
 {
@@ -8,6 +9,7 @@ namespace app
         {
             UserManagementAuthentication t = new UserManagementAuthentication();
             t.UserManagementAuthenticationTest();
+            LoggingDataAccess l = new LoggingDataAccess("CREATE");
         }
     }
 }

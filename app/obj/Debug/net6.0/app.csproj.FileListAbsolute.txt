@@ -13,3 +13,5 @@
 /Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/Debug/net6.0/ref/app.dll
 /Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/Debug/net6.0/app.pdb
 /Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/Debug/net6.0/app.genruntimeconfig.cache
+/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/bin/Debug/net6.0/MySqlConnector.dll
+/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/Debug/net6.0/app.csproj.CopyComplete

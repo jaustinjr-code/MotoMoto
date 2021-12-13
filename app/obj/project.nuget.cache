@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oBInA40vlDV3lh1alZzEFiKQbJeoPlkmrqiEaPCRIqvVX4oAcbOnyFaXJwAxTbZa/Hx8aDRYdlwS+v4uMtq8qg==",
+  "dgSpecHash": "3TUoW/nP6oYPNRmC5gyYfnVFDH761ZWgD/OtW/LcaXjG/5bYqjnbN2dfFxPSdY2lhSnfbZD+6w0pj2fM1u581w==",
   "success": true,
   "projectFilePath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/jcaustin/.nuget/packages/mysqlconnector/2.1.0/mysqlconnector.2.1.0.nupkg.sha512"
+  ],
   "logs": []
 }
