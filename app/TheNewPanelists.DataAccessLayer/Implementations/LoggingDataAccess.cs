@@ -1,4 +1,5 @@
 using System.Linq;
+using MySql.Data.MySqlClient;
 
 
 namespace TheNewPanelists.DataAccessLayer.Logging
@@ -48,15 +49,15 @@ namespace TheNewPanelists.DataAccessLayer.Logging
 
         bool IDataAccess.EstablishMariaDBConnection()
         {
-            // MySqlConnection mySqlConnection;
-            // string connectionString = @"Data Source=localhost;User ID=admin_MM_test;Password=l23";
-            // sqlConnection = new SqlConnection(connectionString);
-            // sqlConnection.Open();
+            MySqlConnection mySqlConnection;
+            string connectionString = @"Data Source=localhost;User ID=admin_MM_test;Password=l23";
+            mySqlConnection = new MySqlConnection(connectionString);
+            mySqlConnection.Open();
 
-            // // SqlGenerator
-            // // run query and compare against query
+            // SqlGenerator
+            // run query and compare against query
 
-            // sqlConnection.Close();
+            mySqlConnection.Close();
 
             return false;
         }
