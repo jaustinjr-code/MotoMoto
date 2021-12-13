@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `Category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Category` (
-  `categoryId` int(11) NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`categoryId`)
+  `categoryName` varchar(100) NOT NULL,
+  PRIMARY KEY (`categoryName`),
+  UNIQUE KEY `categoryName` (`categoryName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -35,6 +35,7 @@ CREATE TABLE `Category` (
 
 LOCK TABLES `Category` WRITE;
 /*!40000 ALTER TABLE `Category` DISABLE KEYS */;
+INSERT INTO `Category` VALUES ('Business'),('Data'),('Data Store'),('Server'),('View');
 /*!40000 ALTER TABLE `Category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -46,9 +47,9 @@ DROP TABLE IF EXISTS `Level`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Level` (
-  `levelId` int(11) NOT NULL AUTO_INCREMENT,
   `levelName` varchar(50) NOT NULL,
-  PRIMARY KEY (`levelId`)
+  PRIMARY KEY (`levelName`),
+  UNIQUE KEY `levelName` (`levelName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,6 +59,7 @@ CREATE TABLE `Level` (
 
 LOCK TABLES `Level` WRITE;
 /*!40000 ALTER TABLE `Level` DISABLE KEYS */;
+INSERT INTO `Level` VALUES ('Debug'),('Error'),('Info'),('Warning');
 /*!40000 ALTER TABLE `Level` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,16 +72,16 @@ DROP TABLE IF EXISTS `Log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Log` (
   `logId` int(11) NOT NULL AUTO_INCREMENT,
-  `categoryId` int(11) NOT NULL,
-  `levelId` int(11) NOT NULL,
+  `categoryName` varchar(100) NOT NULL,
+  `levelName` varchar(100) NOT NULL,
   `timeStamp` time NOT NULL,
   `userID` int(11) NOT NULL,
   `DSCRIPTION` varchar(1000) NOT NULL,
   PRIMARY KEY (`logId`),
-  KEY `Log_Category_FK` (`categoryId`),
-  KEY `Log_Level_FK` (`levelId`),
-  CONSTRAINT `Log_Category_FK` FOREIGN KEY (`categoryId`) REFERENCES `Category` (`categoryId`),
-  CONSTRAINT `Log_Level_FK` FOREIGN KEY (`levelId`) REFERENCES `Level` (`levelId`)
+  KEY `Log_Category_FK` (`categoryName`),
+  KEY `Log_Level_FK` (`levelName`),
+  CONSTRAINT `Log_Category_FK` FOREIGN KEY (`categoryName`) REFERENCES `Category` (`categoryName`),
+  CONSTRAINT `Log_Level_FK` FOREIGN KEY (`levelName`) REFERENCES `Level` (`levelName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-12 19:42:22
+-- Dump completed on 2021-12-13 14:16:03
