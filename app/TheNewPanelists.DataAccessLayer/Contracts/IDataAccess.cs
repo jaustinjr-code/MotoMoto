@@ -1,4 +1,4 @@
-namespace TheNewPanelists.DataAccessLayer.Logging
+namespace TheNewPanelists.DataAccessLayer
 {
     interface IDataAccess
     {

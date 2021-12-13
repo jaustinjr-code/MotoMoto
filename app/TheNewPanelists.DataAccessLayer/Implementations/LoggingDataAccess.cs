@@ -2,7 +2,7 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 
 
-namespace TheNewPanelists.DataAccessLayer.Logging
+namespace TheNewPanelists.DataAccessLayer
 {
     class LoggingDataAccess : IDataAccess
     {
@@ -17,27 +17,26 @@ namespace TheNewPanelists.DataAccessLayer.Logging
                     this.operation = operation;
                     Console.WriteLine("CREATE");
                 }
+                else if (operation == "DELETE")
+                {
+                    this.operation = operation;
+                    Console.WriteLine("CREATE");
+                }
+                else if (operation == "UPDATE")
+                {
+                    this.operation = operation;
+                    Console.WriteLine("CREATE");
+                }
+                else if (operation == "ABLE")
+                {
+                    this.operation = operation;
+                    Console.WriteLine("CREATE");
+                }
                 else
                 {
-                    this.operation = "No";
-                    Console.WriteLine("No");
+                    this.operation = "None";
+                    // throw Exception;
                 }
-                // else if (operation == "DELETE")
-                // {
-
-                // }
-                // else if (operation == "UPDATE")
-                // {
-
-                // }
-                // else if (operation == "ABLE")
-                // {
-
-                // }
-                // else
-                // {
-                //     throw Exception;
-                // }
             }
             catch (Exception e)
             {
@@ -50,12 +49,15 @@ namespace TheNewPanelists.DataAccessLayer.Logging
         bool IDataAccess.EstablishMariaDBConnection()
         {
             MySqlConnection mySqlConnection;
-            string connectionString = @"Data Source=localhost;User ID=admin_MM_test;Password=l23";
+            // NOTE: hardcoded, will be different based on your naming
+            string connectionString = "server=localhost;user=admin_MM_test;database=users_MM_test;port=3306;password=123";// @"Data Source=localhost;User ID=admin_MM_test;Password=l23";
+
             mySqlConnection = new MySqlConnection(connectionString);
             mySqlConnection.Open();
 
             // SqlGenerator
             // run query and compare against query
+            Console.WriteLine("Connection open");
 
             mySqlConnection.Close();
 
@@ -64,6 +66,7 @@ namespace TheNewPanelists.DataAccessLayer.Logging
 
         string IDataAccess.SqlGenerator()
         {
+
             return "";
         }
     }
