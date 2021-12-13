@@ -1,6 +1,6 @@
 namespace app.TheNewPanelists.DataAccessLayer.Logging
 {
-    interface ILoggingDataAccess
+    interface IDataAccess
     {
         private string operation;
         public bool LogAccess(string[] log);
