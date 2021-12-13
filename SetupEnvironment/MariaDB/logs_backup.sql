@@ -74,7 +74,7 @@ CREATE TABLE `Log` (
   `logId` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(100) NOT NULL,
   `levelName` varchar(100) NOT NULL,
-  `timeStamp` time NOT NULL,
+  `timeStamp` time NOT NULL DEFAULT current_timestamp(),
   `userID` int(11) NOT NULL,
   `DSCRIPTION` varchar(1000) NOT NULL,
   PRIMARY KEY (`logId`),
@@ -103,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-13 14:36:20
+-- Dump completed on 2021-12-13 15:32:15
