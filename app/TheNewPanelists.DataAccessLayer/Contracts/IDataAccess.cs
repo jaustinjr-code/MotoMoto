@@ -1,12 +1,10 @@
-namespace app.TheNewPanelists.DataAccessLayer.Logging
+namespace app.TheNewPanelists.DataAccessLayer
 {
     interface IDataAccess
     {
         private string operation;
-        // public bool LogAccess(string[] log);
         private static bool EstablishMariaDBConnection();
         private abstract string SqlGenerator();
         // NOTE: Jacob gets an error for access modifiers
-        public bool LogRequestAsync();
     }
 }
