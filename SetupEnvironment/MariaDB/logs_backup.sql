@@ -35,7 +35,7 @@ CREATE TABLE `Category` (
 
 LOCK TABLES `Category` WRITE;
 /*!40000 ALTER TABLE `Category` DISABLE KEYS */;
-INSERT INTO `Category` VALUES ('Business'),('Data'),('Data Store'),('Server'),('View');
+INSERT INTO `Category` VALUES ('BUSINESS'),('DATA'),('DATA STORE'),('SERVER'),('VIEW');
 /*!40000 ALTER TABLE `Category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `Level` (
 
 LOCK TABLES `Level` WRITE;
 /*!40000 ALTER TABLE `Level` DISABLE KEYS */;
-INSERT INTO `Level` VALUES ('Debug'),('Error'),('Info'),('Warning');
+INSERT INTO `Level` VALUES ('DEBUG'),('ERROR'),('INFO'),('WARNING');
 /*!40000 ALTER TABLE `Level` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-13 14:16:03
+-- Dump completed on 2021-12-13 14:36:20

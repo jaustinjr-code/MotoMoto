@@ -19,13 +19,13 @@ CREATE TABLE Log (
     CONSTRAINT Log_PK PRIMARY KEY (logId)
 );
 INSERT INTO Level
-VALUES ("Info"),
-    ("Debug"),
-    ("Warning"),
-    ("Error");
+VALUES ("INFO"),
+    ("DEBUG"),
+    ("WARNING"),
+    ("ERROR");
 INSERT INTO Category
-VALUES ("View"),
-    ("Business"),
-    ("Server"),
-    ("Data"),
-    ("Data Store");
+VALUES ("VIEW"),
+    ("BUSINESS"),
+    ("SERVER"),
+    ("DATA"),
+    ("DATA STORE");
