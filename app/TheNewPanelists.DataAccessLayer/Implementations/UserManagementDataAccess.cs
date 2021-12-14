@@ -90,5 +90,9 @@ namespace TheNewPanelists.DataAccessLayer
             return "DELETE u FROM USER u WHERE u.username ="+this.userInfo["username"]+";";
         }
 
+        private string UpdateUser() {
+            return "UPDATE USER u SET u.username = "+this.userInfo["newusername"]+" WHERE u.username="
+                    +this.userInfo["username"];
+        }
     }
 }
