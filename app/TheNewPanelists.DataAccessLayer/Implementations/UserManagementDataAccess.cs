@@ -78,22 +78,17 @@ namespace TheNewPanelists.DataAccessLayer
         }
 
         private string FindUser() {
-            EstablishMariaDBConnection();
-            string query;
-            if (this.userInfo.ContainsKey("username")) {
-                    query = "SELECT u FROM User u WHERE u.username ="+this.userInfo["username"]+";";
-                    Console.WriteLine(query);
-                    return query;  
-                }
-            Console.WriteLine("Query not created due to invalid user account");
-            return "";
+            return "SELECT u FROM User u WHERE u.username ="+this.userInfo["username"]+";";
         }
 
         private string CreateUser() {
-            string query = "INSERT INTO USER VALUES (NULL, NULL, "+this.userInfo["username"]+", "
-                        +this.userInfo["password"]+", "+this.userInfo["email"]+", false, false);";
-            Console.WriteLine(query);
-            return query;
+            return "INSERT INTO USER VALUES (NULL, NULL, "+this.userInfo["username"]+", "
+                   +this.userInfo["password"]+", "+this.userInfo["email"]+", false, false);";
         }
+
+        private string DropUser() {
+            return "DELETE u FROM USER u WHERE u.username ="+this.userInfo["username"]+";";
+        }
+
     }
 }
