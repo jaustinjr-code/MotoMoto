@@ -9,6 +9,9 @@ namespace TheNewPanelists.DataAccessLayer
         private Dictionary<string, string> userInfo {get; set;}
         private string operation { get; set; }
         private MySqlConnection mySqlConnection = null;
+        public UserManagementDataAccess ()
+        {
+        }
         public UserManagementDataAccess (string operation, Dictionary<string, string> userInfo) 
         {
             this.userInfo = userInfo;
