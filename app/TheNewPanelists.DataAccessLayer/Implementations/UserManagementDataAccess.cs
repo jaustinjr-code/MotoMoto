@@ -8,7 +8,6 @@ namespace TheNewPanelists.DataAccessLayer
     {   
         private Dictionary<string, string> userInfo {get; set;}
         private string operation { get; set; }
-
         private MySqlConnection mySqlConnection = null;
         public UserManagementDataAccess (string operation, Dictionary<string, string> userInfo) 
         {
@@ -98,8 +97,9 @@ namespace TheNewPanelists.DataAccessLayer
             }
             else if (this.operation == "UPDATE") 
             {
-                return this.UpdateUser();
+                return this.Update();
             }
+            return "";
         }
         private string FindUser() 
         {
@@ -119,7 +119,8 @@ namespace TheNewPanelists.DataAccessLayer
 
         private string Update() 
         {
-            return $@"UPDATE USER u SET u.{ this.userInfo[1].key } = { this.userInfo[1].value } WHERE u.username={ this.userInfo[0] }";
+            return "UPDATE USER u SET u.username = "+this.userInfo["newusername"]+
+                    " WHERE u.username="+this.userInfo["username"];
         }
     }
 }
