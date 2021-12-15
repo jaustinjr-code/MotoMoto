@@ -1,33 +1,58 @@
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TheNewPanelists.DataAccessLayer
 {
     class ArchivingDataAccess : IDataAccess
     {
-        private string operation;
-        public ArchivingDataAccess(string operation)
+        private string operation {get; set;}
+        private DateTime localDate{get;}
+        private List<Dictionary<string, string>> logList {get; set;}
+        public ArchivingDataAccess(string operation, List<Dictionary<string, string>> logList)
         {
             this.operation = operation;
+            this.logList = logList;
+            this.localDate = DateTime.Now;
+        }
+        // public async bool ArchiveRequest() 
+        // {
+        //     if (localDate.Day == 1){
+                
+        //     }
+        // }
+        public bool ExtractLogs() 
+        {
+            try 
+            {
+                while (logList.Count != 0){
+                    this.SqlGenerator();
+                    EstablishMariaDBConnection();
+                }
+            }
+            catch (Exception e) {
+                Console.WriteLine("Error Message: "+e.Message);
+                return false;
+            }
+            return true;
         }
         public bool EstablishMariaDBConnection()
         {
-            MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
-            string connectionString = "server=localhost;user=MotoMotoA;database=logs;port=3306;password=password;";
+            string connectionString = "server=localhost;user=MotoMotoA;database=mm_archives;port=3306;password=password;";
             // string connectionString = "server=localhost;user=tempuser;database=logs_MM_test;port=3306;";
-            mySqlConnection = new MySqlConnection(connectionString);
+            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
             try
             {
                 mySqlConnection.Open();          
                 Console.WriteLine("Connection open");
                 // SqlGenerator
-                MySqlCommand command = new MySqlCommand(SqlGenerator(), mySqlConnection);
-                MySqlDataReader reader = command.ExecuteReader();
-
-                getAllLogs(reader);
-                // Console.WriteLine(command.ExecuteNonQuery());
+                string sql = SqlGenerator();
+                Console.WriteLine(sql);
+                MySqlCommand command = new MySqlCommand(sql, mySqlConnection);
+                command.ExecuteNonQuery();
                 Console.WriteLine("Close");
+                
                 mySqlConnection.Close();
             }
             catch (Exception e)
@@ -40,47 +65,43 @@ namespace TheNewPanelists.DataAccessLayer
         }
         public string SqlGenerator()
         {
-            return queryAllLogs();          
+            if (this.operation.Equals("BUILD")) 
+            {
+                this.operation = "INSERT";
+                return BuildArchiveTable();
+            } 
+            else if (this.operation.Equals("INSERT"))
+            {
+                return InsertArchiveInformation();
+            }
+            return ""; 
         }
-        private string QueryAllLogs()
+        private string InsertArchiveInformation() 
         {
-            return "SELECT * FROM Log l;";
-        }
-
-        private string InsertArchiveInformation(List<Dictionary<string, string>> logList) 
-        {
+            string ld = this.localDate.Date.ToString("d");
+            ld = ld.Replace("/","_");
+            string query = "";
             for (int i = 0; i < logList.Count; i++) {
-                for (int j = 0; k < logDic.Count; j++) {
-                    Console.WriteLine(logList[i].ElementAt(j));
+                for (int j = 0; j < logList[i].Count; j++) {
+                    query = "INSERT INTO "+ld+" VALUES ("+logList[i]["logId"]+", "+
+                            "'"+logList[i]["categoryName"]+"', '"+logList[i]["levelName"]+"', '"+
+                            logList[i]["timeStamp"]+"', "+logList[i]["userID"]+", '"+logList[i]["DSCRIPTION"]+"');";
+                    logList.RemoveAt(i);
+                    break;
                 }
             }
-            return "";
+            return query;
         }
-
         private string BuildArchiveTable() 
         {
-            DateTime localDate = DateTime.Now;
-            string ld = localDate.ToString();
-            return "CREATE TABLE "+ld+"categoryName VARCHAR(100) NOT NULL, levelName VARCHAR(50) NOT NULL, "+
-                    "timeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, userID INT NOT NULL, "+
-                    "DSCRIPTION VARCHAR(1000) NOT NULL, CONSTRAINT Log_PK PRIMARY KEY (logId);";
-        }
-        private List<Dictionary<string, string>> GetAllLogs(MySqlDataReader reader)  
-        {
-            Dictionary<string, string> logDic;
-            List<Dictionary<string,string>> logList = new List<Dictionary<string,string>>();
+            string ld = this.localDate.Date.ToString("d");
+            ld = ld.Replace("/","_");
 
-            while(reader.Read()) 
-            {
-                logDic = new Dictionary<string, string>();
-                logDic.Add("logId", reader.GetString("logId"));
-                logDic.Add("categoryName", reader.GetString("categoryName"));
-                logDic.Add("timeStamp", reader.GetString("timeStamp"));
-                logDic.Add("userID", reader.GetString("userID"));
-                logDic.Add("DSCRIPTION", reader.GetString("DSCRIPTION"));
-                logList.Add(logDic);
-            }
-            return logList;
+            return "CREATE TABLE "+ld+" (logId INT NOT NULL, categoryName VARCHAR(100) NOT NULL, levelName VARCHAR(50) NOT NULL, "+
+                    "timeStamp DATETIME NOT NULL, userID INT NOT NULL, DSCRIPTION VARCHAR(1000) NOT NULL, "+
+                    "CONSTRAINT Log_PK PRIMARY KEY (logId)) ENGINE=InnoDB;";
         }
+
+
     }
 }
