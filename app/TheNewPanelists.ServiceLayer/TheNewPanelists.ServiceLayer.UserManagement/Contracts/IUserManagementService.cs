@@ -1,7 +1,7 @@
 namespace TheNewPanelists.ServiceLayer.UserManagement {
     interface IServiceLayer
     {
-        bool CreateAccount();
+        bool CreateAccountRequest();
         bool DeleteAccount();
         bool UpdateAccount();
         bool EnableAccount();

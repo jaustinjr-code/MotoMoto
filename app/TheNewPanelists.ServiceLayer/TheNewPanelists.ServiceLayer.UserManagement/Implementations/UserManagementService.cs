@@ -2,16 +2,23 @@ namespace TheNewPanelists.ServiceLayer.UserManagement {
     class UserManagementService : IServiceLayer {
 
         //private Dictionary<string, string> userAccount;
-        private IBusinessLayer operation;
-        private IDataAccess userAccount;
-        
-        public UserManagementService()
+        //private IBusinessLayer operation;
+        //private IDataAccess userAccount;
+        private string operation {get; set;}
+        private Dictionary<string, string> userAccount {get; set;}
+        public UserManagementService() 
         {
+
         }
-        public UserManagementService(IBusinessLayer operation, IDataAccess userAccount) {
-            this.userAccount = userAccount;
+        public UserManagementService(string operation, Dictionary<string, string> userAccount) 
+        {
             this.operation = operation;
+            this.userAccount = userAccount;
         }
+        // public UserManagementService(Dictionary<string, string> userAccount) {
+        //     this.userAccount = userAccount;
+        //     this.operation = operation;
+        // }
         // protected bool ValidateAccount(string accountToValidate) {
         //     if(accountToValidate) { //if username already exists in database
         //         return true;
@@ -19,65 +26,100 @@ namespace TheNewPanelists.ServiceLayer.UserManagement {
         //         return false;
         //     }
         // }
-        public bool CreateAccount() {
-            if(userAccount.ValidateAccount == true) { //if account exists in database
+        public bool CreateAccountRequest() 
+        {
+            if(userAccount.ValidateAccount == true) 
+            { //if account exists in database
                 return false; //can not create new account
-            } else {
-                try {
+            } 
+            else 
+            {
+                try 
+                {
                     userAccount.CreateAccount();
-                } catch {
+                } 
+                catch 
+                {
                     return false;
                 }
                 return true;
             }
         }
-        public bool DeleteAccount() {
-            if(userAccount.ValidateAccount == true) {
-                try {
+        public bool DeleteAccount() 
+        {
+            if(userAccount.ValidateAccount == true) 
+            {
+                try 
+                {
                     userAccount.DeleteAccount();
-                } catch {
+                } 
+                catch 
+                {
                     return false;
                 }
                 //trigger database to delete account
                 return true;
-            } else {
+            } 
+            else 
+            {
                 //account already does not exist
                 return false;
             }
         }
-        public bool UpdateAccount() {
-            if(userAccount.ValidateAccount == true) {
-                try {
+        public bool UpdateAccount() 
+        {
+            if(userAccount.ValidateAccount == true) 
+            {
+                try 
+                {
                     userAccount.UpdateAccount();
-                } catch {
+                } 
+                catch 
+                {
                     return false;
                 }
                 return true;
-            } else {
+            } 
+            else 
+            {
                 return false;
             }
         }
-        public bool EnableAccount() {
-            if(userAccount.ValidateAccount == true) {
-                try {
+        public bool EnableAccount() 
+        {
+            if(userAccount.ValidateAccount == true) 
+            {
+                try 
+                {
                     userAccount.EnableAccount();
-                } catch {
+                } 
+                catch 
+                {
                     return false;
                 }
                 return true;
-            } else {
+            } 
+            else 
+            {
                 return false;
             }
         }
-        public bool DisableAccount() {
-            if(userAccount.ValidateAccount == true) {
-                try {
+        public bool DisableAccount() 
+        {
+            if(userAccount.ValidateAccount == true) 
+            {
+                try 
+                {
                     userAccount.DisableAccount();
-                } catch {
+                } 
+                catch 
+                {
                     return false;
                 }
                 return true;
-            } else {
+            } 
+            else 
+            {
                 return false;
             }
         }
