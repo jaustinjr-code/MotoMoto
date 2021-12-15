@@ -1,4 +1,5 @@
 using TheNewPanelists.ApplicationLayer.Authentication;
+using TheNewPanelists.DataAccessLayer;
 
 namespace app
 {
@@ -8,6 +9,8 @@ namespace app
         {
             UserManagementAuthentication t = new UserManagementAuthentication();
             t.UserManagementAuthenticationTest();
+            IDataAccess l = new LoggingDataAccess("CREATE");
+            Console.WriteLine(l.EstablishMariaDBConnection());
         }
     }
 }

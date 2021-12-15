@@ -1,3 +1,14 @@
 
 Deliverables/.DS_Store
 .DS_Store
+app/obj/Debug/net6.0/apphost.exe
+*.cache
+*.editorconfig
+app/bin/Debug/net6.0/app.deps.json
+app/bin/Debug/net6.0/app.dll
+app/bin/Debug/net6.0/app.pdb
+app/bin/Debug/net6.0/ref/app.dll
+app/obj/Debug/net6.0/app.assets.cache
+app/obj/Debug/net6.0/app.dll
+app/obj/Debug/net6.0/app.pdb
+app/obj/Debug/net6.0/ref/app.dll
