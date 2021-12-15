@@ -68,5 +68,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             return "UPDATE USER u SET u.email = '" + this.userAccount["newemail"] +
                     "' WHERE u.username= '" + this.userAccount["username"]+"';";
         }
+
+        private string UpdateStatus()
+        {
+            return "UPDATE USER u SET u.status = '" + this.userAccount["newstatus"] +
+                    "' WHERE u.username= '" + this.userAccount["status"]+"';";
+        }
     }
 }
