@@ -17,7 +17,6 @@ namespace TheNewPanelists.DataAccessLayer
             this.userInfo = userInfo;
             this.operation = operation;
         }
-
         private void BuildTempUser() 
         {
             using(mySqlConnection = new MySqlConnection("server=localhost;user=MotoMotoA;password=password;"))
@@ -38,7 +37,6 @@ namespace TheNewPanelists.DataAccessLayer
             }
             EstablishMariaDBConnection();
         }
-
         private void DeleteTempUser() 
         {
             using (mySqlConnection = new MySqlConnection("server=localhost;user=MotoMotoA;password=password;"))
@@ -75,15 +73,11 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Invalid Connection "+e+ " creating temp user now");
                 this.BuildTempUser();
             }
-            
             // SqlGenerator
             // run query and compare against query
-
             mySqlConnection.Close();
-
             return false;
         }
-
         public string SqlGenerator()
         {   
             if (this.operation == "FIND") 
@@ -108,18 +102,15 @@ namespace TheNewPanelists.DataAccessLayer
         {
             return "SELECT u FROM User u WHERE u.username ="+this.userInfo["username"]+";";
         }
-
         private string CreateUser() 
         {
             return "INSERT INTO USER VALUES (NULL, NULL, "+this.userInfo["username"]+", "
                    +this.userInfo["password"]+", "+this.userInfo["email"]+", false, false);";
         }
-
         private string DropUser() 
         {
             return "DELETE u FROM USER u WHERE u.username ="+this.userInfo["username"]+";";
         }
-
         private string Update() 
         {
             return "UPDATE USER u SET u.username = "+this.userInfo["newusername"]+
