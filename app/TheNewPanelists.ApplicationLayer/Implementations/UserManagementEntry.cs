@@ -14,42 +14,22 @@ namespace TheNewPanelists.ApplicationLayer
 
         public UserManagementEntry()
         {
-
+            this.userManagementManager = new UserManagementManager();
         }
         public UserManagementEntry(string operation, Dictionary<string, string> request)
         {
             this.operation = operation;
             this.request = request;
+            this.userManagementManager = new UserManagementManager();
         }
 
         public string SingleOperationRequest()
         {
-            if (operation.ToUpper() == "CREATE")
-            {
-                userManagementManager.CallCreateAccount(request);
-                return "UM operation was successful";
-            }
-            else if (operation.ToUpper() == "DELETE")
-            {
-                userManagementManager.CallDeleteAccount(request);
-                return "UM operation was successful";
-            }
-            else if (operation.ToUpper() == "UPDATE")
-            {
-                userManagementManager.CallUpdateAccount(request);
-                return "UM operation was successful";
-            }
-            else if (operation.ToUpper() == "DISABLE")
-            {
-                userManagementManager.CallDisableAccount(request);
-                return "UM operation was successful";
-            }
-            else if (operation.ToUpper() == "ENABLE")
-            {
-                userManagementManager.CallEnableAccount(request);
-                return "UM operation was successful";
-            }
 
+            if (userManagementManager.CallOperation(this.operation, request))
+            {
+                return "UM operation was successful";
+            }
             return "UM operation was not successful";
         }
 

@@ -8,7 +8,10 @@ class UserManagementManager
 {
     private List<string> request;
     
-    public UserManagementManager() {}
+    public UserManagementManager() 
+    {
+        request = new List<string>();
+    }
     public UserManagementManager(List<string> request)
     {
         this.request = request;
@@ -45,7 +48,7 @@ class UserManagementManager
     public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
     {
         bool hasValidAttributes = false;
-        switch (attributes["operation"].ToUpper()) 
+        switch (operation.ToUpper()) 
         {
             case "FIND":
                 hasValidAttributes = attributes.ContainsKey("username");
