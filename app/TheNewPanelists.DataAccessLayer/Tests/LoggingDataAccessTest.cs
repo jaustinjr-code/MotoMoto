@@ -12,8 +12,8 @@ namespace TheNewPanelists.DataAccessLayer
         [Fact]
         public void Test1()
         {
-            IDataAccess d = new LoggingDataAccess("CREATE", false);
-            Assert.Equal(true, d.EstablishMariaDBConnection());
+            // IDataAccess d = new LoggingDataAccess("CREATE", false);
+            // Assert.Equal(true, d.EstablishMariaDBConnection());
         }
     }
 }
