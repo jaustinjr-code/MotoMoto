@@ -10,9 +10,7 @@ namespace TheNewPanelists.DataAccessLayer
     {
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
-        public UserManagementDataAccess()
-        {
-        }
+        public UserManagementDataAccess() {}
         public UserManagementDataAccess(string query)
         {
             this.query = query;
@@ -20,6 +18,9 @@ namespace TheNewPanelists.DataAccessLayer
         private void BuildTempUser()
         {
             // Hides password
+            Console.WriteLine("Please Enter Your MariaDB Username:");
+            string username = Console.ReadLine();
+            Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
             {
@@ -29,13 +30,10 @@ namespace TheNewPanelists.DataAccessLayer
                 else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
             }
             string pass = input.ToString();
-            string user = System.Environment.UserName;
+            // Console.WriteLine(pass);
+            // Console.WriteLine(System.Environment.UserName);
 
-
-            Console.WriteLine(pass);
-            Console.WriteLine(System.Environment.UserName);
-
-            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user=root;password={pass}");
+            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={username};password={pass}");
             // MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={user};password={pass}");
             try
             {
@@ -68,26 +66,29 @@ namespace TheNewPanelists.DataAccessLayer
         }
         public bool EstablishMariaDBConnection()
         {
-            // NOTE: hardcoded, will be different based on your naming
-            string connectionString = "server=localhost;user=tempuser;database=motomotousermanagement;port=3306;password=123;";
-            // @"Data Source=localhost;User ID=admin_MM_test;Password=l23";
-            mySqlConnection = new MySqlConnection(connectionString);
+            Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            string databaseName = Console.ReadLine();
+            // MySqlConnection mySqlConnection;
+            // This is a hardcoded string, it will be different based on your naming
+            // Need to generalize the database name or create a new database and run the restore sql file on it
+            string connectionString = $"server=localhost;user=tempuser;database={databaseName};port=3306;password=123;";
 
             try
-            {   
+            {
+                mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-                MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
-                command.ExecuteNonQuery();
                 Console.WriteLine("Connection open");
+
+                // Console.WriteLine("Close");
+                // mySqlConnection.Close();
+                return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Invalid Connection " + e + " creating temp user now");
-                this.BuildTempUser();
+                Console.WriteLine(e.Message);
+                Console.WriteLine("ERROR - Creating new user...");
+                BuildTempUser();
             }
-            // SqlGenerator
-            // run query and compare against query
-            mySqlConnection.Close();
             return false;
         }
         public bool SelectAccount()
@@ -102,6 +103,8 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
             return false;
         }
     }

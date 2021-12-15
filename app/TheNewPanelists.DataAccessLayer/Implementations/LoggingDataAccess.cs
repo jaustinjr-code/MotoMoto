@@ -11,6 +11,7 @@ namespace TheNewPanelists.DataAccessLayer
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
 
+        public LoggingDataAccess() {}
         public LoggingDataAccess(string query)
         {
             this.query = query;
@@ -19,6 +20,9 @@ namespace TheNewPanelists.DataAccessLayer
         private void BuildTempUser()
         {
             // Hides password
+            Console.WriteLine("Please Enter Your MariaDB Username:");
+            string username = Console.ReadLine();
+            Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
             {
@@ -28,13 +32,10 @@ namespace TheNewPanelists.DataAccessLayer
                 else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
             }
             string pass = input.ToString();
-            string user = System.Environment.UserName;
+            // Console.WriteLine(pass);
+            // Console.WriteLine(System.Environment.UserName);
 
-
-            Console.WriteLine(pass);
-            Console.WriteLine(System.Environment.UserName);
-
-            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user=root;password={pass}");
+            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={username};password={pass}");
             // MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={user};password={pass}");
             try
             {
@@ -65,26 +66,23 @@ namespace TheNewPanelists.DataAccessLayer
             }
             EstablishMariaDBConnection();
         }
-
         public bool EstablishMariaDBConnection()
         {
+            Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            string databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = "server=localhost;user=tempuser;database=logs;port=3306;password=123;";
-            // string connectionString = "server=localhost;user=tempuser;database=logs_MM_test;port=3306;";
+            string connectionString = $"server=localhost;user=tempuser;database={databaseName};port=3306;password=123;";
 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
-                // SqlGenerator
-                // MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
-                // command.ExecuteNonQuery();
 
-                Console.WriteLine("Close");
-                mySqlConnection.Close();
+                // Console.WriteLine("Close");
+                // mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -105,12 +103,15 @@ namespace TheNewPanelists.DataAccessLayer
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+
             if (command.ExecuteNonQuery() == 1)
             {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
             return false;
         }
         public List<Dictionary<string, string>> ExtractLogs()
