@@ -12,6 +12,7 @@ namespace TheNewPanelists.DataAccessLayer
         private MySqlConnection mySqlConnection = null;
 
         public LoggingDataAccess() {}
+
         public LoggingDataAccess(string query)
         {
             this.query = query;
@@ -66,8 +67,11 @@ namespace TheNewPanelists.DataAccessLayer
             }
             EstablishMariaDBConnection();
         }
+
         public bool EstablishMariaDBConnection()
         {
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
+
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
             string databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
@@ -81,8 +85,12 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
 
-                // Console.WriteLine("Close");
-                // mySqlConnection.Close();
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "INFO");
+                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS LOGGING");
+                ILogService logFailure = new LogService("CREATE", informationLog, true);
+                logFailure.SqlGenerator();
+
                 return true;
             }
             catch (Exception e)
@@ -91,14 +99,22 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "ERROR");
+            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR USER MANAGEMENT!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, false);
+            logSuccess.SqlGenerator();
+
             return false;
         }
+
         /**
         LogAccess gives access to database and stores the log
         log - necessary fields for the log
         */
         public bool LogAccess()
         {
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
@@ -108,12 +124,27 @@ namespace TheNewPanelists.DataAccessLayer
             {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
+
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "INFO");
+                informationLog.Add("description","LOG ACCESS ESTABLISH CONNECTION SUCCESS LOGGING");
+                ILogService logFailure = new LogService("CREATE", informationLog, true);
+                logFailure.SqlGenerator();
+                
                 return true;
             }
             mySqlConnection.Close();
+
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "ERROR");
+            informationLog.Add("description","LOG ACCESS ESTABLISHMENT FAILED DURING CONNECTION!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, false);
+            logSuccess.SqlGenerator();
+
             Console.WriteLine("Connection closed...");
             return false;
         }
+
         public List<Dictionary<string, string>> ExtractLogs()
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
@@ -125,6 +156,7 @@ namespace TheNewPanelists.DataAccessLayer
             Console.WriteLine("Connection closed...");
             return result;
         }
+
          private List<Dictionary<string, string>> ReadResult(MySqlDataReader mySqlDataReader)
         {
             List<Dictionary<string, string>> output = new List<Dictionary<string, string>>();

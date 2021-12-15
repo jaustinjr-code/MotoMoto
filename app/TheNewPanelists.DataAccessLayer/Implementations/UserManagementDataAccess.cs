@@ -2,6 +2,7 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
+using TheNewPanelists.ServiceLayer.Logging;
 
 
 namespace TheNewPanelists.DataAccessLayer
@@ -10,11 +11,14 @@ namespace TheNewPanelists.DataAccessLayer
     {
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
+
         public UserManagementDataAccess() {}
+
         public UserManagementDataAccess(string query)
         {
             this.query = query;
         }
+
         private void BuildTempUser()
         {
             // Hides password
@@ -64,8 +68,11 @@ namespace TheNewPanelists.DataAccessLayer
             }
             EstablishMariaDBConnection();
         }
+
         public bool EstablishMariaDBConnection()
         {
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
+
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
             string databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
@@ -77,6 +84,13 @@ namespace TheNewPanelists.DataAccessLayer
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
+
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "INFO");
+                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS USER MANAGEMENT");
+                ILogService logFailure = new LogService("CREATE", informationLog, true);
+                logFailure.SqlGenerator();
+
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
@@ -89,8 +103,16 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
+             
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "ERROR");
+            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR USER MANAGEMENT!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, false);
+            logSuccess.SqlGenerator();
+
             return false;
         }
+
         public bool SelectAccount()
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");

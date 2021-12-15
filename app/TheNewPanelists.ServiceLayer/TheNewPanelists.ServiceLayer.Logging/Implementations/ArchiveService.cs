@@ -11,21 +11,38 @@ namespace TheNewPanelists.ServiceLayer.Logging
         private DateTime localDate{get;}
 
         public ArchiveService() {}
+
         public ArchiveService(string operation, List<Dictionary<string, string>> log) {
             this.operation = operation;
             this.log = log;
             this.localDate = DateTime.Now;
             this.archivingDataAccess = new ArchivingDataAccess();
         }
+
         public bool SqlGenerator()
         {   
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             List<string> queries = InsertArchiveInformation(); 
             for (int i = 0; i < queries.Count; i++) {
                 archivingDataAccess = new ArchivingDataAccess(queries[i]);
-                if (archivingDataAccess.RunArchiveStorage() == false) return false;
+                if (archivingDataAccess.RunArchiveStorage() == false) 
+                {
+                    informationLog.Add("categoryname", "DATA STORE");
+                    informationLog.Add("levelname", "ERROR");
+                    informationLog.Add("description","Archive INSERTION ERROR, Information in ARCHIVE Operation Not Executed!!");
+                    ILogService logFailure = new LogService("CREATE", informationLog, false);
+                    logFailure.SqlGenerator();
+                    return false;
+                }
             }
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "INFO");
+            informationLog.Add("description","ARCHIVE CREATION SUCCESS, Information Successfully Archived!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, true);
+            logSuccess.SqlGenerator();
             return true;
         }
+
         public List<string> BuildArchiveTable() 
         { 
             List<string> createTable = new List<string>();

@@ -10,13 +10,16 @@ namespace TheNewPanelists.DataAccessLayer
         private string query{get; set;}
         private MySqlConnection mySqlConnection = null;
 
-        public ArchivingDataAccess() {}        
+        public ArchivingDataAccess() {}
+
         public ArchivingDataAccess(string query)
         {
             this.query = query;
         }
+
         private void BuildTempUser()
         {
+            
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
             string username = Console.ReadLine();
@@ -30,6 +33,7 @@ namespace TheNewPanelists.DataAccessLayer
                 else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
             }
             string pass = input.ToString();
+
             // Console.WriteLine(pass);
             // Console.WriteLine(System.Environment.UserName);
 
@@ -64,8 +68,11 @@ namespace TheNewPanelists.DataAccessLayer
             }
             EstablishMariaDBConnection();
         }
+
         public bool EstablishMariaDBConnection()
         {
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
+
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
             string databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
@@ -79,8 +86,12 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
 
-                // Console.WriteLine("Close");
-                // mySqlConnection.Close();
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "INFO");
+                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS ARCHIVING");
+                ILogService logFailure = new LogService("CREATE", informationLog, true);
+                logFailure.SqlGenerator();
+
                 return true;
             }
             catch (Exception e)
@@ -89,22 +100,44 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "ERROR");
+            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR ARCHIVING!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, false);
+            logSuccess.SqlGenerator();
+
             return false;
         }
+
         public bool RunArchiveStorage()
         {
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "INFO");
+                informationLog.Add("description","QUERY EXECUTION SUCCESS ARCHIVING!!");
+                ILogService logSuccess = new LogService("CREATE", informationLog, true);
+                logSuccess.SqlGenerator();
+
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
+            
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "INFO");
+            informationLog.Add("description","QUERY EXECUTION FAILED FOR ARCHIVING!!");
+            ILogService logSuccess = new LogService("CREATE", informationLog, false);
+            logSuccess.SqlGenerator();
+
             return false;
         }
     }

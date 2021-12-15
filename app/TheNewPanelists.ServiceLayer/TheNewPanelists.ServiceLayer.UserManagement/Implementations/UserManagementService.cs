@@ -1,4 +1,5 @@
 using TheNewPanelists.DataAccessLayer;
+using TheNewPanelists.ServiceLayer.Logging;
 //using TheNewPanelists.BusinessLayer.UserManagement;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement 
@@ -22,6 +23,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         public bool SqlGenerator()
         {   
+            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             string query = "";
             if (this.operation == "FIND")
             {
@@ -40,7 +42,20 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.UpdateOptions();
             } 
             this.userManagementDataAccess = new UserManagementDataAccess(query);
-            if (this.userManagementDataAccess.SelectAccount() == false) return false;
+            if (this.userManagementDataAccess.SelectAccount() == false) 
+            {
+                informationLog.Add("categoryname", "DATA STORE");
+                informationLog.Add("levelname", "ERROR");
+                informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
+                ILogService loggingError = new LogService("CREATE", informationLog, false);
+                loggingError.SqlGenerator();
+                return false;
+            }
+            informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("levelname", "INFO");
+            informationLog.Add("description","Account Selection COMPLETION, Information in CRUD Operation Queries Executed.");
+            ILogService loggingSuccess = new LogService("CREATE", informationLog, true);
+            loggingSuccess.SqlGenerator();
             return true;
         }
 
