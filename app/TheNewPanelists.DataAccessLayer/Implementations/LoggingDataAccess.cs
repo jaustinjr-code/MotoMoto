@@ -2,7 +2,7 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
-
+using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {

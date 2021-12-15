@@ -2,6 +2,7 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
+using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
@@ -135,8 +136,8 @@ namespace TheNewPanelists.DataAccessLayer
             informationLog.Add("categoryname", "DATA STORE");
             informationLog.Add("levelname", "INFO");
             informationLog.Add("description","QUERY EXECUTION FAILED FOR ARCHIVING!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, false);
-            logSuccess.SqlGenerator();
+            ILogService logFailure = new LogService("CREATE", informationLog, false);
+            logFailure.SqlGenerator();
 
             return false;
         }
