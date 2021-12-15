@@ -31,3 +31,5 @@ app/obj/Debug/net6.0/apphost
 app/obj/Debug/net6.0/ref/app.dll
 app/obj/project.assets.json
 app/obj/project.nuget.cache
+app/obj/Debug/net6.0/app.csproj.AssemblyReference.cache
+app/obj/Debug/net6.0/app.GeneratedMSBuildEditorConfig.editorconfig
