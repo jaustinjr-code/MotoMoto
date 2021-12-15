@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TheNewPanelists.ServiceLayer;
@@ -8,7 +10,26 @@ class UserManagementManager
     public UserManagementManager(List<string> request)
     {
         this.request = request;
-        this.userManagementService = new UserManagementService;
+        this.userManagementService = new UserManagementService();
+    }
+
+    public UserManagementManager(string filepath)
+    {
+        this.request = ParseFile(filepath);
+        this.userManagementService = new UserManagementService();
+    }
+
+    public List<string> ParseFile(string path)
+    {
+        List<string> requests = new List<string>();
+        string[] allLines = File.ReadAllLines(path);
+
+        foreach (string line in allLines)
+        {
+            requests.Add(line);
+        }
+
+        return requests;
     }
 
     public bool IsValidRequest(Dictionary<String, String> request)
