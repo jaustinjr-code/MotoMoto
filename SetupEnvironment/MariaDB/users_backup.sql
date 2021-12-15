@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.6.4-MariaDB, for osx10.16 (x86_64)
 --
--- Host: localhost    Database: users_MM_test
+-- Host: localhost    Database: accts_MM_test
 -- ------------------------------------------------------
 -- Server version	10.6.4-MariaDB
 
@@ -53,7 +53,7 @@ CREATE TABLE `User` (
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `able` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   `eventAccount` tinyint(1) NOT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `Username_UK` (`username`),
@@ -81,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-13 14:49:43
+-- Dump completed on 2021-12-15 10:36:20
