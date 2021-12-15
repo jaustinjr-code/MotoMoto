@@ -1,127 +1,72 @@
-namespace TheNewPanelists.ServiceLayer.UserManagement {
-    class UserManagementService : IServiceLayer {
 
-        //private Dictionary<string, string> userAccount;
-        //private IBusinessLayer operation;
-        //private IDataAccess userAccount;
+namespace TheNewPanelists.ServiceLayer.UserManagement 
+{
+    class UserManagementService : IUserManagementService 
+    {
+
         private string operation {get; set;}
         private Dictionary<string, string> userAccount {get; set;}
-        public UserManagementService() 
-        {
-
-        }
+        public UserManagementService() {}
         public UserManagementService(string operation, Dictionary<string, string> userAccount) 
         {
             this.operation = operation;
             this.userAccount = userAccount;
         }
-        // public UserManagementService(Dictionary<string, string> userAccount) {
-        //     this.userAccount = userAccount;
-        //     this.operation = operation;
-        // }
-        // protected bool ValidateAccount(string accountToValidate) {
-        //     if(accountToValidate) { //if username already exists in database
-        //         return true;
-        //     } else if (accountToValidate != ) { //if username does not exist in database
-        //         return false;
-        //     }
-        // }
-        public bool CreateAccountRequest() 
+        public string SqlGenerator()
         {
-            if(userAccount.ValidateAccount == true) 
-            { //if account exists in database
-                return false; //can not create new account
-            } 
-            else 
+            if (this.operation == "FIND")
             {
-                try 
-                {
-                    userAccount.CreateAccount();
-                } 
-                catch 
-                {
-                    return false;
-                }
-                return true;
+                return this.FindUser();
             }
+            else if (this.operation == "CREATE")
+            {
+                return this.CreateUser();
+            }
+            else if (this.operation == "DROP")
+            {
+                return this.DropUser();
+            }
+            else if (this.operation == "UPDATEU")
+            {
+                return this.UpdateUsername();
+            } 
+            else if (this.operation == "UPDATEP")
+            {
+                return this.UpdatePassword();
+            }
+            else if (this.operation == "UPDATEE") {
+                return this.UpdateEmail();
+            }
+            return "";
         }
-        public bool DeleteAccount() 
+        private string FindUser()
         {
-            if(userAccount.ValidateAccount == true) 
-            {
-                try 
-                {
-                    userAccount.DeleteAccount();
-                } 
-                catch 
-                {
-                    return false;
-                }
-                //trigger database to delete account
-                return true;
-            } 
-            else 
-            {
-                //account already does not exist
-                return false;
-            }
+            return "SELECT u FROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
-        public bool UpdateAccount() 
+        private string CreateUser()
         {
-            if(userAccount.ValidateAccount == true) 
-            {
-                try 
-                {
-                    userAccount.UpdateAccount();
-                } 
-                catch 
-                {
-                    return false;
-                }
-                return true;
-            } 
-            else 
-            {
-                return false;
-            }
+            return "INSERT INTO USER (typeId, username, password, email, able, eventAccount) VALUES (2, '" 
+                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
+                    + this.userAccount["email"] + "', false, false);";
         }
-        public bool EnableAccount() 
+        private string DropUser()
         {
-            if(userAccount.ValidateAccount == true) 
-            {
-                try 
-                {
-                    userAccount.EnableAccount();
-                } 
-                catch 
-                {
-                    return false;
-                }
-                return true;
-            } 
-            else 
-            {
-                return false;
-            }
+            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "';";
         }
-        public bool DisableAccount() 
+        private string UpdateUsername()
         {
-            if(userAccount.ValidateAccount == true) 
-            {
-                try 
-                {
-                    userAccount.DisableAccount();
-                } 
-                catch 
-                {
-                    return false;
-                }
-                return true;
-            } 
-            else 
-            {
-                return false;
-            }
+            return "UPDATE USER u SET u.username = '" + this.userAccount["newusername"] +
+                    "' WHERE u.username= '" + this.userAccount["username"]+"';";
+        }
+        private string UpdatePassword()
+        {
+            return "UPDATE USER u SET u.password = '" + this.userAccount["newpassword"] +
+                    "' WHERE u.username= '" + this.userAccount["username"]+"';";
+        }
+        private string UpdateEmail()
+        {
+            return "UPDATE USER u SET u.email = '" + this.userAccount["newemail"] +
+                    "' WHERE u.username= '" + this.userAccount["username"]+"';";
         }
     }
 }
