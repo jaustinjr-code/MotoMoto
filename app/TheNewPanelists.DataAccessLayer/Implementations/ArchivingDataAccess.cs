@@ -1,107 +1,111 @@
+using System.Linq;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Collections;
+using System.Text;
 
 namespace TheNewPanelists.DataAccessLayer
 {
     class ArchivingDataAccess : IDataAccess
-    {
-        private string operation {get; set;}
-        private DateTime localDate{get;}
-        private List<Dictionary<string, string>> logList {get; set;}
-        public ArchivingDataAccess(string operation, List<Dictionary<string, string>> logList)
+    {   
+        private string query{get; set;}
+        private MySqlConnection mySqlConnection = null;
+
+        public ArchivingDataAccess() {}        
+        public ArchivingDataAccess(string query)
         {
-            this.operation = operation;
-            this.logList = logList;
-            this.localDate = DateTime.Now;
+            this.query = query;
         }
-        // public async bool ArchiveRequest() 
-        // {
-        //     if (localDate.Day == 1){
-                
-        //     }
-        // }
-        public bool ExtractLogs() 
+        private void BuildTempUser()
         {
-            try 
+            // Hides password
+            StringBuilder input = new StringBuilder();
+            while (true)
             {
-                while (logList.Count != 0){
-                    this.SqlGenerator();
-                    EstablishMariaDBConnection();
-                }
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter) break;
+                if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
+                else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
             }
-            catch (Exception e) {
-                Console.WriteLine("Error Message: "+e.Message);
-                return false;
-            }
-            return true;
-        }
-        public bool EstablishMariaDBConnection()
-        {
-            // This is a hardcoded string, it will be different based on your naming
-            string connectionString = "server=localhost;user=MotoMotoA;database=mm_archives;port=3306;password=password;";
-            // string connectionString = "server=localhost;user=tempuser;database=logs_MM_test;port=3306;";
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);
+            string pass = input.ToString();
+            string user = System.Environment.UserName;
+
+
+            Console.WriteLine(pass);
+            Console.WriteLine(System.Environment.UserName);
+
+            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user=root;password={pass}");
+            // MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={user};password={pass}");
             try
             {
-                mySqlConnection.Open();          
+                tempMySqlConnection.Open();
+                // MySqlCommand cmd1 = new MySqlCommand("DROP USER IF EXISTS 'tempuser'@'localhost';", tempMySqlConnection);
+                MySqlCommand cmd2 = new MySqlCommand("CREATE USER IF NOT EXISTS 'tempuser'@'localhost' IDENTIFIED BY '123';", tempMySqlConnection);
+                MySqlCommand cmd3 = new MySqlCommand("GRANT ALL PRIVILEGES ON *.* TO 'tempuser'@'localhost' WITH GRANT OPTION;", tempMySqlConnection);
+                MySqlCommand cmd4 = new MySqlCommand("FLUSH PRIVILEGES;", tempMySqlConnection);
+                // MySqlCommand cmd4 = new MySqlCommand("SHOW DATABASE LIKE logs_MM_test;", tempMySqlConnection);
+                // MySqlCommand cmd5 = new MySqlCommand("CREATE DATABASE IF NOT EXISTS logs_MM_test;", tempMySqlConnection);
+
+                Console.WriteLine("Connection Open...");
+                // cmd1.ExecuteNonQuery();
+                Console.WriteLine("DROP");
+                cmd2.ExecuteNonQuery();
+                Console.WriteLine("GRANT");
+                cmd3.ExecuteNonQuery();
+                Console.WriteLine("FLUSH");
+                cmd4.ExecuteNonQuery();
+                Console.WriteLine("CREATE");
+                // cmd5.ExecuteNonQuery();
+                Console.WriteLine("Temp User Created...");
+                tempMySqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exited Program with Exit " + e.Message);
+            }
+            EstablishMariaDBConnection();
+        }
+
+        public bool EstablishMariaDBConnection()
+        {
+            // MySqlConnection mySqlConnection;
+            // This is a hardcoded string, it will be different based on your naming
+            // Need to generalize the database name or create a new database and run the restore sql file on it
+            string connectionString = "server=localhost;user=tempuser;database=archives;port=3306;password=123;";
+            // string connectionString = "server=localhost;user=tempuser;database=logs_MM_test;port=3306;";
+
+            try
+            {
+                mySqlConnection = new MySqlConnection(connectionString);
+                mySqlConnection.Open();
                 Console.WriteLine("Connection open");
                 // SqlGenerator
-                string sql = SqlGenerator();
-                Console.WriteLine(sql);
-                MySqlCommand command = new MySqlCommand(sql, mySqlConnection);
-                command.ExecuteNonQuery();
-                Console.WriteLine("Close");
-                
-                mySqlConnection.Close();
+
+                // Console.WriteLine("Close");
+                // mySqlConnection.Close();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                // Console.WriteLine("ERROR - Creating new user...");
-                // BuildTempUser(mySqlConnection);
+                Console.WriteLine("ERROR - Creating new user...");
+                BuildTempUser();
             }
-            return false;                                
+            return false;
         }
-        public string SqlGenerator()
+        public bool RunArchiveStorage()
         {
-            if (this.operation.Equals("BUILD")) 
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            if (command.ExecuteNonQuery() == 1)
             {
-                this.operation = "INSERT";
-                return BuildArchiveTable();
-            } 
-            else if (this.operation.Equals("INSERT"))
-            {
-                return InsertArchiveInformation();
+                mySqlConnection.Close();
+                Console.WriteLine("Connection closed...");
+                return true;
             }
-            return ""; 
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
         }
-        private string InsertArchiveInformation() 
-        {
-            string ld = this.localDate.Date.ToString("d");
-            ld = ld.Replace("/","_");
-            string query = "";
-            for (int i = 0; i < logList.Count; i++) {
-                for (int j = 0; j < logList[i].Count; j++) {
-                    query = "INSERT INTO "+ld+" VALUES ("+logList[i]["logId"]+", "+
-                            "'"+logList[i]["categoryName"]+"', '"+logList[i]["levelName"]+"', '"+
-                            logList[i]["timeStamp"]+"', "+logList[i]["userID"]+", '"+logList[i]["DSCRIPTION"]+"');";
-                    logList.RemoveAt(i);
-                    break;
-                }
-            }
-            return query;
-        }
-        private string BuildArchiveTable() 
-        {
-            string ld = this.localDate.Date.ToString("d");
-            ld = ld.Replace("/","_");
-
-            return "CREATE TABLE "+ld+" (logId INT NOT NULL, categoryName VARCHAR(100) NOT NULL, levelName VARCHAR(50) NOT NULL, "+
-                    "timeStamp DATETIME NOT NULL, userID INT NOT NULL, DSCRIPTION VARCHAR(1000) NOT NULL, "+
-                    "CONSTRAINT Log_PK PRIMARY KEY (logId)) ENGINE=InnoDB;";
-        }
-
-
     }
 }
