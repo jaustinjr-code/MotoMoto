@@ -19,7 +19,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             this.userManagementDataAccess = new UserManagementDataAccess();
             this.userManagementManager = new UserManagementManager();
         }
-
         
         public bool SqlGenerator()
         {   
@@ -44,20 +43,24 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             if (this.userManagementDataAccess.SelectAccount() == false) return false;
             return true;
         }
+
         private string FindUser()
         {
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
+
         private string CreateUser()
         {
             return "INSERT INTO USER (typeId, username, password, email, able, eventAccount) VALUES (2, '" 
                     + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
                     + this.userAccount["email"] + "', false, false);";
         }
+
         private string DropUser()
         {
             return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "';";
         }
+
         private string UpdateOptions()
         {   
             string query = "UPDATE USER u SET ";
@@ -95,6 +98,28 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                         continue;
                     } 
                     else this.userAccount.Remove("newemail");       
+                }
+                if (this.userAccount.ContainsKey("newstatus"))
+                {
+                    query = query + " u.email = '" + this.userAccount["newstatus"]+"'";
+                    if(i + 1 < this.userAccount.Count-1) 
+                    {
+                        query = query + ", ";
+                        this.userAccount.Remove("newstatus");
+                        continue;
+                    } 
+                    else this.userAccount.Remove("newstatus");       
+                }
+                if (this.userAccount.ContainsKey("eventaccount"))
+                {
+                    query = query + " u.email = '" + this.userAccount["eventaccount"]+"'";
+                    if(i + 1 < this.userAccount.Count-1) 
+                    {
+                        query = query + ", ";
+                        this.userAccount.Remove("eventaccount");
+                        continue;
+                    } 
+                    else this.userAccount.Remove("eventaccount");       
                 }
             }
             string queryWhere = $" WHERE u.username= '{this.userAccount["username"]}';";
