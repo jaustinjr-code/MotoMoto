@@ -1,9 +1,12 @@
 using MySql.Data.MySqlClient;
+using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
     class LogService : ILogService 
     { 
+        private LoggingDataAccess loggingDataAccess;
+        private ArchiveService archiveService; 
         private string operation {get; set;}
         private bool isSuccess {get; set;}
         private Dictionary<string, string> log {get; set;}
@@ -14,25 +17,28 @@ namespace TheNewPanelists.ServiceLayer.Logging
             this.operation = operation;
             this.log = log;
             this.isSuccess = isSuccess;
+            this.loggingDataAccess = new LoggingDataAccess();
+            this.archiveService = new ArchiveService();
         }
-        public string SqlGenerator()
+        public bool SqlGenerator()
         {
-            string commandSql = "";
-
             if (this.operation == "CREATE") 
             {
-                commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, userID, DSCRIPTION)
+                string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, userID, DSCRIPTION)
                                 VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}',
-                                {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")}')";
+                                {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")}');";
                 Console.WriteLine(commandSql);
-                return commandSql;
+                this.loggingDataAccess = new LoggingDataAccess(commandSql);
+                if (this.loggingDataAccess.LogAccess() == false) return false;  
             } 
-            else if (this.operation == "ARCHIVE")
-            {
-                commandSql = $"SELECT * FROM Log WHERE DATEDIFF(NOW(), timeStamp) > 30";
-                return commandSql;
-            }
-            return "";
+            return true;
+        }
+        public void SendArchivalInformation() 
+        {
+            string commandSql = $"SELECT * FROM Log WHERE DATEDIFF(NOW(), timeStamp) > 30";
+            this.loggingDataAccess = new LoggingDataAccess(commandSql);
+            this.archiveService = new ArchiveService("WRITE", this.loggingDataAccess.ExtractLogs());
+            this.archiveService.SqlGenerator();
         }
     }
 }

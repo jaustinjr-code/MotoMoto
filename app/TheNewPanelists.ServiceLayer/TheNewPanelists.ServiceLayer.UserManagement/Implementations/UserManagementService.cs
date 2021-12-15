@@ -1,3 +1,5 @@
+using TheNewPanelists.DataAccessLayer;
+//using TheNewPanelists.BusinessLayer.UserManagement;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement 
 {
@@ -5,39 +7,52 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
     {
 
         private string operation {get; set;}
+        
+        private UserManagementDataAccess userManagementDataAccess;
+
+        private UserManagementManager userManagementManager;
         private Dictionary<string, string> userAccount {get; set;}
+        
         public UserManagementService() {}
+        
         public UserManagementService(string operation, Dictionary<string, string> userAccount) 
         {
             this.operation = operation;
             this.userAccount = userAccount;
+            this.userManagementDataAccess = new UserManagementDataAccess();
+            this.userManagementManager = new UserManagementManager();
         }
-        public string SqlGenerator()
-        {
+
+        
+        public bool SqlGenerator()
+        {   
+            string query = "";
             if (this.operation == "FIND")
             {
-                return this.FindUser();
+                query = this.FindUser();
             }
             else if (this.operation == "CREATE")
             {
-                return this.CreateUser();
+                query = this.CreateUser();
             }
             else if (this.operation == "DROP")
             {
-                return this.DropUser();
+                query = this.DropUser();
             }
             else if (this.operation == "UPDATEU")
             {
-                return this.UpdateUsername();
+                query = this.UpdateUsername();
             } 
             else if (this.operation == "UPDATEP")
             {
-                return this.UpdatePassword();
+                query = this.UpdatePassword();
             }
             else if (this.operation == "UPDATEE") {
-                return this.UpdateEmail();
+                query = this.UpdateEmail();
             }
-            return "";
+            this.userManagementDataAccess = new UserManagementDataAccess(query);
+            if (this.userManagementDataAccess.SelectAccount() == false) return false;
+            return true;
         }
         private string FindUser()
         {

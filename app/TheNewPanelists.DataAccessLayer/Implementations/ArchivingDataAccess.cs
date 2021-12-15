@@ -7,9 +7,11 @@ namespace TheNewPanelists.DataAccessLayer
 {
     class ArchivingDataAccess : IDataAccess
     {   
-        private List<string> query{get; set;}
+        private string query{get; set;}
         private MySqlConnection mySqlConnection = null;
-        public ArchivingDataAccess(List<string> query)
+
+        public ArchivingDataAccess() {}        
+        public ArchivingDataAccess(string query)
         {
             this.query = query;
         }
@@ -93,15 +95,16 @@ namespace TheNewPanelists.DataAccessLayer
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
-            
-            for (int i = 0; i < query.Count; i++) {
-                string exeQuery = query[i];
-                MySqlCommand command = new MySqlCommand(exeQuery, mySqlConnection);
-                command.ExecuteNonQuery();
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            if (command.ExecuteNonQuery() == 1)
+            {
+                mySqlConnection.Close();
+                Console.WriteLine("Connection closed...");
+                return true;
             }
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
-                    
             return false;
         }
     }

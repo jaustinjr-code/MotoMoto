@@ -11,6 +11,7 @@ namespace TheNewPanelists.DataAccessLayer
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
 
+        public LoggingDataAccess() {}
         public LoggingDataAccess(string query)
         {
             this.query = query;
@@ -79,12 +80,9 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
-                // SqlGenerator
-                // MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
-                // command.ExecuteNonQuery();
 
-                Console.WriteLine("Close");
-                mySqlConnection.Close();
+                // Console.WriteLine("Close");
+                // mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -105,12 +103,15 @@ namespace TheNewPanelists.DataAccessLayer
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+
             if (command.ExecuteNonQuery() == 1)
             {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
             return false;
         }
         public List<Dictionary<string, string>> ExtractLogs()

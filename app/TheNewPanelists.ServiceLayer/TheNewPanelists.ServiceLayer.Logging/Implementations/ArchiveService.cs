@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
@@ -6,26 +7,24 @@ namespace TheNewPanelists.ServiceLayer.Logging
     { 
         private string operation {get; set;}
         private List<Dictionary<string, string>> log {get; set;}
+        private ArchivingDataAccess archivingDataAccess;
         private DateTime localDate{get;}
 
+        public ArchiveService() {}
         public ArchiveService(string operation, List<Dictionary<string, string>> log) {
             this.operation = operation;
             this.log = log;
             this.localDate = DateTime.Now;
+            this.archivingDataAccess = new ArchivingDataAccess();
         }
-        public List<string> SqlGenerator()
-        {
-            if (this.operation == "BUILD") 
-            {
-                this.operation = "INSERT";
-                return BuildArchiveTable();
+        public bool SqlGenerator()
+        {   
+            List<string> queries = InsertArchiveInformation(); 
+            for (int i = 0; i < queries.Count; i++) {
+                archivingDataAccess = new ArchivingDataAccess(queries[i]);
+                if (archivingDataAccess.RunArchiveStorage() == false) return false;
             }
-            else if (this.operation == "INSERT")
-            {
-                return InsertArchiveInformation();
-            }
-            List<string> nullList = new List<string>();
-            return nullList;
+            return true;
         }
         public List<string> BuildArchiveTable() 
         { 

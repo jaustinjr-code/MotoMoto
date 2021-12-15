@@ -10,9 +10,7 @@ namespace TheNewPanelists.DataAccessLayer
     {
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
-        public UserManagementDataAccess()
-        {
-        }
+        public UserManagementDataAccess() {}
         public UserManagementDataAccess(string query)
         {
             this.query = query;
@@ -102,6 +100,8 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
             return false;
         }
     }
