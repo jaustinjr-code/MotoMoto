@@ -9,7 +9,7 @@ namespace app
         {
             UserManagementAuthentication t = new UserManagementAuthentication();
             t.UserManagementAuthenticationTest();
-            IDataAccess l = new LoggingDataAccess("CREATE");
+            IDataAccess l = new LoggingDataAccess("CREATE", false);
             Console.WriteLine(l.EstablishMariaDBConnection());
         }
     }
