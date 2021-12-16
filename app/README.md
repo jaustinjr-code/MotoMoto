@@ -9,3 +9,5 @@ HOW TO RUN:
 
 
 ERRORS:
+-BuildTempUser() only is working with hard coded values of username and password rather than user input. File: app/TheNewPanalists.DataAccessLayer/Implementations/ArchivingDataAccess.cs
+-In the LoggingDataAccess layer the correct value of user id is not being retrieved within the EstablishMariaDb() function. File: app/TheNewPanalists.DataAccessLayer/Implementations/LoggingDataAccess.cs 
