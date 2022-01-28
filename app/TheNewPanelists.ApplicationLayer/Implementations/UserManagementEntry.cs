@@ -36,8 +36,7 @@ namespace TheNewPanelists.ApplicationLayer
         public bool BulkOperationRequest(string filepath)
         {
             userManagementManager = new UserManagementManager(filepath);
-            return true;
-            // return userManagementManager.ParseAndCall();
+            return userManagementManager.ParseAndCall();
         }
     }
 }
