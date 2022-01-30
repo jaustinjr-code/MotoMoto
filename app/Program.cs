@@ -126,6 +126,10 @@ namespace app
                     return null;
                 }
             }
+            foreach(KeyValuePair<string, string> entry in request){
+                Console.WriteLine("The key is:{0}", entry.Key);
+                Console.WriteLine("The value is:{0}", entry.Value);
+            }
             return request;
         }
 
