@@ -8,7 +8,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
     {
         private string operation {get; set;}
         private UserManagementDataAccess userManagementDataAccess;
-        private UserManagementManager userManagementManager;
+        // private UserManagementManager userManagementManager;
         private Dictionary<string, string> userAccount {get; set;}
         
         public UserManagementService() {}
@@ -18,7 +18,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             this.operation = operation;
             this.userAccount = userAccount;
             this.userManagementDataAccess = new UserManagementDataAccess();
-            this.userManagementManager = new UserManagementManager();
+            // this.userManagementManager = new UserManagementManager();
         }
         
         public bool SqlGenerator()
