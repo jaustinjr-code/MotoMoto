@@ -2,7 +2,7 @@ using TheNewPanelists.ApplicationLayer.Authorization;
 
 namespace TheNewPanelists.ApplicationLayer.Authentication
 {
-    class UserManagementAuthentication
+    class UserManagementAuthentication : IAuthentication
     {
         public void UserManagementAuthenticationTest()
         {

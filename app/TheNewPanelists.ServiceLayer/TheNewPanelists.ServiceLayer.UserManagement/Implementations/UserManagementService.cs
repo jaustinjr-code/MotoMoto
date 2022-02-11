@@ -141,5 +141,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             query = query + queryWhere;
             return query;
         }
+
+        private string UpdateStatus()
+        {
+            return "UPDATE USER u SET u.status = '" + this.userAccount["newstatus"] +
+                    "' WHERE u.username= '" + this.userAccount["status"]+"';";
+        }
     }
 }

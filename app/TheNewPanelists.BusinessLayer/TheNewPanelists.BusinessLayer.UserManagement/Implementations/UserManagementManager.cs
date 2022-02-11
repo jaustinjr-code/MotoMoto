@@ -6,7 +6,13 @@ using TheNewPanelists.ServiceLayer.UserManagement;
 
 namespace TheNewPanelists.BusinessLayer
 {
-    public class UserManagementManager
+    private List<string> request;
+    
+    public UserManagementManager() 
+    {
+        request = new List<string>();
+    }
+    public UserManagementManager(List<string> request)
     {
         private string requestPath;
         public UserManagementManager() 
@@ -29,7 +35,10 @@ namespace TheNewPanelists.BusinessLayer
             return false;
         }
 
-        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+    public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+    {
+        bool hasValidAttributes = false;
+        switch (operation.ToUpper()) 
         {
             bool hasValidAttributes = false;
             switch (attributes["operation"].ToUpper()) 

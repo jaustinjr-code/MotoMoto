@@ -28,25 +28,29 @@ namespace TheNewPanelists.ServiceLayer.Logging
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
             if (this.operation == "CREATE") 
             {
-                string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, userID, DSCRIPTION)
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}',
+                DateTime dateTime = DateTime.Now;
+                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION)
+                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', {dateTime},
                                 {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
                 Console.WriteLine(commandSql);
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
                     informationLog.Add("categoryname", "DATA STORE");
+                    informationLog.Add("userid", "TEMP USER"); //temp user created for userid
                     informationLog.Add("levelname", "ERROR");
                     informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                    ILogService logFailure = new LogService("CREATE", informationLog, false);
-                    logFailure.SqlGenerator();
+                    //ILogService logFailure = new LogService("CREATE", informationLog, false);
+                    //logFailure.SqlGenerator();
+
                     return false;
                 }  
             }
             informationLog.Add("categoryname", "DATA STORE");
+            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
             informationLog.Add("levelname", "INFO");
             informationLog.Add("description","LOG CREATION SUCCESS, Information Successfully Logged!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, true);
-            logSuccess.SqlGenerator();
+            //ILogService logSuccess = new LogService("CREATE", informationLog, true);
+            //logSuccess.SqlGenerator();
             return true;
         }
 
