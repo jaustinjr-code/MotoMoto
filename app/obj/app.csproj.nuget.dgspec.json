@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {}
+    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {}
   },
   "projects": {
-    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {
+    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+        "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
         "projectName": "app",
-        "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-        "packagesPath": "/Users/jcaustin/.nuget/packages/",
-        "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+        "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
+        "packagesPath": "/Users/blakedelrey/.nuget/packages/",
+        "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
+          "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -37,6 +37,36 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.11.0, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "mysql.data": {
+              "target": "Package",
+              "version": "[8.0.27, )"
+            },
+            "mysqlconnector": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.1, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -52,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }

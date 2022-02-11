@@ -1,12 +1,12 @@
-﻿using TheNewPanelists.ApplicationLayer.Authentication;
+﻿// using TheNewPanelists.ApplicationLayer.Authentication;
 
-namespace app
-{
-    class Program
-    {
-        // static void Main(string[] args)
-        // {
+// namespace app
+// {
+//     class Program
+//     {
+//         static void Main(string[] args)
+//         {
 
-        // }
-    }
-}
+//         }
+//     }
+// }
