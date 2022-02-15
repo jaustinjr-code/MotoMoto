@@ -13,6 +13,7 @@ CREATE TABLE User (
 	email  VARCHAR(100) NOT NULL, 
     status BOOL NOT NULL,
     CONSTRAINT user_Pk PRIMARY KEY (userId, username),
+    CONSTRAINT userEmail_Uk UNIQUE (email),
     CONSTRAINT User_Type_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 );
 
