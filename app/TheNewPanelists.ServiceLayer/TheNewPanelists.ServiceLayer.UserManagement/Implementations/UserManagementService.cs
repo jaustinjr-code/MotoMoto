@@ -44,18 +44,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("levelname", "ERROR");
-                informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                ILogService loggingError = new LogService("CREATE", informationLog, false);
-                loggingError.SqlGenerator();
                 return false;
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","Account Selection COMPLETION, Information in CRUD Operation Queries Executed.");
-            ILogService loggingSuccess = new LogService("CREATE", informationLog, true);
-            loggingSuccess.SqlGenerator();
             return true;
         }
 
@@ -63,7 +53,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
-
+        //Danny work on this query to ensure user insertion
         private string CreateUser()
         {
             return "INSERT INTO USER (typeId, username, password, email, able, eventAccount) VALUES (2, '" 
