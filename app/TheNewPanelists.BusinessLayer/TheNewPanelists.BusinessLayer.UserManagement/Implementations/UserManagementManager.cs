@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -6,13 +7,7 @@ using TheNewPanelists.ServiceLayer.UserManagement;
 
 namespace TheNewPanelists.BusinessLayer
 {
-    private List<string> request;
-    
-    public UserManagementManager() 
-    {
-        request = new List<string>();
-    }
-    public UserManagementManager(List<string> request)
+    public class UserManagementManager
     {
         private string requestPath;
         public UserManagementManager() 
@@ -25,7 +20,7 @@ namespace TheNewPanelists.BusinessLayer
             this.requestPath = filepath;
         }
 
-        public bool IsValidRequest(Dictionary<String, String> request)
+        public bool IsValidRequest(Dictionary<string, string> request)
         {
             bool containsOperation = request.ContainsKey("operation");
             if  (containsOperation)
@@ -35,13 +30,10 @@ namespace TheNewPanelists.BusinessLayer
             return false;
         }
 
-    public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
-    {
-        bool hasValidAttributes = false;
-        switch (operation.ToUpper()) 
+        public bool HasValidAttributes(string operation, Dictionary<string, string> attributes)
         {
             bool hasValidAttributes = false;
-            switch (attributes["operation"].ToUpper()) 
+            switch (operation.ToUpper()) 
             {
                 case "FIND":
                     hasValidAttributes = attributes.ContainsKey("username");
@@ -71,9 +63,8 @@ namespace TheNewPanelists.BusinessLayer
             string requestPath = this.requestPath;
             foreach (string line in System.IO.File.ReadLines(@requestPath))
             {
-                Dictionary<String,String> requestDictionary = JsonSerializer.Deserialize<Dictionary<String,String>>(line) ?? throw new ArgumentException();
+                Dictionary<string,string> requestDictionary = JsonSerializer.Deserialize<Dictionary<string,string>>(line) ?? throw new ArgumentException();
                 string operation = requestDictionary["operation"];
-                requestDictionary.Remove("operation");
                 if (IsValidRequest(requestDictionary))
                 {
                     CallOperation(operation, requestDictionary);

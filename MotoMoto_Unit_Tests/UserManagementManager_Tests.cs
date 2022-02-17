@@ -1,4 +1,5 @@
 using Xunit;
+using System;
 using TheNewPanelists.BusinessLayer;
 using System.Collections.Generic;
 namespace MotoMoto_Unit_Tests;
@@ -115,8 +116,34 @@ public class IsValidRequestTests
     }
 }
 
-public class ParseAndCallTests 
-{
-    
 
-}
+// public class CallOperationTests
+// {
+//         public static IEnumerable<object[]> dictListCallOperationTest = new List<object[]> { 
+//                                                                         new object[] { "find",new Dictionary<string, string> {{"username", "bcdelrey"}, 
+//                                                                                                                         {"newusername", "bcdelrey1"}}},  
+                                                                        
+//                                                                         new object[] { "create",new Dictionary<string, string> { {"username", "bcdelrey"}, 
+//                                                                                                                         {"newpassword", "password1"}}}, 
+                                                                        
+//                                                                         new object[] {"drop", new Dictionary<string, string> {{"username", "bcdelrey"}, 
+//                                                                                                                         {"newemail", "bcdelrey1@gmail.com"}}}, 
+                                                                        
+//                                                                         new object[] {"update", new Dictionary<string, string> {
+//                                                                                                                         {"username", "bcdelrey"}, 
+//                                                                                                                         {"newusername", "bcdelrey1"}, 
+//                                                                                                                         {"newpassword", "password1"},
+//                                                                                                                         {"newemail", "bcdelrey1@gmail.com"}}}
+//                                                                                     };
+//         [Theory]
+//         [MemberData(nameof(dictListCallOperationTest))]   
+//         public void isValidCallOperation(string operation, Dictionary<string, string> accountInfo) 
+//         {
+//             TheNewPanelists.BusinessLayer.UserManagementManager userManagementManager = new TheNewPanelists.BusinessLayer.UserManagementManager();
+//             bool result = userManagementManager.CallOperation(operation, accountInfo);
+//             Console.WriteLine(result);
+//             Assert.True(result);
+//         }
+
+
+// }

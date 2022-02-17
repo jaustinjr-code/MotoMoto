@@ -1,17 +1,37 @@
-﻿<Properties StartupConfiguration="{47AFB7AD-3E04-4B08-BA23-4E91A387ADB0}|Default">
+﻿<Properties StartupConfiguration="{C9E22307-E4EA-4D8E-A0AF-F128093B9A06}|Default">
   <MonoDevelop.Ide.ItemProperties.MotoMoto__Unit__Tests FirstBuild="True" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="app/obj/Debug/net6.0/app.GlobalUsings.g.cs">
     <Files>
-      <File FileName="MotoMoto_Unit_Tests/UnitTest1.cs" Line="1" Column="1" />
+      <File FileName="MotoMoto_Unit_Tests/UserManagementManager_Tests.cs" Line="17" Column="7" />
+      <File FileName="app/obj/Debug/net6.0/app.GlobalUsings.g.cs" Line="9" Column="1" />
+      <File FileName="app/TheNewPanelists.BusinessLayer/TheNewPanelists.BusinessLayer.UserManagement/Implementations/UserManagementManager.cs" Line="2" Column="1" />
+      <File FileName="app/TheNewPanelists.ServiceLayer/TheNewPanelists.ServiceLayer.UserManagement/Implementations/UserManagementService.cs" Line="13" Column="56" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MotoMoto_Solution" expanded="True">
+            <Node name="app" expanded="True">
+              <Node name="TheNewPanelists.BusinessLayer" expanded="True">
+                <Node name="TheNewPanelists.BusinessLayer.UserManagement" expanded="True">
+                  <Node name="Implementations" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="TheNewPanelists.ServiceLayer" expanded="True">
+                <Node name="TheNewPanelists.ServiceLayer.UserManagement" expanded="True">
+                  <Node name="Implementations" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
             <Node name="MotoMoto_Unit_Tests" expanded="True">
-              <Node name="ConnectedServicesFolder" selected="True" />
+              <Node name="UserManagementManager_Tests.cs" selected="True" />
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="MotoMoto_Solution" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
