@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {}
+    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {}
   },
   "projects": {
-    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {
+    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
+        "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
         "projectName": "app",
-        "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
-        "packagesPath": "/Users/blakedelrey/.nuget/packages/",
-        "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/",
+        "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+        "packagesPath": "/Users/jcaustin/.nuget/packages/",
+        "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
+          "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -82,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

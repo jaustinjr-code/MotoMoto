@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer;
+using TheNewPanelists.BusinessLayer;
 
 namespace TheNewPanelists.ApplicationLayer
 {
@@ -25,7 +26,7 @@ namespace TheNewPanelists.ApplicationLayer
 
         public string SingleOperationRequest()
         {
-            try 
+            try
             {
                 userManagementManager.CallOperation(this.operation, request);
                 return "UM operation was successful";

@@ -6,6 +6,8 @@ app/obj/Debug/net6.0/apphost.exe
 *.editorconfig
 app/bin/Debug/net6.0/
 app/obj/Debug/net6.0/
+app/obj/
+app/bin/
 app/bin/Debug/net6.0/app.deps.json
 app/bin/Debug/net6.0/app.dll
 app/bin/Debug/net6.0/app.pdb
