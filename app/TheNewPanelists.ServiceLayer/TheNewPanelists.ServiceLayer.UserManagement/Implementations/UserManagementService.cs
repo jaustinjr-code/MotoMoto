@@ -56,9 +56,12 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         //Danny work on this query to ensure user insertion
         private string CreateUser()
         {
-            return "INSERT INTO USER (typeId, username, password, email, able, eventAccount) VALUES (2, '" 
-                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
-                    + this.userAccount["email"] + "', false, false);";
+            //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
+            //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
+            //        + this.userAccount["email"] + "', false, false);";
+            return "INSERT INTO USER (username, password, email) VALUES ('"
+                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
+                    + this.userAccount["email"] + "');";
         }
 
         private string DropUser()

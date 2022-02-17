@@ -125,11 +125,16 @@ namespace app
                     Console.WriteLine("Not an ADMIN!");
                     return null;
                 }
+            } 
+            else if (operation == "ACCOUNT RECOVERY")
+            {
+                request = accountRecovery(request);
             }
-            foreach(KeyValuePair<string, string> entry in request){
-                Console.WriteLine("The key is:{0}", entry.Key);
-                Console.WriteLine("The value is:{0}", entry.Value);
-            }
+              
+            //foreach(KeyValuePair<string, string> entry in request){
+            //    Console.WriteLine("The key is:{0}", entry.Key);
+            //    Console.WriteLine("The value is:{0}", entry.Value);
+            //}
             return request;
         }
 
@@ -141,7 +146,8 @@ namespace app
             Console.WriteLine("4) Disable User");
             Console.WriteLine("5) Enable User");
             Console.WriteLine("6) Bulk Operation");
-            Console.WriteLine("7) Exit");
+            Console.WriteLine("7) Account Recovery");
+            Console.WriteLine("8) Exit");
 
             switch (Console.ReadLine())
             {
@@ -158,11 +164,38 @@ namespace app
                 case "6":
                     return "BULK";
                 case "7":
+                    return "ACCOUNT RECOVERY";
+                case "8":
                     return "EXIT";
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
                     return menu();
             }
+        }
+        public static Dictionary<string, string> accountRecovery(Dictionary<string, string> request)
+        {
+            Console.WriteLine("1. Forgot Username");
+            Console.WriteLine("2. Forgot Password");
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    Console.WriteLine("Enter account email:");
+                    string email = Console.ReadLine();
+                    request.Add("email", email);
+                    break;
+                case "2":
+                    Console.WriteLine("Enter account username:");
+                    string username = Console.ReadLine();
+                    request.Add("username", username);
+                    break;
+                //case "3":
+                //    return "EXIT";
+                //    break;
+                default:
+                    Console.WriteLine("Invalid Input - Try Again");
+                    return accountRecovery(request);
+            }
+            return request;
         }
     }
 }
