@@ -73,11 +73,6 @@ namespace TheNewPanelists.ServiceLayer.UserAuthentication
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("levelname", "ERROR");
-                informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                ILogService loggingError = new LogService("CREATE", informationLog, false);
-                loggingError.SqlGenerator();
                 return false;
             }
             informationLog.Add("categoryname", "DATA STORE");
