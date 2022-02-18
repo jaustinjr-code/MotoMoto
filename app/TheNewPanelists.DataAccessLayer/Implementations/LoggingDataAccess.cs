@@ -84,14 +84,6 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
-
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS LOGGING");
-                //ILogService logFailure = new LogService("CREATE", informationLog, true);
-                //logFailure.SqlGenerator();
-
                 return true;
             }
             catch (Exception e)
@@ -100,12 +92,6 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "ERROR");
-            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR USER MANAGEMENT!!");
-            //ILogService logSuccess = new LogService("CREATE", informationLog, false);
-            //logSuccess.SqlGenerator();
 
             return false;
         }
@@ -126,24 +112,10 @@ namespace TheNewPanelists.DataAccessLayer
             {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
-
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","LOG ACCESS ESTABLISH CONNECTION SUCCESS LOGGING");
-                ILogService logFailure = new LogService("CREATE", informationLog, true);
-                logFailure.SqlGenerator();
                 
                 return true;
             }
             mySqlConnection.Close();
-
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "ERROR");
-            informationLog.Add("description","LOG ACCESS ESTABLISHMENT FAILED DURING CONNECTION!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, false);
-            logSuccess.SqlGenerator();
 
             Console.WriteLine("Connection closed...");
             return false;

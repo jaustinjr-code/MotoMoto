@@ -27,19 +27,9 @@ namespace TheNewPanelists.ServiceLayer.Logging
                 archivingDataAccess = new ArchivingDataAccess(queries[i]);
                 if (archivingDataAccess.RunArchiveStorage() == false) 
                 {
-                    informationLog.Add("categoryname", "DATA STORE");
-                    informationLog.Add("levelname", "ERROR");
-                    informationLog.Add("description","Archive INSERTION ERROR, Information in ARCHIVE Operation Not Executed!!");
-                    ILogService logFailure = new LogService("CREATE", informationLog, false);
-                    logFailure.SqlGenerator();
                     return false;
                 }
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","ARCHIVE CREATION SUCCESS, Information Successfully Archived!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, true);
-            logSuccess.SqlGenerator();
             return true;
         }
 

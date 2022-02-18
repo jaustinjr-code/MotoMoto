@@ -39,7 +39,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             }
             else if (this.operation == "UPDATE")
             {
-                //query = this.UpdateOptions();
+                //query = this.UpdateProfileUN();
                 Console.WriteLine("UPDATE OP");
             } 
             this.profileManagementDataAccess = new UserManagementDataAccess(query);
@@ -59,6 +59,35 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             return "";
         }
 
+        private string UpdateProfileOP() 
+        {
+            String query = "";
+            for (int i = 0; i < this.userProfile.Count; i++) {
+                if (this.userProfile.ContainsKey("eventaccount"))
+                {
+                    query = query + " u.email = '" + this.userProfile["eventaccount"]+"'";
+                    if(i + 1 < this.userProfile.Count-1) 
+                    {
+                        query = query + ", ";
+                        this.userProfile.Remove("eventaccount");
+                        continue;
+                    } 
+                    else this.userProfile.Remove("eventaccount");       
+                }
+                if (this.userProfile.ContainsKey("username"))
+                {
+                    query = query + " u.username = '" + this.userProfile["username"] + "'";
+                    if (i + 1 < this.userProfile.Count-1) 
+                    {
+                        query = query + ", ";
+                        this.userProfile.Remove("username");
+                        continue;
+                    }
+                    else this.userProfile.Remove("username");
+                }
+            }
+            return "";    
+        }
 
     }
 }
