@@ -48,7 +48,42 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             }
             return true;
         }
+        
+        public bool IsValidRequest(Dictionary<String, String> userAcct)
+        {
+            bool containsOperation = userAcct.ContainsKey("operation");
+            if (containsOperation) {
+                return HasValidAttributes(userAcct["operation"].ToUpper(), userAcct);
+            }
+            return false;
+        }
 
+        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+        {
+            bool hasValidAttributes = false;
+            switch (operation.ToUpper()) 
+            {
+                case "FIND":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
+
+                case "CREATE":
+                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
+                                            && attributes.ContainsKey("email");
+                    break;
+                
+                case "DROP":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
+
+                case "UPDATE":
+                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
+                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
+                    break;
+
+            }
+            return hasValidAttributes;
+        }
         private string FindUser()
         {
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
