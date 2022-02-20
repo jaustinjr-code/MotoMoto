@@ -7,17 +7,20 @@ using System.Text.Json.Serialization;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement
 {
-    public class UserManagementManagerTest 
+    public class UserManagementServiceTest 
     {
+        private string operation;
+        private bool result;
+
         [Fact]
-        public void IsValidRequest_WithValidFind_ReturnTrue()
+        public void IsValidUser_WithValidDropUser_ReturnTrue()
         {
             Dictionary<string, string> userAcct = new Dictionary<string, string>();
-            string operation = "DROP";
+            operation = "DROP";
             userAcct.Add("username", "test");
             UserManagementService userManagement = new UserManagementService(operation, userAcct);
 
-            bool result = userManagement.IsValidRequest(userAcct);
+            result = userManagement.IsValidRequest(userAcct);
             Assert.True(true, "Valid Result For Valid Input");
         }
     }
