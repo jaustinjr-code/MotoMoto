@@ -35,22 +35,9 @@ namespace TheNewPanelists.ServiceLayer.Logging
                 Console.WriteLine(commandSql);
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
-                    informationLog.Add("categoryname", "DATA STORE");
-                    informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-                    informationLog.Add("levelname", "ERROR");
-                    informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                    //ILogService logFailure = new LogService("CREATE", informationLog, false);
-                    //logFailure.SqlGenerator();
-
                     return false;
                 }  
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","LOG CREATION SUCCESS, Information Successfully Logged!!");
-            //ILogService logSuccess = new LogService("CREATE", informationLog, true);
-            //logSuccess.SqlGenerator();
             return true;
         }
 
@@ -60,6 +47,32 @@ namespace TheNewPanelists.ServiceLayer.Logging
             this.loggingDataAccess = new LoggingDataAccess(commandSql);
             this.archiveService = new ArchiveService("WRITE", this.loggingDataAccess.ExtractLogs());
             this.archiveService.SqlGenerator();
+        }
+
+        public bool IsValidRequest(Dictionary<String, String> userAcct)
+        {
+            bool containsOperation = userAcct.ContainsKey("operation");
+            if (containsOperation) {
+                return HasValidAttributes(userAcct["operation"].ToUpper(), userAcct);
+            }
+            return false;
+        }
+
+        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+        {
+            bool hasValidAttributes = false;
+            switch (operation.ToUpper()) 
+            {
+                case "FIND":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
+
+                case "CREATE":
+                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
+                                            && attributes.ContainsKey("email");
+                    break;
+            }
+            return hasValidAttributes;
         }
     }
 }
