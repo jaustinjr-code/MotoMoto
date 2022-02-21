@@ -202,7 +202,6 @@ namespace app
          * Currently logout needs the user's username and a connection string to work
          * 
          * Logout feature hasn't been tested yet 
-         * For it to work you must have the file System.Windows.Forms.dll downloaded
          * logging feature, cleaning data, and closing connections has not been implemented
          * 
          **/
@@ -219,11 +218,8 @@ namespace app
 
                 {
                     //tenant is in a session
-                    string message = "Do you want to logout?";
-                    string title = "Logout";
-                    System.Windows.Forms.MessageBoxButtons button = System.Windows.Forms.MessageBoxButtons.YesNo;
-                    System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(message, title, button);
-                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    Console.WriteLine("Do you want to logout (Y/N)");
+                    if (Console.ReadLine().ToUpper() == ("Y"))
                     {
                         //change user status to false;
                         string updateUserStatusQ = "UPDATE USER u WHERE u.username = @username SET u.status = @status";
@@ -232,32 +228,24 @@ namespace app
                         cmd.Parameters.AddWithValue("@status", false);
                         cmd.ExecuteNonQuery();
 
-                        
+                        //Log Success
 
-                        //go back to login page
-                        con.Close();
+                        menu();
                     }
-                    else
-                    {
-                        con.Close();
-                    }
+
                 }
                 else //status is incorrect or user is not currently in a session
                 {
-                    string message = "An error has occured.";
-                    string title = "ERROR";
-                    System.Windows.Forms.MessageBox.Show(message, title, System.Windows.Forms.MessageBoxIconn.Warning);
-                    //send back to login page
-
+                    Console.WriteLine("ERROR: Currently not in session");
+                    menu();
                 }
             }
             else//Error: no user is found
             {
-                string message = "No user found.";
-                string title = "ERROR";
-                System.Windows.Forms.MessageBox.Show(message, title, System.Windows.Forms.MessageBoxIconn.Warning);
+                Console.WriteLine("ERROR: No user found");
+                menu();
             }
-            con.Close();
+            con.Close(); 
         }
     }
 }
