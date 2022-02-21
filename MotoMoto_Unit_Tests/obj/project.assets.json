@@ -1927,6 +1927,22 @@
         "build": {
           "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
         }
+      },
+      "app/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.NET.Test.Sdk": "16.11.0",
+          "mysql.data": "8.0.27",
+          "mysqlconnector": "2.1.0",
+          "xunit": "2.4.1"
+        },
+        "compile": {
+          "bin/placeholder/app.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/app.dll": {}
+        }
       }
     }
   },
@@ -6782,14 +6798,18 @@
         "xunit.runner.visualstudio.2.4.3.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "app/1.0.0": {
+      "type": "project",
+      "path": "../app/app.csproj",
+      "msbuildProject": "../app/app.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.NET.Test.Sdk >= 16.11.0",
+      "app >= 1.0.0",
       "coverlet.collector >= 3.1.0",
-      "mysql.data >= 8.0.27",
-      "mysqlconnector >= 2.1.0",
       "xunit >= 2.4.1",
       "xunit.runner.visualstudio >= 2.4.3"
     ]
@@ -6800,11 +6820,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-      "projectName": "app",
-      "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
+      "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\MotoMoto_Unit_Tests.csproj",
+      "projectName": "MotoMoto_Unit_Tests",
+      "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\MotoMoto_Unit_Tests.csproj",
       "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\obj\\",
+      "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6820,7 +6840,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {
+              "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -6842,14 +6866,6 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[3.1.0, )"
-          },
-          "mysql.data": {
-            "target": "Package",
-            "version": "[8.0.27, )"
-          },
-          "mysqlconnector": {
-            "target": "Package",
-            "version": "[2.1.0, )"
           },
           "xunit": {
             "target": "Package",

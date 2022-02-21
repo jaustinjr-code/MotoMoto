@@ -197,5 +197,67 @@ namespace app
             }
             return request;
         }
+        /**
+         * Logs the user out of their account and close all open connection and any data that is left over
+         * Currently logout needs the user's username and a connection string to work
+         * 
+         * Logout feature hasn't been tested yet 
+         * For it to work you must have the file System.Windows.Forms.dll downloaded
+         * logging feature, cleaning data, and closing connections has not been implemented
+         * 
+         **/
+
+        public static void logout(string username, string connectionString)//or string for username
+        {
+            MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            con.Open();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT * FROM USER u WHERE u.username = " + username, con);
+            MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows) //if there is an element
+            {
+                if (reader["status"].Equals(true))
+
+                {
+                    //tenant is in a session
+                    string message = "Do you want to logout?";
+                    string title = "Logout";
+                    System.Windows.Forms.MessageBoxButtons button = System.Windows.Forms.MessageBoxButtons.YesNo;
+                    System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(message, title, button);
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        //change user status to false;
+                        string updateUserStatusQ = "UPDATE USER u WHERE u.username = @username SET u.status = @status";
+                        cmd.CommandText = updateUserStatusQ;
+                        cmd.Parameters.AddWithValue("@username", username);
+                        cmd.Parameters.AddWithValue("@status", false);
+                        cmd.ExecuteNonQuery();
+
+                        
+
+                        //go back to login page
+                        con.Close();
+                    }
+                    else
+                    {
+                        con.Close();
+                    }
+                }
+                else //status is incorrect or user is not currently in a session
+                {
+                    string message = "An error has occured.";
+                    string title = "ERROR";
+                    System.Windows.Forms.MessageBox.Show(message, title, System.Windows.Forms.MessageBoxIconn.Warning);
+                    //send back to login page
+
+                }
+            }
+            else//Error: no user is found
+            {
+                string message = "No user found.";
+                string title = "ERROR";
+                System.Windows.Forms.MessageBox.Show(message, title, System.Windows.Forms.MessageBoxIconn.Warning);
+            }
+            con.Close();
+        }
     }
 }
