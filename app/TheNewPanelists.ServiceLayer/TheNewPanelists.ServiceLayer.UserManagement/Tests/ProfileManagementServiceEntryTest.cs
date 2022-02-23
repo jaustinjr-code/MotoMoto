@@ -20,8 +20,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             userProf.Add("username", "test");
             ProfileManagementService profManagement = new ProfileManagementService(operation, userProf);
 
-            result = profManagement.IsValidRequest(userProf);
-            Assert.True(true, "Valid Result For Valid Input");
+            result = profManagement.IsValidRequest();
+            Assert.True(result, "Valid Result For Valid Input");
         }
     }
 }

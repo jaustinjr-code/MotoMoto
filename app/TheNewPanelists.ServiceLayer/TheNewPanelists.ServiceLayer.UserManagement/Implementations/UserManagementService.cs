@@ -107,28 +107,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     } 
                     else this.userAccount.Remove("newemail");       
                 }
-                if (this.userAccount.ContainsKey("newstatus"))
-                {
-                    query = query + " u.email = '" + this.userAccount["newstatus"]+"'";
-                    if(i + 1 < this.userAccount.Count-1) 
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("newstatus");
-                        continue;
-                    } 
-                    else this.userAccount.Remove("newstatus");       
-                }
-                if (this.userAccount.ContainsKey("eventaccount"))
-                {
-                    query = query + " u.email = '" + this.userAccount["eventaccount"]+"'";
-                    if(i + 1 < this.userAccount.Count-1) 
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("eventaccount");
-                        continue;
-                    } 
-                    else this.userAccount.Remove("eventaccount");       
-                }
             }
             string queryWhere = $" WHERE u.username= '{this.userAccount["username"]}';";
             query = query + queryWhere;

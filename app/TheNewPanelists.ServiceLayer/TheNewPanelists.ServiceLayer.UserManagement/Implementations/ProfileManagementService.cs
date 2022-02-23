@@ -54,6 +54,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             return "DELETE u FROM USER u WHERE u.username = '" + this.userProfile["username"] + "';";
         }
 
+        private string FindProfile()
+        {
+            return "";
+        }
+
         private string CreateProfile()
         {
             return "";
@@ -88,38 +93,70 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             }
             return "";    
         }
-
-        public bool IsValidRequest(Dictionary<String, String> userAcct)
+    private string UpdateStatus()
         {
-            bool containsOperation = userAcct.ContainsKey("operation");
+            return "UPDATE USER u SET u.status = '" + this.userProfile["newstatus"] +
+                    "' WHERE u.username= '" + this.userProfile["status"]+"';";
+        }
+
+        public bool IsValidRequest()
+        {
+            bool containsOperation = this.operation.Contains("24FIND") ||  this.operation.Contains("CREATE")
+                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE");
             if (containsOperation) {
-                return HasValidAttributes(userAcct["operation"].ToUpper(), userAcct);
+                return HasValidAttributes();
             }
             return false;
         }
 
-        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+        public string getQuery()
         {
-            bool hasValidAttributes = false;
-            switch (operation.ToUpper()) 
+            string query = "";
+            switch (this.operation) 
             {
                 case "FIND":
-                    hasValidAttributes = attributes.ContainsKey("username");
+                    query = this.FindProfile();
                     break;
+
                 case "CREATE":
-                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
-                                            && attributes.ContainsKey("email");
+                    query = this.CreateProfile();
                     break;
+                
                 case "DROP":
-                    hasValidAttributes = attributes.ContainsKey("username");
+                    query = this.DropProfile();
                     break;
+
                 case "UPDATE":
-                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
+                    query = this.UpdateProfileOP();
                     break;
             }
-            return hasValidAttributes;
+            return query;
         }
+        public bool HasValidAttributes()
+        {
+            bool hasValidAttributes = false;
+            string query = this.getQuery();
 
+            switch (this.operation) 
+            {
+                case "FIND":
+                    hasValidAttributes = query.Contains("SELECT p.username FROM Profile p WHERE p.username =");
+                    break;
+                case "CREATE":
+                    hasValidAttributes = query.Contains("INSERT INTO PROFILE (username, password, email)");
+                    break;
+            
+                case "DROP":
+                    hasValidAttributes = query.Contains("DELETE p FROM PROFILE p WHERE p.username = ") 
+                                        && query.Contains("AND u.password =");
+                    break;
+                case "UPDATE":
+                    hasValidAttributes = (query.Contains("UPDATE PROFILE p SET") && (query.Contains("p.username")
+                                        || query.Contains("password") || query.Contains("p.email")));
+                    break;
+
+            }
+            return hasValidAttributes;
+        }    
     }
 }
