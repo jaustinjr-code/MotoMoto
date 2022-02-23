@@ -23,7 +23,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         public bool SqlGenerator()
         {   
-            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             string query = "";
             if (this.operation == "FIND")
             {
@@ -49,41 +48,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             return true;
         }
         
-        public bool IsValidRequest(Dictionary<String, String> userAcct)
-        {
-            bool containsOperation = userAcct.ContainsKey("operation");
-            if (containsOperation) {
-                return HasValidAttributes(userAcct["operation"].ToUpper(), userAcct);
-            }
-            return false;
-        }
-
-        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
-        {
-            bool hasValidAttributes = false;
-            switch (operation.ToUpper()) 
-            {
-                case "FIND":
-                    hasValidAttributes = attributes.ContainsKey("username");
-                    break;
-
-                case "CREATE":
-                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
-                                            && attributes.ContainsKey("email");
-                    break;
-                
-                case "DROP":
-                    hasValidAttributes = attributes.ContainsKey("username");
-                    break;
-
-                case "UPDATE":
-                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
-                    break;
-
-            }
-            return hasValidAttributes;
-        }
         private string FindUser()
         {
             return "SELECT u.username FROM User u WHERE u.username =" + this.userAccount["username"] + ";";
@@ -101,7 +65,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string DropUser()
         {
-            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "';";
+            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "' AND u.password = '"
+                     + this.userAccount["password"] + "';";
         }
 
         private string UpdateOptions()
@@ -174,6 +139,66 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             return "UPDATE USER u SET u.status = '" + this.userAccount["newstatus"] +
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
+        }
+
+        public bool IsValidRequest()
+        {
+            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
+                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE");
+            if (containsOperation) {
+                return HasValidAttributes();
+            }
+            return false;
+        }
+
+        public string getQuery()
+        {
+            string query = "";
+            switch (this.operation) 
+            {
+                case "FIND":
+                    query = this.FindUser();
+                    break;
+
+                case "CREATE":
+                    query = this.CreateUser();
+                    break;
+                
+                case "DROP":
+                    query = this.DropUser();
+                    break;
+
+                case "UPDATE":
+                    query = this.UpdateOptions();
+                    break;
+            }
+            return query;
+        }
+        public bool HasValidAttributes()
+        {
+            bool hasValidAttributes = false;
+            string query = this.getQuery();
+
+            switch (this.operation) 
+            {
+                case "FIND":
+                    hasValidAttributes = query.Contains("SELECT u.usernameFROM User u WHERE u.username =");
+                    break;
+                case "CREATE":
+                    hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
+                    break;
+            
+                case "DROP":
+                    hasValidAttributes = query.Contains("DELETE u FROM USER u WHERE u.username = ") 
+                                        && query.Contains("AND u.password =");
+                    break;
+                case "UPDATE":
+                    hasValidAttributes = (query.Contains("UPDATE USER u SET") && (query.Contains("u.username")
+                                        || query.Contains("password") || query.Contains("email")));
+                    break;
+
+            }
+            return hasValidAttributes;
         }
     }
 }
