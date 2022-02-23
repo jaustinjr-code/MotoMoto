@@ -56,7 +56,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string FindProfile()
         {
-            return "";
+            return "SELECT u USER u WHERE u.username = '" + this.userProfile["username"] + "';";
         }
 
         private string CreateProfile()
