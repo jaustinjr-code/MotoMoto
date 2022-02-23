@@ -78,7 +78,9 @@ namespace TheNewPanelists.DataAccessLayer
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
+            
+            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHAGE*/
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
             //connectionString 
             try
             {
@@ -88,7 +90,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
-                // mySqlConnection.Close();
+                //mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)

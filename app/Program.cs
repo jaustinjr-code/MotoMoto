@@ -60,13 +60,15 @@ namespace app
                 string eventAccount = Console.ReadLine();
                 request.Add("eventAccount", eventAccount);
             }
-            else if (operation == "DELETE")
+            else if (operation == "DROP")
             {
                 Console.WriteLine("Enter the account username to delete:");
-
                 Console.Write("Username: ");
                 string username = Console.ReadLine();
                 request.Add("username", username);
+                Console.WriteLine("Enter "+username+"'s Password: ");
+                string password = Console.ReadLine();
+                request.Add("password", password);
             }
             else if (operation == "UPDATE")
             {
@@ -154,7 +156,7 @@ namespace app
                 case "1":
                     return "CREATE";
                 case "2":
-                    return "DELETE";
+                    return "DROP";
                 case "3":
                     return "UPDATE";
                 case "4":
