@@ -23,5 +23,19 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             result = profManagement.IsValidRequest();
             Assert.True(result, "Valid Result For Valid Input");
         }
+
+        [Fact]
+        public void IsInvalidProfile_WithInvalidOperation_ReturnFalse()
+        {
+            Dictionary<string, string> userProf = new Dictionary<string, string>();
+            operation = "TESTINGERROR";
+            userProf.Add("username", "test");
+            userProf.Add("status", "FALSE");
+
+            ProfileManagementService profManagement = new ProfileManagementService(operation, userProf);
+
+            result = profManagement.IsValidRequest();
+            Assert.False(result, "Invalid Operation For Valid Profile");
+        }
     }
 }

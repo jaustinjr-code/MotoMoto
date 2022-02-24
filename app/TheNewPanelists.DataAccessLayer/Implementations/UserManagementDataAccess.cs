@@ -79,7 +79,7 @@ namespace TheNewPanelists.DataAccessLayer
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
             
-            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHAGE*/
+            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
             string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
             //connectionString 
             try

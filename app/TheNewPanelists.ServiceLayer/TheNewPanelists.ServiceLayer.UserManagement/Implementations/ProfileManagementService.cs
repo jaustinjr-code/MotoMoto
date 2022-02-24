@@ -51,12 +51,12 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         }
         private string DropProfile() 
         {
-            return "DELETE u FROM USER u WHERE u.username = '" + this.userProfile["username"] + "';";
+            return "DELETE p FROM PROFILE p WHERE p.username = '" + this.userProfile["username"] + "';";
         }
 
         private string FindProfile()
         {
-            return "SELECT u USER u WHERE u.username = '" + this.userProfile["username"] + "';";
+            return "SELECT p FROM PROFILE p WHERE p.username = '" + this.userProfile["username"] + "';";
         }
 
         private string CreateProfile()
@@ -101,7 +101,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         public bool IsValidRequest()
         {
-            bool containsOperation = this.operation.Contains("24FIND") ||  this.operation.Contains("CREATE")
+            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
                                      || this.operation.Contains("DROP") || this.operation.Contains("UPDATE");
             if (containsOperation) {
                 return HasValidAttributes();
@@ -147,8 +147,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     break;
             
                 case "DROP":
-                    hasValidAttributes = query.Contains("DELETE p FROM PROFILE p WHERE p.username = ") 
-                                        && query.Contains("AND u.password =");
+                    hasValidAttributes = query.Contains("DELETE p FROM PROFILE p WHERE p.username = ");
                     break;
                 case "UPDATE":
                     hasValidAttributes = (query.Contains("UPDATE PROFILE p SET") && (query.Contains("p.username")
