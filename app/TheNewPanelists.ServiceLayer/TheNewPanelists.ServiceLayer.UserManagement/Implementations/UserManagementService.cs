@@ -40,6 +40,10 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             {
                 query = this.UpdateOptions();
             } 
+            else if (this.operation == "ACCOUNT RECOVERY")
+            {
+                query = this.AccountRecovery();
+            }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
@@ -120,10 +124,16 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
+        private string AccountRecovery()
+        {
+            return "";
+        }
+
         public bool IsValidRequest()
         {
             bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
-                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE");
+                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE") 
+                                     || this.operation.Contains("ACCOUNT RECOVERY");
             if (containsOperation) {
                 return HasValidAttributes();
             }
@@ -150,6 +160,9 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 case "UPDATE":
                     query = this.UpdateOptions();
                     break;
+                case "ACCOUNT RECOVERY":
+                    query = this.AccountRecovery();
+                    break;
             }
             return query;
         }
@@ -175,7 +188,9 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     hasValidAttributes = (query.Contains("UPDATE USER u SET") && (query.Contains("u.username")
                                         || query.Contains("password") || query.Contains("email")));
                     break;
-
+                case "ACCOUNT RECOVERY":
+                    //hasValidAttributes = query.Contains();
+                    break;
             }
             return hasValidAttributes;
         }
