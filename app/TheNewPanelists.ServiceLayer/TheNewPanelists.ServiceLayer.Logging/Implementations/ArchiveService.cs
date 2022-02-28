@@ -1,4 +1,6 @@
 using MySql.Data.MySqlClient;
+using System;
+using System.Globalization;
 using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
@@ -32,12 +34,31 @@ namespace TheNewPanelists.ServiceLayer.Logging
             }
             return true;
         }
-
-        public string BuildArchiveTable() 
-        { 
+        private string BuildArchiveTable(DateTime localDate) 
+        {
             string createTable;
-            createTable = "SELECT L FROM LOG L WHERE DATE(L.timeStamp) "
+            createTable = "CREATE TABLE '" + localDate
+                        + "' ('logId' int(11) NOT NULL,"
+                        + "'categoryName' varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,"
+                        + "'levelName' varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,"
+                        + "'timeStamp' datetime NOT NULL,"
+                        + "'userID int(11) NOT NULL,"
+                        + "'DSCRIPTION' varchar(1000) COLLATE utf8bm4_unicode_ci NOT NULL,"
+                        + "`userID` int(11) NOT NULL)"
+                        + " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+            return createTable;
         }
+
+        private string LoadCSVData(string Directory, DateTime localDate)
+        {
+            return "LOAD DATA INFILE '" + Directory
+                    + "' INTO TABLE '" + localDate + "' "
+                    + " FIELDS ENCLOSED BY '\"'"
+                    + " TERMINATED BY \';\'"
+                    + " ESCAPED BY \'\"\'"
+                    + " LINES TERMINATED BY \'\\r\\n\';";
+        }
+
         private List<string> InsertArchiveInformation() 
         {   
             List<string> storeArchive = new List<String>();
