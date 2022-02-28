@@ -1,5 +1,7 @@
 using MySql.Data.MySqlClient;
 using TheNewPanelists.DataAccessLayer;
+using System.Threading;
+
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
@@ -43,7 +45,24 @@ namespace TheNewPanelists.ServiceLayer.Logging
 
         public void SendArchivalInformation() 
         {
-            string commandSql = $"SELECT * FROM Log WHERE DATEDIFF(NOW(), timeStamp) > 30";
+            /**
+            SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION
+            FROM log
+            WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
+            INTO OUTFILE 'F:/TEST/TEST.csv'
+            FIELDS ENCLOSED BY '"'
+            TERMINATED BY ';'
+            ESCAPED BY '"'
+            LINES TERMINATED BY '\r\n';
+            **/
+            string commandSql = $"SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION"
+                                + " FROM log" 
+                                + " WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)"
+                                + " INTO OUTFILE 'F:/TEST/TEST.csv'"
+                                + " FIELDS ENCLOSED BY '\"'"
+                                + " TERMINATED BY \';\'"
+                                + " ESCAPED BY \'\"\'"
+                                + " LINES TERMINATED BY \'\\r\\n\';";
             this.loggingDataAccess = new LoggingDataAccess(commandSql);
             this.archiveService = new ArchiveService("WRITE", this.loggingDataAccess.ExtractLogs());
             this.archiveService.SqlGenerator();

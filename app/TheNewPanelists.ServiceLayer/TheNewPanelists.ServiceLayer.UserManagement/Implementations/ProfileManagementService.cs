@@ -61,7 +61,12 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string CreateProfile()
         {
-            return "";
+            // return "INSERT INTO USER (username, password, email) VALUES ('"
+            //         + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
+            //         + this.userAccount["email"] + "');";
+            return "INSERT INTO PROFILE (typeId, userId, username, status, eventAccount) VALUES (2, '"
+                    + this.userProfile["userid"] + "', '" + this.userProfile["username"] + "', '"
+                    + "true', 'false'";   
         }
 
         private string UpdateProfileOP() 

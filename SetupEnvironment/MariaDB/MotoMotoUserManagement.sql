@@ -16,14 +16,15 @@ CREATE TABLE User (
 
 
 CREATE TABLE Profile (
-    typeId INT NOT NULL,
+    typeName VARCHAR(25) NOT NULL,
     userId INT NOT NULL,
     username VARCHAR(25) NOT NULL,
     status BOOL NOT NULL,
     eventAccount BOOL NOT NULL,
     CONSTRAINT Profile_Pk PRIMARY KEY (username),
     CONSTRAINT Username_UK UNIQUE (username),
-    CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId)
+    CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId),
+    CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 );
 
 

@@ -33,17 +33,10 @@ namespace TheNewPanelists.ServiceLayer.Logging
             return true;
         }
 
-        public List<string> BuildArchiveTable() 
+        public string BuildArchiveTable() 
         { 
-            List<string> createTable = new List<string>();
-            // string localdateDay = this.localDate.Date.ToString("d");
-            // Console.WriteLine(localdateDay);
-            // localdateDay = localdateDay.Replace("/","_");
-            // string query = "CREATE TABLE IF NOT EXISTS "+localdateDay+" (logId INT NOT NULL, categoryName VARCHAR(100) NOT NULL, levelName VARCHAR(50) NOT NULL, "+
-            //                 "timeStamp DATETIME NOT NULL, userID INT NOT NULL, DSCRIPTION VARCHAR(1000) NOT NULL, "+
-            //                 "CONSTRAINT Log_PK PRIMARY KEY (logId)) ENGINE=InnoDB;";
-            // createTable.Add(query);
-            return createTable;
+            string createTable;
+            createTable = "SELECT L FROM LOG L WHERE DATE(L.timeStamp) "
         }
         private List<string> InsertArchiveInformation() 
         {   
