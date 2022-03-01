@@ -4,15 +4,14 @@ using System.Collections;
 using System.Text;
 using TheNewPanelists.ServiceLayer.Logging;
 
-namespace TheNewPannelists.Entity
+namespace TheNewPannelists.DataStoreEntity
 {
-    class Account
+    class Profile
     {
+        private string _typeName {get; set;} 
         private int _id {get; set;}
         private string _username {get; set;}
-        private string _password {set;}
-        private string _email {set;}
-        private bool _status {get; set;}
+        private bool _status {set;}
         private bool _eventAccount {get; set;}
     }
 }
