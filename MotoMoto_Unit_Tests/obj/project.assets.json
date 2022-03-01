@@ -6815,19 +6815,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/blakedelrey/.nuget/packages/": {}
+    "/Users/naeun/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
+      "projectUniqueName": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
       "projectName": "MotoMoto_Unit_Tests",
-      "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
-      "packagesPath": "/Users/blakedelrey/.nuget/packages/",
-      "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/obj/",
+      "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
+      "packagesPath": "/Users/naeun/.nuget/packages/",
+      "outputPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
+        "/Users/naeun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -6839,8 +6839,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {
-              "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj"
+            "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj": {
+              "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj"
             }
           }
         }
@@ -6891,7 +6891,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }

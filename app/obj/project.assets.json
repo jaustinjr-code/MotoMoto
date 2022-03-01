@@ -6795,19 +6795,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/jcaustin/.nuget/packages/": {}
+    "/Users/naeun/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+      "projectUniqueName": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj",
       "projectName": "app",
-      "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-      "packagesPath": "/Users/jcaustin/.nuget/packages/",
-      "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+      "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj",
+      "packagesPath": "/Users/naeun/.nuget/packages/",
+      "outputPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
+        "/Users/naeun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

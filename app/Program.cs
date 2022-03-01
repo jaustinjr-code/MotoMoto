@@ -1,5 +1,6 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
+using TheNewPanelists.ServiceLayer.UserAuthentication;
 using System.Collections;
 
 namespace app
@@ -10,9 +11,40 @@ namespace app
         {
             IEntry entry;
             string input = menu();
+            int attempts = 0;
+
             while (input != "EXIT")
             {
-                if (input != "")
+                if (input == "AUTHENTICATE")
+                {
+                    while (attempts < 5)
+                    {
+                        Dictionary<string, string> request = InputRequest(input);
+                        UserAuthenticationService authService = new UserAuthenticationService(input, request);
+                        
+                        bool IsValidRequest = authService.validateRequest();
+                        if (!IsValidRequest)
+                        {
+                            if (attempts < 4) 
+                            {
+                                Console.WriteLine("Invalid username, password, and/or OTP." +
+                                " Retry again or contact system administrator.");
+                            }   
+                            attempts++;  
+                        }
+                        else
+                        {
+                            authService.SqlGenerator();
+                        }
+                    }
+                    if (attempts == 5) 
+                    {
+                        Console.WriteLine("You've reached the maximum authentication attempts."
+                                        + "\nYour account has been disabled for security reasons.");   
+                    }
+                   
+                }
+                else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);
                     if (request != null)
@@ -126,6 +158,23 @@ namespace app
                     return null;
                 }
             }
+            else if (operation == "AUTHENTICATE")
+            {
+                Console.WriteLine("Enter the account information to authenticate");
+
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                request.Add("username", username);
+
+                Console.Write("Password: ");
+                string password = Console.ReadLine();
+                request.Add("password", password);
+
+                Console.Write("OTP: ");
+                string otp = Console.ReadLine();
+                request.Add("otp", otp);
+            }
+
             foreach(KeyValuePair<string, string> entry in request){
                 Console.WriteLine("The key is:{0}", entry.Key);
                 Console.WriteLine("The value is:{0}", entry.Value);
@@ -140,8 +189,9 @@ namespace app
             Console.WriteLine("3) Update User");
             Console.WriteLine("4) Disable User");
             Console.WriteLine("5) Enable User");
-            Console.WriteLine("6) Bulk Operation");
-            Console.WriteLine("7) Exit");
+            Console.WriteLine("6) Authenticate User");
+            Console.WriteLine("7) Bulk Operation");
+            Console.WriteLine("8) Exit");
 
             switch (Console.ReadLine())
             {
@@ -156,8 +206,10 @@ namespace app
                 case "5":
                     return "ENABLE";
                 case "6":
-                    return "BULK";
+                    return "AUTHENTICATE";
                 case "7":
+                    return "BULK";
+                case "8":
                     return "EXIT";
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
