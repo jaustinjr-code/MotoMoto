@@ -43,7 +43,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
             return true;
         }
 
-        public void SendArchivalInformation() 
+        public void SendArchivalInformation(string CSVDirectory) 
         {
             /**
             SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION
@@ -58,7 +58,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
             string commandSql = $"SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION"
                                 + " FROM log" 
                                 + " WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)"
-                                + " INTO OUTFILE 'F:/TEST/TEST.csv'"
+                                + $" INTO OUTFILE '{CSVDirectory}'"
                                 + " FIELDS ENCLOSED BY '\"'"
                                 + " TERMINATED BY \';\'"
                                 + " ESCAPED BY \'\"\'"
