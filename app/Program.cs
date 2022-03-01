@@ -1,6 +1,8 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
 using System.Collections;
+using TheNewPanelists.DataAccessLayer;
+using TheNewPanelists.ServiceLayer.Logging;
 
 namespace app
 {
@@ -216,6 +218,7 @@ namespace app
             MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows) //if there is an element
             {
+                String userId = reader.GetString("userId");
                 if (reader["status"].Equals(true))
 
                 {
@@ -229,8 +232,15 @@ namespace app
                         cmd.Parameters.AddWithValue("@username", username);
                         cmd.Parameters.AddWithValue("@status", false);
                         cmd.ExecuteNonQuery();
-
+                        object userID = reader["userId"];
                         //Log Success
+                        Dictionary<string, string> log = new Dictionary<string, string>();
+                        string operation = "SERVER";
+                        log.Add("username", username);
+                        log.Add("level", "INFO");
+                        log.Add("userId", userId);
+                        log.Add("DSCRIPTION", "User successfully logout");
+                        LogService logservice = new LogService(operation, log, true);
 
                         menu();
                     }
@@ -239,15 +249,50 @@ namespace app
                 else //status is incorrect or user is not currently in a session
                 {
                     Console.WriteLine("ERROR: Currently not in session");
+                    Dictionary<string, string> log = new Dictionary<string, string>();
+                    string operation = "SERVER";
+                    log.Add("username", username);
+                    log.Add("level", "ERROR");
+                    log.Add("userId", userId);
+                    log.Add("DSCRIPTION", "Logout ERROR");
+                    LogService logservice = new LogService(operation, log, true);
                     menu();
                 }
             }
             else//Error: no user is found
             {
                 Console.WriteLine("ERROR: No user found");
+
+                Dictionary<string, string> log = new Dictionary<string, string>();
+                string operation = "SERVER";
+                log.Add("username", username);
+                log.Add("level", "ERROR");
+                log.Add("DSCRIPTION", "No user found");
+                LogService logservice = new LogService(operation, log, true);
+
                 menu();
             }
             con.Close(); 
         }
+
+        public static Boolean login(string connectionString)
+        {
+            Console.WriteLine("Username: ");
+            String username = Console.ReadLine();
+            Console.WriteLine("Password: ");
+            String password = Console.ReadLine(); 
+            String query = "Select u.userId FROM USER u WHERE u.username = " + username + "AND u.password = " + password;
+            MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            con.Open();
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(query, con);
+            MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader();
+            if(reader.HasRows)//found user profile
+            {
+                return true;
+            }
+
+            return false;
+        }
+       
     }
 }
