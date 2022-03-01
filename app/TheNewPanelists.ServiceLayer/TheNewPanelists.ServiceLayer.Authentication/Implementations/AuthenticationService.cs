@@ -3,17 +3,17 @@ using TheNewPanelists.ServiceLayer.Logging;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace TheNewPanelists.ServiceLayer.UserAuthentication
+namespace TheNewPanelists.ServiceLayer.Authentication
 {
-    class UserAuthenticationService : IUserAuthenticationService
+    class AuthenticationService : IAuthenticationService
     {
         private string operation {get; set;}
         private UserManagementDataAccess userManagementDataAccess;
         private Dictionary<string, string> userAccount {get; set;}
         
-        public UserAuthenticationService() {}
+        public AuthenticationService() {}
         
-        public UserAuthenticationService(string operation, Dictionary<string, string> userAccount) 
+        public AuthenticationService(string operation, Dictionary<string, string> userAccount) 
         {
             this.operation = operation;
             this.userAccount = userAccount;

@@ -1,6 +1,6 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
-using TheNewPanelists.ServiceLayer.UserAuthentication;
+using TheNewPanelists.ServiceLayer.Authentication;
 using System.Collections;
 
 namespace app
@@ -20,7 +20,7 @@ namespace app
                     while (attempts < 5)
                     {
                         Dictionary<string, string> request = InputRequest(input);
-                        UserAuthenticationService authService = new UserAuthenticationService(input, request);
+                        AuthenticationService authService = new AuthenticationService(input, request);
                         
                         bool IsValidRequest = authService.validateRequest();
                         if (!IsValidRequest)
