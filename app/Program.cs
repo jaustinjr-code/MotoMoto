@@ -32,7 +32,7 @@ namespace app
                 input = menu();
             }
         }
-
+=
         public static Dictionary<string, string> InputRequest(string operation)
         {
             Dictionary<string, string> request = new Dictionary<string, string>();
