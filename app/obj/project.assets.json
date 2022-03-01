@@ -6795,35 +6795,25 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "/Users/jcaustin/.nuget/packages/": {}
-=======
-    "C:\\Users\\kayla\\.nuget\\packages\\": {}
->>>>>>> Code-Application
+    "C:\\Users\\jacob\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+      "projectUniqueName": "C:\\School_Files\\MotoMoto\\app\\app.csproj",
       "projectName": "app",
-      "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-      "packagesPath": "/Users/jcaustin/.nuget/packages/",
-      "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+      "projectPath": "C:\\School_Files\\MotoMoto\\app\\app.csproj",
+      "packagesPath": "C:\\Users\\jacob\\.nuget\\packages\\",
+      "outputPath": "C:\\School_Files\\MotoMoto\\app\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
-=======
-      "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-      "projectName": "app",
-      "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-      "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> Code-Application
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -6892,12 +6882,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
->>>>>>> Code-Application
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\School_Files\\MotoMoto\\app\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

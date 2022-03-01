@@ -1,6 +1,6 @@
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
-//using TheNewPanelists.BusinessLayer.UserManagement;
+using TheNewPanelists.BusinessLayer;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement 
 {
