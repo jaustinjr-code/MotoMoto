@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {}
+    "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {}
   },
   "projects": {
-    "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj": {
+    "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+        "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
         "projectName": "app",
-        "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-        "packagesPath": "/Users/jcaustin/.nuget/packages/",
-        "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+        "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
+        "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -82,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

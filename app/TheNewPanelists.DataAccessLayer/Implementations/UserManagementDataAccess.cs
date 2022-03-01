@@ -78,24 +78,19 @@ namespace TheNewPanelists.DataAccessLayer
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
+            
+            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
             //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("userid", "TEMP USER"); //what is userid supposed to be?
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS USER MANAGEMENT");
-                ILogService logSuccess = new LogService("CREATE", informationLog, true);
-                logSuccess.SqlGenerator();
                 
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
-                // mySqlConnection.Close();
+                //mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -105,12 +100,6 @@ namespace TheNewPanelists.DataAccessLayer
                 BuildTempUser();
             }
              
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "ERROR");
-            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR USER MANAGEMENT!!");
-            ILogService logFailure = new LogService("CREATE", informationLog, false);
-            logFailure.SqlGenerator();
             return false;
         }
 

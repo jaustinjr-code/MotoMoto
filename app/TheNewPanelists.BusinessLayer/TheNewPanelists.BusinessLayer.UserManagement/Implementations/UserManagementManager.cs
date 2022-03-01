@@ -48,6 +48,7 @@ namespace TheNewPanelists.BusinessLayer
                     hasValidAttributes = attributes.ContainsKey("username");
                     break;
 
+<<<<<<< HEAD
                 case "UPDATE":
                     hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
                                             || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
@@ -55,6 +56,17 @@ namespace TheNewPanelists.BusinessLayer
 
             }
             return hasValidAttributes;
+=======
+            case "UPDATE":
+                hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
+                                        || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
+                break;
+            case "ACCOUNT RECOVERY":
+                hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
+                break;
+        }
+        return hasValidAttributes;
+>>>>>>> Code-Application
 
         }
 
