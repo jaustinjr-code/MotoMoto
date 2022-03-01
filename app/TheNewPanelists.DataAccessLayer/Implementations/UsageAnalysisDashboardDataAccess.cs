@@ -79,6 +79,7 @@ namespace TheNewPanelists.DataAccessLayer
         public bool UpdateIndicatorData()
         {
             MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
+            // 0 means no rows affected, -1 is error, handle error maybe in the Service Layer
             return command.ExecuteNonQuery() == -1 ? false : true;
         }
     }
