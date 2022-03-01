@@ -87,5 +87,10 @@ namespace TheNewPanelists.ServiceLayer.UserAuthentication
         {
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
+
+        private string CreteOTP()
+        {
+            return "otp";
+        }
     }
 }
