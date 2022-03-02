@@ -43,6 +43,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             else if (this.operation == "ACCOUNT RECOVERY")
             {
                 query = this.AccountRecovery();
+                Console.WriteLine(query);
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
@@ -126,7 +127,15 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string AccountRecovery()
         {
-            return "";
+            if (this.userAccount.ContainsKey("username"))
+            {
+                return "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+            }
+            else if (this.userAccount.ContainsKey("email"))
+            {
+                return "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
+            }
+            return String.Empty;
         }
 
         public bool IsValidRequest()
@@ -174,7 +183,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             switch (this.operation) 
             {
                 case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.usernameFROM User u WHERE u.username =");
+                    hasValidAttributes = query.Contains("SELECT u.username FROM User u WHERE u.username =");
                     break;
                 case "CREATE":
                     hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
@@ -189,7 +198,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                                         || query.Contains("password") || query.Contains("email")));
                     break;
                 case "ACCOUNT RECOVERY":
-                    //hasValidAttributes = query.Contains();
+                    hasValidAttributes = query.Contains("SELECT u.email FROM User u WHERE u.username = ") || query.Contains("SELECT u.username FROM User u WHERE u.email = ");
                     break;
             }
             return hasValidAttributes;

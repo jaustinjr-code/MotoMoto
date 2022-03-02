@@ -134,6 +134,17 @@ namespace app
             {
                 request = accountRecovery(request);
             }
+
+            //OPERATION FOR WHEN USER IS SENT AN EMAIL TO RESET THEIR PASSWORD
+            //IS THIS NEEDED ? OR DO THEY JUST GO TO UPDATE OPERATION?
+
+/*            else if (operation == "FORGOT PASSWORD EMAIL LINK")
+            {
+                Console.Write("Enter New Password: ");
+                string password = Console.ReadLine();
+                if (password != "")
+                    request.Add("newpassword", password);
+            }*/
               
             //foreach(KeyValuePair<string, string> entry in request){
             //    Console.WriteLine("The key is:{0}", entry.Key);

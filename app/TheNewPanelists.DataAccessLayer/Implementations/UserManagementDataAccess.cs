@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
 using TheNewPanelists.ServiceLayer.Logging;
-
+using System.Data.SqlClient;
 
 namespace TheNewPanelists.DataAccessLayer
 {
@@ -80,7 +80,7 @@ namespace TheNewPanelists.DataAccessLayer
             // Need to generalize the database name or create a new database and run the restore sql file on it
             
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
             //connectionString 
             try
             {
@@ -112,12 +112,20 @@ namespace TheNewPanelists.DataAccessLayer
             if (command.ExecuteNonQuery() == 1)
             {
                 mySqlConnection.Close();
+                Console.WriteLine(command.ExecuteNonQuery());
                 Console.WriteLine("Connection closed...");
                 return true;
             }
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Console.WriteLine(String.Format("{0}", reader[0]));
+            }
+
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
             return false;
         }
     }
 }
+
