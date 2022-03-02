@@ -6795,41 +6795,24 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "/Users/jcaustin/.nuget/packages/": {}
-=======
-    "C:\\Users\\kayla\\.nuget\\packages\\": {}
->>>>>>> Code-Application
+    "/Users/blakedelrey/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+      "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
       "projectName": "app",
-      "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-      "packagesPath": "/Users/jcaustin/.nuget/packages/",
-      "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+      "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
+      "packagesPath": "/Users/blakedelrey/.nuget/packages/",
+      "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
-=======
-      "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-      "projectName": "app",
-      "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-      "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> Code-Application
+        "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6892,12 +6875,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
->>>>>>> Code-Application
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

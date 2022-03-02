@@ -1,4 +1,5 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
+using TheNewPanelists.ApplicationLayer.Authorization;
 using TheNewPanelists.ApplicationLayer;
 using System.Collections;
 
@@ -8,6 +9,9 @@ namespace app
     {
         static void Main(string[] args)
         {
+            // UserManagementAuthorization ua = new UserManagementAuthorization();
+
+
             IEntry entry;
             string input = menu();
             while (input != "EXIT")

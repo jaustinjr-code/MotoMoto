@@ -8,7 +8,7 @@ namespace TheNewPanelists.ApplicationLayer.Authentication
         {
             Console.WriteLine("Test");
             UserManagementAuthorization t = new UserManagementAuthorization();
-            t.UserManagementAuthorizationTest();
+            // t.UserManagementAuthorizationTest();
         }
     }
 }

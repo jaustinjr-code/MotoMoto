@@ -55,7 +55,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         private string FindUser()
         {
-            return "SELECT u.userId FROM User u WHERE u.username =" + this.userAccount["username"] + ";";
+            return "SELECT * FROM User u WHERE u.username =\"" + this.userAccount["username"] + "\";";
         }
 
         //Danny work on this query to ensure user insertion

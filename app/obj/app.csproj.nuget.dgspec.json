@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {}
+    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {
+    "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
+        "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
         "projectName": "app",
-        "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj",
-        "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\obj\\",
+        "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
+        "packagesPath": "/Users/blakedelrey/.nuget/packages/",
+        "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -84,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }

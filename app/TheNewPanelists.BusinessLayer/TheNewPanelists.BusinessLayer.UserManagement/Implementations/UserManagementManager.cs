@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TheNewPanelists.ServiceLayer.UserManagement;
+using TheNewPanelists.ApplicationLayer.Authorization;
 
 namespace TheNewPanelists.BusinessLayer
 {
@@ -48,29 +49,19 @@ namespace TheNewPanelists.BusinessLayer
                     hasValidAttributes = attributes.ContainsKey("username");
                     break;
 
-<<<<<<< HEAD
                 case "UPDATE":
                     hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
                                             || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
                     break;
-
-            }
-            return hasValidAttributes;
-=======
-            case "UPDATE":
-                hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                        || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
-                break;
-            case "ACCOUNT RECOVERY":
-                hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
-                break;
+                case "ACCOUNT RECOVERY":
+                    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
+                    break;
         }
         return hasValidAttributes;
->>>>>>> Code-Application
 
         }
 
-        public void ParseAndCall()
+        public void ParseAndCall(UserManagementAuthorization authorization)
         {
             string requestPath = this.requestPath;
             foreach (string line in System.IO.File.ReadLines(@requestPath))
@@ -79,13 +70,17 @@ namespace TheNewPanelists.BusinessLayer
                 string operation = requestDictionary["operation"];
                 if (IsValidRequest(requestDictionary))
                 {
-                    CallOperation(operation, requestDictionary);
+                    CallOperation(operation, requestDictionary, authorization);
                 }
             }
         }
 
-        public bool CallOperation(string operation, Dictionary<string, string> accountInfo)
+        public bool CallOperation(string operation, Dictionary<string, string> accountInfo, UserManagementAuthorization authorization)
         {
+            bool isAuthorized = authorization.checkAuthorized(operation);
+            if (!isAuthorized) {
+                return false;
+            }
             bool returnVal = false;
             if (HasValidAttributes(operation, accountInfo))
             {

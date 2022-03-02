@@ -3,6 +3,7 @@ using System.Collections;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer;
 using TheNewPanelists.BusinessLayer;
+using TheNewPanelists.ApplicationLayer.Authorization;
 
 namespace TheNewPanelists.ApplicationLayer
 {
@@ -26,10 +27,17 @@ namespace TheNewPanelists.ApplicationLayer
 
         public string SingleOperationRequest()
         {
+            UserManagementAuthorization authorization = new UserManagementAuthorization();
             try
             {
-                userManagementManager.CallOperation(this.operation, request);
-                return "UM operation was successful";
+                bool isSuccessful = userManagementManager.CallOperation(this.operation, request, authorization);
+                if (isSuccessful) {
+                    return "UM operation was successful";
+                }
+                else {
+                    return "UM operation was not successful";
+                }
+                
             }
             catch (Exception e)
             {
@@ -45,6 +53,7 @@ namespace TheNewPanelists.ApplicationLayer
 
         public bool BulkOperationRequest(string filepath)
         {
+            UserManagementAuthorization authorization = new UserManagementAuthorization();
             try
             {
                 userManagementManager = new UserManagementManager(filepath);

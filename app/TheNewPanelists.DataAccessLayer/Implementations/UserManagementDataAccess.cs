@@ -80,7 +80,7 @@ namespace TheNewPanelists.DataAccessLayer
             // Need to generalize the database name or create a new database and run the restore sql file on it
             
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Disrespectoid2327!;";
             //connectionString 
             try
             {
@@ -118,6 +118,27 @@ namespace TheNewPanelists.DataAccessLayer
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
             return false;
+        }
+
+        public Dictionary<string, string> GetAccountInformation() {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);    
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while(myReader.Read()) {
+                accountInfo.Add("userId", myReader.GetString("userId"));
+                accountInfo.Add("username", myReader.GetString("username"));
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+
+            return accountInfo;
+
         }
     }
 }
