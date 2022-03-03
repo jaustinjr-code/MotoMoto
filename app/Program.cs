@@ -11,6 +11,7 @@ namespace app
         {
             IEntry entry;
             string input = menu();
+            int attempts = 0;
             while (input != "EXIT")
             {
                 if (input == "AUTHENTICATE")
@@ -166,6 +167,23 @@ namespace app
             {
                 request = accountRecovery(request);
             }
+
+            else if (operation == "AUTHENTICATE")
+            {
+                Console.WriteLine("Enter the account information to authenticate");
+
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                request.Add("username", username);
+
+                Console.Write("Password: ");
+                string password = Console.ReadLine();
+                request.Add("password", password);
+
+                Console.Write("OTP: ");
+                string otp = Console.ReadLine();
+                request.Add("otp", otp);
+            }
               
             //foreach(KeyValuePair<string, string> entry in request){
             //    Console.WriteLine("The key is:{0}", entry.Key);
@@ -203,7 +221,7 @@ namespace app
                 case "7":
                     return "ACCOUNT RECOVERY";
                 case "8":
-                    return "AUTHENTICATION";
+                    return "AUTHENTICATE";
                 case "9":
                     return "EXIT";
                 default:
