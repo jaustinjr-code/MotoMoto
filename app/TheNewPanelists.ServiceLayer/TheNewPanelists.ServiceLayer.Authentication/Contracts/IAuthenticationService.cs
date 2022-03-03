@@ -4,6 +4,6 @@ namespace TheNewPanelists.ServiceLayer.Authentication
     {
         bool validateRequest();
         bool SqlGenerator();
-        // string CreateOTP();
+        string CreateOTP();
     }
 }
