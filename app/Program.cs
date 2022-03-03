@@ -1,5 +1,6 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
+using TheNewPanelists.ServiceLayer.Authentication;
 using System.Collections;
 
 namespace app
@@ -12,7 +13,40 @@ namespace app
             string input = menu();
             while (input != "EXIT")
             {
-                if (input != "")
+                if (input == "AUTHENTICATE")
+                {
+                    while (attempts < 5)
+                    {
+                        AuthenticationService authService = new AuthenticationService();
+                        string otp = authService.CreateOTP();
+                        authService.SendEmail(otp);
+
+                        Dictionary<string, string> request = InputRequest(input);
+                        authService = new AuthenticationService(input, request);
+                        
+                        bool IsValidRequest = authService.validateRequest();
+                        if (!IsValidRequest)
+                        {
+                            if (attempts < 4) 
+                            {
+                                Console.WriteLine("Invalid username, password, and/or OTP." +
+                                " Retry again or contact system administrator.");
+                            }   
+                            attempts++;  
+                        }
+                        else
+                        {
+                            authService.SqlGenerator();
+                        }
+                    }
+                    if (attempts == 5) 
+                    {
+                        Console.WriteLine("You've reached the maximum authentication attempts."
+                                        + "\nYour account has been disabled for security reasons.");   
+                    }
+                   
+                }
+                else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);
                     if (request != null)
@@ -149,7 +183,8 @@ namespace app
             Console.WriteLine("5) Enable User");
             Console.WriteLine("6) Bulk Operation");
             Console.WriteLine("7) Account Recovery");
-            Console.WriteLine("8) Exit");
+            Console.WriteLine("8) Authentication");
+            Console.WriteLine("9) Exit");
 
             switch (Console.ReadLine())
             {
@@ -168,6 +203,8 @@ namespace app
                 case "7":
                     return "ACCOUNT RECOVERY";
                 case "8":
+                    return "AUTHENTICATION";
+                case "9":
                     return "EXIT";
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
