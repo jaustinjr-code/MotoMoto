@@ -94,8 +94,6 @@ namespace TheNewPanelists.ServiceLayer.Authentication
         {   
             StringBuilder input = new StringBuilder();
 
-            // Console.WriteLine("Enter emai:");
-            // string email = Console.ReadLine();
             string email = "projmotomoto@gmail.com";
             Console.WriteLine("Enter password:");
             while (true)
@@ -116,7 +114,6 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                 mail.To.Add("naeun.yu@student.csulb.edu");
                 mail.To.Add("jacob.sunia@student.csulb.edu");
                 mail.Subject = "Verification Code";
-                mail.Body = "This is for testing SMTP mail from GMAIL";
 
                 mail.Body = @$"
                     <html>
