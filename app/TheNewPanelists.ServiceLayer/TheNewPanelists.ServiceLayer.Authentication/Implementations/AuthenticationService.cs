@@ -88,9 +88,36 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
 
-        private string CreteOTP()
-        {
-            return "otp";
-        }
+        // public string CreateOTP()
+        // {
+        //     // A - Z: ASCII 65 - 90 rand.Next(65, 91)
+        //     // a - z: ASCII 97 - 122 rand.Next(97, 123)
+        //     // 0 - 9: ASCII 48 - 57 rand.Next(48, 58)
+        //     Random rand = new Random();
+
+        //     string otp = "";
+        //     for (int i = 0; i < 9; i++)
+        //     {
+        //         int num =  i < 3? num = i : num = rand.Next(0, 3);
+
+        //         if (num == 0) 
+        //         {
+        //             otp += (char) rand.Next(65, 91);     // upper case
+        //         }
+
+        //         else if (num == 1)
+        //         {
+        //             otp += (char) rand.Next(97, 123);   // lower case
+        //         }
+
+        //         else if (num == 2)
+        //         {
+        //             otp += (char) rand.Next(48, 58);    // number 0 - 9
+        //         }
+        //     }
+
+        //     Console.WriteLine((char) 65);
+        //     return otp;
+        // }
     }
 }
