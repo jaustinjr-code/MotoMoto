@@ -220,57 +220,5 @@ namespace app
                     return menu();
             }
         }
-
-        // public static string createOTP()
-        // {
-        //     // A - Z: ASCII 65 - 90 rand.Next(65, 91)
-        //     // a - z: ASCII 97 - 122 rand.Next(97, 123)
-        //     // 0 - 9: ASCII 48 - 57 rand.Next(48, 58)
-        //     Random rand = new Random();
-        //     char[] chArr = new char[9];
-        //     string otp = "";
-
-        //     for (int i = 0; i < chArr.Length; i++)
-        //     {
-        //         int num =  i < 3? num = i : num = rand.Next(0, 3);
-
-        //         if (num == 0) 
-        //         {
-        //             chArr[i] = (char) rand.Next(65, 91);     // upper case
-        //         }
-
-        //         else if (num == 1)
-        //         {
-        //             chArr[i] = (char) rand.Next(97, 123);   // lower case
-        //         }
-
-        //         else if (num == 2)
-        //         {
-        //             chArr[i] = (char) rand.Next(48, 58);    // number 0 - 9
-        //         }
-        //     }
-
-        //     Console.Write("before shuffle: ");
-        //     foreach (char ch in chArr)
-        //     {
-        //         Console.Write(ch);
-        //     }
-
-        //     for (int i = 0; i < 100; i++)
-        //     {
-        //         int randNum1 = rand.Next(chArr.Length);
-        //         int randNum2 = rand.Next(chArr.Length);
-        //         char temp = chArr[randNum1];
-        //         chArr[randNum1] = chArr[randNum2];
-        //         chArr[randNum2] = temp;
-        //     }
-            
-        //     foreach (char ch in chArr)
-        //     {
-        //         otp += ch;
-        //     }
-        //     Console.WriteLine("\notp: " + otp);
-        //     return otp;
-        // }
     }
 }
