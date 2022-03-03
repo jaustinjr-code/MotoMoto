@@ -2,6 +2,8 @@ using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Text;
+using System.Net.Mail;
 
 namespace TheNewPanelists.ServiceLayer.Authentication
 {
@@ -86,6 +88,46 @@ namespace TheNewPanelists.ServiceLayer.Authentication
         private string FindUser()
         {
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
+        }
+
+        public void SendEmail()
+        {   
+            StringBuilder input = new StringBuilder();
+
+            // Console.WriteLine("Enter emai:");
+            // string email = Console.ReadLine();
+            string email = "motomotoproj@gmail.com";
+            Console.WriteLine($"Enter password:");
+            while (true)
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter) break;
+                if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
+                else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
+            }
+            string pass = input.ToString();
+
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient("smtp-relay.gmail.com");
+
+                mail.From = new MailAddress(email);
+                mail.To.Add("naeun.yu@student.csulb.edu");
+                mail.Subject = "Test Mail";
+                mail.Body = "This is for testing SMTP mail from GMAIL";
+
+                smtpServer.Port = 465;
+                smtpServer.Credentials = new System.Net.NetworkCredential(email, pass);
+                smtpServer.EnableSsl = true;
+
+                smtpServer.Send(mail);
+                Console.WriteLine("mail Send");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         public string CreateOTP()

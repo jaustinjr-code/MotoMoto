@@ -21,6 +21,7 @@ namespace app
                     {
                         AuthenticationService authService = new AuthenticationService();
                         string otp = authService.CreateOTP();
+                        authService.SendEmail();
 
                         Dictionary<string, string> request = InputRequest(input);
                         authService = new AuthenticationService(input, request);
