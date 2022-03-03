@@ -90,14 +90,14 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
         }
 
-        public void SendEmail()
+        public void SendEmail(string otp)
         {   
             StringBuilder input = new StringBuilder();
 
             // Console.WriteLine("Enter emai:");
             // string email = Console.ReadLine();
-            string email = "motomotoproj@gmail.com";
-            Console.WriteLine($"Enter password:");
+            string email = "projmotomoto@gmail.com";
+            Console.WriteLine("Enter password:");
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -110,19 +110,37 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             try
             {
                 MailMessage mail = new MailMessage();
-                SmtpClient smtpServer = new SmtpClient("smtp-relay.gmail.com");
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
-                mail.From = new MailAddress(email);
+                mail.From = new MailAddress(email, "MotoMoto");
                 mail.To.Add("naeun.yu@student.csulb.edu");
-                mail.Subject = "Test Mail";
+                mail.To.Add("jacob.sunia@student.csulb.edu");
+                mail.Subject = "Verification Code";
                 mail.Body = "This is for testing SMTP mail from GMAIL";
 
-                smtpServer.Port = 465;
+                mail.Body = @$"
+                    <html>
+                        <body>
+                            <p></p>Hello,</p>
+                            <p>Here is the Verification Code you need to confirm your 
+                            identity and access your account.<br>
+                            <p>Your Verification Code is: {otp}</p>
+                            <p>The code will expire in 2 minutes, so please complete this 
+                            step as soon as possible.</p><br>
+                            <p>Sincerely,<br><br>
+                            MotoMoto Customer Care</p>
+                        </body>
+                    </html>";
+                // mail.BodyEncoding = System.Text.Encoding.UTF8;
+                // text or html
+                mail.IsBodyHtml = true;
+
+                smtpServer.Port = 587;
                 smtpServer.Credentials = new System.Net.NetworkCredential(email, pass);
                 smtpServer.EnableSsl = true;
 
                 smtpServer.Send(mail);
-                Console.WriteLine("mail Send");
+                Console.WriteLine("Email sent successfully.");
             }
             catch (Exception ex)
             {
