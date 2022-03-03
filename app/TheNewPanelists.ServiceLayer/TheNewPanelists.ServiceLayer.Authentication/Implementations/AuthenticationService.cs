@@ -112,7 +112,7 @@ namespace TheNewPanelists.ServiceLayer.Authentication
 
                 mail.From = new MailAddress(email, "MotoMoto");
                 mail.To.Add("naeun.yu@student.csulb.edu");
-                mail.To.Add("jacob.sunia@student.csulb.edu");
+                // mail.To.Add("jacob.sunia@student.csulb.edu");
                 mail.Subject = "Verification Code";
 
                 mail.Body = @$"
