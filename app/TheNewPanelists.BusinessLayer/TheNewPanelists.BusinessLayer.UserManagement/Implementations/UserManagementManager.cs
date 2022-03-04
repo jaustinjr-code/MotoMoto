@@ -61,7 +61,7 @@ namespace TheNewPanelists.BusinessLayer
 
         }
 
-        public void ParseAndCall(UserManagementAuthorization authorization)
+        public bool ParseAndCall()
         {
             string requestPath = this.requestPath;
             foreach (string line in System.IO.File.ReadLines(@requestPath))
@@ -70,17 +70,14 @@ namespace TheNewPanelists.BusinessLayer
                 string operation = requestDictionary["operation"];
                 if (IsValidRequest(requestDictionary))
                 {
-                    CallOperation(operation, requestDictionary, authorization);
+                    CallOperation(operation, requestDictionary);
                 }
             }
+            return true;
         }
 
-        public bool CallOperation(string operation, Dictionary<string, string> accountInfo, UserManagementAuthorization authorization)
+        public bool CallOperation(string operation, Dictionary<string, string> accountInfo)
         {
-            bool isAuthorized = authorization.checkAuthorized(operation);
-            if (!isAuthorized) {
-                return false;
-            }
             bool returnVal = false;
             if (HasValidAttributes(operation, accountInfo))
             {

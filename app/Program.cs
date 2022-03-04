@@ -46,7 +46,7 @@ namespace app
 
                 Console.Write("Type ID: (ADMIN, REGISTERED, DEFAULT) ");
                 string type = Console.ReadLine();
-                request.Add("typeId", type);
+                request.Add("typeName", type);
                 Console.Write("Username: ");
                 string username = Console.ReadLine();
                 request.Add("username", username);

@@ -27,15 +27,24 @@ namespace TheNewPanelists.ApplicationLayer
 
         public string SingleOperationRequest()
         {
+            string failureMessage = "UM operation was not successful";
+            string successMessage = "UM operation was successful";
+
             UserManagementAuthorization authorization = new UserManagementAuthorization();
+            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation);
+            if (!isAuthorizedOperation) 
+            {
+                return failureMessage;
+            }
+
             try
             {
-                bool isSuccessful = userManagementManager.CallOperation(this.operation, request, authorization);
+                bool isSuccessful = userManagementManager.CallOperation(this.operation, request);
                 if (isSuccessful) {
-                    return "UM operation was successful";
+                    return successMessage;
                 }
                 else {
-                    return "UM operation was not successful";
+                    return failureMessage;
                 }
                 
             }
@@ -44,19 +53,21 @@ namespace TheNewPanelists.ApplicationLayer
                 Console.WriteLine(e.Message);
                 return "ERROR - UM operation was not successful";
             }
-            // if (userManagementManager.CallOperation(this.operation, request))
-            // {
-            //     return "UM operation was successful";
-            // }
-            // return "UM operation was not successful";
         }
 
         public bool BulkOperationRequest(string filepath)
         {
             UserManagementAuthorization authorization = new UserManagementAuthorization();
+            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation);
+            if (!isAuthorizedOperation) 
+            {
+                return false;
+            }
+
             try
             {
                 userManagementManager = new UserManagementManager(filepath);
+                // userManagementManager.ParseAndCall();
                 return true;
             }
             catch (Exception e)
@@ -65,8 +76,6 @@ namespace TheNewPanelists.ApplicationLayer
                 Console.WriteLine("ERROR - Filepath not found");
             }
             return false;
-            //userManagementManager.ParseAndCall();
-            // return true;
         }
     }
 }

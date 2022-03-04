@@ -131,6 +131,7 @@ namespace TheNewPanelists.DataAccessLayer
 
             Dictionary<string, string> accountInfo = new Dictionary<string, string>();
             while(myReader.Read()) {
+                accountInfo.Add("typeName", myReader.GetString("typeName"));
                 accountInfo.Add("userId", myReader.GetString("userId"));
                 accountInfo.Add("username", myReader.GetString("username"));
                 accountInfo.Add("password", myReader.GetString("password"));

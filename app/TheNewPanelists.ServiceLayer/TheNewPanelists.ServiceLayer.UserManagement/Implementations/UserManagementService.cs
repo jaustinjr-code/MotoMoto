@@ -64,8 +64,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
             //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
             //        + this.userAccount["email"] + "', false, false);";
-            return "INSERT INTO USER (username, password, email) VALUES ('"
-                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
+            return "INSERT INTO USER (typeName, username, password, email) VALUES ('"
+                    + this.userAccount["typeName"] + "', '" + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
                     + this.userAccount["email"] + "');";
         }
 

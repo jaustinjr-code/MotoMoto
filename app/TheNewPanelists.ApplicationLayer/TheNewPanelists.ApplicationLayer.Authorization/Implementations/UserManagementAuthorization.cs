@@ -41,7 +41,6 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             };
             UserManagementService userManagmementServiceObject = new UserManagementService("FIND", accountInfo);
             string queryString = userManagmementServiceObject.getQuery();
-            Console.WriteLine(queryString);
             
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
             accountInfo = userManagementDataObject.GetAccountInformation();
@@ -51,21 +50,13 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
                 return "ERROR";
             }
 
-            // Console.WriteLine("User Id: " + accountInfo["userId"]);
-            // Console.WriteLine("Username: " + accountInfo["username"]);
-            // Console.WriteLine("Password: " + accountInfo["password"]);
-            // Console.WriteLine("Email: " + accountInfo["email"]);
-
             if (this.password != accountInfo["password"]) {
                 Console.WriteLine("** ERROR INVALID PASSWORD ** ");
                 return "ERROR";
             }
 
-
-            // this.authType = accountInfo["userId"];
-            // return accountInfo["userId"];
-            this.authType = "ADMIN";
-            return "ADMIN";
+            this.authType = accountInfo["typeName"];
+            return accountInfo["typeName"];
         }
 
         public string getAuthType() {
@@ -105,6 +96,15 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
                 if (upperAuthType == "ADMIN" || upperAuthType == "REGISTERED") {
                     isAuthorized = true;
                 }
+            }
+
+            if (isAuthorized) 
+            {
+                Console.WriteLine("*** USER SUCCESSFULLY AUTHORIZED FOR THIS OPERATION ***\n");
+            }
+            else 
+            {
+                Console.WriteLine("*** USER IS NOT AUTHORIZED FOR THIS OPERATION ***\n");
             }
 
             return isAuthorized;
