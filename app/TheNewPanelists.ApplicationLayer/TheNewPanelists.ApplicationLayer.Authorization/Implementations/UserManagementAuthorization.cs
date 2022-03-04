@@ -1,4 +1,5 @@
 using TheNewPanelists.ServiceLayer.UserManagement;
+using TheNewPanelists.ServiceLayer.Logging;
 using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ApplicationLayer.Authorization
@@ -9,6 +10,8 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
         private string password;
 
         private string authType;
+
+        private Dictionary<string, string> accountDict;
 
         public UserManagementAuthorization() {
             username = "";
@@ -44,6 +47,7 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
             accountInfo = userManagementDataObject.GetAccountInformation();
+            this.accountDict = accountInfo;
 
             if (!accountInfo.ContainsKey("userId")) {
                 Console.WriteLine("** INVALID USERNAME ENTERED ** ");
@@ -104,6 +108,17 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             }
             else 
             {
+                Dictionary<string, string> log = new Dictionary<string, string>() {
+                    {"categoryname", "BUSINESS"},
+                    {"levelname", "INFO"},
+                    {"userid", this.accountDict["userId"]},
+                    {"description", "User tried to complete an unauthorized"}
+                };
+                LogService logging = new LogService(operation, log, false);
+                if (!logging.SqlGenerator()) 
+                {
+                    Console.WriteLine("** ERROR LOGGING FAILED **");
+                }
                 Console.WriteLine("*** USER IS NOT AUTHORIZED FOR THIS OPERATION ***\n");
             }
 
