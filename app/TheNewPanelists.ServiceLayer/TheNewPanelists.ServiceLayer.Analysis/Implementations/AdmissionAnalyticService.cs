@@ -36,7 +36,7 @@ namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
             catch (Exception e)
             {
                 // Probably best to Log here
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.Message);
                 refinedData.Add(null);
                 return refinedData;
             }
@@ -90,7 +90,7 @@ namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
             // string[] queries = new string[2];
 
             // Are string immutable in C#?
-            string query = "";
+            string query;
             if (_operation.Equals("GET"))
             {
                 //SELECT *
@@ -112,6 +112,10 @@ namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
                     // NEW DATE IS NOT INSERTED BUT STILL RETURNS TRUE
                     if (!InsertCurrentDate()) throw new Exception("Failed insertion");
                     query = $"UPDATE {table} SET {_dataInfo["indicator1"]} = {_dataInfo["indicator1"]} + {_dataInfo["modifier1"]}, {_dataInfo["indicator2"]} = {_dataInfo["indicator2"]} + {_dataInfo["modifier2"]} WHERE {_dataInfo["title"]} = CURDATE();";
+                }
+                else
+                {
+                    throw new Exception("Data info incomplete");
                 }
             }
             else
