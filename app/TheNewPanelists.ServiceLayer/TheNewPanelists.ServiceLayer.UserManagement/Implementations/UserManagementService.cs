@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 //using TheNewPanelists.BusinessLayer.UserManagement;
@@ -129,11 +130,24 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             if (this.userAccount.ContainsKey("username"))
             {
-                return "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+
+                SmtpClient client = new SmtpClient(args[0]);
+                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
+                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
+                MailMessage message = new MailMessage(from, to);
+                message.Body = "Please reset your password using the following link: " +; //Need to include UPDATE operation? So that they can update their password?
+                //Email must time out if they don't click the link within 15 seconds
             }
             else if (this.userAccount.ContainsKey("email"))
             {
-                return "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
+                string username = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
+
+                SmtpClient client = new SmtpClient(args[0]);
+                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
+                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
+                MailMessage message = new MailMessage(from, to);
+                message.Body = "Your username is: " + this.userAccount["username"];
             }
             return String.Empty;
         }
