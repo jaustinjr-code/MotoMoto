@@ -223,33 +223,24 @@ namespace app
 
         public static void logout(string username, string connectionString)//or string for username
         {
-            MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
-            con.Open();
-            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT * FROM USER u WHERE u.username = " + username, con);
-            MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows) //if there is an element
+            Dictionary<string, string> request = new Dictionary<string, string>();
+            if(request.ContainsKey(username));
             {
-                String userId = reader.GetString("userId");
-                if (reader["status"].Equals(true))
+                if (request["status"].Equals(true)) //checks if the user is online
 
                 {
-                    //tenant is in a session
+                    //user is in a session
                     Console.WriteLine("Do you want to logout (Y/N)");
                     if (Console.ReadLine().ToUpper() == ("Y"))
                     {
                         //change user status to false;
-                        string updateUserStatusQ = "UPDATE USER u WHERE u.username = @username SET u.status = @status";
-                        cmd.CommandText = updateUserStatusQ;
-                        cmd.Parameters.AddWithValue("@username", username);
-                        cmd.Parameters.AddWithValue("@status", false);
-                        cmd.ExecuteNonQuery();
-                        object userID = reader["userId"];
+                        
                         //Log Success
                         Dictionary<string, string> log = new Dictionary<string, string>();
                         string operation = "SERVER";
                         log.Add("username", username);
                         log.Add("level", "INFO");
-                        log.Add("userId", userId);
+                        log.Add("userId", request.["userId"]);
                         log.Add("DSCRIPTION", "User successfully logout");
                         LogService logservice = new LogService(operation, log, true);
 
@@ -264,26 +255,13 @@ namespace app
                     string operation = "SERVER";
                     log.Add("username", username);
                     log.Add("level", "ERROR");
-                    log.Add("userId", userId);
+                    log.Add("userId", request.["userId"]);
                     log.Add("DSCRIPTION", "Logout ERROR");
                     LogService logservice = new LogService(operation, log, true);
                     menu();
                 }
             }
-            else//Error: no user is found
-            {
-                Console.WriteLine("ERROR: No user found");
-
-                Dictionary<string, string> log = new Dictionary<string, string>();
-                string operation = "SERVER";
-                log.Add("username", username);
-                log.Add("level", "ERROR");
-                log.Add("DSCRIPTION", "No user found");
-                LogService logservice = new LogService(operation, log, true);
-
-                menu();
-            }
-            con.Close(); 
+           
         }
 
         public static Boolean login(string connectionString)
@@ -292,17 +270,37 @@ namespace app
             String username = Console.ReadLine();
             Console.WriteLine("Password: ");
             String password = Console.ReadLine(); 
-            String query = "Select u.userId FROM USER u WHERE u.username = " + username + "AND u.password = " + password;
-            MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
-            con.Open();
-            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(query, con);
-            MySql.Data.MySqlClient.MySqlDataReader reader = cmd.ExecuteReader();
-            if(reader.HasRows)//found user profile
+     
+            Dictionary<String, String> request = new Dictionary<string, string>();
+            if (request.ContainsKey(username)) 
             {
-                return true;
+                if (request[username].Equals(password))
+                {
+                    Dictionary<string, string> log = new Dictionary<string, string>();
+                    string operation = "SERVER";
+                    log.Add("username", username);
+                    log.Add("level", "INFO");
+                    log.Add("userId", "0");
+                    log.Add("DSCRIPTION", "Login Success");
+                    LogService logservice = new LogService(operation, log, true);
+                    return true;
+                }
+                else
+                {
+                    Dictionary<string, string> log = new Dictionary<string, string>();
+                    string operation = "SERVER";
+                    log.Add("username", "Not a user");
+                    log.Add("level", "ERROR");
+                    log.Add("userId", "0");
+                    log.Add("DSCRIPTION", "Login ERROR");
+                    LogService logservice = new LogService(operation, log, true);
+                    return false;
+                }
             }
-
             return false;
+
+
+           
         }
        
     }
