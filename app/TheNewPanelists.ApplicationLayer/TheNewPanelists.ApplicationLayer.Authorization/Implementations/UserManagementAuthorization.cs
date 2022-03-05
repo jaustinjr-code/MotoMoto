@@ -16,19 +16,35 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
         public UserManagementAuthorization() {
             username = "";
             password = "";
-            authType = null;
+            authType = "";
+            accountDict = new Dictionary<string, string>();
             setCredentials();
             
         }
 
         public void setCredentials() {
+            Console.WriteLine("*** AUTHORIZATION ***");
             Console.WriteLine("Enter Credentials");
+            try
+            {
+                Console.Write("Username: ");
+                this.username = Console.ReadLine() ?? "";
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+           
+            try
+            {
+                Console.Write("Password: ");
+                this.password = Console.ReadLine() ?? "";
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
             
-            Console.Write("Username: ");
-            this.username = Console.ReadLine();
-            
-            Console.Write("Password: ");
-            this.password = Console.ReadLine();
 
             setAccessLevel();
         }
@@ -48,6 +64,11 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
             accountInfo = userManagementDataObject.GetAccountInformation();
             this.accountDict = accountInfo;
+
+            if (accountInfo == null) {
+                return "ERROR";
+            }
+
 
             if (!accountInfo.ContainsKey("userId")) {
                 Console.WriteLine("** INVALID USERNAME ENTERED ** ");
@@ -69,6 +90,22 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
 
          public bool checkAuthorized(string operation) {
             bool isAuthorized = false;
+            if (operation == null || this.authType == null) 
+            {
+                Dictionary<string, string> log = new Dictionary<string, string>() {
+                    {"categoryname", "BUSINESS"},
+                    {"levelname", "ERROR"},
+                    {"userid", "-1"},
+                    {"description", "Error completing authorization..."}
+                };
+                LogService logging = new LogService(operation ?? "", log, false);
+                if (!logging.SqlGenerator()) 
+                {
+                    Console.WriteLine("** ERROR LOGGING FAILED **");
+                }
+                Console.WriteLine("*** Authorization has not yet been set successfully, authorization check aborted... *** ");
+                return false;
+            }
             string upperOperation = operation.ToUpper();
             string upperAuthType = this.authType.ToUpper();
             
@@ -112,7 +149,7 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
                     {"categoryname", "BUSINESS"},
                     {"levelname", "INFO"},
                     {"userid", this.accountDict["userId"]},
-                    {"description", "User tried to complete an unauthorized"}
+                    {"description", "User tried to complete an unauthorized operation"}
                 };
                 LogService logging = new LogService(operation, log, false);
                 if (!logging.SqlGenerator()) 
