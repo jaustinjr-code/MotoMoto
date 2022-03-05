@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TheNewPanelists.ServiceLayer.UserManagement;
+using TheNewPanelists.ApplicationLayer.Authorization;
 
 namespace TheNewPanelists.BusinessLayer
 {
@@ -52,13 +53,15 @@ namespace TheNewPanelists.BusinessLayer
                     hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
                                             || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
                     break;
-
-            }
-            return hasValidAttributes;
+                case "ACCOUNT RECOVERY":
+                    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
+                    break;
+        }
+        return hasValidAttributes;
 
         }
 
-        public void ParseAndCall()
+        public bool ParseAndCall()
         {
             string requestPath = this.requestPath;
             foreach (string line in System.IO.File.ReadLines(@requestPath))
@@ -70,6 +73,7 @@ namespace TheNewPanelists.BusinessLayer
                     CallOperation(operation, requestDictionary);
                 }
             }
+            return true;
         }
 
         public bool CallOperation(string operation, Dictionary<string, string> accountInfo)

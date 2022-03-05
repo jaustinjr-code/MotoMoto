@@ -1,0 +1,9 @@
+-- Testing Sql code for archiving
+-- SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION
+-- FROM log
+-- WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
+-- INTO OUTFILE 'F:/TEST/TEST.csv'
+-- FIELDS ENCLOSED BY '"'
+-- TERMINATED BY ';'
+-- ESCAPED BY '"'
+-- LINES TERMINATED BY '\r\n';

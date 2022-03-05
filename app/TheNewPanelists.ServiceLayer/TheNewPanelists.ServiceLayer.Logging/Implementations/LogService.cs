@@ -1,5 +1,7 @@
 using MySql.Data.MySqlClient;
 using TheNewPanelists.DataAccessLayer;
+using System.Threading;
+
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
@@ -26,40 +28,70 @@ namespace TheNewPanelists.ServiceLayer.Logging
         public bool SqlGenerator()
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
+            int userIdInt = Int32.Parse(log["userid"]);
             if (this.operation == "CREATE") 
             {
                 DateTime dateTime = DateTime.Now;
-                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION)
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', {dateTime},
-                                {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
-                Console.WriteLine(commandSql);
+                string sqlFormattedDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, timestamp, userID, DSCRIPTION)
+                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', '{sqlFormattedDate}', {userIdInt}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
-                    informationLog.Add("categoryname", "DATA STORE");
-                    informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-                    informationLog.Add("levelname", "ERROR");
-                    informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                    //ILogService logFailure = new LogService("CREATE", informationLog, false);
-                    //logFailure.SqlGenerator();
-
                     return false;
                 }  
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","LOG CREATION SUCCESS, Information Successfully Logged!!");
-            //ILogService logSuccess = new LogService("CREATE", informationLog, true);
-            //logSuccess.SqlGenerator();
             return true;
         }
 
-        public void SendArchivalInformation() 
+        public void SendArchivalInformation(string CSVDirectory) 
         {
-            string commandSql = $"SELECT * FROM Log WHERE DATEDIFF(NOW(), timeStamp) > 30";
+            /**
+            SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION
+            FROM log
+            WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
+            INTO OUTFILE 'F:/TEST/TEST.csv'
+            FIELDS ENCLOSED BY '"'
+            TERMINATED BY ';'
+            ESCAPED BY '"'
+            LINES TERMINATED BY '\r\n';
+            **/
+            string commandSql = $"SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION"
+                                + " FROM log" 
+                                + " WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)"
+                                + $" INTO OUTFILE '{CSVDirectory}'"
+                                + " FIELDS ENCLOSED BY '\"'"
+                                + " TERMINATED BY \';\'"
+                                + " ESCAPED BY \'\"\'"
+                                + " LINES TERMINATED BY \'\\r\\n\';";
             this.loggingDataAccess = new LoggingDataAccess(commandSql);
             this.archiveService = new ArchiveService("WRITE", this.loggingDataAccess.ExtractLogs());
             this.archiveService.SqlGenerator();
+        }
+
+        public bool IsValidRequest(Dictionary<String, String> userAcct)
+        {
+            bool containsOperation = userAcct.ContainsKey("operation");
+            if (containsOperation) {
+                return HasValidAttributes(userAcct["operation"].ToUpper(), userAcct);
+            }
+            return false;
+        }
+
+        public bool HasValidAttributes(string operation, Dictionary<String, String> attributes)
+        {
+            bool hasValidAttributes = false;
+            switch (operation.ToUpper()) 
+            {
+                case "FIND":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
+
+                case "CREATE":
+                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
+                                            && attributes.ContainsKey("email");
+                    break;
+            }
+            return hasValidAttributes;
         }
     }
 }

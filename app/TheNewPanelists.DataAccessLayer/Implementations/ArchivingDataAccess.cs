@@ -87,12 +87,6 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
 
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS ARCHIVING");
-                ILogService logFailure = new LogService("CREATE", informationLog, true);
-                logFailure.SqlGenerator();
-
                 return true;
             }
             catch (Exception e)
@@ -101,12 +95,6 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "ERROR");
-            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR ARCHIVING!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, false);
-            logSuccess.SqlGenerator();
-
             return false;
         }
 
@@ -119,12 +107,6 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","QUERY EXECUTION SUCCESS ARCHIVING!!");
-                ILogService logSuccess = new LogService("CREATE", informationLog, true);
-                logSuccess.SqlGenerator();
-
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
@@ -133,12 +115,6 @@ namespace TheNewPanelists.DataAccessLayer
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
             
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","QUERY EXECUTION FAILED FOR ARCHIVING!!");
-            ILogService logFailure = new LogService("CREATE", informationLog, false);
-            logFailure.SqlGenerator();
-
             return false;
         }
     }

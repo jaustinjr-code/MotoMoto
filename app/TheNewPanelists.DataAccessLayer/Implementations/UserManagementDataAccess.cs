@@ -73,29 +73,27 @@ namespace TheNewPanelists.DataAccessLayer
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
-            Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            Console.Write("Please Enter a Valid Database/Schema (Enter -1 to abort): ");
             string databaseName = Console.ReadLine();
+            if (databaseName == "-1") {
+                return false;
+            }
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
+            
+            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Disrespectoid2327!;";
             //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("userid", "TEMP USER"); //what is userid supposed to be?
-                informationLog.Add("levelname", "INFO");
-                informationLog.Add("description","ESTABLISH CONNECTION SUCCESS USER MANAGEMENT");
-                ILogService logSuccess = new LogService("CREATE", informationLog, true);
-                logSuccess.SqlGenerator();
                 
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
-                // mySqlConnection.Close();
+                //mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -105,12 +103,6 @@ namespace TheNewPanelists.DataAccessLayer
                 BuildTempUser();
             }
              
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("userid", "TEMP USER"); //temp user created for userid
-            informationLog.Add("levelname", "ERROR");
-            informationLog.Add("description","CONNECTION ESTABLISHMENT ERROR USER MANAGEMENT!!");
-            ILogService logFailure = new LogService("CREATE", informationLog, false);
-            logFailure.SqlGenerator();
             return false;
         }
 
@@ -129,6 +121,32 @@ namespace TheNewPanelists.DataAccessLayer
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
             return false;
+        }
+
+        public Dictionary<string, string> GetAccountInformation() {
+            if (!EstablishMariaDBConnection())
+            {
+                Console.WriteLine("Connection failed to open...");
+                return new Dictionary<string, string>();
+            } 
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);    
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while(myReader.Read()) {
+                accountInfo.Add("typeName", myReader.GetString("typeName"));
+                accountInfo.Add("userId", myReader.GetString("userId"));
+                accountInfo.Add("username", myReader.GetString("username"));
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+
+            return accountInfo;
+
         }
     }
 }

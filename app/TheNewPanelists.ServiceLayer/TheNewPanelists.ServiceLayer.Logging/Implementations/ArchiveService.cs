@@ -1,4 +1,6 @@
 using MySql.Data.MySqlClient;
+using System;
+using System.Globalization;
 using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
@@ -27,34 +29,36 @@ namespace TheNewPanelists.ServiceLayer.Logging
                 archivingDataAccess = new ArchivingDataAccess(queries[i]);
                 if (archivingDataAccess.RunArchiveStorage() == false) 
                 {
-                    informationLog.Add("categoryname", "DATA STORE");
-                    informationLog.Add("levelname", "ERROR");
-                    informationLog.Add("description","Archive INSERTION ERROR, Information in ARCHIVE Operation Not Executed!!");
-                    ILogService logFailure = new LogService("CREATE", informationLog, false);
-                    logFailure.SqlGenerator();
                     return false;
                 }
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","ARCHIVE CREATION SUCCESS, Information Successfully Archived!!");
-            ILogService logSuccess = new LogService("CREATE", informationLog, true);
-            logSuccess.SqlGenerator();
             return true;
         }
-
-        public List<string> BuildArchiveTable() 
-        { 
-            List<string> createTable = new List<string>();
-            // string localdateDay = this.localDate.Date.ToString("d");
-            // Console.WriteLine(localdateDay);
-            // localdateDay = localdateDay.Replace("/","_");
-            // string query = "CREATE TABLE IF NOT EXISTS "+localdateDay+" (logId INT NOT NULL, categoryName VARCHAR(100) NOT NULL, levelName VARCHAR(50) NOT NULL, "+
-            //                 "timeStamp DATETIME NOT NULL, userID INT NOT NULL, DSCRIPTION VARCHAR(1000) NOT NULL, "+
-            //                 "CONSTRAINT Log_PK PRIMARY KEY (logId)) ENGINE=InnoDB;";
-            // createTable.Add(query);
+        private string BuildArchiveTable(DateTime localDate) 
+        {
+            string createTable;
+            createTable = "CREATE TABLE '" + localDate
+                        + "' ('logId' int(11) NOT NULL,"
+                        + "'categoryName' varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,"
+                        + "'levelName' varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,"
+                        + "'timeStamp' datetime NOT NULL,"
+                        + "'userID int(11) NOT NULL,"
+                        + "'DSCRIPTION' varchar(1000) COLLATE utf8bm4_unicode_ci NOT NULL,"
+                        + "`userID` int(11) NOT NULL)"
+                        + " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
             return createTable;
         }
+
+        private string LoadCSVData(string Directory, DateTime localDate)
+        {
+            return "LOAD DATA INFILE '" + Directory
+                    + "' INTO TABLE '" + localDate + "' "
+                    + " FIELDS ENCLOSED BY '\"'"
+                    + " TERMINATED BY \';\'"
+                    + " ESCAPED BY \'\"\'"
+                    + " LINES TERMINATED BY \'\\r\\n\';";
+        }
+
         private List<string> InsertArchiveInformation() 
         {   
             List<string> storeArchive = new List<String>();

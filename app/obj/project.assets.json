@@ -6795,19 +6795,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/jcaustin/.nuget/packages/": {}
+    "/Users/blakedelrey/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
+      "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
       "projectName": "app",
-      "projectPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/app.csproj",
-      "packagesPath": "/Users/jcaustin/.nuget/packages/",
-      "outputPath": "/Users/jcaustin/Desktop/school/491-repository/MotoMoto/app/obj/",
+      "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj",
+      "packagesPath": "/Users/blakedelrey/.nuget/packages/",
+      "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/jcaustin/.nuget/NuGet/NuGet.Config"
+        "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -6875,8 +6875,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /Users/blakedelrey/Documents/GitHub/MotoMoto/app/obj/project.nuget.cache : Found invalid data while decoding."
+    }
+  ]
 }

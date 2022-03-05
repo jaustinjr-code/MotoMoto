@@ -24,7 +24,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         public bool SqlGenerator()
         {   
-            Dictionary<string, string> informationLog = new Dictionary<string, string>();
             string query = "";
             if (this.operation == "FIND")
             {
@@ -42,39 +41,38 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             {
                 query = this.UpdateOptions();
             } 
+            else if (this.operation == "ACCOUNT RECOVERY")
+            {
+                query = this.AccountRecovery();
+            }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
-                informationLog.Add("categoryname", "DATA STORE");
-                informationLog.Add("levelname", "ERROR");
-                informationLog.Add("description","Account Selection ERROR, Information in CRUD Operation Queries Not Executed!!");
-                ILogService loggingError = new LogService("CREATE", informationLog, false);
-                loggingError.SqlGenerator();
                 return false;
             }
-            informationLog.Add("categoryname", "DATA STORE");
-            informationLog.Add("levelname", "INFO");
-            informationLog.Add("description","Account Selection COMPLETION, Information in CRUD Operation Queries Executed.");
-            ILogService loggingSuccess = new LogService("CREATE", informationLog, true);
-            loggingSuccess.SqlGenerator();
             return true;
         }
-
+        
         private string FindUser()
         {
-            return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
+            return "SELECT * FROM User u WHERE u.username =\"" + this.userAccount["username"] + "\";";
         }
 
+        //Danny work on this query to ensure user insertion
         private string CreateUser()
         {
-            return "INSERT INTO USER (typeId, username, password, email, able, eventAccount) VALUES (2, '" 
-                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
-                    + this.userAccount["email"] + "', false, false);";
+            //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
+            //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
+            //        + this.userAccount["email"] + "', false, false);";
+            return "INSERT INTO USER (typeName, username, password, email) VALUES ('"
+                    + this.userAccount["typeName"] + "', '" + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
+                    + this.userAccount["email"] + "');";
         }
 
         private string DropUser()
         {
-            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "';";
+            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "' AND u.password = '"
+                     + this.userAccount["password"] + "';";
         }
 
         private string UpdateOptions()
@@ -115,28 +113,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     } 
                     else this.userAccount.Remove("newemail");       
                 }
-                if (this.userAccount.ContainsKey("newstatus"))
-                {
-                    query = query + " u.email = '" + this.userAccount["newstatus"]+"'";
-                    if(i + 1 < this.userAccount.Count-1) 
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("newstatus");
-                        continue;
-                    } 
-                    else this.userAccount.Remove("newstatus");       
-                }
-                if (this.userAccount.ContainsKey("eventaccount"))
-                {
-                    query = query + " u.email = '" + this.userAccount["eventaccount"]+"'";
-                    if(i + 1 < this.userAccount.Count-1) 
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("eventaccount");
-                        continue;
-                    } 
-                    else this.userAccount.Remove("eventaccount");       
-                }
             }
             string queryWhere = $" WHERE u.username= '{this.userAccount["username"]}';";
             query = query + queryWhere;
@@ -147,6 +123,77 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             return "UPDATE USER u SET u.status = '" + this.userAccount["newstatus"] +
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
+        }
+
+        private string AccountRecovery()
+        {
+            return "";
+        }
+
+        public bool IsValidRequest()
+        {
+            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
+                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE") 
+                                     || this.operation.Contains("ACCOUNT RECOVERY");
+            if (containsOperation) {
+                return HasValidAttributes();
+            }
+            return false;
+        }
+
+        public string getQuery()
+        {
+            string query = "";
+            switch (this.operation) 
+            {
+                case "FIND":
+                    query = this.FindUser();
+                    break;
+
+                case "CREATE":
+                    query = this.CreateUser();
+                    break;
+                
+                case "DROP":
+                    query = this.DropUser();
+                    break;
+
+                case "UPDATE":
+                    query = this.UpdateOptions();
+                    break;
+                case "ACCOUNT RECOVERY":
+                    query = this.AccountRecovery();
+                    break;
+            }
+            return query;
+        }
+        public bool HasValidAttributes()
+        {
+            bool hasValidAttributes = false;
+            string query = this.getQuery();
+
+            switch (this.operation) 
+            {
+                case "FIND":
+                    hasValidAttributes = query.Contains("SELECT u.usernameFROM User u WHERE u.username =");
+                    break;
+                case "CREATE":
+                    hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
+                    break;
+            
+                case "DROP":
+                    hasValidAttributes = query.Contains("DELETE u FROM USER u WHERE u.username = ") 
+                                        && query.Contains("AND u.password =");
+                    break;
+                case "UPDATE":
+                    hasValidAttributes = (query.Contains("UPDATE USER u SET") && (query.Contains("u.username")
+                                        || query.Contains("password") || query.Contains("email")));
+                    break;
+                case "ACCOUNT RECOVERY":
+                    //hasValidAttributes = query.Contains();
+                    break;
+            }
+            return hasValidAttributes;
         }
     }
 }
