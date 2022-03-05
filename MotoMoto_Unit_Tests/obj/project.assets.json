@@ -6815,57 +6815,32 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "/Users/blakedelrey/.nuget/packages/": {}
-=======
-    "C:\\Users\\kayla\\.nuget\\packages\\": {}
->>>>>>> Code-Application
+    "/Users/naeun/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
+      "projectUniqueName": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
       "projectName": "MotoMoto_Unit_Tests",
-      "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
-      "packagesPath": "/Users/blakedelrey/.nuget/packages/",
-      "outputPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/MotoMoto_Unit_Tests/obj/",
+      "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/MotoMoto_Unit_Tests.csproj",
+      "packagesPath": "/Users/naeun/.nuget/packages/",
+      "outputPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/blakedelrey/.nuget/NuGet/NuGet.Config"
-=======
-      "projectUniqueName": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\MotoMoto_Unit_Tests.csproj",
-      "projectName": "MotoMoto_Unit_Tests",
-      "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\MotoMoto_Unit_Tests.csproj",
-      "packagesPath": "C:\\Users\\kayla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\MotoMoto_Unit_Tests\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\kayla\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> Code-Application
+        "/Users/naeun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-<<<<<<< HEAD
-=======
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
->>>>>>> Code-Application
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-<<<<<<< HEAD
-            "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj": {
-              "projectPath": "/Users/blakedelrey/Documents/GitHub/MotoMoto/app/app.csproj"
-=======
-            "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj": {
-              "projectPath": "C:\\Users\\kayla\\Desktop\\MotoMoto\\app\\app.csproj"
->>>>>>> Code-Application
+            "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj": {
+              "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj"
             }
           }
         }
@@ -6916,11 +6891,7 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
->>>>>>> Code-Application
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }

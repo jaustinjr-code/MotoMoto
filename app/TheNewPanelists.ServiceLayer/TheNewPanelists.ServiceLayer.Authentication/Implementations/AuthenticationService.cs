@@ -95,7 +95,7 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             StringBuilder input = new StringBuilder();
 
             string email = "projmotomoto@gmail.com";
-            Console.WriteLine("Enter password:");
+            Console.WriteLine($"Enter password for {email}:");
             while (true)
             {
                 var key = Console.ReadKey(true);

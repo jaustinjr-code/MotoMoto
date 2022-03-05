@@ -6795,31 +6795,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jacob\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/naeun/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\School_Files\\MotoMoto\\app\\app.csproj",
+      "projectUniqueName": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj",
       "projectName": "app",
-      "projectPath": "C:\\School_Files\\MotoMoto\\app\\app.csproj",
-      "packagesPath": "C:\\Users\\jacob\\.nuget\\packages\\",
-      "outputPath": "C:\\School_Files\\MotoMoto\\app\\obj\\",
+      "projectPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/app.csproj",
+      "packagesPath": "/Users/naeun/.nuget/packages/",
+      "outputPath": "/Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/app/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/naeun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6882,16 +6875,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\School_Files\\MotoMoto\\app\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
