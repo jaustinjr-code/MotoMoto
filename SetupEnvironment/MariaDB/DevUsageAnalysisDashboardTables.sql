@@ -52,13 +52,16 @@ LIMIT 5;
 INSERT INTO AdmissionAnalytics
 VALUES ();
 INSERT INTO AdmissionAnalytics (accessDate)
-VALUES ("2022-2-2");
+VALUES ("2021-2-2");
+INSERT INTO AdmissionAnalytics (accessDate, loginTotal, registrationTotal)
+VALUES ("2022-2-2", 20, 5);
 UPDATE AdmissionAnalytics
 SET loginTotal = loginTotal + 1;
 UPDATE AdmissionAnalytics
 SET registrationTotal = registrationTotal + 1;
 SELECT *
-FROM AdmissionAnalytics;
+FROM AdmissionAnalytics
+WHERE accessDate >= NOW() - INTERVAL 3 MONTH;
 -- CommunityBoardAnalytics values
 INSERT INTO CommunityBoardAnalytics (feedTitle, feedPostTotal)
 VALUES ("Supercar", 20);
@@ -66,6 +69,10 @@ UPDATE CommunityBoardAnalytics
 SET feedPostTotal = feedPostTotal + 20 -- SET feedPostTotal = feedPostTotal + [total new posts in database]
     -- NOTE: can link to Community Board table to update this value w/ foreign key
 WHERE feedTitle LIKE "Supercar";
+SELECT *
+FROM CommunityBoardAnalytics
+ORDER BY feedPostTotal DESC
+LIMIT 5;
 -- WHERE feedTitle LIKE [community title passed in upon entry]
 -- NOTE: must guarantee community title is valid, maybe query Community Board table to see if it exists
 -- EventListAnalytics values
@@ -76,4 +83,6 @@ SET eventRegistrationTotal = eventRegistrationTotal + 1
 WHERE eventAccountUsername LIKE "jacobCrib";
 -- SET eventRegistrationTotal = eventRegistrationTotal + [reg total when event begins and is removed];
 SELECT *
-FROM CommunityBoardAnalytics;
+FROM EventListAnalytics
+ORDER BY eventRegistrationTotal DESC
+LIMIT 5;
