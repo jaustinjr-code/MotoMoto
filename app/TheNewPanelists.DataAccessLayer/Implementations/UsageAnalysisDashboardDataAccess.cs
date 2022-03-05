@@ -22,13 +22,20 @@ namespace TheNewPanelists.DataAccessLayer
             try
             {
                 // App.config code for retrieving Connection Strings stored in it here
-                // ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["test"];
-                // if (settings != null)
-                // _mySqlConnection = new MySqlConnection(settings.ConnectionString);
+                //ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["test"];
+                //if (settings != null)
+                //_mySqlConnection = new MySqlConnection(settings.ConnectionString);
+
+                // Check if SqlConnection is already open
+                //if (_mySqlConnection != null && _mySqlConnection.State == System.Data.ConnectionState.Closed)
+                //_mySqlConnection.Open();
+                //else if (_mySqlConnection == null)
+                //{
                 // Temporarily using hard-coded connection string until App.config works
                 _mySqlConnection = new MySqlConnection("server=localhost;user=jcaustin;database=test;port=3306;password=;");
-                // else throw new Exception("No connection string found.");
+                //else throw new Exception("No connection string found.");
                 _mySqlConnection.Open();
+                //}
             }
             catch (Exception e)
             {
@@ -43,7 +50,7 @@ namespace TheNewPanelists.DataAccessLayer
         //private IDictionary<string, string> SelectIndicatorData()
         public MySqlDataReader? SelectIndicatorData()
         {
-            MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
+            // Parameter.AddWithValue could be used instead of String Interpolation in the Service Layer
             MySqlDataReader reader;
             //IList<string> values = new List<string>();
             //Object[] values;
@@ -52,6 +59,7 @@ namespace TheNewPanelists.DataAccessLayer
             //IList<IDictionary<string, string>> rawData = new List<IDictionary<string, string>>();
             try
             {
+                MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
                 reader = command.ExecuteReader();
                 //values = new Object[reader.FieldCount];
                 //while (reader.HasRows)
@@ -72,15 +80,49 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Command threw error number {0}", e.Number);
                 return null;
             }
+            //finally
+            //{
+            //_mySqlConnection.Close();
+            //}
 
             return reader;
         }
 
         public bool UpdateIndicatorData()
         {
-            MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
-            // 0 means no rows affected, -1 is error, handle error maybe in the Service Layer
-            return command.ExecuteNonQuery() == -1 ? false : true;
+            bool isUpdated = false;
+            try
+            {
+                MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
+                // 0 means no rows affected, -1 is error or anything else was returned, handle error maybe in the Service Layer
+                int result = command.ExecuteNonQuery();
+                if (result < 0) throw new Exception("Improper query");
+                isUpdated = result == 0 ? false : true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                // Log here
+            }
+            return isUpdated;
         }
+
+        // public bool InsertIndicatorData()
+        // {
+        //     bool isInserted = false;
+        //     try
+        //     {
+        //         MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
+        //         int result = command.ExecuteNonQuery();
+        //         if (result < 0) throw new Exception("Improper query");
+        //         isInserted = result == 0 ? false : true;
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Console.WriteLine(e.StackTrace);
+        //         // Log here
+        //     }
+        //     return isInserted;
+        // }
     }
 }
