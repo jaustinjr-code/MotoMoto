@@ -29,10 +29,10 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             {
                 query = this.FindUser();
             }
-            // else if (this.operation == "CREATE")
-            // {
-            //     query = this.CreateUser();
-            // }
+            else if (this.operation == "CREATE")
+            {
+                query = this.CreateUser();
+            }
             // else if (this.operation == "DROP")
             // {
             //     query = this.DropUser();
@@ -99,11 +99,12 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             switch (this.operation) 
             {
                 case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.rating FROM User u WHERE u.username =");
+                    hasValidAttributes = query.Contains("SELECT u.rating FROM EventAccount u WHERE u.username =");
+                    hasValidAttributes = query.Contains("SELECT u.review FROM EventAccount u WHERE u.username =");
                     break;
-                // case "CREATE":
-                //     hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
-                //     break;
+                case "CREATE":
+                    hasValidAttributes = query.Contains("INSERT INTO EventAccount (UID, rating, review)");
+                    break;
                 // case "DROP":
                 //     hasValidAttributes = query.Contains("DELETE u FROM USER u WHERE u.username = ") 
                 //                         && query.Contains("AND u.password =");
