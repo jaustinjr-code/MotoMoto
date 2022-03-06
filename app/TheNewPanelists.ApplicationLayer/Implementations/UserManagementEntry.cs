@@ -36,11 +36,7 @@ namespace TheNewPanelists.ApplicationLayer
                 Console.WriteLine(e.Message);
                 return "ERROR - UM operation was not successful";
             }
-            // if (userManagementManager.CallOperation(this.operation, request))
-            // {
-            //     return "UM operation was successful";
-            // }
-            // return "UM operation was not successful";
+
         }
 
         public bool BulkOperationRequest(string filepath)

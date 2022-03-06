@@ -4,34 +4,38 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa 
+namespace TheNewPanelists.ServiceLayer.EventAccountVerification
 {
-    class EvntAccntVerifService : IEvntAccntService
+    class EvntAccntVerifService : IEvntAccntVerifService
     {
         
         private string operation {get; set;}
         private UserManagementDataAccess evntAccntVerifDataAccess;
-        private UserManagementManager EvntAcctVerifManager;
+        //private UserManagementManager EvntAcctVerifManager;
         private Dictionary<string, string> userProfile {get; set;}
         
         public EvntAccntVerifService() {}
         public EvntAccntVerifService(string operation, Dictionary<string, string>  userProfile) {
             this.operation = operation;
             this.userProfile = userProfile;
-            this.evntAccntVerifDataAccess = new UserManagementDataAccess;
-            this.evntAccntVerifManager = new UserManagementManager;
+            this.evntAccntVerifDataAccess = new UserManagementDataAccess();
+            //this.evntAccntVerifManager = new UserManagementManager;
         }
 
         public bool SqlGenerator()
         {   
             string query = "";
-            if (this.operation == "FIND")
+            if (this.operation == "FIND_RATING")
             {
-                query = this.FindUser();
+                query = this.FindRating();
             }
-            else if (this.operation == "CREATE")
+            else if (this.operation == "FIND_REVIEW")
             {
-                query = this.CreateUser();
+                query = this.FindReview();
+            }
+            else if (this.operation == "POST_RATING_AND_REVIEW")
+            {
+                query = this.CreateRatingAndReview();
             }
             // else if (this.operation == "DROP")
             // {
@@ -45,8 +49,8 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             // {
             //     query = this.AccountRecovery();
             // }
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            if (this.userManagementDataAccess.SelectAccount() == false) 
+            this.evntAccntVerifDataAccess = new UserManagementDataAccess(query);
+            if (this.evntAccntVerifDataAccess.SelectAccount() == false) 
             {
                 return false;
             }
@@ -55,9 +59,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
         
         public bool IsValidRequest()
         {
-            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
-                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE") 
-                                     || this.operation.Contains("ACCOUNT RECOVERY");
+            bool containsOperation = this.operation.Contains("FIND_RATING") || this.operation.Contains("FIND_REVIEW") || this.operation.Contains("POST_RATING_AND_REVIEW");
             if (containsOperation) {
                 return HasValidAttributes();
             }
@@ -69,14 +71,18 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             string query = "";
             switch (this.operation) 
             {
-                case "FIND":
-                    query = this.FindUser();
+                case "FIND_RATING":
+                    query = this.FindRating();
                     break;
 
-                // case "CREATE":
-                //     query = this.CreateUser();
-                //     break;
-                
+                case "FIND_REVIEW":
+                    query = this.FindReview();
+                    break;
+
+                case "POST_RATING_AND_REVIEW":
+                    query = this.CreateRatingAndReview();
+                    break;
+
                 // case "DROP":
                 //     query = this.DropUser();
                 //     break;
@@ -91,6 +97,21 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             return query;
         }
 
+        private string FindRating()
+        {
+            return "SELECT u.rating FROM EventAccount u WHERE u.userId=" + this.userProfile["userId"] + ";";
+        }
+
+        private string FindReview()
+        {
+            return "SELECT u.review FROM EventAccount u WHERE u.userId=" + this.userProfile["userId"] + ";";
+        }
+
+        private string CreateRatingAndReview()
+        {
+            return "INSERT INTO EventAccount (userId, rating, review) VALUES ('" + this.userProfile["userId"] + "', '" + this.userProfile["rating"] + "', '" + this.userProfile["review"] + "');";
+        }
+
         public bool HasValidAttributes()
         {
             bool hasValidAttributes = false;
@@ -98,13 +119,18 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
 
             switch (this.operation) 
             {
-                case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.rating FROM EventAccount u WHERE u.username =");
-                    hasValidAttributes = query.Contains("SELECT u.review FROM EventAccount u WHERE u.username =");
+                case "FIND_RATING":
+                    hasValidAttributes = query.Contains("SELECT u.rating FROM EventAccount u WHERE u.userId=");
                     break;
-                case "CREATE":
-                    hasValidAttributes = query.Contains("INSERT INTO EventAccount (UID, rating, review)");
+
+                case "FIND_REVIEW":
+                    hasValidAttributes = query.Contains("SELECT u.review FROM EventAccount u WHERE u.userId=");
                     break;
+
+                case "POST_RATING_AND_REVIEW":
+                    hasValidAttributes = query.Contains("INSERT INTO EventAccount (userId, rating, review)");
+                    break;
+
                 // case "DROP":
                 //     hasValidAttributes = query.Contains("DELETE u FROM USER u WHERE u.username = ") 
                 //                         && query.Contains("AND u.password =");

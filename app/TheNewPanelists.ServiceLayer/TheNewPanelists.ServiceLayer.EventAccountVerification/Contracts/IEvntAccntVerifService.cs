@@ -1,5 +1,5 @@
 namespace TheNewPanelists.ServiceLayer.EventAccountVerification {
-    interface IEventAccntVerifService
+    interface IEvntAccntVerifService
     {
         bool SqlGenerator();
     }

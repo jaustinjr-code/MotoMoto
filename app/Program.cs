@@ -184,11 +184,34 @@ namespace app
                 string otp = Console.ReadLine();
                 request.Add("otp", otp);
             }
-              
-            //foreach(KeyValuePair<string, string> entry in request){
-            //    Console.WriteLine("The key is:{0}", entry.Key);
-            //    Console.WriteLine("The value is:{0}", entry.Value);
+
+            //else if (operation == "RATING")
+            //{
+            //    Console.WriteLine("Enter the name of the account that you want to rate");
+
+            //    Console.Write("Username: ");
+            //    string username = Console.ReadLine();
+            //    request.Add("username", username);
+
+            //    Console.Write("Rating from 1-5: ");
+            //    string rating = Console.ReadLine();
+            //    request.Add("rating", rating);
+
             //}
+
+            //else if (operation == "REVIEW")
+            //{
+            //Console.WriteLine("Enter the name of the account that you want to review");
+
+            //Console.Write("Username: ");
+            //string username = Console.ReadLine();
+            //request.Add("username", username);
+
+            //Console.Write("Rating from 1-5: ");
+            //string rating = Console.ReadLine();
+            //request.Add("review", review);
+            //}
+
             return request;
         }
 
@@ -203,6 +226,9 @@ namespace app
             Console.WriteLine("7) Account Recovery");
             Console.WriteLine("8) Authentication");
             Console.WriteLine("9) Exit");
+
+            Console.WriteLine("10) Rating");
+            Console.WriteLine("11) Review");
 
             switch (Console.ReadLine())
             {
@@ -224,6 +250,12 @@ namespace app
                     return "AUTHENTICATE";
                 case "9":
                     return "EXIT";
+
+                case "10":
+                    return "RATING";
+                case "11":
+                    return "REVIEW";
+
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
                     return menu();
