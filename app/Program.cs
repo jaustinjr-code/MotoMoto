@@ -185,19 +185,19 @@ namespace app
                 request.Add("otp", otp);
             }
 
-            //else if (operation == "RATING")
-            //{
-            //    Console.WriteLine("Enter the name of the account that you want to rate");
+            else if (operation == "RATING")
+            {
+                Console.WriteLine("Enter the name of the account that you want to rate");
 
-            //    Console.Write("Username: ");
-            //    string username = Console.ReadLine();
-            //    request.Add("username", username);
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                request.Add("username", username);
 
-            //    Console.Write("Rating from 1-5: ");
-            //    string rating = Console.ReadLine();
-            //    request.Add("rating", rating);
+                Console.Write("Rating from 1-5: ");
+                string rating = Console.ReadLine();
+                request.Add("rating", rating);
 
-            //}
+            }
 
             //else if (operation == "REVIEW")
             //{
@@ -252,9 +252,9 @@ namespace app
                     return "EXIT";
 
                 case "10":
-                    return "RATING";
+                    return "FIND_RATING";
                 case "11":
-                    return "REVIEW";
+                    return "FIND_REVIEW";
 
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
