@@ -27,6 +27,13 @@ CREATE TABLE Profile (
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 );
 
+CREATE TABLE EventAccount (
+    userId INT NOT NULL,
+    rating VARCHAR(1) NOT NULL,
+    review VARCHAR(1000) NOT NULL,
+    CONSTRAINT EventAccount_Pk PRIMARY KEY (userId)
+);
+
 
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
