@@ -29,22 +29,22 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             {
                 query = this.FindUser();
             }
-            else if (this.operation == "CREATE")
-            {
-                query = this.CreateUser();
-            }
-            else if (this.operation == "DROP")
-            {
-                query = this.DropUser();
-            }
-            else if (this.operation == "UPDATE")
-            {
-                query = this.UpdateOptions();
-            } 
-            else if (this.operation == "ACCOUNT RECOVERY")
-            {
-                query = this.AccountRecovery();
-            }
+            // else if (this.operation == "CREATE")
+            // {
+            //     query = this.CreateUser();
+            // }
+            // else if (this.operation == "DROP")
+            // {
+            //     query = this.DropUser();
+            // }
+            // else if (this.operation == "UPDATE")
+            // {
+            //     query = this.UpdateOptions();
+            // } 
+            // else if (this.operation == "ACCOUNT RECOVERY")
+            // {
+            //     query = this.AccountRecovery();
+            // }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
@@ -99,7 +99,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerificationa
             switch (this.operation) 
             {
                 case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.username FROM User u WHERE u.username =");
+                    hasValidAttributes = query.Contains("SELECT u.rating FROM User u WHERE u.username =");
                     break;
                 // case "CREATE":
                 //     hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
