@@ -73,19 +73,22 @@ namespace TheNewPanelists.DataAccessLayer
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
-            Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            string databaseName = Console.ReadLine();
+            // Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            // string databaseName = Console.ReadLine();
 
-            Console.WriteLine("Please Enter Database/Schema password: ");
-            StringBuilder input = new StringBuilder();
-            while (true)
-            {
-                var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter) break;
-                if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
-                else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
-            }
-            string databasePass = input.ToString();
+            // Console.WriteLine("Please Enter Database/Schema password: ");
+            // StringBuilder input = new StringBuilder();
+            // while (true)
+            // {
+            //     var key = Console.ReadKey(true);
+            //     if (key.Key == ConsoleKey.Enter) break;
+            //     if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
+            //     else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
+            // }
+            // string databasePass = input.ToString();
+
+            string databaseName = "MotoMotoDB";
+            string databasePass = "naeun";
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
