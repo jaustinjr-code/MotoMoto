@@ -28,11 +28,9 @@ namespace TheNewPanelists.ApplicationLayer
         {
             try
             {
-<<<<<<< Updated upstream
-                userManagementManager.CallOperation(this.operation, request);
-=======
+
                 userManagementManager.CallOperation(this.operation!, request!);
->>>>>>> Stashed changes
+
                 return "UM operation was successful";
             }
             catch (Exception e)

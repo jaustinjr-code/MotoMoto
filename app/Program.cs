@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
-=======
-﻿using TheNewPanelists.ApplicationLayer;
->>>>>>> Stashed changes
 using System.Collections;
 
 namespace app
@@ -36,7 +31,6 @@ namespace app
                 input = menu();
             }
         }
-=
         public static Dictionary<string, string> InputRequest(string operation)
         {
             Dictionary<string, string> request = new Dictionary<string, string>();
@@ -45,13 +39,10 @@ namespace app
                 Console.WriteLine("Enter the fields to create a new account:");
 
                 Console.Write("Type ID: (ADMIN, REGISTERED, DEFAULT) ");
-<<<<<<< Updated upstream
-                string type = Console.ReadLine();
-                request.Add("typeId", type);
-=======
+
                 string? type = Console.ReadLine();
                 request.Add("typeId", type!);
->>>>>>> Stashed changes
+
                 Console.Write("Username: ");
                 string? username = Console.ReadLine();
                 request.Add("username", username!);

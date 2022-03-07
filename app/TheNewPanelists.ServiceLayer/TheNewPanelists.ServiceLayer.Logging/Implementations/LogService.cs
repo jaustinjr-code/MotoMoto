@@ -31,14 +31,9 @@ namespace TheNewPanelists.ServiceLayer.Logging
             if (this.operation == "CREATE") 
             {
                 DateTime dateTime = DateTime.Now;
-                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION)
-<<<<<<< Updated upstream
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', {dateTime},
-                                {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
-=======
+                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION
                                 VALUES (NULL, '{log!["categoryname"].ToUpper()}', '{log!["levelname"].ToUpper()}', {dateTime},
                                 {log!["userid"]}, '{operation} : {(isSuccess! ? "Success" : "Failure")} {log!["description"]}');";
->>>>>>> Stashed changes
                 Console.WriteLine(commandSql);
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {

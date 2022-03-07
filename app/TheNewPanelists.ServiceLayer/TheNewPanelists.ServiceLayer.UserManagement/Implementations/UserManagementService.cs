@@ -60,11 +60,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         private string FindUser()
         {
-<<<<<<< Updated upstream
-            return "SELECT u.userId FROM User u WHERE u.username =" + this.userAccount["username"] + ";";
-=======
             return $"SELECT u.userId FROM User u WHERE u.username = {this.userAccount!["username"]};";
->>>>>>> Stashed changes
         }
 
         //Danny work on this query to ensure user insertion
@@ -73,16 +69,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
             //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
             //        + this.userAccount["email"] + "', false, false);";
-<<<<<<< Updated upstream
-            return "INSERT INTO USER (username, password, email) VALUES ('"
-                    + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
-                    + this.userAccount["email"] + "');";
-=======
+
             return $@"INSERT INTO USER (typeName, username, password, email) VALUES ('REGISTERED',
                     '{this.userAccount?["username"]}', 
                     '{this.userAccount?["password"]}', 
                     '{this.userAccount?["email"]}');";
->>>>>>> Stashed changes
         }
 
         private string DropUser()
