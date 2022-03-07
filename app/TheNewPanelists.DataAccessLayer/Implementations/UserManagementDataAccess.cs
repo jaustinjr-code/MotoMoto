@@ -137,13 +137,10 @@ namespace TheNewPanelists.DataAccessLayer
             }
             
         }
+
         public Dictionary<string, string> GetAccountInformation()
         {
-            if (!EstablishMariaDBConnection())
-            {
-                Console.WriteLine("Connection failed to open...");
-                return new Dictionary<string, string>();
-            }
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
@@ -154,12 +151,34 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> accountInfo = new Dictionary<string, string>();
             while (myReader.Read())
             {
-                accountInfo.Add("typeName", myReader.GetString("typeName"));
                 accountInfo.Add("userId", myReader.GetString("userId"));
                 accountInfo.Add("username", myReader.GetString("username"));
                 accountInfo.Add("password", myReader.GetString("password"));
                 accountInfo.Add("email", myReader.GetString("email"));
             }
+            return accountInfo;
+        }
+
+        public Dictionary<string, string> GetRegInformation()
+        {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while (myReader.Read())
+            {
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("url", myReader.GetString("url"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
             return accountInfo;
         }
     }
