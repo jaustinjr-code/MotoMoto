@@ -18,39 +18,17 @@ namespace app
                 {
                     AuthenticationService authService = new AuthenticationService(input);
                     authService.RequestInput();
+                    if (authService.attempts == 5)
+                    {
+                        input = "DISABLE";
+                        Dictionary<string, string> request = InputRequest(input);
+                        if (request != null)
+                        {
+                            entry = new UserManagementEntry(input, request);
+                            Console.WriteLine(entry.SingleOperationRequest());
+                        }
+                    }
                 }
-                // {
-                //     while (attempts < 5)
-                //     {
-                //         AuthenticationService authService = new AuthenticationService();
-                //         string otp = authService.CreateOTP();
-                //         authService.SendEmail(otp);
-
-                //         Dictionary<string, string> request = InputRequest(input);
-                //         authService = new AuthenticationService(input);
-                        
-                //         bool IsValidRequest = authService.validateRequest();
-                //         if (!IsValidRequest)
-                //         {
-                //             if (attempts < 4) 
-                //             {
-                //                 Console.WriteLine("Invalid username, password, and/or OTP." +
-                //                 " Retry again or contact system administrator.");
-                //             }   
-                //             attempts++;  
-                //         }
-                //         else
-                //         {
-                //             authService.SqlGenerator();
-                //         }
-                //     }
-                //     if (attempts == 5) 
-                //     {
-                //         Console.WriteLine("You've reached the maximum authentication attempts."
-                //                         + "\nYour account has been disabled for security reasons.");   
-                //     }
-                   
-                // }
                 else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);

@@ -18,7 +18,7 @@ namespace TheNewPanelists.ServiceLayer.Authentication
         private string otp {get; set;}
         private DateTime otpExpireTime {get; set;}  
         private string userOtp {get; set;}
-        private int attempts {get; set;}
+        public int attempts {get; set;}
         private DateTime sessionEndTime {get; set;}
         private string userIp {get; set;}
         private AuthenticationDataAccess authenticationDataAccess;
@@ -81,20 +81,22 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                 }
 
                 Console.WriteLine("Valid user");
-                SelectUser("Authenticate");
-                if (string.IsNullOrEmpty(this.otp))
+                SelectUser("Authentication");
+                if (string.IsNullOrEmpty(this.otp) && this.attempts < 5)
                 {
                     Console.Write("Enter received OTP: ");
                     userOtp = Console.ReadLine();
                     this.userAccount.Add("userOtp", userOtp);
                     DateTime currentTime = DateTime.Now;
-                    SelectUser("Authentication");
+                    // SelectUser("Authentication");
                     if (this.otp == this.userOtp && currentTime <= this.otpExpireTime)
                     {
                         Console.WriteLine("Authentication Successful!");
                         this.attempts = 0;
                         authenticated = true;
+                        repeat = false;
                         UpdateTable(2);
+                        SelectUser("Authentication");
                     }
                     else if (this.otp == this.userOtp && currentTime > this.otpExpireTime)
                     {
@@ -103,6 +105,7 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                         this.attempts++;
                         UpdateTable(2);
                         repeat = true;
+                        SelectUser("Authentication");
                     }
                     else
                     {
@@ -112,16 +115,20 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                             this.attempts++;
                             UpdateTable(2);
                             repeat = true;
-                        }
+                            SelectUser("Authentication");
+                    }
                 }
-                this.otp = GenerateOTP();
+                if (!repeat && this.attempts < 5)
+                {
+                    this.otp = GenerateOTP();
 
-                UpdateTable(0);
+                    UpdateTable(0);
 
-                SendEmail(this.otp, userEmail);
-                UpdateTable(1);
+                    SendEmail(this.otp, userEmail);
+                    UpdateTable(1);
+                    SelectUser("Authentication");
+                }
             }
-            SelectUser("Authentication");
             if (this.attempts == 5) 
             {
                 Console.WriteLine("You've reached the maximum authentication attempts."
@@ -208,6 +215,8 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                 this.otp = userInfo["otp"];
                 this.otpExpireTime = DateTime.Parse(userInfo["otpExpireTime"]);
                 this.attempts = int.Parse(userInfo["attempts"]);
+                // this.sessionEndTime = DateTime.Parse(userInfo["sessionEndTime"]);
+                this.userIp = userInfo["userIp"];
             }
             
 
