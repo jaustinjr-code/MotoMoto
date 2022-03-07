@@ -1,6 +1,6 @@
 namespace TheNewPanelists.ServiceLayer.UserManagement 
 {
-    interface IUserManagementService
+    public interface IUserManagementService
     {
         bool SqlGenerator();
     }

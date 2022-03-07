@@ -7,10 +7,10 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class UserManagementDataAccess : IDataAccess
+    public class UserManagementDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; }
+        private MySqlConnection? mySqlConnection = null;
 
         public UserManagementDataAccess() {}
 
@@ -23,7 +23,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -74,13 +74,21 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
+<<<<<<< Updated upstream
             string databaseName = Console.ReadLine();
+=======
+            //string? databaseName = Console.ReadLine();
+>>>>>>> Stashed changes
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
             
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
+<<<<<<< Updated upstream
             string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=123456;";
+=======
+            string connectionString = $"server=localhost;user=root;database=motomotousermanagement;port=3306;password=123456;";
+>>>>>>> Stashed changes
             //connectionString 
             try
             {
@@ -111,13 +119,42 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection.Close();
+                mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
+            } 
+            else
+            {
+                mySqlConnection!.Close();
+                Console.WriteLine("Connection closed...");
+                return false;
             }
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+            
+        }
+        public Dictionary<string, string> GetAccountInformation()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                Console.WriteLine("Connection failed to open...");
+                return new Dictionary<string, string>();
+            }
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while (myReader.Read())
+            {
+                accountInfo.Add("typeName", myReader.GetString("typeName"));
+                accountInfo.Add("userId", myReader.GetString("userId"));
+                accountInfo.Add("username", myReader.GetString("username"));
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+            return accountInfo;
         }
     }
 }

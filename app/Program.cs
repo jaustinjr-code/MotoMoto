@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
 using TheNewPanelists.ApplicationLayer;
+=======
+﻿using TheNewPanelists.ApplicationLayer;
+>>>>>>> Stashed changes
 using System.Collections;
 
 namespace app
@@ -26,8 +30,8 @@ namespace app
                 {
                     entry = new UserManagementEntry();
                     Console.Write("Enter the request file path: ");
-                    string filepath = Console.ReadLine();
-                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath));
+                    string? filepath = Console.ReadLine();
+                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
                 }
                 input = menu();
             }
@@ -41,58 +45,63 @@ namespace app
                 Console.WriteLine("Enter the fields to create a new account:");
 
                 Console.Write("Type ID: (ADMIN, REGISTERED, DEFAULT) ");
+<<<<<<< Updated upstream
                 string type = Console.ReadLine();
                 request.Add("typeId", type);
+=======
+                string? type = Console.ReadLine();
+                request.Add("typeId", type!);
+>>>>>>> Stashed changes
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
                 // Password entry is not secured!
                 Console.Write("Password: ");
-                string password = Console.ReadLine();
-                request.Add("password", password);
+                string? password = Console.ReadLine();
+                request.Add("password", password!);
                 Console.Write("Email: ");
-                string email = Console.ReadLine();
-                request.Add("email", email);
+                string? email = Console.ReadLine();
+                request.Add("email", email!);
                 Console.Write("Status: (TRUE/FALSE) ");
-                string status = Console.ReadLine();
-                request.Add("status", status);
+                string? status = Console.ReadLine();
+                request.Add("status", status!);
                 Console.Write("Event Account Enabled: (TRUE/FALSE) ");
-                string eventAccount = Console.ReadLine();
-                request.Add("eventAccount", eventAccount);
+                string? eventAccount = Console.ReadLine();
+                request.Add("eventAccount", eventAccount!);
             }
             else if (operation == "DROP")
             {
                 Console.WriteLine("Enter the account username to delete:");
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
                 Console.WriteLine("Enter "+username+"'s Password: ");
-                string password = Console.ReadLine();
-                request.Add("password", password);
+                string? password = Console.ReadLine();
+                request.Add("password", password!);
             }
             else if (operation == "UPDATE")
             {
                 Console.WriteLine("Enter the fields to update: (Leave blank if no change)");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 Console.Write("New Username: ");
-                string newusername = Console.ReadLine();
+                string? newusername = Console.ReadLine();
                 if (username != "")
-                    request.Add("newusername", username);
+                    request.Add("newusername", username!);
 
                 // This is not secured!
                 Console.Write("New Password: ");
-                string password = Console.ReadLine();
+                string? password = Console.ReadLine();
                 if (password != "")
-                    request.Add("newpassword", password);
+                    request.Add("newpassword", password!);
 
                 Console.Write("New Email: ");
-                string email = Console.ReadLine();
+                string? email = Console.ReadLine();
                 if (email != "")
-                    request.Add("newemail", email);
+                    request.Add("newemail", email!);
             }
             else if (operation == "DISABLE")
             {
@@ -102,13 +111,13 @@ namespace app
                     Console.WriteLine("Enter the account username to delete:");
 
                     Console.Write("Username: ");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                 }
                 else
                 {
                     Console.WriteLine("Not an ADMIN!");
-                    return null;
+                    return request;
                 }
             }
             else if (operation == "ENABLE")
@@ -119,13 +128,13 @@ namespace app
                     Console.WriteLine("Enter the account username to delete:");
 
                     Console.Write("Username: ");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                 }
                 else
                 {
                     Console.WriteLine("Not an ADMIN!");
-                    return null;
+                    return request;
                 }
             } 
             else if (operation == "ACCOUNT RECOVERY")
@@ -182,13 +191,13 @@ namespace app
             {
                 case "1":
                     Console.WriteLine("Enter account email:");
-                    string email = Console.ReadLine();
-                    request.Add("email", email);
+                    string? email = Console.ReadLine();
+                    request.Add("email", email!);
                     break;
                 case "2":
                     Console.WriteLine("Enter account username:");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                     break;
                 //case "3":
                 //    return "EXIT";
@@ -221,7 +230,7 @@ namespace app
                 {
                     //tenant is in a session
                     Console.WriteLine("Do you want to logout (Y/N)");
-                    if (Console.ReadLine().ToUpper() == ("Y"))
+                    if (Console.ReadLine()?.ToUpper() == ("Y"))
                     {
                         //change user status to false;
                         string updateUserStatusQ = "UPDATE USER u WHERE u.username = @username SET u.status = @status";

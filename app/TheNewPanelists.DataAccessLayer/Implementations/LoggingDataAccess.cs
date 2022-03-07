@@ -6,10 +6,10 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class LoggingDataAccess : IDataAccess
+    public class LoggingDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; }
+        private MySqlConnection? mySqlConnection = null;
 
         public LoggingDataAccess() {}
 
@@ -22,7 +22,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -73,11 +73,19 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
+<<<<<<< Updated upstream
             string databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
             string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
+=======
+            string? databaseName = Console.ReadLine();
+            // MySqlConnection mySqlConnection;
+            // This is a hardcoded string, it will be different based on your naming
+            // Need to generalize the database name or create a new database and run the restore sql file on it
+            string connectionString = $"server=localhost;user=root;database=motomotologs;port=3306;password=123456;";
+>>>>>>> Stashed changes
 
             try
             {
@@ -110,12 +118,12 @@ namespace TheNewPanelists.DataAccessLayer
 
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection.Close();
+                mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 
                 return true;
             }
-            mySqlConnection.Close();
+            mySqlConnection!.Close();
 
             Console.WriteLine("Connection closed...");
             return false;
@@ -128,7 +136,7 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand cmd = new MySqlCommand("SET character_set_results=utf8", mySqlConnection);
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             List<Dictionary<string, string>> result = ReadResult(command.ExecuteReader());
-            mySqlConnection.Close();
+            mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             return result;
         }
@@ -142,7 +150,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Dictionary<string, string> data = new Dictionary<string, string>();
                 for (int i = 0; i < mySqlDataReader.FieldCount; ++i)
                 {
-                        data.Add(mySqlDataReader.GetName(i), mySqlDataReader[i].ToString());
+                        data.Add(mySqlDataReader.GetName(i), mySqlDataReader[i].ToString()!);
                         Console.WriteLine(mySqlDataReader.GetName(i) + " " + mySqlDataReader[i].ToString());
                 }
                 output.Add(data);

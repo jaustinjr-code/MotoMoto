@@ -6,10 +6,10 @@ using TheNewPanelists.BusinessLayer;
 
 namespace TheNewPanelists.ApplicationLayer
 {
-    class UserManagementEntry : IEntry
+    public class UserManagementEntry : IEntry
     {
-        private string operation { get; set; }
-        private Dictionary<string, string> request { get; set; }
+        private string? operation { get; set; }
+        private Dictionary<string, string>? request { get; set; }
 
         private UserManagementManager userManagementManager;
 
@@ -28,7 +28,11 @@ namespace TheNewPanelists.ApplicationLayer
         {
             try
             {
+<<<<<<< Updated upstream
                 userManagementManager.CallOperation(this.operation, request);
+=======
+                userManagementManager.CallOperation(this.operation!, request!);
+>>>>>>> Stashed changes
                 return "UM operation was successful";
             }
             catch (Exception e)

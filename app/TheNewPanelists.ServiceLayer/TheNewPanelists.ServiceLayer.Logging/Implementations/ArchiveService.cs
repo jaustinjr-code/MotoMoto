@@ -5,11 +5,11 @@ using TheNewPanelists.DataAccessLayer;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
-    class ArchiveService : IArchiveService 
+    public class ArchiveService : IArchiveService 
     { 
-        private string operation {get; set;}
-        private List<Dictionary<string, string>> log {get; set;}
-        private ArchivingDataAccess archivingDataAccess;
+        private string? operation {get; set;}
+        private List<Dictionary<string, string>>? log {get; set;}
+        private ArchivingDataAccess? archivingDataAccess;
         private DateTime localDate{get;}
 
         public ArchiveService() {}
@@ -67,7 +67,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
 
             localdateDay = localdateDay.Replace("/","_");
 
-            for (int i = 0; i < log.Count; i++) {
+            for (int i = 0; i < log!.Count; i++) {
                 string query = @"INSERT INTO "+localdateDay+" VALUES ("+log[i]["logId"]+", '"+
                 log[i]["levelName"]+"', '"+log[i]["categoryName"]+"', '"+log[i]["timeStamp"]+"', "+log[i]["userID"]+", '"+
                 log[i]["DSCRIPTION"]+"');";

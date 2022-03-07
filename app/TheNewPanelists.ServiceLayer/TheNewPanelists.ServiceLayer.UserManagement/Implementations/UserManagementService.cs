@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement 
 {
-    class UserManagementService : IUserManagementService 
+    public class UserManagementService : IUserManagementService 
     {
-        private string operation {get; set;}
-        private UserManagementDataAccess userManagementDataAccess;
+        private string? operation {get; set;}
+        private UserManagementDataAccess? userManagementDataAccess;
         // private UserManagementManager userManagementManager;
-        private Dictionary<string, string> userAccount {get; set;}
+        private Dictionary<string, string>? userAccount {get; set;}
         
         public UserManagementService() {}
         
@@ -46,16 +46,25 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.AccountRecovery();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
+            
             if (this.userManagementDataAccess.SelectAccount() == false) 
             {
                 return false;
+            } 
+            else
+            {
+                return true;
             }
-            return true;
+            
         }
         
         private string FindUser()
         {
+<<<<<<< Updated upstream
             return "SELECT u.userId FROM User u WHERE u.username =" + this.userAccount["username"] + ";";
+=======
+            return $"SELECT u.userId FROM User u WHERE u.username = {this.userAccount!["username"]};";
+>>>>>>> Stashed changes
         }
 
         //Danny work on this query to ensure user insertion
@@ -64,24 +73,31 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
             //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
             //        + this.userAccount["email"] + "', false, false);";
+<<<<<<< Updated upstream
             return "INSERT INTO USER (username, password, email) VALUES ('"
                     + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
                     + this.userAccount["email"] + "');";
+=======
+            return $@"INSERT INTO USER (typeName, username, password, email) VALUES ('REGISTERED',
+                    '{this.userAccount?["username"]}', 
+                    '{this.userAccount?["password"]}', 
+                    '{this.userAccount?["email"]}');";
+>>>>>>> Stashed changes
         }
 
         private string DropUser()
         {
-            return "DELETE u FROM USER u WHERE u.username = '" + this.userAccount["username"] + "' AND u.password = '"
-                     + this.userAccount["password"] + "';";
+            return $"DELETE u FROM USER u WHERE u.username = '{this.userAccount!["username"]}' AND u.password = " 
+                 + $"'{ this.userAccount!["password"]}';";
         }
 
         private string UpdateOptions()
         {   
             string query = "UPDATE USER u SET ";
-            for (int i = 0; i < this.userAccount.Count; i++) {
+            for (int i = 0; i < this.userAccount!.Count; i++) {
                 if (this.userAccount.ContainsKey("newusername"))
                 {
-                    query = query + " u.username = '" + this.userAccount["newusername"]+"'";
+                    query = query + " u.username = '" + this.userAccount!["newusername"]+"'";
                     if(i + 1 < this.userAccount.Count-1) 
                     {
                         query = query + ", ";
@@ -114,14 +130,14 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     else this.userAccount.Remove("newemail");       
                 }
             }
-            string queryWhere = $" WHERE u.username= '{this.userAccount["username"]}';";
+            string queryWhere = $" WHERE u.username= '{this.userAccount!["username"]}';";
             query = query + queryWhere;
             return query;
         }
 
         private string UpdateStatus()
         {
-            return "UPDATE USER u SET u.status = '" + this.userAccount["newstatus"] +
+            return "UPDATE USER u SET u.status = '" + this.userAccount!["newstatus"] +
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
@@ -132,9 +148,9 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         public bool IsValidRequest()
         {
-            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
-                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE") 
-                                     || this.operation.Contains("ACCOUNT RECOVERY");
+            bool containsOperation = this.operation!.Contains("FIND") ||  this.operation!.Contains("CREATE")
+                                     || this.operation!.Contains("DROP") || this.operation!.Contains("UPDATE") 
+                                     || this.operation!.Contains("ACCOUNT RECOVERY");
             if (containsOperation) {
                 return HasValidAttributes();
             }

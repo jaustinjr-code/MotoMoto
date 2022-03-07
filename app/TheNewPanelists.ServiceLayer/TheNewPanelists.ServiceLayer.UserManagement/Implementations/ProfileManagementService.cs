@@ -4,12 +4,13 @@ using TheNewPanelists.BusinessLayer;
 
 namespace TheNewPanelists.ServiceLayer.UserManagement 
 {
-    class ProfileManagementService : IUserManagementService 
+    public class ProfileManagementService : IUserManagementService 
     {
-        private string operation {get; set;}
-        private UserManagementDataAccess profileManagementDataAccess;
-        private UserManagementManager profileManagementManager;
-        private Dictionary<string, string> userProfile {get; set;}
+        private string? operation {get; set;}
+        private UserManagementDataAccess? profileManagementDataAccess;
+
+        private UserManagementManager? profileManagementManager;
+        private Dictionary<string, string>? userProfile {get; set;}
         public ProfileManagementService() {}
         
         public ProfileManagementService(string operation, Dictionary<string, string> userProfile) 
@@ -51,63 +52,59 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         }
         private string DropProfile() 
         {
-            return "DELETE p FROM PROFILE p WHERE p.username = '" + this.userProfile["username"] + "';";
+            return "DELETE p FROM PROFILE p WHERE p.username = '" + this.userProfile!["username"] + "';";
         }
 
         private string FindProfile()
         {
-            return "SELECT p FROM PROFILE p WHERE p.username = '" + this.userProfile["username"] + "';";
+            return "SELECT p FROM PROFILE p WHERE p.username = '" + this.userProfile!["username"] + "';";
         }
 
         private string CreateProfile()
         {
-            // return "INSERT INTO USER (username, password, email) VALUES ('"
-            //         + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '"
-            //         + this.userAccount["email"] + "');";
-            return "INSERT INTO PROFILE (typeId, userId, username, status, eventAccount) VALUES (2, '"
-                    + this.userProfile["userid"] + "', '" + this.userProfile["username"] + "', '"
-                    + "true', 'false'";   
+            return @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+                    EXCEPT SELECT p.userId, p.username FROM PROFILE p;";   
         }
 
         private string UpdateProfileOP() 
         {
-            String query = "";
-            for (int i = 0; i < this.userProfile.Count; i++) {
+            string? query = "";
+            for (int i = 0; i < this.userProfile!.Count; i++) {
                 if (this.userProfile.ContainsKey("eventaccount"))
                 {
-                    query = query + " u.email = '" + this.userProfile["eventaccount"]+"'";
-                    if(i + 1 < this.userProfile.Count-1) 
+                    query = query + " u.email = '" + this.userProfile!["eventaccount"]+"'";
+                    if(i + 1 < this.userProfile!.Count-1) 
                     {
                         query = query + ", ";
-                        this.userProfile.Remove("eventaccount");
+                        this.userProfile!.Remove("eventaccount");
                         continue;
                     } 
-                    else this.userProfile.Remove("eventaccount");       
+                    else this.userProfile!.Remove("eventaccount");       
                 }
-                if (this.userProfile.ContainsKey("username"))
+                if (this.userProfile!.ContainsKey("username"))
                 {
-                    query = query + " u.username = '" + this.userProfile["username"] + "'";
-                    if (i + 1 < this.userProfile.Count-1) 
+                    query = query + " u.username = '" + this.userProfile!["username"] + "'";
+                    if (i + 1 < this.userProfile!.Count-1) 
                     {
                         query = query + ", ";
-                        this.userProfile.Remove("username");
+                        this.userProfile!.Remove("username");
                         continue;
                     }
-                    else this.userProfile.Remove("username");
+                    else this.userProfile!.Remove("username");
                 }
             }
             return "";    
         }
     private string UpdateStatus()
         {
-            return "UPDATE USER u SET u.status = '" + this.userProfile["newstatus"] +
-                    "' WHERE u.username= '" + this.userProfile["status"]+"';";
+            return "UPDATE USER u SET u.status = '" + this.userProfile!["newstatus"] +
+                    "' WHERE u.username= '" + this.userProfile!["status"]+"';";
         }
 
         public bool IsValidRequest()
         {
-            bool containsOperation = this.operation.Contains("FIND") ||  this.operation.Contains("CREATE")
-                                     || this.operation.Contains("DROP") || this.operation.Contains("UPDATE");
+            bool containsOperation = this.operation!.Contains("FIND") ||  this.operation!.Contains("CREATE")
+                                     || this.operation!.Contains("DROP") || this.operation!.Contains("UPDATE");
             if (containsOperation) {
                 return HasValidAttributes();
             }

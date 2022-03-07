@@ -9,8 +9,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
 {
     public class UserManagementServiceTest 
     {
-        private string operation;
-        private bool result;
+        private string? operation;
 
         [Fact]
         public void IsValidUser_WithValidDropUser_ReturnTrue()
