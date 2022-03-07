@@ -14,7 +14,21 @@ CREATE TABLE User (
     email  VARCHAR(100) NOT NULL, 
     CONSTRAINT user_Pk PRIMARY KEY (userId),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
+--     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
 );
+
+-- CREATE TABLE Authentication (
+--     userId INT NOT NULL,
+--     username VARCHAR(25) NOT NULL,
+--     otp VARCHAR(9),
+--     otpExpireTime VARCHAR(80),
+--     attempts INT NOT NULL,
+--     sessionEndTime VARCHAR(80),
+--     userIp VARCHAR(100),
+--     CONSTRAINT Authentication_PK PRIMARY KEY (userId, username),
+--     CONSTRAINT Authentication_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username)
+-- >>>>>>> Code-UserAuthentication
+-- );
 
 
 CREATE TABLE Profile (

@@ -7,14 +7,14 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    public class UserManagementDataAccess : IDataAccess
+    class AuthenticationDataAccess : IDataAccess
     {
-        private string? query { get; set; }
-        private MySqlConnection? mySqlConnection = null;
+        private string query { get; set; }
+        private MySqlConnection mySqlConnection = null;
 
-        public UserManagementDataAccess() {}
+        public AuthenticationDataAccess() {}
 
-        public UserManagementDataAccess(string query)
+        public AuthenticationDataAccess(string query)
         {
             this.query = query;
         }
@@ -23,7 +23,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string? username = Console.ReadLine();
+            string username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -69,12 +69,13 @@ namespace TheNewPanelists.DataAccessLayer
             EstablishMariaDBConnection();
         }
 
+
         public bool EstablishMariaDBConnection()
         {
-            Dictionary<string, string> informationLog = new Dictionary<string, string>();
+            // Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
-            Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            string? databaseName = Console.ReadLine();
+            // Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            // string databaseName = Console.ReadLine();
 
             // Console.WriteLine("Please Enter Database/Schema password: ");
             // StringBuilder input = new StringBuilder();
@@ -116,51 +117,41 @@ namespace TheNewPanelists.DataAccessLayer
              
             return false;
         }
-
-        public bool SelectAccount()
+        public Dictionary<string, string> SelectUser()
         {
+            Dictionary<string, string> userAccount = new Dictionary<string, string>();
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {  
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
+                }
+            }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+
+            return userAccount;
+        }
+        public bool UpdateAuthenticationTable()
+        {  
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection!.Close();
+                mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
-            } 
-            else
-            {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return false;
             }
-            
-        }
-        public Dictionary<string, string> GetAccountInformation()
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                Console.WriteLine("Connection failed to open...");
-                return new Dictionary<string, string>();
-            }
-            else Console.WriteLine("Connection opened...");
-
-            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
-
-            MySqlDataReader myReader;
-            myReader = command.ExecuteReader();
-
-            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
-            while (myReader.Read())
-            {
-                accountInfo.Add("typeName", myReader.GetString("typeName"));
-                accountInfo.Add("userId", myReader.GetString("userId"));
-                accountInfo.Add("username", myReader.GetString("username"));
-                accountInfo.Add("password", myReader.GetString("password"));
-                accountInfo.Add("email", myReader.GetString("email"));
-            }
-            return accountInfo;
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
         }
     }
 }

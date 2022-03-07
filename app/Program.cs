@@ -21,36 +21,18 @@ namespace app
             {
                 if (input == "AUTHENTICATE")
                 {
-                    while (attempts < 5)
+                    AuthenticationService authService = new AuthenticationService(input);
+                    authService.RequestInput();
+                    if (authService.attempts == 5)
                     {
-                        AuthenticationService authService = new AuthenticationService();
-                        string otp = authService.CreateOTP();
-                        authService.SendEmail(otp);
-
+                        input = "DISABLE";
                         Dictionary<string, string> request = InputRequest(input);
-                        authService = new AuthenticationService(input, request);
-                        
-                        bool IsValidRequest = authService.validateRequest();
-                        if (!IsValidRequest)
+                        if (request != null)
                         {
-                            if (attempts < 4) 
-                            {
-                                Console.WriteLine("Invalid username, password, and/or OTP." +
-                                " Retry again or contact system administrator.");
-                            }   
-                            attempts++;  
-                        }
-                        else
-                        {
-                            authService.SqlGenerator();
+                            entry = new UserManagementEntry(input, request);
+                            Console.WriteLine(entry.SingleOperationRequest());
                         }
                     }
-                    if (attempts == 5) 
-                    {
-                        Console.WriteLine("You've reached the maximum authentication attempts."
-                                        + "\nYour account has been disabled for security reasons.");   
-                    }
-                   
                 }
                 else if (input != "")
                 {
