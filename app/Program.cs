@@ -64,6 +64,34 @@ namespace app
                     string? filepath = Console.ReadLine();
                     Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
                 }
+                else if (input == "ACCOUNT REGISTRATION")
+                {
+                    bool SessionIsAuthenticated = false;
+
+                    if (!SessionIsAuthenticated)
+                    {
+                        Dictionary<string, string> request = InputRequest(input);
+                        entry = new RegistrationEntry(input, request);
+                        string result = ((RegistrationEntry)entry).RegistrationRequest();
+
+                        Console.WriteLine(result);
+                    }
+                    else
+                        Console.WriteLine("Invalid request. User in active session.");
+                }
+                else if (input == "EMAIL VALIDATION")
+                {
+                    Dictionary<string, string> request = InputRequest(input);
+                    entry = new RegistrationEntry(input, request);
+                    Console.WriteLine(((RegistrationEntry)entry).EmailConfirmationRequest());
+                }
+                else if (input == "BULK")
+                {
+                    entry = new UserManagementEntry();
+                    Console.Write("Enter the request file path: ");
+                    string? filepath = Console.ReadLine();
+                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
+                }
                 else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);
