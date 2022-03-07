@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app", "app\app.csproj", "{C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoMoto_Unit_Tests", "MotoMoto_Unit_Tests\MotoMoto_Unit_Tests.csproj", "{6DD96D9A-F795-463E-B2C4-F449CB370D38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.WebAPI", "TheNewPanelists.WebAPI\TheNewPanelists.WebAPI.csproj", "{88F0FB17-E863-433B-8F66-7DE9FE89DB3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{6DD96D9A-F795-463E-B2C4-F449CB370D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD96D9A-F795-463E-B2C4-F449CB370D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD96D9A-F795-463E-B2C4-F449CB370D38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F0FB17-E863-433B-8F66-7DE9FE89DB3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F0FB17-E863-433B-8F66-7DE9FE89DB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F0FB17-E863-433B-8F66-7DE9FE89DB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F0FB17-E863-433B-8F66-7DE9FE89DB3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
