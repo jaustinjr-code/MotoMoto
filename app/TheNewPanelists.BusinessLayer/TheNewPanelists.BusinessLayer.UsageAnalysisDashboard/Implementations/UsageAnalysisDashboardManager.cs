@@ -1,5 +1,6 @@
 using TheNewPanelists.ServiceLayer.UsageAnalysisDashboard;
 using TheNewPanelists.ApplicationLayer;
+using System.Threading.Tasks;
 
 namespace TheNewPanelists.BusinessLayer
 {
@@ -24,6 +25,7 @@ namespace TheNewPanelists.BusinessLayer
             if (_authType == null) throw new Exception("Authorization not found");
             if (_authType != null && !(_authType.Equals("ADMIN"))) throw new Exception("Unauthorized user");
 
+            // Automatically refresh data every 60 seconds here?
             string[] tables = { "ViewAnalytics", "AdmissionAnalytics", "CommunityBoardAnalytics", "EventListAnalytics" };
             if (request["table"].Equals(tables[0]))
                 _service = new ViewAnalyticService(request);
@@ -35,6 +37,15 @@ namespace TheNewPanelists.BusinessLayer
                 _service = new EventListAnalyticService(request);
             else throw new Exception("Invalid request");
 
+            // Time for 15 seconds then give error if result is not returned in time
+            //IList<IList<IDictionary<string, string>>?> result = new List<IList<IDictionary<string, string>>?>();
+            //bool Completed = ExecuteWithTimeLimit(TimeSpan.FromSeconds(15.0), () =>
+            //{
+            //result = _service.GetAnalytics();
+            //});
+            //return result;
+            //if (Completed) return result;
+            //throw new Exception("Task exceeded time limit");
             return _service.GetAnalytics();
         }
 
@@ -90,6 +101,21 @@ namespace TheNewPanelists.BusinessLayer
         //private bool IsValidInput(string type, object value)
         //{
         //return false;
+        //}
+
+        // Source: https://stackoverflow.com/questions/7413612/how-to-limit-the-execution-time-of-a-function-in-c-sharp
+        //private bool ExecuteWithTimeLimit(TimeSpan timeSpan, Action codeBlock)
+        //{
+        //try
+        //{
+        //Task task = Task.Factory.StartNew(() => codeBlock());
+        //task.Wait(timeSpan);
+        //return task.IsCompleted;
+        //}
+        //catch (AggregateException ae)
+        //{
+        //throw ae.InnerExceptions[0];
+        //}
         //}
     }
 }
