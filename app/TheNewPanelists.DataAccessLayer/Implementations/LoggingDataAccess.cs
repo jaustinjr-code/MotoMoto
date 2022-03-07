@@ -73,19 +73,13 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
-<<<<<<< Updated upstream
-            string databaseName = Console.ReadLine();
-            // MySqlConnection mySqlConnection;
-            // This is a hardcoded string, it will be different based on your naming
-            // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
-=======
+
             string? databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
             string connectionString = $"server=localhost;user=root;database=motomotologs;port=3306;password=123456;";
->>>>>>> Stashed changes
+
 
             try
             {
