@@ -7,10 +7,10 @@ using TheNewPanelists.ApplicationLayer.Authorization;
 
 namespace TheNewPanelists.ApplicationLayer
 {
-    class UserManagementEntry : IEntry
+    public class UserManagementEntry : IEntry
     {
-        private string operation { get; set; }
-        private Dictionary<string, string> request { get; set; }
+        private string? operation { get; set; }
+        private Dictionary<string, string>? request { get; set; }
 
         private UserManagementManager userManagementManager;
 

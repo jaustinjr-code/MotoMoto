@@ -1,6 +1,6 @@
 namespace TheNewPanelists.DataAccessLayer
 {
-    interface IDataAccess
+    public interface IDataAccess
     {
         bool EstablishMariaDBConnection();
     }

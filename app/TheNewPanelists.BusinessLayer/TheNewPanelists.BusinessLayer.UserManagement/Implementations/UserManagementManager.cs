@@ -48,13 +48,16 @@ namespace TheNewPanelists.BusinessLayer
                     hasValidAttributes = attributes.ContainsKey("username");
                     break;
 
-            case "UPDATE":
-                hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                        || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
-                break;
-            case "ACCOUNT RECOVERY":
-                hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
-                break;
+                case "UPDATE":
+                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
+                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
+                    break;
+                case "ACCOUNT RECOVERY":
+                    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
+                    break;
+                default:
+                    hasValidAttributes=false;
+                    break;
         }
         return hasValidAttributes;
 
@@ -80,7 +83,9 @@ namespace TheNewPanelists.BusinessLayer
             if (HasValidAttributes(operation, accountInfo))
             {
                 UserManagementService userManagmementServiceObject = new UserManagementService(operation, accountInfo);
-                if (userManagmementServiceObject.SqlGenerator())
+                ProfileManagementService profileManagementServiceObject = new ProfileManagementService(operation, accountInfo);
+
+                if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
                 {
                     returnVal = true;
                 }

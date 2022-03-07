@@ -5,14 +5,14 @@ using System.Threading;
 
 namespace TheNewPanelists.ServiceLayer.Logging 
 {
-    class LogService : ILogService 
+    public class LogService : ILogService 
     { 
-        private LoggingDataAccess loggingDataAccess;
-        private ArchiveService archiveService; 
-        private string operation {get; set;}
+        private LoggingDataAccess? loggingDataAccess;
+        private ArchiveService? archiveService; 
+        private string? operation {get; set;}
         private bool isSuccess {get; set;}
-        private Dictionary<string, string> log {get; set;}
-        private DateTime localDate {get;}
+        private Dictionary<string, string>? log {get; set;}
+        private DateTime? localDate {get;}
 
         public LogService() {}
 
@@ -32,9 +32,10 @@ namespace TheNewPanelists.ServiceLayer.Logging
             if (this.operation == "CREATE") 
             {
                 DateTime dateTime = DateTime.Now;
-                string sqlFormattedDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, timestamp, userID, DSCRIPTION)
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', '{sqlFormattedDate}', {userIdInt}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
+                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION
+                                VALUES (NULL, '{log!["categoryname"].ToUpper()}', '{log!["levelname"].ToUpper()}', {dateTime},
+                                {log!["userid"]}, '{operation} : {(isSuccess! ? "Success" : "Failure")} {log!["description"]}');";
+                // Console.WriteLine(commandSql);
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
                     return false;
@@ -45,16 +46,6 @@ namespace TheNewPanelists.ServiceLayer.Logging
 
         public void SendArchivalInformation(string CSVDirectory) 
         {
-            /**
-            SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION
-            FROM log
-            WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
-            INTO OUTFILE 'F:/TEST/TEST.csv'
-            FIELDS ENCLOSED BY '"'
-            TERMINATED BY ';'
-            ESCAPED BY '"'
-            LINES TERMINATED BY '\r\n';
-            **/
             string commandSql = $"SELECT logId, categoryName, levelName, timeStamp, userID, DSCRIPTION"
                                 + " FROM log" 
                                 + " WHERE log.timeStamp <= DATE_ADD(CURDATE(), INTERVAL -30 DAY)"

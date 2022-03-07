@@ -7,10 +7,10 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class UserManagementDataAccess : IDataAccess
+    public class UserManagementDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; }
+        private MySqlConnection? mySqlConnection = null;
 
         public UserManagementDataAccess() {}
 
@@ -23,7 +23,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -122,13 +122,42 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection.Close();
+                mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
+            } 
+            else
+            {
+                mySqlConnection!.Close();
+                Console.WriteLine("Connection closed...");
+                return false;
             }
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+            
+        }
+        public Dictionary<string, string> GetAccountInformation()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                Console.WriteLine("Connection failed to open...");
+                return new Dictionary<string, string>();
+            }
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while (myReader.Read())
+            {
+                accountInfo.Add("typeName", myReader.GetString("typeName"));
+                accountInfo.Add("userId", myReader.GetString("userId"));
+                accountInfo.Add("username", myReader.GetString("username"));
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+            return accountInfo;
         }
     }
 }

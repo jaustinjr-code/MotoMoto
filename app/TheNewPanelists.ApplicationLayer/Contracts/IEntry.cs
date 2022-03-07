@@ -1,6 +1,6 @@
 namespace TheNewPanelists.ApplicationLayer
 {
-    interface IEntry
+    public interface IEntry
     {
         string SingleOperationRequest();
     }

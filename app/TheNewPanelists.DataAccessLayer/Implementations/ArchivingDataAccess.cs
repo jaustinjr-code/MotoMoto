@@ -6,10 +6,10 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class ArchivingDataAccess : IDataAccess
+    public class ArchivingDataAccess : IDataAccess
     {   
-        private string query{get; set;}
-        private MySqlConnection mySqlConnection = null;
+        private string? query{get; set;}
+        private MySqlConnection? mySqlConnection = null;
 
         public ArchivingDataAccess() {}
 
@@ -23,7 +23,7 @@ namespace TheNewPanelists.DataAccessLayer
             
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -75,7 +75,7 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            string databaseName = Console.ReadLine();
+            string? databaseName = Console.ReadLine();
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
@@ -107,12 +107,12 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection.Close();
+                mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
             }
             
-            mySqlConnection.Close();
+            mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             
             return false;
