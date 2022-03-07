@@ -1,4 +1,5 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authentication;
+using TheNewPanelists.ApplicationLayer.Authorization;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer.Authentication;
 using System.Collections;
@@ -9,6 +10,9 @@ namespace app
     {
         static void Main(string[] args)
         {
+            // UserManagementAuthorization ua = new UserManagementAuthorization();
+
+
             IEntry entry;
             string input = menu();
             int attempts = 0;
@@ -77,7 +81,7 @@ namespace app
 
                 Console.Write("Type ID: (ADMIN, REGISTERED, DEFAULT) ");
                 string type = Console.ReadLine();
-                request.Add("typeId", type);
+                request.Add("typeName", type);
                 Console.Write("Username: ");
                 string username = Console.ReadLine();
                 request.Add("username", username);

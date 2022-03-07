@@ -28,13 +28,13 @@ namespace TheNewPanelists.ServiceLayer.Logging
         public bool SqlGenerator()
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
+            int userIdInt = Int32.Parse(log["userid"]);
             if (this.operation == "CREATE") 
             {
                 DateTime dateTime = DateTime.Now;
-                string commandSql = $@"INSERT INTO Log (logId, categoryId, levelId, timestamp, userID, DSCRIPTION)
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', {dateTime},
-                                {log["userid"]}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
-                Console.WriteLine(commandSql);
+                string sqlFormattedDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, timestamp, userID, DSCRIPTION)
+                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', '{sqlFormattedDate}', {userIdInt}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
                     return false;

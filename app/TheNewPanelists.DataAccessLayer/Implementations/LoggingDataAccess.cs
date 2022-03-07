@@ -72,12 +72,16 @@ namespace TheNewPanelists.DataAccessLayer
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
-            Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            Console.Write("Please Enter a Valid Database/Schema (Enter -1 to abort): ");
             string databaseName = Console.ReadLine();
+            if (databaseName == "-1") 
+            {
+                return false;
+            }
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Somebody3;";
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password=Disrespectoid2327!;";
 
             try
             {
@@ -103,8 +107,15 @@ namespace TheNewPanelists.DataAccessLayer
         public bool LogAccess()
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
+            if (!EstablishMariaDBConnection()) 
+            {
+                Console.WriteLine("Connection failed to open...");
+                return false;
+            } 
+            else
+            {
+                Console.WriteLine("Connection opened...");
+            }
 
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
 
