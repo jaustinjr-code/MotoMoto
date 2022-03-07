@@ -5,16 +5,14 @@ CREATE TABLE Type (
     CONSTRAINT Type_UK UNIQUE (typeId)
 );
 
-CREATE TABLE User (
--- should add typeID that references profile table
+CREATE TABLE dummyuser(
     typeName VARCHAR(25) NOT NULL,
     userId INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
-    CONSTRAINT user_Pk PRIMARY KEY (userId),
-    CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
---     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
+    CONSTRAINT DUMuser_Pk PRIMARY KEY (userId),
+    CONSTRAINT DUMType_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 );
 
 -- CREATE TABLE Authentication (
@@ -31,14 +29,13 @@ CREATE TABLE User (
 -- );
 
 
-CREATE TABLE Profile (
+CREATE TABLE dummyprofile(
     userId INT NOT NULL,
     username VARCHAR(25) NOT NULL,
     status BOOL NOT NULL,
     eventAccount BOOL NOT NULL,
-    CONSTRAINT Profile_Pk PRIMARY KEY (username),
-    CONSTRAINT Username_UK UNIQUE (username),
-    CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId)
+    CONSTRAINT DUMProfile_Pk PRIMARY KEY (username),
+    CONSTRAINT DUMUser_ID_FK FOREIGN KEY (userId) REFERENCES dummyuser(userId)
 );
 
 CREATE TABLE EventAccount (
@@ -52,5 +49,11 @@ CREATE TABLE EventAccount (
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
-    (NULL, "DEFAULT");
+    (NULL, 'DEFAULT');
 
+LOAD DATA INFILE 'F:/TEST/BulkOperations.csv' 
+INTO TABLE DUMMYUSER 
+FIELDS ENCLOSED BY '"' 
+TERMINATED BY ';'" 
+ESCAPED BY '"'" 
+LINES TERMINATED BY '\r';";

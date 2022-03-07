@@ -15,7 +15,7 @@ namespace app
 
             IEntry entry;
             string input = menu();
-            int attempts = 0;
+            //int attempts = 0;
             while (input != "EXIT")
             {
                 if (input == "AUTHENTICATE")
@@ -54,11 +54,14 @@ namespace app
                 }
                 else if (input == "BULK")
                 {
-                    entry = new UserManagementEntry();
-                    Console.Write("Enter the request file path: ");
-                    string? filepath = Console.ReadLine();
-                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
+                    
+                    UserManagementEntry uentry = new UserManagementEntry();
+                    Console.WriteLine("Bulk Operation In Progress...");
+                    Console.WriteLine(uentry.BulkOperationRequest(input));
+                    input = "BULK_DELETE";
+                    Console.WriteLine(uentry.BulkOperationRequest(input));
                 }
+
                 input = menu();
             }
         }
@@ -100,7 +103,7 @@ namespace app
                 Console.Write("Username: ");
                 string? username = Console.ReadLine();
                 request.Add("username", username!);
-                Console.WriteLine("Enter "+username+"'s Password: ");
+                Console.WriteLine("Enter " + username + "'s Password: ");
                 string? password = Console.ReadLine();
                 request.Add("password", password!);
             }
@@ -161,7 +164,7 @@ namespace app
                     Console.WriteLine("Not an ADMIN!");
                     return request;
                 }
-            } 
+            }
             else if (operation == "ACCOUNT RECOVERY")
             {
                 request = accountRecovery(request);
@@ -227,8 +230,11 @@ namespace app
                 string? review = Console.ReadLine();
                 request.Add("review", review!);
             }
-
-            return request;
+            else if (operation == "BULK" || operation == "BULK_DELETE")
+            {
+                request.Add("bulk", "fakeaccount");
+            }
+                return request;
         }
 
         public static string menu()
@@ -267,14 +273,12 @@ namespace app
                     return "AUTHENTICATE";
                 case "9":
                     return "EXIT";
-
                 case "10":
                     return "FIND_RATING";
                 case "11":
                     return "FIND_REVIEW";
                 case "12":
                     return "POST_RATING_AND_REVIEW";
-
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
                     return menu();

@@ -20,11 +20,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             this.profileManagementDataAccess = new UserManagementDataAccess();
             this.profileManagementManager = new UserManagementManager();
         }
-        
+
         public bool SqlGenerator()
-        {   
+        {
             string query = "";
-            
+
             if (this.operation == "FIND")
             {
                 //query = this.FindProfile();
@@ -40,11 +40,20 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             }
             else if (this.operation == "UPDATE")
             {
-                //query = this.UpdateProfileUN();
+                query = this.UpdateProfileOP();
                 Console.WriteLine("UPDATE OP");
+            }
+            else if (this.operation == "BULK")
+            {
+                query = this.CreateProfileBulk();
+                
             } 
+            else if (this.operation == "BULK_DELETE")
+            {
+                query = this.BulkDelete();
+            }
             this.profileManagementDataAccess = new UserManagementDataAccess(query);
-            if (this.profileManagementDataAccess.SelectAccount() == false) 
+            if (this.profileManagementDataAccess.SelectAccount() == false)
             {
                 return false;
             }
@@ -64,6 +73,16 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             return @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;";   
+        }
+
+        private string CreateProfileBulk()
+        {
+            return @"INSERT INTO DUMMYPROFILE (userId, username) SELECT u.userId, u.username FROM DUMMYUSER u 
+                    EXCEPT SELECT p.userId, p.username FROM DUMMYPROFILE p;";
+        }
+        public string BulkDelete()
+        {
+            return $"DELETE DUMMYPROFILE FROM DUMMYPROFILE WHERE USERNAME LIKE \"%dummyUN\"";
         }
 
         private string UpdateProfileOP() 
@@ -130,6 +149,14 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
                 case "UPDATE":
                     query = this.UpdateProfileOP();
+                    break;
+                case "BULK":
+                    query = this.CreateProfileBulk();
+                    break;
+                case "BULK_DELETE":
+                    query = this.BulkDelete();
+                    break;
+                default:
                     break;
             }
             return query;

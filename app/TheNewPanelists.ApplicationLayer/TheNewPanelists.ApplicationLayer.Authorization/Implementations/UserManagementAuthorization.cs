@@ -8,12 +8,14 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
     {
         private string username;
         private string password;
+        private string userId;
 
         private string authType;
 
         private Dictionary<string, string> accountDict;
 
         public UserManagementAuthorization() {
+            userId   = "";
             username = "";
             password = "";
             authType = "";
@@ -34,21 +36,18 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             {
                 Console.WriteLine(e.ToString());
             }
-           
+
             try
             {
                 Console.Write("Password: ");
                 this.password = Console.ReadLine() ?? "";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-            
-
             setAccessLevel();
         }
-
         private string setAccessLevel() {
             while (username == "" || password == "") {
                 Console.WriteLine("Credentials Must Be Set Before Determining Access Level");
@@ -56,13 +55,14 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             }
             Dictionary<string, string> accountInfo = new Dictionary<string, string>() {
                 {"username", this.username},
-                {"password", this.password}
+                {"password", this.password},
             };
             UserManagementService userManagmementServiceObject = new UserManagementService("FIND", accountInfo);
             string queryString = userManagmementServiceObject.getQuery();
             
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
-            // accountInfo = userManagementDataObject.GetAccountInformation();
+            accountInfo = userManagementDataObject.GetAccountInformation();
+
             this.accountDict = accountInfo;
 
             if (accountInfo == null) {
@@ -135,6 +135,13 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
 
             else if (upperOperation == "ACCOUNT RECOVERY") {
                 if (upperAuthType == "ADMIN" || upperAuthType == "REGISTERED") {
+                    isAuthorized = true;
+                }
+            }
+            else if (upperOperation == "BULK" || upperOperation == "BULK_DELETE")
+            {
+                if (upperAuthType == "ADMIN")
+                {
                     isAuthorized = true;
                 }
             }

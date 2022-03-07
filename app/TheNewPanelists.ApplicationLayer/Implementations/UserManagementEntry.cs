@@ -17,6 +17,7 @@ namespace TheNewPanelists.ApplicationLayer
         public UserManagementEntry()
         {
             this.userManagementManager = new UserManagementManager();
+            request = new Dictionary<string, string>();
         }
         public UserManagementEntry(string operation, Dictionary<string, string> request)
         {
@@ -31,7 +32,7 @@ namespace TheNewPanelists.ApplicationLayer
             string successMessage = "UM operation was successful";
 
             UserManagementAuthorization authorization = new UserManagementAuthorization();
-            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation);
+            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation!);
             if (!isAuthorizedOperation) 
             {
                 return failureMessage;
@@ -39,7 +40,7 @@ namespace TheNewPanelists.ApplicationLayer
 
             try
             {
-                bool isSuccessful = userManagementManager.CallOperation(this.operation, request);
+                bool isSuccessful = userManagementManager.CallOperation(this.operation!, request!);
                 if (isSuccessful) {
                     return successMessage;
                 }
@@ -55,27 +56,35 @@ namespace TheNewPanelists.ApplicationLayer
             }
         }
 
-        public bool BulkOperationRequest(string filepath)
+        public string BulkOperationRequest(string operation)
         {
+            request!.Add("directory", "filepath");
+            string failureMessage = "UM operation was not successful";
+            string successMessage = "UM operation was successful";
+
             UserManagementAuthorization authorization = new UserManagementAuthorization();
-            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation);
+            bool isAuthorizedOperation = authorization.checkAuthorized(operation);
             if (!isAuthorizedOperation) 
             {
-                return false;
+                return failureMessage;
             }
-
             try
             {
-                userManagementManager = new UserManagementManager(filepath);
-                // userManagementManager.ParseAndCall();
-                return true;
+                bool isSuccessful = userManagementManager.CallOperation(operation, request!);
+                if (isSuccessful)
+                {
+                    return successMessage;
+                }
+                else
+                {
+                    return failureMessage;
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.WriteLine("ERROR - Filepath not found");
+                return "ERROR - UM Bulk operation was not successful";
             }
-            return false;
         }
     }
 }

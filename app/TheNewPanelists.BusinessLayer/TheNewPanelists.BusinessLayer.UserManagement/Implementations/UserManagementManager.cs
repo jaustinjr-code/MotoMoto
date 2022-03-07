@@ -25,35 +25,41 @@ namespace TheNewPanelists.BusinessLayer
             bool containsOperation = request.ContainsKey("operation");
             if  (containsOperation)
             {
-                return HasValidAttributes(request["operation"].ToUpper(), request);
+                return HasValidAttributes(request!["operation"].ToUpper(), request);
             }
             return false;
         }
 
-        public bool HasValidAttributes(string operation, Dictionary<string, string> attributes)
+        public bool HasValidAttributes(string operation, Dictionary<string, string>? attributes)
         {
             bool hasValidAttributes = false;
-            switch (operation.ToUpper()) 
+            switch (operation!.ToUpper()) 
             {
                 case "FIND":
-                    hasValidAttributes = attributes.ContainsKey("username");
+                    hasValidAttributes = attributes!.ContainsKey("username");
                     break;
 
                 case "CREATE":
-                    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
-                                            && attributes.ContainsKey("email");
+                    hasValidAttributes = attributes!.ContainsKey("username") && attributes!.ContainsKey("password")
+                                            && attributes!.ContainsKey("email");
                     break;
                 
                 case "DROP":
-                    hasValidAttributes = attributes.ContainsKey("username");
+                    hasValidAttributes = attributes!.ContainsKey("username");
                     break;
 
                 case "UPDATE":
-                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
+                    hasValidAttributes = (attributes!.ContainsKey("newusername") || attributes!.ContainsKey("newpassword")
+                                            || attributes!.ContainsKey("newemail")) && attributes!.ContainsKey("username");
                     break;
                 case "ACCOUNT RECOVERY":
-                    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
+                    hasValidAttributes = attributes!.ContainsKey("username") || attributes!.ContainsKey("email");
+                    break;
+                case "BULK":
+                    hasValidAttributes = attributes!.ContainsKey("bulk");
+                    break;
+                case "BULK_DELETE":
+                    hasValidAttributes = attributes!.ContainsKey("bulk");
                     break;
                 default:
                     hasValidAttributes=false;
@@ -85,12 +91,21 @@ namespace TheNewPanelists.BusinessLayer
                 UserManagementService userManagmementServiceObject = new UserManagementService(operation, accountInfo);
                 ProfileManagementService profileManagementServiceObject = new ProfileManagementService(operation, accountInfo);
 
-                if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
+                if (operation == "DELETE" || operation == "BULK_DELETE")
                 {
-                    returnVal = true;
+                    if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
+                    {
+                        returnVal = true;
+                    }    
+                } 
+                else
+                {
+                    if (userManagmementServiceObject.SqlGenerator() && profileManagementServiceObject.SqlGenerator())
+                    {
+                        returnVal = true;
+                    }
                 }
             }
-            
             return returnVal;
         }
 

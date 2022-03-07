@@ -11,7 +11,9 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         private string? operation {get; set;}
         private UserManagementDataAccess? userManagementDataAccess;
         // private UserManagementManager userManagementManager;
+
         private Dictionary<string, string>? userAccount {get; set;}
+        
         
         public UserManagementService() {}
         
@@ -47,6 +49,14 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 //query = this.AccountRecovery();
                 Console.WriteLine(query);
             }
+            else if (this.operation == "BULK")
+            {
+                query = BulkOperation();
+            }
+            else if (this.operation == "BULK_DELETE")
+            {
+                query = BulkDelete();
+            }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             
             if (this.userManagementDataAccess.SelectAccount() == false) 
@@ -62,7 +72,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         
         private string FindUser()
         {
-            return $"SELECT u.userId FROM User u WHERE u.username = {this.userAccount!["username"]};";
+            return $"SELECT * FROM User u WHERE u.username = '{this.userAccount!["username"]}';";
         }
 
         //Danny work on this query to ensure user insertion
@@ -127,7 +137,21 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             query = query + queryWhere;
             return query;
         }
+        public string BulkOperation()
+        {
+            return $"LOAD DATA INFILE 'F:/TEST/BulkOperations.csv'"
+                    + " INTO TABLE DUMMYUSER"
+                    + " FIELDS ENCLOSED BY '\"'"
+                    + " TERMINATED BY \';\'"
+                    + " ESCAPED BY \'\"\'"
+                    + " LINES TERMINATED BY \'\\r\\n\';";
+        }
 
+        public string BulkDelete()
+        {
+            return $"DELETE DUMMYUSER FROM DUMMYUSER WHERE EMAIL LIKE \"%@dummy.xx\"";
+        }
+        
         private string UpdateStatus()
         {
             return "UPDATE USER u SET u.status = '" + this.userAccount!["newstatus"] +
@@ -195,6 +219,14 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     break;
                 case "ACCOUNT RECOVERY":
                     //query = this.AccountRecovery();
+                    break;
+                case "BULK":
+                    query = this.BulkOperation();
+                    break;
+                case "BULK_DELETE":
+                    query = this.BulkDelete();
+                    break;
+                default:
                     break;
             }
             return query;

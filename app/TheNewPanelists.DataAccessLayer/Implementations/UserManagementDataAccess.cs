@@ -73,7 +73,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
-            Console.WriteLine("Please Enter a Valid Database/Schema: ");
+            //Console.WriteLine("Please Enter a Valid Database/Schema: ");
             //string? databaseName = Console.ReadLine();
 
             // Console.WriteLine("Please Enter Database/Schema password: ");
@@ -87,8 +87,8 @@ namespace TheNewPanelists.DataAccessLayer
             // }
             // string databasePass = input.ToString();
 
-            string databaseName = "MotoMotoDB";
-            string databasePass = "naeun";
+            string databaseName = "motomotousermanagement";
+            string databasePass = "password";
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it

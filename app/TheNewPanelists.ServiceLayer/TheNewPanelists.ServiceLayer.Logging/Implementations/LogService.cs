@@ -28,7 +28,8 @@ namespace TheNewPanelists.ServiceLayer.Logging
         public bool SqlGenerator()
         {
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
-            int userIdInt = Int32.Parse(log["userid"]);
+            int userId;
+            bool isInt = int.TryParse(log!["userid"], out userId);
             if (this.operation == "CREATE") 
             {
                 DateTime dateTime = DateTime.Now;
