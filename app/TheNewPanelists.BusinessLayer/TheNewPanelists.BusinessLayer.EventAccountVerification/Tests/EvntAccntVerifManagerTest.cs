@@ -23,8 +23,8 @@ namespace TheNewPanelists.BusinessLayer.EventAccountVerification
             EvntAccntVerifManager evntAccntVerifManager = new EvntAccntVerifManager();
             Dictionary<string, string> request = new Dictionary<string, string>();
 
-            request.Add("operation", "find");
-            request.Add("username", "bcdelrey");
+            request.Add("operation", "FIND_Rating");
+            request.Add("username", "justin@test");
 
             bool result = evntAccntVerifManager.IsValidRequest(request);
             Assert.True(true, "Valid Result For Valid Input");

@@ -202,24 +202,24 @@ namespace app
                 string username = Console.ReadLine();
                 request.Add("username", username);
 
-                Console.Write("Rating from 1-5: ");
-                string rating = Console.ReadLine();
-                request.Add("FIND_RATING", rating);
+                //Console.Write("Rating from 1-5: ");
+                //string rating = Console.ReadLine();
+                //request.Add("FIND_RATING", rating);
 
             }
 
-            //else if (operation == "REVIEW")
-            //{
-            //Console.WriteLine("Enter the name of the account that you want to review");
+            else if (operation == "FIND_REVIEW")
+            {
+                Console.WriteLine("Enter the name of the account that you want to review");
 
-            //Console.Write("Username: ");
-            //string username = Console.ReadLine();
-            //request.Add("username", username);
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                request.Add("username", username);
 
-            //Console.Write("Rating from 1-5: ");
-            //string rating = Console.ReadLine();
-            //request.Add("review", review);
-            //}
+                //Console.Write("Rating from 1-5: ");
+                //string review = Console.ReadLine();
+                //request.Add("review", review);
+            }
 
             return request;
         }
@@ -237,7 +237,7 @@ namespace app
             Console.WriteLine("9) Exit");
 
             Console.WriteLine("10) Find Rating");
-            Console.WriteLine("11) Review");
+            Console.WriteLine("11) Find Review");
 
             switch (Console.ReadLine())
             {

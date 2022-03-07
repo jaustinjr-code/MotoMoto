@@ -38,25 +38,12 @@ namespace TheNewPanelists.BusinessLayer.EventAccountVerification
             switch (operation.ToUpper())
             {
                 case "FIND_RATING":
-                    hasValidAttributes = attributes.ContainsKey("userId");
+                    hasValidAttributes = attributes.ContainsKey("username");
                     break;
 
-                //case "CREATE":
-                //    hasValidAttributes = attributes.ContainsKey("username") && attributes.ContainsKey("password")
-                //                            && attributes.ContainsKey("email");
-                //    break;
-
-                //case "DROP":
-                //    hasValidAttributes = attributes.ContainsKey("username");
-                //    break;
-
-                //case "UPDATE":
-                //    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                //                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
-                //    break;
-                //case "ACCOUNT RECOVERY":
-                //    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
-                //    break;
+                case "FIND_REVIEW":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
             }
             return hasValidAttributes;
         }

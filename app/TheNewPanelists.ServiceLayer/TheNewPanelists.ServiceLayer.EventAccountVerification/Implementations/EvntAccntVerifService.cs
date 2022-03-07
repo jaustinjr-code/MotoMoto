@@ -10,7 +10,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
     {
         
         private string operation {get; set;}
-        private UserManagementDataAccess evntAccntVerifDataAccess;
+        private EvntAccntVerifDataAccess evntAccntVerifDataAccess;
         //private UserManagementManager EvntAcctVerifManager;
         private Dictionary<string, string> userProfile {get; set;}
         
@@ -18,7 +18,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
         public EvntAccntVerifService(string operation, Dictionary<string, string>  userProfile) {
             this.operation = operation;
             this.userProfile = userProfile;
-            this.evntAccntVerifDataAccess = new UserManagementDataAccess();
+            this.evntAccntVerifDataAccess = new EvntAccntVerifDataAccess();
             //this.evntAccntVerifManager = new UserManagementManager;
         }
 
@@ -49,8 +49,8 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             // {
             //     query = this.AccountRecovery();
             // }
-            this.evntAccntVerifDataAccess = new UserManagementDataAccess(query);
-            if (this.evntAccntVerifDataAccess.SelectAccount() == false) 
+            this.evntAccntVerifDataAccess = new EvntAccntVerifDataAccess(query);
+            if (this.evntAccntVerifDataAccess.FindRatingOrAccount() == false) 
             {
                 return false;
             }
@@ -99,17 +99,17 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
 
         private string FindRating()
         {
-            return "SELECT u.rating FROM EventAccount u WHERE u.userId=" + this.userProfile["userId"] + ";";
+            return "SELECT u.rating FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
         }
 
         private string FindReview()
         {
-            return "SELECT u.review FROM EventAccount u WHERE u.userId=" + this.userProfile["userId"] + ";";
+            return "SELECT u.review FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
         }
 
         private string CreateRatingAndReview()
         {
-            return "INSERT INTO EventAccount (userId, rating, review) VALUES ('" + this.userProfile["userId"] + "', '" + this.userProfile["rating"] + "', '" + this.userProfile["review"] + "');";
+            return "INSERT INTO EventAccount (username, rating, review) VALUES ('" + this.userProfile["username"] + "', '" + this.userProfile["rating"] + "', '" + this.userProfile["review"] + "');";
         }
 
         public bool HasValidAttributes()
@@ -120,15 +120,15 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             switch (this.operation) 
             {
                 case "FIND_RATING":
-                    hasValidAttributes = query.Contains("SELECT u.rating FROM EventAccount u WHERE u.userId=");
+                    hasValidAttributes = query.Contains("SELECT u.rating FROM EventAccount u WHERE u.username=");
                     break;
 
                 case "FIND_REVIEW":
-                    hasValidAttributes = query.Contains("SELECT u.review FROM EventAccount u WHERE u.userId=");
+                    hasValidAttributes = query.Contains("SELECT u.review FROM EventAccount u WHERE u.username=");
                     break;
 
                 case "POST_RATING_AND_REVIEW":
-                    hasValidAttributes = query.Contains("INSERT INTO EventAccount (userId, rating, review)");
+                    hasValidAttributes = query.Contains("INSERT INTO EventAccount (username, rating, review)");
                     break;
 
                 // case "DROP":

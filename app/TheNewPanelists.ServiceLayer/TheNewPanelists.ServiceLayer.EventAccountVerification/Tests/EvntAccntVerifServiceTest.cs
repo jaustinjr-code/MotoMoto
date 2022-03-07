@@ -20,7 +20,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             Dictionary<string, string> userProfile = new Dictionary<string, string>();
 
             operation = "FIND_RATING";
-            userProfile.Add("userId", "1");
+            userProfile.Add("username", "justin@test");
             userProfile.Add("rating", "5");
 
             EvntAccntVerifService service = new EvntAccntVerifService(operation, userProfile);
@@ -36,7 +36,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             Dictionary<string, string> userProfile = new Dictionary<string, string>();
 
             operation = "FIND_REVIEW";
-            userProfile.Add("userId", "1");
+            userProfile.Add("username", "justin@test");
             userProfile.Add("review", "Trusted event account holder.");
 
             EvntAccntVerifService service = new EvntAccntVerifService(operation, userProfile);
@@ -52,7 +52,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             Dictionary<string, string> userProfile = new Dictionary<string, string>();
 
             operation = "POST_RATING_AND_REVIEW";
-            userProfile.Add("userId", "1");
+            userProfile.Add("username", "justin@test");
             userProfile.Add("rating", "5");
             userProfile.Add("review", "Trusted event account holder.");
 

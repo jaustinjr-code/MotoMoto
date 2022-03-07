@@ -28,10 +28,10 @@ CREATE TABLE Profile (
 );
 
 CREATE TABLE EventAccount (
-    userId INT NOT NULL,
+    username VARCHAR(25),
     rating VARCHAR(1) NOT NULL,
     review VARCHAR(1000) NOT NULL,
-    CONSTRAINT EventAccount_Pk PRIMARY KEY (userId)
+    CONSTRAINT EventAccount_Pk PRIMARY KEY (username)
 );
 
 
