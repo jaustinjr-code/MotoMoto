@@ -10,6 +10,8 @@ app/obj/
 app/bin/
 app/.vs/
 app/.vscode/
+MotoMoto_Unit_Tests/obj/
+MotoMoto_Unit_Tests/bin/
 app/bin/Debug/net6.0/app.deps.json
 app/bin/Debug/net6.0/app.dll
 app/bin/Debug/net6.0/app.pdb
