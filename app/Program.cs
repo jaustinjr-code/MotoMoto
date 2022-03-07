@@ -221,6 +221,23 @@ namespace app
                 //request.Add("review", review);
             }
 
+            else if (operation == "POST_RATING_AND_REVIEW")
+            {
+                Console.WriteLine("Enter the name of the account that you want to Rate and Review");
+
+                Console.Write("Username: ");
+                string username = Console.ReadLine();
+                request.Add("username", username);
+
+                Console.Write("Rating from 1-5: ");
+                string rating = Console.ReadLine();
+                request.Add("rating", rating);
+
+                Console.Write("Review using 0-1000 UTF-8 Characters: ");
+                string review = Console.ReadLine();
+                request.Add("review", review);
+            }
+
             return request;
         }
 
@@ -238,6 +255,7 @@ namespace app
 
             Console.WriteLine("10) Find Rating");
             Console.WriteLine("11) Find Review");
+            Console.WriteLine("12) Post Rating and Review");
 
             switch (Console.ReadLine())
             {
@@ -264,6 +282,8 @@ namespace app
                     return "FIND_RATING";
                 case "11":
                     return "FIND_REVIEW";
+                case "12":
+                    return "POST_RATING_AND_REVIEW";
 
                 default:
                     Console.WriteLine("Invalid Input - Try Again");

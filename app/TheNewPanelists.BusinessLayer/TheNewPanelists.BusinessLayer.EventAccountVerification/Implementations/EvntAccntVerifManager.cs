@@ -44,6 +44,9 @@ namespace TheNewPanelists.BusinessLayer.EventAccountVerification
                 case "FIND_REVIEW":
                     hasValidAttributes = attributes.ContainsKey("username");
                     break;
+                case "POST_RATING_AND_REVIEW":
+                    hasValidAttributes = attributes.ContainsKey("username");
+                    break;
             }
             return hasValidAttributes;
         }

@@ -50,11 +50,18 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
             //     query = this.AccountRecovery();
             // }
             this.evntAccntVerifDataAccess = new EvntAccntVerifDataAccess(query);
-            if (this.evntAccntVerifDataAccess.FindRatingOrAccount() == false) 
+            if ( (query.Contains("SELECT u.rating FROM EventAccount u WHERE u.username=") || query.Contains("SELECT u.review FROM EventAccount u WHERE u.username=") ) && this.evntAccntVerifDataAccess.FindRatingOrAccount() == false) 
             {
                 return false;
             }
-            return true;
+            else if (query.Contains("INSERT INTO EventAccount (username, rating, review)") && this.evntAccntVerifDataAccess.PostRatingAndReview() == false)
+            {
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
         }
         
         public bool IsValidRequest()

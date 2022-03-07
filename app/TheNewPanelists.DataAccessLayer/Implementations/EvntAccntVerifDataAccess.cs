@@ -131,5 +131,24 @@ namespace TheNewPanelists.DataAccessLayer
             Console.WriteLine("Connection closed...");
             return false;
         }
+
+        public bool PostRatingAndReview()
+        {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            if (command.ExecuteNonQuery() == 1)
+            {
+                mySqlConnection.Close();
+                Console.WriteLine("Connection closed...");
+
+                return true;
+            }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
+        }
+
     }
 }
