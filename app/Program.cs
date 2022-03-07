@@ -52,8 +52,17 @@ namespace app
                     Dictionary<string, string> request = InputRequest(input);
                     if (request != null)
                     {
-                        entry = new UserManagementEntry(input, request);
-                        Console.WriteLine(entry.SingleOperationRequest());
+                        if (input == "FIND_RATING" || input == "FIND_REVIEW" || input == "POST_RATING_AND_REVIEW")
+                        {
+                            entry = new EvntAccntVerifEntry(input, request);
+                            Console.WriteLine(entry.SingleOperationRequest());
+                        }
+                        else
+                        {
+                            entry = new UserManagementEntry(input, request);
+                            Console.WriteLine(entry.SingleOperationRequest());
+                        }
+
                     }
                     else Console.WriteLine("No request...");
                 }
@@ -185,7 +194,7 @@ namespace app
                 request.Add("otp", otp);
             }
 
-            else if (operation == "RATING")
+            else if (operation == "FIND_RATING")
             {
                 Console.WriteLine("Enter the name of the account that you want to rate");
 
@@ -195,7 +204,7 @@ namespace app
 
                 Console.Write("Rating from 1-5: ");
                 string rating = Console.ReadLine();
-                request.Add("rating", rating);
+                request.Add("FIND_RATING", rating);
 
             }
 
@@ -227,7 +236,7 @@ namespace app
             Console.WriteLine("8) Authentication");
             Console.WriteLine("9) Exit");
 
-            Console.WriteLine("10) Rating");
+            Console.WriteLine("10) Find Rating");
             Console.WriteLine("11) Review");
 
             switch (Console.ReadLine())
