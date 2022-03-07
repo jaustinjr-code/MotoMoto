@@ -3,6 +3,7 @@ using TheNewPanelists.ApplicationLayer.Authorization;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer.Authentication;
 using System.Collections;
+using MySqlConnector;
 
 namespace app
 {
@@ -161,7 +162,7 @@ namespace app
                 else
                 {
                     Console.WriteLine("Not an ADMIN!");
-                    return null;
+                    return request;
                 }
             }
             else if (operation == "ENABLE")
@@ -178,7 +179,7 @@ namespace app
                 else
                 {
                     Console.WriteLine("Not an ADMIN!");
-                    return null;
+                    return request;
                 }
             } 
             else if (operation == "ACCOUNT RECOVERY")
@@ -346,7 +347,7 @@ namespace app
                 {
                     //tenant is in a session
                     Console.WriteLine("Do you want to logout (Y/N)");
-                    if (Console.ReadLine().ToUpper() == ("Y"))
+                    if (Console.ReadLine()!.ToUpper() == ("Y"))
                     {
                         //change user status to false;
                         string updateUserStatusQ = "UPDATE USER u WHERE u.username = @username SET u.status = @status";
