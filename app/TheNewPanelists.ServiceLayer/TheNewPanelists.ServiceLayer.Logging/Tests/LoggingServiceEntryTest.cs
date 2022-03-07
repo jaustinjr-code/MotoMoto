@@ -9,7 +9,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
 {
     public class UserManagementServiceTest 
     {
-        private string operation;
+        private string? operation;
         private bool result;
 
         [Fact]

@@ -1,20 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MySql.Data.MySqlClient;
-using System.Collections;
 using System.Text;
-using TheNewPanelists.ServiceLayer.Logging;
-
+using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class UserManagementDataAccess : IDataAccess
+    public class EvntAccntVerifDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; }
+        private MySqlConnection? mySqlConnection = null;
 
-        public UserManagementDataAccess() {}
+        public EvntAccntVerifDataAccess() 
+        {
+            query = null;
+            mySqlConnection = null;
+        }
 
-        public UserManagementDataAccess(string query)
+        public EvntAccntVerifDataAccess(string query)
         {
             this.query = query;
         }
@@ -23,7 +27,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -89,7 +93,7 @@ namespace TheNewPanelists.DataAccessLayer
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            
+
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
             string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
             //connectionString 
@@ -97,7 +101,7 @@ namespace TheNewPanelists.DataAccessLayer
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-                
+
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
@@ -110,11 +114,38 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-             
+
             return false;
         }
 
-        public bool SelectAccount()
+        public bool FindRatingOrAccount()
+        {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            if (command.ExecuteNonQuery() == -1)
+            {
+                if (mySqlConnection != null)
+                {
+                    mySqlConnection.Close();
+                    Console.WriteLine("Connection closed...");
+
+                    return true;
+                }
+                else { return false; }
+
+            }
+            if (mySqlConnection != null)
+            {
+                mySqlConnection.Close();
+                Console.WriteLine("Connection closed...");
+                return false;
+            }
+            else { return false; }
+        }
+
+        public bool PostRatingAndReview()
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
@@ -122,13 +153,22 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
+                if (mySqlConnection != null)
+                {
+                    mySqlConnection.Close();
+                    Console.WriteLine("Connection closed...");
+
+                    return true;
+                }
+
+            }
+            if (mySqlConnection != null)
+            {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
-                return true;
+                return false;
             }
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+            else { return false; }
         }
     }
 }
