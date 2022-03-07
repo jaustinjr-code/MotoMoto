@@ -1,8 +1,11 @@
 ﻿using TheNewPanelists.ApplicationLayer.Authorization;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer.Authentication;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Collections;
 using MySqlConnector;
+using System.Text;
 
 namespace app
 {
@@ -33,6 +36,34 @@ namespace app
                         }
                     }
                 }
+                else if (input == "ACCOUNT REGISTRATION")
+                {
+                    bool SessionIsAuthenticated = false;
+
+                    if (!SessionIsAuthenticated)
+                    {
+                        Dictionary<string, string> request = InputRequest(input);
+                        entry = new RegistrationEntry(input, request);
+                        string result = ((RegistrationEntry)entry).RegistrationRequest();
+
+                        Console.WriteLine(result);
+                    }
+                    else
+                        Console.WriteLine("Invalid request. User in active session.");
+                }
+                else if (input == "EMAIL VALIDATION")
+                {
+                    Dictionary<string, string> request = InputRequest(input);
+                    entry = new RegistrationEntry(input, request);
+                    Console.WriteLine(((RegistrationEntry)entry).EmailConfirmationRequest());
+                }
+                else if (input == "BULK")
+                {
+                    entry = new UserManagementEntry();
+                    Console.Write("Enter the request file path: ");
+                    string? filepath = Console.ReadLine();
+                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
+                }
                 else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);
@@ -51,13 +82,6 @@ namespace app
 
                     }
                     else Console.WriteLine("No request...");
-                }
-                else if (input == "BULK")
-                {
-                    entry = new UserManagementEntry();
-                    Console.Write("Enter the request file path: ");
-                    string? filepath = Console.ReadLine();
-                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
                 }
                 input = menu();
             }
@@ -93,6 +117,62 @@ namespace app
                 Console.Write("Event Account Enabled: (TRUE/FALSE) ");
                 string? eventAccount = Console.ReadLine();
                 request.Add("eventAccount", eventAccount!);
+            }
+            else if (operation == "ACCOUNT REGISTRATION")
+            {
+                bool emailValid = false;
+                bool passwordValid = false;
+                string email = "";
+                string password = "";
+                while (!emailValid)
+                {
+                    Console.Write("Email: ");
+                    email = Console.ReadLine();
+                    try
+                    {
+                        var eAddr = new MailAddress(email);
+                        emailValid = eAddr.Address == email;
+                    }
+                    catch
+                    {
+                        emailValid = false;
+                    }
+
+                }
+                request.Add("email", email);
+
+                Regex letter = new Regex(@"[a-zA-Z]");
+                Regex num = new Regex(@"[0-9]");
+                Regex specialChar = new Regex(@"[. ,@!]");
+                Regex length = new Regex(@"[a-zA-Z0-9.,@!]{8,}");
+                StringBuilder input = new StringBuilder();
+
+                while (!passwordValid)
+                {
+                    Console.Write("Password: ");
+
+                    while (true)
+                    {
+                        var key = Console.ReadKey(true);
+                        if (key.Key == ConsoleKey.Enter) break;
+                        if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
+                        else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
+                    }
+
+                    password = input.ToString();
+                    passwordValid = letter.IsMatch(password) && num.IsMatch(password)
+                        && specialChar.IsMatch(password) && (password.Length > 8);
+                }
+                request.Add("password", password);
+            }
+            else if (operation == "EMAIL VALIDATION")
+            {
+                Console.Write("Email: ");
+                string? email = Console.ReadLine();
+                request.Add("email", email!);
+                Console.Write("URL: ");
+                string? url = Console.ReadLine();
+                request.Add("url", url!);
             }
             else if (operation == "DROP")
             {
@@ -166,7 +246,6 @@ namespace app
             {
                 request = accountRecovery(request);
             }
-
             else if (operation == "AUTHENTICATE")
             {
                 Console.WriteLine("Enter the account information to authenticate");
@@ -246,6 +325,8 @@ namespace app
             Console.WriteLine("10) Find Rating");
             Console.WriteLine("11) Find Review");
             Console.WriteLine("12) Post Rating and Review");
+            Console.WriteLine("13) Account Registration");
+            Console.WriteLine("14) Email Validation");
 
             switch (Console.ReadLine())
             {
@@ -267,7 +348,10 @@ namespace app
                     return "AUTHENTICATE";
                 case "9":
                     return "EXIT";
-
+                case "13":
+                    return "ACCOUNT REGISTRATION";
+                case "14":
+                    return "EMAIL VALIDATION";
                 case "10":
                     return "FIND_RATING";
                 case "11":
