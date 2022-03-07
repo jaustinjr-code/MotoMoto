@@ -2,6 +2,9 @@
 using MySql.Data.MySqlClient;
 using TheNewPanelists.ServiceLayer.Logging;
 using System.Web;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TheNewPanelists.WebAPI.Controllers
 {
@@ -9,16 +12,16 @@ namespace TheNewPanelists.WebAPI.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        string sessionId = "";
+        //string sessionId = "";
         [HttpOptions]
         public IActionResult Index()
         {
             return NoContent();
         }
-        [HttpPost]
-        public IActionResult login(string username, string password, Dictionary<string, string>result)
+        [HttpPost (Name = "Login")]
+        public async Task<IActionResult> Login(string username, string password, Dictionary<string, string>result)
         {
-            DataAccessLayer.UserManagementDataAccess manager = new DataAccessLayer.UserManagementDataAccess();
+            //DataAccessLayer.UserManagementDataAccess manager = new DataAccessLayer.UserManagementDataAccess();
             result.Add("username", username); 
             result.Add("password", password);
             string connectionString = $"server=localhost;user=root;database=motomoto_um;port=3306;password=password;";
@@ -32,8 +35,11 @@ namespace TheNewPanelists.WebAPI.Controllers
                 MySqlDataReader reader = cmd.ExecuteReader(); ;
                 if(reader.HasRows)
                 {
-                    sessionId = HttpContext.Session.Id;
-
+                    var claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, username));
+                    var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    await Request.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal);
+                    
                     Dictionary<string, string> log = new Dictionary<string, string>();
                     string operation = "SERVER";
                     log.Add("username", username);
@@ -51,6 +57,7 @@ namespace TheNewPanelists.WebAPI.Controllers
                     log.Add("level", "INFO");
                     log.Add("userId", "0");
                     log.Add("DSCRIPTION", "Incorrect login credentials");
+                    LogService logservice = new LogService(operation, log, true);
                     return Ok(false);
                 }
             }
@@ -62,6 +69,7 @@ namespace TheNewPanelists.WebAPI.Controllers
                 log.Add("level", "ERROR");
                 log.Add("userId", "0");
                 log.Add("DSCRIPTION", "Login ERROR");
+                LogService logservice = new LogService(operation, log, true);
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
             finally
@@ -72,6 +80,17 @@ namespace TheNewPanelists.WebAPI.Controllers
             
         }
 
+        /*
+        [HttpGet (Name = "Logout")]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout(String logout)
+        {
+            
+            await HttpContext.SignOutAsync();
+            return NoContent();
+        }
+        */
+        
 
 
     }
