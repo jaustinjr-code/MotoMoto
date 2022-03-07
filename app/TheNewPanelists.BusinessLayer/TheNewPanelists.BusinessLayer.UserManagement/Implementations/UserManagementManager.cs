@@ -48,8 +48,6 @@ namespace TheNewPanelists.BusinessLayer
                     hasValidAttributes = attributes.ContainsKey("username");
                     break;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
                 case "UPDATE":
                     hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
                                             || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
@@ -60,11 +58,7 @@ namespace TheNewPanelists.BusinessLayer
                 default:
                     hasValidAttributes=false;
                     break;
-        }
-        return hasValidAttributes;
-=======
-=======
->>>>>>> Stashed changes
+
                 case "DROPREG":
                     hasValidAttributes = attributes.ContainsKey("email");
                     break;
@@ -79,19 +73,6 @@ namespace TheNewPanelists.BusinessLayer
 
                 case "ACCOUNT REGISTRATION":
                     hasValidAttributes = attributes.ContainsKey("email") && attributes.ContainsKey("password");
-                    break;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
-                case "UPDATE":
-                    hasValidAttributes = (attributes.ContainsKey("newusername") || attributes.ContainsKey("newpassword")
-                                            || attributes.ContainsKey("newemail")) && attributes.ContainsKey("username");
-                    break;
-
-                case "ACCOUNT RECOVERY":
-                    hasValidAttributes = attributes.ContainsKey("username") || attributes.ContainsKey("email");
                     break;
             }
             return hasValidAttributes;

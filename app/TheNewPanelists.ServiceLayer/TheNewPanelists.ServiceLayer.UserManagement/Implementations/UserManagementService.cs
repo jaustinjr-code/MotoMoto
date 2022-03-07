@@ -72,16 +72,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.RegisterUser();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
-            
-            if (this.userManagementDataAccess.SelectAccount() == false) 
-            {
-                return false;
-            } 
-            else
-            {
-                return true;
-            }
-            
+
+            return this.userManagementDataAccess.SelectAccount();            
         }
 
         public Dictionary<string, string> ReturnUser()
@@ -108,59 +100,23 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             result = this.userManagementDataAccess.GetRegInformation();
             return result;
         }
+
         private string EmailValidated()
         {
             return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount["email"] + "';";
         }
+
         private string DropRegistration()
         {
             return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount["email"] + "';";
         }
+
         private string RegisterUser()
         {
             return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
         }
-<<<<<<< Updated upstream
-=======
 
-        public Dictionary<string, string> ReturnUser()
-        {
-            string query = "SELECT u.userId FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            return this.userManagementDataAccess.GetAccountInformation();
-        }
-
-        public Dictionary<string, string> ReturnRegistrationEntry()
-        {
-            Dictionary<string, string> result;
-            string query = "";
-            if (operation == "VALIDATE")
-            {
-                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount["url"]
-                    + "' AND r.email = '" + this.userAccount["email"] + "' AND r.expiration < NOW() AND r.validated = false;";
-            }
-            else if (operation == "FINDREG")
-            {
-                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount["email"] + "';";
-            }
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            result = this.userManagementDataAccess.GetRegInformation();
-            return result;
-        }
-        private string EmailValidated()
-        {
-            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount["email"] + "';";
-        }
-        private string DropRegistration()
-        {
-            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount["email"] + "';";
-        }
-        private string RegisterUser()
-        {
-            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
-        }
->>>>>>> Stashed changes
-        private string FindUser()
+       private string FindUser()
         {
             return $"SELECT u.userId FROM User u WHERE u.username = {this.userAccount!["username"]};";
         }
@@ -173,21 +129,10 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
             //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
             //        + this.userAccount["email"] + "', false, false);";
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
             return $@"INSERT INTO USER (typeName, username, password, email) VALUES ('REGISTERED',
                     '{this.userAccount?["username"]}', 
                     '{this.userAccount?["password"]}', 
                     '{this.userAccount?["email"]}');";
-=======
-            return $@"INSERT INTO USER (typeName, username, password, email) VALUES 
-                    ('{type2}', '{this.userAccount["username"]}', '{this.userAccount["password"]}', '{this.userAccount["email"]}');";
->>>>>>> Stashed changes
-=======
-            return $@"INSERT INTO USER (typeName, username, password, email) VALUES 
-                    ('{type2}', '{this.userAccount["username"]}', '{this.userAccount["password"]}', '{this.userAccount["email"]}');";
->>>>>>> Stashed changes
         }
 
         private string DropUser()
