@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 using System.Collections.Generic;
@@ -44,6 +45,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             else if (this.operation == "ACCOUNT RECOVERY")
             {
                 query = this.AccountRecovery();
+                Console.WriteLine(query);
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             if (this.userManagementDataAccess.SelectAccount() == false) 
@@ -127,7 +129,28 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string AccountRecovery()
         {
-            return "";
+            if (this.userAccount.ContainsKey("username"))
+            {
+                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+
+                SmtpClient client = new SmtpClient(args[0]);
+                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
+                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
+                MailMessage message = new MailMessage(from, to);
+                message.Body = "Please reset your password using the following link: " +; //Need to include UPDATE operation? So that they can update their password?
+                //Email must time out if they don't click the link within 15 seconds
+            }
+            else if (this.userAccount.ContainsKey("email"))
+            {
+                string username = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
+
+                SmtpClient client = new SmtpClient(args[0]);
+                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
+                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
+                MailMessage message = new MailMessage(from, to);
+                message.Body = "Your username is: " + this.userAccount["username"];
+            }
+            return String.Empty;
         }
 
         public bool IsValidRequest()
@@ -175,7 +198,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             switch (this.operation) 
             {
                 case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.usernameFROM User u WHERE u.username =");
+                    hasValidAttributes = query.Contains("SELECT u.username FROM User u WHERE u.username =");
                     break;
                 case "CREATE":
                     hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
@@ -190,7 +213,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                                         || query.Contains("password") || query.Contains("email")));
                     break;
                 case "ACCOUNT RECOVERY":
-                    //hasValidAttributes = query.Contains();
+                    hasValidAttributes = query.Contains("SELECT u.email FROM User u WHERE u.username = ") || query.Contains("SELECT u.username FROM User u WHERE u.email = ");
                     break;
             }
             return hasValidAttributes;
