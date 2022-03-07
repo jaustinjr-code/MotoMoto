@@ -1,5 +1,4 @@
-﻿using TheNewPanelists.ApplicationLayer.Authentication;
-using TheNewPanelists.ApplicationLayer.Authorization;
+﻿using TheNewPanelists.ApplicationLayer.Authorization;
 using TheNewPanelists.ApplicationLayer;
 using TheNewPanelists.ServiceLayer.Authentication;
 using System.Collections;

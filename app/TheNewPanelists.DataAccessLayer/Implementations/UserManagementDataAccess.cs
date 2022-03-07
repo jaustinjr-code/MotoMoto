@@ -74,7 +74,7 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            string? databaseName = Console.ReadLine();
+            //string? databaseName = Console.ReadLine();
 
             // Console.WriteLine("Please Enter Database/Schema password: ");
             // StringBuilder input = new StringBuilder();

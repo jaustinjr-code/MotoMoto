@@ -44,7 +44,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             } 
             else if (this.operation == "ACCOUNT RECOVERY")
             {
-                query = this.AccountRecovery();
+                //query = this.AccountRecovery();
                 Console.WriteLine(query);
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
@@ -134,6 +134,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
+        /**
         private string AccountRecovery()
         {
             if (this.userAccount.ContainsKey("username"))
@@ -159,7 +160,8 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             }
             return String.Empty;
         }
-
+        */
+        
         public bool IsValidRequest()
         {
             bool containsOperation = this.operation!.Contains("FIND") ||  this.operation!.Contains("CREATE")
@@ -192,7 +194,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     query = this.UpdateOptions();
                     break;
                 case "ACCOUNT RECOVERY":
-                    query = this.AccountRecovery();
+                    //query = this.AccountRecovery();
                     break;
             }
             return query;
