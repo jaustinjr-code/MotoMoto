@@ -70,8 +70,8 @@ namespace app
                 {
                     entry = new UserManagementEntry();
                     Console.Write("Enter the request file path: ");
-                    string filepath = Console.ReadLine();
-                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath));
+                    string? filepath = Console.ReadLine();
+                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
                 }
                 input = menu();
             }
@@ -85,58 +85,58 @@ namespace app
                 Console.WriteLine("Enter the fields to create a new account:");
 
                 Console.Write("Type ID: (ADMIN, REGISTERED, DEFAULT) ");
-                string type = Console.ReadLine();
-                request.Add("typeId", type);
+                string? type = Console.ReadLine();
+                request.Add("typeId", type!);
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
                 // Password entry is not secured!
                 Console.Write("Password: ");
-                string password = Console.ReadLine();
-                request.Add("password", password);
+                string? password = Console.ReadLine();
+                request.Add("password", password!);
                 Console.Write("Email: ");
-                string email = Console.ReadLine();
-                request.Add("email", email);
+                string? email = Console.ReadLine();
+                request.Add("email", email!);
                 Console.Write("Status: (TRUE/FALSE) ");
-                string status = Console.ReadLine();
-                request.Add("status", status);
+                string? status = Console.ReadLine();
+                request.Add("status", status!);
                 Console.Write("Event Account Enabled: (TRUE/FALSE) ");
-                string eventAccount = Console.ReadLine();
-                request.Add("eventAccount", eventAccount);
+                string? eventAccount = Console.ReadLine();
+                request.Add("eventAccount", eventAccount!);
             }
             else if (operation == "DROP")
             {
                 Console.WriteLine("Enter the account username to delete:");
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
                 Console.WriteLine("Enter "+username+"'s Password: ");
-                string password = Console.ReadLine();
-                request.Add("password", password);
+                string? password = Console.ReadLine();
+                request.Add("password", password!);
             }
             else if (operation == "UPDATE")
             {
                 Console.WriteLine("Enter the fields to update: (Leave blank if no change)");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 Console.Write("New Username: ");
-                string newusername = Console.ReadLine();
+                string? newusername = Console.ReadLine();
                 if (username != "")
-                    request.Add("newusername", username);
+                    request.Add("newusername", username!);
 
                 // This is not secured!
                 Console.Write("New Password: ");
-                string password = Console.ReadLine();
+                string? password = Console.ReadLine();
                 if (password != "")
-                    request.Add("newpassword", password);
+                    request.Add("newpassword", password!);
 
                 Console.Write("New Email: ");
-                string email = Console.ReadLine();
+                string? email = Console.ReadLine();
                 if (email != "")
-                    request.Add("newemail", email);
+                    request.Add("newemail", email!);
             }
             else if (operation == "DISABLE")
             {
@@ -146,8 +146,8 @@ namespace app
                     Console.WriteLine("Enter the account username to delete:");
 
                     Console.Write("Username: ");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                 }
                 else
                 {
@@ -163,8 +163,8 @@ namespace app
                     Console.WriteLine("Enter the account username to delete:");
 
                     Console.Write("Username: ");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                 }
                 else
                 {
@@ -182,16 +182,16 @@ namespace app
                 Console.WriteLine("Enter the account information to authenticate");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 Console.Write("Password: ");
-                string password = Console.ReadLine();
-                request.Add("password", password);
+                string? password = Console.ReadLine();
+                request.Add("password", password!);
 
                 Console.Write("OTP: ");
-                string otp = Console.ReadLine();
-                request.Add("otp", otp);
+                string? otp = Console.ReadLine();
+                request.Add("otp", otp!);
             }
 
             else if (operation == "FIND_RATING")
@@ -199,8 +199,8 @@ namespace app
                 Console.WriteLine("Enter the name of the account that you want to rate");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 //Console.Write("Rating from 1-5: ");
                 //string rating = Console.ReadLine();
@@ -213,8 +213,8 @@ namespace app
                 Console.WriteLine("Enter the name of the account that you want to review");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 //Console.Write("Rating from 1-5: ");
                 //string review = Console.ReadLine();
@@ -226,16 +226,16 @@ namespace app
                 Console.WriteLine("Enter the name of the account that you want to Rate and Review");
 
                 Console.Write("Username: ");
-                string username = Console.ReadLine();
-                request.Add("username", username);
+                string? username = Console.ReadLine();
+                request.Add("username", username!);
 
                 Console.Write("Rating from 1-5: ");
-                string rating = Console.ReadLine();
-                request.Add("rating", rating);
+                string? rating = Console.ReadLine();
+                request.Add("rating", rating!);
 
                 Console.Write("Review using 0-1000 UTF-8 Characters: ");
-                string review = Console.ReadLine();
-                request.Add("review", review);
+                string? review = Console.ReadLine();
+                request.Add("review", review!);
             }
 
             return request;
@@ -298,13 +298,13 @@ namespace app
             {
                 case "1":
                     Console.WriteLine("Enter account email:");
-                    string email = Console.ReadLine();
-                    request.Add("email", email);
+                    string? email = Console.ReadLine();
+                    request.Add("email", email!);
                     break;
                 case "2":
                     Console.WriteLine("Enter account username:");
-                    string username = Console.ReadLine();
-                    request.Add("username", username);
+                    string? username = Console.ReadLine();
+                    request.Add("username", username!);
                     break;
                 //case "3":
                 //    return "EXIT";

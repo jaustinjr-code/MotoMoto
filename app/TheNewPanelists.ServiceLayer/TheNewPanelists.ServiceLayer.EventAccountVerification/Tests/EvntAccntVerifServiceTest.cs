@@ -10,7 +10,7 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
 {
     public class EvntAccntVerifServiceTest
     {
-        private string operation;
+        private string? operation;
         private bool result;
         Stopwatch timer = new Stopwatch();
 

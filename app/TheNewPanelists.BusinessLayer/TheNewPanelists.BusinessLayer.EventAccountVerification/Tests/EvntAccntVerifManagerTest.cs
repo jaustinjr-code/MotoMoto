@@ -13,8 +13,8 @@ namespace TheNewPanelists.BusinessLayer.EventAccountVerification
     public class EvntAccntVerifManagerTest
     {
 
-        private string operation;
-        private bool result;
+        //private string operation;
+        //private bool result;
         Stopwatch timer = new Stopwatch();
 
         [Fact]

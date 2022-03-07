@@ -9,12 +9,17 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
     class EvntAccntVerifService : IEvntAccntVerifService
     {
         
-        private string operation {get; set;}
-        private EvntAccntVerifDataAccess evntAccntVerifDataAccess;
+        private string? operation {get; set;}
+        private EvntAccntVerifDataAccess? evntAccntVerifDataAccess;
         //private UserManagementManager EvntAcctVerifManager;
-        private Dictionary<string, string> userProfile {get; set;}
+        private Dictionary<string, string>? userProfile {get; set;}
         
-        public EvntAccntVerifService() {}
+        public EvntAccntVerifService() 
+        {
+            operation = null;
+            evntAccntVerifDataAccess = null;
+            userProfile = null;
+        }
         public EvntAccntVerifService(string operation, Dictionary<string, string>  userProfile) {
             this.operation = operation;
             this.userProfile = userProfile;
@@ -66,11 +71,20 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
         
         public bool IsValidRequest()
         {
-            bool containsOperation = this.operation.Contains("FIND_RATING") || this.operation.Contains("FIND_REVIEW") || this.operation.Contains("POST_RATING_AND_REVIEW");
-            if (containsOperation) {
-                return HasValidAttributes();
+            if (this.operation != null) 
+            {
+                bool containsOperation = this.operation.Contains("FIND_RATING") || this.operation.Contains("FIND_REVIEW") || this.operation.Contains("POST_RATING_AND_REVIEW");
+                if (containsOperation)
+                {
+                    return HasValidAttributes();
+                }
+                return false;
             }
-            return false;
+            else
+            {
+                return false;
+            }
+
         }
 
         public string getQuery()
@@ -106,17 +120,29 @@ namespace TheNewPanelists.ServiceLayer.EventAccountVerification
 
         private string FindRating()
         {
-            return "SELECT u.rating FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
+            if (this.userProfile != null)
+            {
+                return "SELECT u.rating FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
+            }
+            else { return "False"; }
         }
 
         private string FindReview()
         {
-            return "SELECT u.review FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
+            if (this.userProfile != null)
+            {
+                return "SELECT u.review FROM EventAccount u WHERE u.username='" + this.userProfile["username"] + "';";
+            }
+            else { return "False"; }
         }
 
         private string CreateRatingAndReview()
         {
-            return "INSERT INTO EventAccount (username, rating, review) VALUES ('" + this.userProfile["username"] + "', '" + this.userProfile["rating"] + "', '" + this.userProfile["review"] + "');";
+            if (this.userProfile != null)
+            {
+                return "INSERT INTO EventAccount (username, rating, review) VALUES ('" + this.userProfile["username"] + "', '" + this.userProfile["rating"] + "', '" + this.userProfile["review"] + "');";
+            }
+            else { return "False"; }
         }
 
         public bool HasValidAttributes()

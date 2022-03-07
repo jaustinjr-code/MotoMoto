@@ -9,10 +9,14 @@ namespace TheNewPanelists.DataAccessLayer
 {
     public class EvntAccntVerifDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; }
+        private MySqlConnection? mySqlConnection = null;
 
-        public EvntAccntVerifDataAccess() { }
+        public EvntAccntVerifDataAccess() 
+        {
+            query = null;
+            mySqlConnection = null;
+        }
 
         public EvntAccntVerifDataAccess(string query)
         {
@@ -23,7 +27,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -74,7 +78,7 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> informationLog = new Dictionary<string, string>();
 
             Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            string databaseName = Console.ReadLine();
+            string? databaseName = Console.ReadLine();
 
             Console.WriteLine("Please Enter Database/Schema password: ");
             StringBuilder input = new StringBuilder();
@@ -122,14 +126,23 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == -1)
             {
+                if (mySqlConnection != null)
+                {
+                    mySqlConnection.Close();
+                    Console.WriteLine("Connection closed...");
+
+                    return true;
+                }
+                else { return false; }
+
+            }
+            if (mySqlConnection != null)
+            {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
-
-                return true;
+                return false;
             }
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+            else { return false; }
         }
 
         public bool PostRatingAndReview()
@@ -140,15 +153,22 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
+                if (mySqlConnection != null)
+                {
+                    mySqlConnection.Close();
+                    Console.WriteLine("Connection closed...");
+
+                    return true;
+                }
+
+            }
+            if (mySqlConnection != null)
+            {
                 mySqlConnection.Close();
                 Console.WriteLine("Connection closed...");
-
-                return true;
+                return false;
             }
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+            else { return false; }
         }
-
     }
 }
