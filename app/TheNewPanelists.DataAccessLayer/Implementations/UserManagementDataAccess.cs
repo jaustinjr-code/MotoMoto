@@ -124,8 +124,18 @@ namespace TheNewPanelists.DataAccessLayer
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
-            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            MySqlCommand command = new(this.query, mySqlConnection);
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+
             if (command.ExecuteNonQuery() == 1)
+            {
+                mySqlConnection!.Close();
+                Console.WriteLine("Connection closed...");
+                return true;
+            }
+            while (reader.Read())
             {
                 Console.WriteLine(String.Format("{0}", reader[0]));
                 if (flag)
@@ -133,16 +143,10 @@ namespace TheNewPanelists.DataAccessLayer
                     string message = "Your username is: " + reader[0];
                     sendEmail(message);
                 }
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return true;
-            } 
-            else
-            {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return false;
             }
+            mySqlConnection!.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
             
         }
 

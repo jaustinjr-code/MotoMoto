@@ -74,7 +74,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.RegisterUser();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
-            return this.userManagementDataAccess.SelectAccount();            
+            //if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false)
+            //{
+            //    return false;
+            //}
+            return this.userManagementDataAccess.SelectAccount(accountRecoveryFlag);            
         }
 
         public Dictionary<string, string> ReturnUser()
@@ -195,7 +199,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string AccountRecovery()
         {
-            if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false) 
             string message = string.Empty;
             string query = string.Empty;
             if (this.userAccount.ContainsKey("username"))
