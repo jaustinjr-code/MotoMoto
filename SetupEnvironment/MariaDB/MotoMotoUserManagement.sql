@@ -11,7 +11,9 @@ CREATE TABLE User (
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
-    CONSTRAINT user_Pk PRIMARY KEY (userId, username)
+    CONSTRAINT user_Pk PRIMARY KEY (userId),
+    CONSTRAINT username_Uk UNIQUE KEY (username),
+    CONSTRAINT email_Uk UNIQUE KEY (email)
 );
 
 CREATE TABLE Authentication (
@@ -22,8 +24,10 @@ CREATE TABLE Authentication (
     attempts INT NOT NULL,
     sessionEndTime VARCHAR(80),
     userIp VARCHAR(100),
+    accountStatus VARCHAR(20),
     CONSTRAINT Authentication_PK PRIMARY KEY (userId, username),
-    CONSTRAINT Authentication_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username)
+    CONSTRAINT Authentication_UK UNIQUE (username),
+    CONSTRAINT Authentication_FK FOREIGN KEY (userId) REFERENCES User (userId)
 );
 
 

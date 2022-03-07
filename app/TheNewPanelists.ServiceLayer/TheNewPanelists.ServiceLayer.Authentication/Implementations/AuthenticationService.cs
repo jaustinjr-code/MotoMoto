@@ -16,10 +16,10 @@ namespace TheNewPanelists.ServiceLayer.Authentication
         private string username {get; set;}
         private string userEmail {get; set;}
         private string otp {get; set;}
-        private DateTime otpExpireTime {get; set;}  
+        private DateTime? otpExpireTime {get; set;}  
         private string userOtp {get; set;}
         public int attempts {get; set;}
-        private DateTime sessionEndTime {get; set;}
+        private DateTime? sessionEndTime {get; set;}
         private string userIp {get; set;}
         private AuthenticationDataAccess authenticationDataAccess;
         public AuthenticationService() {}
@@ -35,10 +35,10 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             this.username = userAccount["username"];
             this.userEmail = "";
             this.otp = "";
-            this.otpExpireTime = new DateTime();
+            this.otpExpireTime = null;
             this.userOtp = "";
             this.attempts = 0;
-            this.sessionEndTime = new DateTime();
+            this.sessionEndTime = null;
             this.userIp = "";
             this.authenticationDataAccess = new AuthenticationDataAccess();
         }
@@ -52,7 +52,7 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             while (this.attempts < 5 && !authenticated)
             {
                 bool repeat = true;
-                while ((!validUsername || string.IsNullOrEmpty(this.userEmail)) && repeat)
+                while (!validUsername || string.IsNullOrEmpty(this.userEmail) || repeat)
                 {
                     Console.WriteLine("Enter the account information to authenticate");
 
@@ -72,67 +72,92 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                         Console.WriteLine("Invalid username or password provided." +
                             " Try again or contact system administrator.");
                     }
-                    else
+                    else if (validUsername)
                     {
+                        Console.WriteLine("Valid user");
+                        this.userId = int.Parse(userInfo["userId"]);
+                        SelectUser("Authentication");
                         this.userId = int.Parse(userInfo["userId"]);
                         this.userEmail = userInfo["email"];
+                        if (string.IsNullOrEmpty(this.otp) && this.attempts < 5)
+                        {
+                            this.otp = GenerateOTP();
+                            if (this.attempts == 0)
+                            {
+                                UpdateTable(0);
+                            }
+                            
+                            SendEmail(this.otp, userEmail);     
+                            UpdateTable(1);     // updates the OTP and its expiration time
+                        }
                         repeat = false;
                     }
                 }
 
-                Console.WriteLine("Valid user");
-                SelectUser("Authentication");
-                if (string.IsNullOrEmpty(this.otp) && this.attempts < 5)
-                {
+                while (!authenticated && !repeat && this.attempts < 5)      //while (!authenticated && !repeat)
+                {   
+                    DateTime currentTime;
+
                     Console.Write("Enter received OTP: ");
                     userOtp = Console.ReadLine();
-                    this.userAccount.Add("userOtp", userOtp);
-                    DateTime currentTime = DateTime.Now;
-                    // SelectUser("Authentication");
+                    this.userOtp = userOtp;
+                    currentTime = DateTime.Now;
+
+                    // checks if the user entered the correct otp before the otp expires
+                    // then authenticate the user and delete the user info from
+                    // Authentication table
                     if (this.otp == this.userOtp && currentTime <= this.otpExpireTime)
                     {
                         Console.WriteLine("Authentication Successful!");
-                        this.attempts = 0;
                         authenticated = true;
                         repeat = false;
-                        UpdateTable(2);
-                        SelectUser("Authentication");
+                        UpdateTable(3);     // code 3: deletes the authenticated user info from the table
                     }
                     else if (this.otp == this.userOtp && currentTime > this.otpExpireTime)
-                    {
+                    {   
                         Console.WriteLine("Authentication Failed!");
                         Console.WriteLine("Entered expired OTP!");
                         this.attempts++;
-                        UpdateTable(2);
+                        this.otp = "";
+                        this.otpExpireTime = null;
+                        UpdateTable(1);
                         repeat = true;
-                        SelectUser("Authentication");
+                        // SelectUser("Authentication");
                     }
-                    else
+                    else if (this.otp != this.userOtp)
                     {
                         Console.WriteLine("Authentication Failed!");
-                            Console.WriteLine("Invalid username, password, and/or OTP." +
-                                        " Retry again or contact system administrator.");
-                            this.attempts++;
-                            UpdateTable(2);
-                            repeat = true;
-                            SelectUser("Authentication");
+                        Console.WriteLine("Invalid username, password, and/or OTP." +
+                                " Retry again or contact system administrator.");
+                        this.attempts++;
+                        this.otp = "";
+                        this.otpExpireTime = null;
+                        UpdateTable(1);
+                        repeat = true;
+                        // SelectUser("Authentication");
+                    }
+                    if (this.attempts == 1)
+                    {
+                        this.sessionEndTime = currentTime.AddDays(1);
+                        UpdateTable(4);      // code 4: starts 24 hour timer
                     }
                 }
-                if (!repeat && this.attempts < 5)
-                {
-                    this.otp = GenerateOTP();
+                // if (!repeat || this.attempts < 5)
+                // {
+                //     this.otp = GenerateOTP();
 
-                    UpdateTable(0);
+                //     UpdateTable(0);
 
-                    SendEmail(this.otp, userEmail);
-                    UpdateTable(1);
-                    SelectUser("Authentication");
-                }
+                //     SendEmail(this.otp, userEmail);
+                //     UpdateTable(1);
+                //     SelectUser("Authentication");
+                // }
             }
             if (this.attempts == 5) 
             {
                 Console.WriteLine("You've reached the maximum authentication attempts."
                                 + "\nYour account has been disabled for security reasons.");
+                UpdateTable(2);
             }
         }
 
@@ -140,8 +165,10 @@ namespace TheNewPanelists.ServiceLayer.Authentication
         {
             // code: 
             //  0: checks wheather the user is already in the Authentication table or not
-            //  1: updates the OTP and its expiration time
-            //  2: updates number of attempts
+            //  1: updates number of attempts, otp, otpExpireTime
+            //  2: updates accountStatus
+            //  3: delete user from the authentication table once the user successfully authenticated the account
+            //  4: starts 24 hour timer
 
             string query = "";
 
@@ -172,29 +199,47 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                     }
                 }
             }
-
             else if (code == 1)
             {
                 query = $@"UPDATE AUTHENTICATION
-                            SET otp = '{this.otp}', otpExpireTime = '{this.otpExpireTime}'
+                            SET attempts = '{this.attempts}', otp = '{this.otp}',
+                            otpExpireTime = '{this.otpExpireTime}'
                             WHERE userId = {this.userId};";
                 this.authenticationDataAccess = new AuthenticationDataAccess(query);
                 authenticationDataAccess.UpdateAuthenticationTable();
             }
-            else if (code == 2)
+            else if (code == 2)     // locks user account when attempts reaches 5
             {
                 query = $@"UPDATE AUTHENTICATION
-                            SET attempts = '{this.attempts}'
+                            SET accountStatus = LOCKED
+                            WHERE userId = {this.userId};";
+                this.authenticationDataAccess = new AuthenticationDataAccess(query);
+                authenticationDataAccess.UpdateAuthenticationTable();
+            }
+            else if (code == 3)
+            {
+                query = $@"DELETE FROM AUTHENTICATION
+                            WHERE userId = {this.userId};";
+                this.authenticationDataAccess = new AuthenticationDataAccess(query);
+                authenticationDataAccess.UpdateAuthenticationTable();
+            }
+            else if (code == 4)
+            {
+                query = $@"UPDATE AUTHENTICATION
+                            SET sessionEndTime = '{this.sessionEndTime}'
                             WHERE userId = {this.userId};";
                 this.authenticationDataAccess = new AuthenticationDataAccess(query);
                 authenticationDataAccess.UpdateAuthenticationTable();
             }
             
         }
+
         private Dictionary<string, string> SelectUser(string tableName)
         {
             Dictionary<string, string> userInfo = new Dictionary<string, string> ();
             string query = "";
+            
+            // checks if the user is in the User table with the given username & password
             if (tableName == "User")
             {
                 query = $@"SELECT userId, email FROM {tableName}
@@ -205,6 +250,8 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                 userInfo = this.authenticationDataAccess.SelectUser();
             }
 
+            // checks if the user is already in the Authentication table
+            // if so, sets otp, otpExpiretime, attempts, userIp...
             else if (tableName == "Authentication")
             {
                 query = $@"SELECT * FROM {tableName}
@@ -212,11 +259,16 @@ namespace TheNewPanelists.ServiceLayer.Authentication
 
                 this.authenticationDataAccess = new AuthenticationDataAccess(query);
                 userInfo = this.authenticationDataAccess.SelectUser();
-                this.otp = userInfo["otp"];
-                this.otpExpireTime = DateTime.Parse(userInfo["otpExpireTime"]);
-                this.attempts = int.Parse(userInfo["attempts"]);
-                // this.sessionEndTime = DateTime.Parse(userInfo["sessionEndTime"]);
-                this.userIp = userInfo["userIp"];
+                if (userInfo.Count != 0)
+                {
+                    this.otp = !string.IsNullOrEmpty(userInfo["otp"])? userInfo["otp"] : null;
+                    this.otpExpireTime = !string.IsNullOrEmpty(userInfo["otpExpireTime"])? 
+                                        DateTime.Parse(userInfo["otpExpireTime"]) : null;
+                    this.attempts = int.Parse(userInfo["attempts"]);
+                    // this.sessionEndTime = DateTime.Parse(userInfo["sessionEndTime"]);
+                    this.userIp = userInfo["userIp"];
+                }
+                
             }
             
 
@@ -262,82 +314,23 @@ namespace TheNewPanelists.ServiceLayer.Authentication
                     Console.WriteLine("Invalid Input - Try Again");
                     return false;
             }
-
-            // foreach(KeyValuePair<string, string> entry in userAccount){
-            //     if (string.IsNullOrEmpty(entry.Value))
-            //     {
-            //         return false;
-            //     }
-            //     else if (entry.Key == "username")
-            //     {
-            //         bool IsValidPattern = letter.IsMatch(entry.Value) && num.IsMatch(entry.Value) 
-            //             && specialChar.IsMatch(entry.Value) && length.IsMatch(entry.Value);
-            //         if (!IsValidPattern)
-            //         {
-            //             Console.WriteLine("failed username test");
-            //             return false;
-            //         }
-            //         Console.WriteLine("passed username test");
-            //     }
-            //     else if (entry.Key == "password")
-            //     {
-
-            //     }
-            //     else if (entry.Key == "otp")
-            //     {
-            //         bool IsValidPattern = letter.IsMatch(entry.Value) && num.IsMatch(entry.Value) 
-            //             && specialChar.IsMatch(entry.Value) && length.IsMatch(entry.Value);
-            //         if (!IsValidPattern)
-            //         {
-            //             Console.WriteLine("failed OTP test");
-            //             return false;
-            //         }
-            //         Console.WriteLine("passed OTP test");
-            //     }
-            // }
-            // return true;
         }
-        
-        // public bool SqlGenerator()
-        // {   
-        //     Dictionary<string, string> informationLog = new Dictionary<string, string>();
-        //     string query = "";
-        
-        //     query = this.FindUser();
-            
-
-        //     this.userManagementDataAccess = new UserManagementDataAccess(query);
-        //     if (this.userManagementDataAccess.SelectAccount() == false) 
-        //     {
-        //         return false;
-        //     }
-        //     informationLog.Add("categoryname", "DATA STORE");
-        //     informationLog.Add("levelname", "INFO");
-        //     informationLog.Add("description","Account Selection COMPLETION, Information in CRUD Operation Queries Executed.");
-        //     ILogService loggingSuccess = new LogService("CREATE", informationLog, true);
-        //     loggingSuccess.SqlGenerator();
-        //     return true;
-        // }
-
-        // private string FindUser()
-        // {
-        //     return "SELECT u.usernameFROM User u WHERE u.username =" + this.userAccount["username"] + ";";
-        // }
 
         private void SendEmail(string otp, string userEmail)
         {   
             StringBuilder input = new StringBuilder();
 
             string email = "projmotomoto@gmail.com";
-            Console.WriteLine($"Enter password for {email}:");
-            while (true)
-            {
-                var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter) break;
-                if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
-                else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
-            }
-            string pass = input.ToString();
+            string pass = "Tester491!";
+            // Console.WriteLine($"Enter password for {email}:");
+            // while (true)
+            // {
+            //     var key = Console.ReadKey(true);
+            //     if (key.Key == ConsoleKey.Enter) break;
+            //     if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
+            //     else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
+            // }
+            // string pass = input.ToString();
 
             try
             {
