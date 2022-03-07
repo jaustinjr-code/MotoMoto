@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Mail;
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
@@ -8,10 +9,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 {
     public class UserManagementService : IUserManagementService 
     {
-        private string? operation {get; set;}
-        private UserManagementDataAccess? userManagementDataAccess;
-        // private UserManagementManager userManagementManager;
-        private Dictionary<string, string>? userAccount {get; set;}
+        private bool accountRecoveryFlag = false;
+        private string operation {get; set;}
+        private UserManagementDataAccess userManagementDataAccess;
+        //private UserManagementManager userManagementManager;
+        private Dictionary<string, string> userAccount {get; set;}
         
         public UserManagementService() {}
         
@@ -44,7 +46,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             } 
             else if (this.operation == "ACCOUNT RECOVERY")
             {
-                //query = this.AccountRecovery();
+                query = this.AccountRecovery();
                 Console.WriteLine(query);
             }
             else if (this.operation == "ISVALID")
@@ -72,7 +74,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.RegisterUser();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
-
             return this.userManagementDataAccess.SelectAccount();            
         }
 
@@ -191,33 +192,51 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
-        /**
+
         private string AccountRecovery()
         {
+            if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false) 
+            string message = string.Empty;
+            string query = string.Empty;
             if (this.userAccount.ContainsKey("username"))
             {
                 string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-
-                SmtpClient client = new SmtpClient(args[0]);
-                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
-                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
-                MailMessage message = new MailMessage(from, to);
-                message.Body = "Please reset your password using the following link: " +; //Need to include UPDATE operation? So that they can update their password?
-                //Email must time out if they don't click the link within 15 seconds
+                message = "Please reset your password: ";
+                sendEmail(message);
+                Console.Write("New Password: ");
+                string password = Console.ReadLine();
+                if (!string.IsNullOrEmpty(password))
+                {
+                    this.userAccount["newpassword"] = password;
+                    query = UpdateOptions();
+                }
             }
             else if (this.userAccount.ContainsKey("email"))
             {
-                string username = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
-
-                SmtpClient client = new SmtpClient(args[0]);
-                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
-                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
-                MailMessage message = new MailMessage(from, to);
-                message.Body = "Your username is: " + this.userAccount["username"];
+                accountRecoveryFlag = true;
+                query = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
             }
-            return String.Empty;
+            return query;
         }
-        */
+
+        public void sendEmail(string message)
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("projmotomoto@gmail.com");
+                mail.To.Add("projmotomoto@gmail.com");
+                mail.Subject = "MotoMoto Account Recovery";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+        }
         
         public bool IsValidRequest()
         {

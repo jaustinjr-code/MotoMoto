@@ -3,7 +3,9 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
 using TheNewPanelists.ServiceLayer.Logging;
-
+using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
 
 namespace TheNewPanelists.DataAccessLayer
 {
@@ -117,7 +119,7 @@ namespace TheNewPanelists.DataAccessLayer
             return false;
         }
 
-        public bool SelectAccount()
+        public bool SelectAccount(bool flag)
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
@@ -125,6 +127,12 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
+                Console.WriteLine(String.Format("{0}", reader[0]));
+                if (flag)
+                {
+                    string message = "Your username is: " + reader[0];
+                    sendEmail(message);
+                }
                 mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
@@ -180,6 +188,25 @@ namespace TheNewPanelists.DataAccessLayer
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
             return accountInfo;
+        }
+
+        public void sendEmail(string message)
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("projmotomoto@gmail.com");
+                mail.To.Add("projmotomoto@gmail.com");
+                mail.Subject = "MotoMoto Account Recovery";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
         }
     }
 }
