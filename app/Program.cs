@@ -133,6 +133,7 @@ namespace app
             else if (operation == "ACCOUNT RECOVERY")
             {
                 request = accountRecovery(request);
+
             }
 
             //OPERATION FOR WHEN USER IS SENT AN EMAIL TO RESET THEIR PASSWORD
@@ -240,7 +241,7 @@ namespace app
                         string operation = "SERVER";
                         log.Add("username", username);
                         log.Add("level", "INFO");
-                        log.Add("userId", request.["userId"]);
+                        log.Add("userId", username); //changed from request.["userID"]       -Isabel
                         log.Add("DSCRIPTION", "User successfully logout");
                         LogService logservice = new LogService(operation, log, true);
 
@@ -255,7 +256,7 @@ namespace app
                     string operation = "SERVER";
                     log.Add("username", username);
                     log.Add("level", "ERROR");
-                    log.Add("userId", request.["userId"]);
+                    log.Add("userId", username);
                     log.Add("DSCRIPTION", "Logout ERROR");
                     LogService logservice = new LogService(operation, log, true);
                     menu();

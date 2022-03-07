@@ -43,7 +43,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 Console.WriteLine("UPDATE OP");
             } 
             this.profileManagementDataAccess = new UserManagementDataAccess(query);
-            if (this.profileManagementDataAccess.SelectAccount() == false) 
+            if (this.profileManagementDataAccess.SelectAccount(false) == false) 
             {
                 return false;
             }
