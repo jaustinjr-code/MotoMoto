@@ -1,6 +1,6 @@
 // using TheNewPanelists.ServiceLayer.AuthorizationService;
 
-interface IAnalysisManager
+public interface IAnalysisManager
 {
     bool IsValidRequest();
 }

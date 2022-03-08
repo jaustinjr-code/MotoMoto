@@ -4,23 +4,26 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.BusinessLayer
 {
-    class UsageAnalysisDashboardManager : IAnalysisManager
+    public class UsageAnalysisDashboardManager : IAnalysisManager
     {
-        IAuthorization _authorization;
+        // IAuthorization _authorization;
         IAnalysisService? _service;
         private string _authType;
-        //public UsageAnalysisDashboardManager()
-        //{
-        //}
+        // public UsageAnalysisDashboardManager()
+        // {
+        //     Console.WriteLine("Yes");
+        // }
         public UsageAnalysisDashboardManager(string[] sessionInfo)
         {
             // Call Authorization service on sessionInfo
-            _authorization = new ApplicationLayer.Authorization.UserManagementAuthorization();
-            _authType = _authorization.getAuthType();
+            // _authorization = new ApplicationLayer.Authorization.UserManagementAuthorization();
+            _authType = "ADMIN";
+            // _authType = _authorization.getAuthType();
             if (!IsValidRequest()) throw new Exception("Unauthorized user");
         }
 
-        private IList<IList<IDictionary<string, string>>?> RequestGetAnalytics(IDictionary<string, string> request)
+        // Does this take care of Update Analytics as well?
+        public IList<IList<IDictionary<string, string>>?> RequestGetAnalytics(IDictionary<string, string> request)
         {
             if (_authType == null) throw new Exception("Authorization not found");
             if (_authType != null && !(_authType.Equals("ADMIN"))) throw new Exception("Unauthorized user");
@@ -28,7 +31,8 @@ namespace TheNewPanelists.BusinessLayer
             // Automatically refresh data every 60 seconds here?
             string[] tables = { "ViewAnalytics", "AdmissionAnalytics", "CommunityBoardAnalytics", "EventListAnalytics" };
             if (request["table"].Equals(tables[0]))
-                _service = new ViewAnalyticService(request);
+                _service = new ViewAnalyticService();
+            // _service = new ViewAnalyticService(request);
             else if (request["table"].Equals(tables[1]))
                 _service = new AdmissionAnalyticService(request);
             else if (request["table"].Equals(tables[2]))
@@ -46,7 +50,13 @@ namespace TheNewPanelists.BusinessLayer
             //return result;
             //if (Completed) return result;
             //throw new Exception("Task exceeded time limit");
+            // Console.WriteLine("\n\n\nReturning\n\n\n");
             return _service.GetAnalytics();
+        }
+
+        public bool RequestUpdateAnalytics()
+        {
+            return false;
         }
 
         public bool IsValidRequest()

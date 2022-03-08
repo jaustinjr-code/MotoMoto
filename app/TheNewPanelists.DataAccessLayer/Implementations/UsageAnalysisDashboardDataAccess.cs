@@ -59,7 +59,7 @@ namespace TheNewPanelists.DataAccessLayer
             //IList<IDictionary<string, string>> rawData = new List<IDictionary<string, string>>();
             try
             {
-                MySqlCommand command = new MySqlCommand(_query, _mySqlConnection);
+                MySqlCommand command = new MySqlCommand(_query, _mySqlConnection!);
                 reader = command.ExecuteReader();
                 //values = new Object[reader.FieldCount];
                 //while (reader.HasRows)
@@ -74,10 +74,11 @@ namespace TheNewPanelists.DataAccessLayer
                 //rawData.Add(rowValues);
                 //reader.Read();
                 //}
+                // _mySqlConnection!.Close();
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("Command threw error number {0}", e.Number);
+                Console.WriteLine("Command threw error number {0}", e.Message);
                 return null;
             }
             //finally
