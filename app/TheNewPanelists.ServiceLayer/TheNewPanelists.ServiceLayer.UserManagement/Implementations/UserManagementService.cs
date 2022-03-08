@@ -199,44 +199,44 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string AccountRecovery()
         {
-            string message = string.Empty;
-            string query = string.Empty;
-            if (this.userAccount.ContainsKey("username"))
+            string message = string.Empty; //instantiate a string that will hold the message for the email
+            string query = string.Empty; //instantiate a string that will hold the query we want to return
+            if (this.userAccount.ContainsKey("username")) //If the user chose 'Forgot Password' they will input their username, if they input their username they qualify for this case
             {
-                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-                message = "Please reset your password: ";
-                sendEmail(message);
-                Console.Write("New Password: ");
-                string password = Console.ReadLine();
-                if (!string.IsNullOrEmpty(password))
+                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';"; //Return the email of the user that is selected HOWEVER THIS DOESN'T WORK YET, the email is hardcoded below
+                message = "Please reset your password: "; //Email message to be sent, will eventually include front - end link and expiration time
+                sendEmail(message); //Call sendEmail function to email given message
+                Console.Write("New Password: "); //Ask user for new password
+                string password = Console.ReadLine(); //Read in the new password
+                if (!string.IsNullOrEmpty(password)) //Make sure the string in not empty
                 {
-                    this.userAccount["newpassword"] = password;
-                    query = UpdateOptions();
+                    this.userAccount["newpassword"] = password; //
+                    query = UpdateOptions(); //Call the update option 
                 }
             }
-            else if (this.userAccount.ContainsKey("email"))
+            else if (this.userAccount.ContainsKey("email")) //If the user chose 'Forgot Username' they will input their email, if they input their email they qualify for this case
             {
-                accountRecoveryFlag = true;
-                query = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
+                accountRecoveryFlag = true; //Set boolean to true
+                query = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';"; //Set query to get username from user with the specified email
             }
-            return query;
+            return query; //Return the query
         }
 
         public void sendEmail(string message)
         {
-            using (MailMessage mail = new MailMessage())
+            using (MailMessage mail = new MailMessage()) //Create an email
             {
-                mail.From = new MailAddress("projmotomoto@gmail.com");
-                mail.To.Add("projmotomoto@gmail.com");
-                mail.Subject = "MotoMoto Account Recovery";
-                mail.Body = message;
+                mail.From = new MailAddress("projmotomoto@gmail.com"); //Who you are sending the email from
+                mail.To.Add("projmotomoto@gmail.com"); //Who you are sending the email to
+                mail.Subject = "MotoMoto Account Recovery"; //What the subject of the email says
+                mail.Body = message; //What the body of the email says
                 mail.IsBodyHtml = true;
 
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) //Use built in SmtpClient to send email to/from gmail accounts
                 {
-                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!"); //Email and password of email you want to send from
                     smtp.EnableSsl = true;
-                    smtp.Send(mail);
+                    smtp.Send(mail); //Send email
                 }
             }
         }
