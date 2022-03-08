@@ -5,15 +5,26 @@ CREATE TABLE Type (
     CONSTRAINT Type_UK UNIQUE (typeId)
 );
 
+-- CREATE TABLE User (
+-- -- should add typeID that references profile table
+--     userId INT NOT NULL AUTO_INCREMENT,
+--     username VARCHAR(25) NOT NULL,
+--     password  VARCHAR(50) NOT NULL,
+--     email  VARCHAR(100) NOT NULL, 
+--     CONSTRAINT user_Pk PRIMARY KEY (userId),
+--     CONSTRAINT username_Uk UNIQUE KEY (username),
+--     CONSTRAINT email_Uk UNIQUE KEY (email)
+-- );
+
 CREATE TABLE User (
 -- should add typeID that references profile table
+    typeName VARCHAR(25) NOT NULL,
     userId INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
     CONSTRAINT user_Pk PRIMARY KEY (userId),
-    CONSTRAINT username_Uk UNIQUE KEY (username),
-    CONSTRAINT email_Uk UNIQUE KEY (email)
+    CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 );
 
 CREATE TABLE Authentication (
