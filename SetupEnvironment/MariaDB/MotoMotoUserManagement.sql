@@ -5,6 +5,17 @@ CREATE TABLE Type (
     CONSTRAINT Type_UK UNIQUE (typeId)
 );
 
+-- CREATE TABLE User (
+-- -- should add typeID that references profile table
+--     userId INT NOT NULL AUTO_INCREMENT,
+--     username VARCHAR(25) NOT NULL,
+--     password  VARCHAR(50) NOT NULL,
+--     email  VARCHAR(100) NOT NULL, 
+--     CONSTRAINT user_Pk PRIMARY KEY (userId),
+--     CONSTRAINT username_Uk UNIQUE KEY (username),
+--     CONSTRAINT email_Uk UNIQUE KEY (email)
+-- );
+
 CREATE TABLE User (
 -- should add typeID that references profile table
     typeName VARCHAR(25) NOT NULL,
@@ -17,18 +28,17 @@ CREATE TABLE User (
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
 );
 
--- CREATE TABLE Authentication (
---     userId INT NOT NULL,
---     username VARCHAR(25) NOT NULL,
---     otp VARCHAR(9),
---     otpExpireTime VARCHAR(80),
---     attempts INT NOT NULL,
---     sessionEndTime VARCHAR(80),
---     userIp VARCHAR(100),
---     CONSTRAINT Authentication_PK PRIMARY KEY (userId, username),
---     CONSTRAINT Authentication_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username)
--- >>>>>>> Code-UserAuthentication
--- );
+CREATE TABLE Authentication (
+    userId INT NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    otp VARCHAR(9),
+    otpExpireTime VARCHAR(80),
+    attempts INT NOT NULL,
+    sessionEndTime VARCHAR(80),
+    userIp VARCHAR(100),
+    CONSTRAINT Authentication_PK PRIMARY KEY (userId, username),
+    CONSTRAINT Authentication_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username)
+);
 
 
 CREATE TABLE Profile (
