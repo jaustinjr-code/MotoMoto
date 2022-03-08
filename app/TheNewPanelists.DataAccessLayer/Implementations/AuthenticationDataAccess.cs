@@ -12,7 +12,7 @@ namespace TheNewPanelists.DataAccessLayer
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;
 
-        public AuthenticationDataAccess() {}
+        public AuthenticationDataAccess() { }
 
         public AuthenticationDataAccess(string query)
         {
@@ -37,7 +37,7 @@ namespace TheNewPanelists.DataAccessLayer
             // Console.WriteLine(pass);
             // Console.WriteLine(System.Environment.UserName);
 
-            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={username};password={pass}");
+            MySqlConnection tempMySqlConnection = new MySqlConnection("server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;");
             // MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={user};password={pass}");
             try
             {
@@ -88,20 +88,20 @@ namespace TheNewPanelists.DataAccessLayer
             // }
             // string databasePass = input.ToString();
 
-            string databaseName = "MotoMotoDB";
-            string databasePass = "naeun";
+            // string databaseName = "MotoMotoDB";
+            // string databasePass = "naeun";
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            
+
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
+            string connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
             //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-                
+
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
@@ -114,7 +114,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-             
+
             return false;
         }
         public Dictionary<string, string> SelectUser()
@@ -126,7 +126,7 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
-            {  
+            {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
@@ -138,7 +138,7 @@ namespace TheNewPanelists.DataAccessLayer
             return userAccount;
         }
         public bool UpdateAuthenticationTable()
-        {  
+        {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 

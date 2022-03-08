@@ -32,7 +32,7 @@ namespace TheNewPanelists.DataAccessLayer
                 //else if (_mySqlConnection == null)
                 //{
                 // Temporarily using hard-coded connection string until App.config works
-                _mySqlConnection = new MySqlConnection("server=localhost;user=jcaustin;database=test;port=3306;password=;");
+                _mySqlConnection = new MySqlConnection("server=localhost;user=dev_moto;database=dev_UAD;port=3306;password=motomoto;");
                 //else throw new Exception("No connection string found.");
                 _mySqlConnection.Open();
                 //}
