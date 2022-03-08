@@ -123,7 +123,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
        private string FindUser()
         {
-            return $"SELECT u.userId FROM User u WHERE u.username = {this.userAccount!["username"]};";
+            return $"SELECT * FROM User u WHERE u.username = \'{this.userAccount!["username"]}\';";
         }
 
         private string CreateUser()

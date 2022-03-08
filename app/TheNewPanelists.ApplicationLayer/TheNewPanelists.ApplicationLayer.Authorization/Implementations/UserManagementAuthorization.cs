@@ -62,7 +62,7 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             string queryString = userManagmementServiceObject.getQuery();
             
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
-            // accountInfo = userManagementDataObject.GetAccountInformation();
+            accountInfo = userManagementDataObject.GetAccountInformation();
             this.accountDict = accountInfo;
 
             if (accountInfo == null) {
