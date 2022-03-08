@@ -119,7 +119,7 @@ namespace TheNewPanelists.DataAccessLayer
             return false;
         }
 
-        public bool SelectAccount(bool flag)
+        public bool SelectAccount(bool flag) //Will continue to work on this to be more effective
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
@@ -196,7 +196,7 @@ namespace TheNewPanelists.DataAccessLayer
             return accountInfo;
         }
 
-        public void sendEmail(string message)
+        public void sendEmail(string message) //INEFFICIENT METHOD, Should not have a duplicate method and ideally should avoid a flag
         {
             using (MailMessage mail = new MailMessage())
             {
