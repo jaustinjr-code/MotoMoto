@@ -35,7 +35,7 @@ namespace TheNewPanelists.ServiceLayer.Logging
                 DateTime dateTime = DateTime.Now;
                  string sqlFormattedDate = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 string commandSql = $@"INSERT INTO Log (logId, categoryName, levelName, timestamp, userID, DSCRIPTION)
-                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', '{sqlFormattedDate}', {userIdInt}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
+                                VALUES (NULL, '{log["categoryname"].ToUpper()}', '{log["levelname"].ToUpper()}', '{sqlFormattedDate}', {userId}, '{operation} : {(isSuccess ? "Success" : "Failure")} {log["description"]}');";
                 // Console.WriteLine(commandSql);
                 this.loggingDataAccess = new LoggingDataAccess(commandSql);
                 if (this.loggingDataAccess.LogAccess() == false) {
