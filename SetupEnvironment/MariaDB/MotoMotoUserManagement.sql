@@ -34,8 +34,8 @@ CREATE TABLE User (
 CREATE TABLE Profile (
     userId INT NOT NULL,
     username VARCHAR(25) NOT NULL,
-    status BOOL NOT NULL,
-    eventAccount BOOL NOT NULL,
+    status BOOL NOT NULL DEFAULT TRUE,
+    eventAccount BOOL NOT NULL DEFAULT FALSE,
     CONSTRAINT Profile_Pk PRIMARY KEY (username),
     CONSTRAINT Username_UK UNIQUE (username),
     CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId)
@@ -54,3 +54,6 @@ VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
     (NULL, "DEFAULT");
 
+INSERT INTO USER(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
+INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+                    EXCEPT SELECT p.userId, p.username FROM PROFILE p;

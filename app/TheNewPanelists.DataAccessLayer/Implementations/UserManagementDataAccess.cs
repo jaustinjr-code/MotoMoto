@@ -14,7 +14,7 @@ namespace TheNewPanelists.DataAccessLayer
         private string? query { get; set; }
         private MySqlConnection? mySqlConnection = null;
 
-        public UserManagementDataAccess() {}
+        public UserManagementDataAccess() { }
 
         public UserManagementDataAccess(string query)
         {
@@ -89,20 +89,20 @@ namespace TheNewPanelists.DataAccessLayer
             // }
             // string databasePass = input.ToString();
 
-            string databaseName = "MotoMotoDB";
-            string databasePass = "naeun";
+            // string databaseName = "MotoMotoDB";
+            // string databasePass = "naeun";
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            
+
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
+            string connectionString = $"server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
             //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-                
+
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
@@ -115,7 +115,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-             
+
             return false;
         }
 
@@ -147,7 +147,7 @@ namespace TheNewPanelists.DataAccessLayer
             mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             return false;
-            
+
         }
 
         public Dictionary<string, string> GetAccountInformation()
