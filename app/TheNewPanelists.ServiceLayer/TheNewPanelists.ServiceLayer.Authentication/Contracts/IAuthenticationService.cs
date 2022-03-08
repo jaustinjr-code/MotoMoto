@@ -2,6 +2,6 @@ namespace TheNewPanelists.ServiceLayer.Authentication
 {
     interface IAuthenticationService
     {
-        void RequestInput();
+        Dictionary<string, string> RequestInput();
     }
 }

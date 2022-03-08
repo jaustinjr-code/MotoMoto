@@ -18,14 +18,16 @@ namespace app
 
             IEntry entry;
             string input = menu();
-            int attempts = 0;
             while (input != "EXIT")
             {
                 if (input == "AUTHENTICATE")
                 {
+                    Dictionary<string, string> userInfo;
                     AuthenticationService authService = new AuthenticationService(input);
-                    authService.RequestInput();
-                    if (authService.attempts == 5)
+                    userInfo = authService.RequestInput();
+                    int attempts = int.Parse(userInfo["attempts"]);
+                    string accountStatus = userInfo["accountStatus"];
+                    if (attempts == 5 && accountStatus != "LOCKED")
                     {
                         input = "DISABLE";
                         Dictionary<string, string> request = InputRequest(input);
