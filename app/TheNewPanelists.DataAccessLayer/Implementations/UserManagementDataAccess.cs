@@ -3,7 +3,9 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
 using TheNewPanelists.ServiceLayer.Logging;
-
+using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
 
 namespace TheNewPanelists.DataAccessLayer
 {
@@ -12,7 +14,7 @@ namespace TheNewPanelists.DataAccessLayer
         private string? query { get; set; }
         private MySqlConnection? mySqlConnection = null;
 
-        public UserManagementDataAccess() {}
+        public UserManagementDataAccess() { }
 
         public UserManagementDataAccess(string query)
         {
@@ -87,20 +89,20 @@ namespace TheNewPanelists.DataAccessLayer
             // }
             // string databasePass = input.ToString();
 
-            string databaseName = "motomotousermanagement";
-            string databasePass = "password";
+            // string databaseName = "MotoMotoDB";
+            // string databasePass = "naeun";
             // MySqlConnection mySqlConnection;
             // This is a hardcoded string, it will be different based on your naming
             // Need to generalize the database name or create a new database and run the restore sql file on it
-            
+
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
+            string connectionString = $"server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
             //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
-                
+
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
@@ -113,37 +115,44 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-             
+
             return false;
         }
 
-        public bool SelectAccount()
+        public bool SelectAccount(bool flag) //Will continue to work on this to be more effective
         {
             if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
-            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            MySqlCommand command = new(this.query, mySqlConnection);
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+
             if (command.ExecuteNonQuery() == 1)
             {
                 mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
-            } 
-            else
-            {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return false;
             }
-            
+            while (reader.Read())
+            {
+                Console.WriteLine(String.Format("{0}", reader[0]));
+                if (flag)
+                {
+                    string message = "Your username is: " + reader[0];
+                    sendEmail(message);
+                }
+            }
+            mySqlConnection!.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
+
         }
+
         public Dictionary<string, string> GetAccountInformation()
         {
-            if (!EstablishMariaDBConnection())
-            {
-                Console.WriteLine("Connection failed to open...");
-                return new Dictionary<string, string>();
-            }
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
             else Console.WriteLine("Connection opened...");
 
             MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
@@ -154,6 +163,7 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> accountInfo = new Dictionary<string, string>();
             while (myReader.Read())
             {
+                Console.WriteLine(myReader.FieldCount);
                 accountInfo.Add("typeName", myReader.GetString("typeName"));
                 accountInfo.Add("userId", myReader.GetString("userId"));
                 accountInfo.Add("username", myReader.GetString("username"));
@@ -161,6 +171,48 @@ namespace TheNewPanelists.DataAccessLayer
                 accountInfo.Add("email", myReader.GetString("email"));
             }
             return accountInfo;
+        }
+
+        public Dictionary<string, string> GetRegInformation()
+        {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
+
+            MySqlDataReader myReader;
+            myReader = command.ExecuteReader();
+
+            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
+            while (myReader.Read())
+            {
+                accountInfo.Add("password", myReader.GetString("password"));
+                accountInfo.Add("url", myReader.GetString("url"));
+                accountInfo.Add("email", myReader.GetString("email"));
+            }
+
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+            return accountInfo;
+        }
+
+        public void sendEmail(string message) //INEFFICIENT METHOD, Should not have a duplicate method and ideally should avoid a flag
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("projmotomoto@gmail.com");
+                mail.To.Add("projmotomoto@gmail.com");
+                mail.Subject = "MotoMoto Account Recovery";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
         }
     }
 }

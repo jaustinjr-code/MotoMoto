@@ -64,9 +64,24 @@ namespace TheNewPanelists.BusinessLayer
                 default:
                     hasValidAttributes=false;
                     break;
-        }
-        return hasValidAttributes;
 
+                case "DROPREG":
+                    hasValidAttributes = attributes.ContainsKey("email");
+                    break;
+
+                case "FINDREG":
+                    hasValidAttributes = attributes.ContainsKey("email") && attributes.ContainsKey("url");
+                    break;
+
+                case "ISVALID":
+                    hasValidAttributes = attributes.ContainsKey("email");
+                    break;
+
+                case "ACCOUNT REGISTRATION":
+                    hasValidAttributes = attributes.ContainsKey("email") && attributes.ContainsKey("password");
+                    break;
+            }
+            return hasValidAttributes;
         }
 
         public void ParseAndCall()
@@ -81,6 +96,15 @@ namespace TheNewPanelists.BusinessLayer
                     CallOperation(operation, requestDictionary);
                 }
             }
+        }
+
+        public Dictionary<string, string> ReturnRegOperation(string operation, Dictionary<string, string> accountInfo)
+        {
+            Dictionary<string, string> result;
+            UserManagementService userManagementService = new UserManagementService(operation, accountInfo);
+            result = userManagementService.ReturnRegistrationEntry();
+
+            return result;
         }
 
         public bool CallOperation(string operation, Dictionary<string, string> accountInfo)

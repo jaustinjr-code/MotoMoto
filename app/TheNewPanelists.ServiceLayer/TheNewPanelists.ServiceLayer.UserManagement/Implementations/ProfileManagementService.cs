@@ -53,7 +53,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 query = this.BulkDelete();
             }
             this.profileManagementDataAccess = new UserManagementDataAccess(query);
-            if (this.profileManagementDataAccess.SelectAccount() == false)
+            if (this.profileManagementDataAccess.SelectAccount(false) == false) 
             {
                 return false;
             }

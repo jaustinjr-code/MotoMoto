@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Mail;
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
@@ -8,11 +9,11 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 {
     public class UserManagementService : IUserManagementService 
     {
-        private string? operation {get; set;}
-        private UserManagementDataAccess? userManagementDataAccess;
-        // private UserManagementManager userManagementManager;
-
-        private Dictionary<string, string>? userAccount {get; set;}
+        private bool accountRecoveryFlag = false;
+        private string operation {get; set;}
+        private UserManagementDataAccess userManagementDataAccess;
+        //private UserManagementManager userManagementManager;
+        private Dictionary<string, string> userAccount {get; set;}
         
         
         public UserManagementService() {}
@@ -46,42 +47,94 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             } 
             else if (this.operation == "ACCOUNT RECOVERY")
             {
-                //query = this.AccountRecovery();
+                query = this.AccountRecovery();
                 Console.WriteLine(query);
             }
-            else if (this.operation == "BULK")
+            else if (this.operation == "ISVALID")
             {
-                query = BulkOperation();
+                query = this.EmailValidated();
             }
-            else if (this.operation == "BULK_DELETE")
+            else if (operation == "DROPREG")
             {
-                query = BulkDelete();
+                query = this.DropRegistration();
+            }
+            else if (this.operation == "ACCOUNT REGISTRATION")
+            {
+                query = this.RegisterUser();
+            }
+            else if (this.operation == "ISVALID")
+            {
+                query = this.EmailValidated();
+            }
+            else if (operation == "DROPREG")
+            {
+                query = this.DropRegistration();
+            }
+            else if (this.operation == "ACCOUNT REGISTRATION")
+            {
+                query = this.RegisterUser();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
-            
-            if (this.userManagementDataAccess.SelectAccount() == false) 
-            {
-                return false;
-            } 
-            else
-            {
-                return true;
-            }
-            
-        }
-        
-        private string FindUser()
-        {
-            return $"SELECT * FROM User u WHERE u.username = '{this.userAccount!["username"]}';";
+            //if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false)
+            //{
+            //    return false;
+            //}
+            return this.userManagementDataAccess.SelectAccount(accountRecoveryFlag);            
         }
 
-        //Danny work on this query to ensure user insertion
+        public Dictionary<string, string> ReturnUser()
+        {
+            string query = "SELECT u.userId FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+            this.userManagementDataAccess = new UserManagementDataAccess(query);
+            return this.userManagementDataAccess.GetAccountInformation();
+        }
+
+        public Dictionary<string, string> ReturnRegistrationEntry()
+        {
+            Dictionary<string, string> result;
+            string query = "";
+            if (operation == "VALIDATE")
+            {
+                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount["url"]
+                    + "' AND r.email = '" + this.userAccount["email"] + "' AND r.expiration < NOW() AND r.validated = false;";
+            }
+            else if (operation == "FINDREG")
+            {
+                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount["email"] + "';";
+            }
+            this.userManagementDataAccess = new UserManagementDataAccess(query);
+            result = this.userManagementDataAccess.GetRegInformation();
+            return result;
+        }
+
+        private string EmailValidated()
+        {
+            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount["email"] + "';";
+        }
+
+        private string DropRegistration()
+        {
+            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount["email"] + "';";
+        }
+
+        private string RegisterUser()
+        {
+            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
+        }
+
+       private string FindUser()
+        {
+            return $"SELECT * FROM User u WHERE u.username = \'{this.userAccount!["username"]}\';";
+        }
+
         private string CreateUser()
         {
+            string type1 = "ADMIN";
+            string type2 = "REGISTERED";
+            string type3 = "DEFAULT";
             //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
             //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
             //        + this.userAccount["email"] + "', false, false);";
-
             return $@"INSERT INTO USER (typeName, username, password, email) VALUES ('REGISTERED',
                     '{this.userAccount?["username"]}', 
                     '{this.userAccount?["password"]}', 
@@ -158,33 +211,50 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
-        /**
+
         private string AccountRecovery()
         {
-            if (this.userAccount.ContainsKey("username"))
+            string message = string.Empty; //instantiate a string that will hold the message for the email
+            string query = string.Empty; //instantiate a string that will hold the query we want to return
+            if (this.userAccount.ContainsKey("username")) //If the user chose 'Forgot Password' they will input their username, if they input their username they qualify for this case
             {
-                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-
-                SmtpClient client = new SmtpClient(args[0]);
-                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
-                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
-                MailMessage message = new MailMessage(from, to);
-                message.Body = "Please reset your password using the following link: " +; //Need to include UPDATE operation? So that they can update their password?
-                //Email must time out if they don't click the link within 15 seconds
+                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';"; //Return the email of the user that is selected HOWEVER THIS DOESN'T WORK YET, the email is hardcoded below
+                message = "Please reset your password: "; //Email message to be sent, will eventually include front - end link and expiration time
+                sendEmail(message); //Call sendEmail function to email given message
+                Console.Write("New Password: "); //Ask user for new password
+                string password = Console.ReadLine(); //Read in the new password
+                if (!string.IsNullOrEmpty(password)) //Make sure the string in not empty
+                {
+                    this.userAccount["newpassword"] = password; //
+                    query = UpdateOptions(); //Call the update option 
+                }
             }
-            else if (this.userAccount.ContainsKey("email"))
+            else if (this.userAccount.ContainsKey("email")) //If the user chose 'Forgot Username' they will input their email, if they input their email they qualify for this case
             {
-                string username = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';";
-
-                SmtpClient client = new SmtpClient(args[0]);
-                MailAddress from = new MailAddress("projmotomoto@gmail.com",) //Who the email is being sent from
-                MailAddress to = new MailAddress(this.userAccount["email"]); //Who the email is being sent to
-                MailMessage message = new MailMessage(from, to);
-                message.Body = "Your username is: " + this.userAccount["username"];
+                accountRecoveryFlag = true; //Set boolean to true
+                query = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';"; //Set query to get username from user with the specified email
             }
-            return String.Empty;
+            return query; //Return the query
         }
-        */
+
+        public void sendEmail(string message)
+        {
+            using (MailMessage mail = new MailMessage()) //Create an email
+            {
+                mail.From = new MailAddress("projmotomoto@gmail.com"); //Who you are sending the email from
+                mail.To.Add("projmotomoto@gmail.com"); //Who you are sending the email to
+                mail.Subject = "MotoMoto Account Recovery"; //What the subject of the email says
+                mail.Body = message; //What the body of the email says
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) //Use built in SmtpClient to send email to/from gmail accounts
+                {
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!"); //Email and password of email you want to send from
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail); //Send email
+                }
+            }
+        }
         
         public bool IsValidRequest()
         {

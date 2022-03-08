@@ -62,7 +62,6 @@ namespace TheNewPanelists.ApplicationLayer.Authorization
             
             UserManagementDataAccess userManagementDataObject = new UserManagementDataAccess(queryString);
             accountInfo = userManagementDataObject.GetAccountInformation();
-
             this.accountDict = accountInfo;
 
             if (accountInfo == null) {
