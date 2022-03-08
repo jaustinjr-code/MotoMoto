@@ -1,6 +1,8 @@
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 using MySql.Data.MySqlClient;
+// using System.Text.Json;
+// using System.Web.Script.Serialization;
 
 
 namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
@@ -49,7 +51,11 @@ namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
                 // Great opportunity to implement async calls to process multiple queries
                 MySqlDataReader? reader = ((UsageAnalysisDashboardDataAccess)_dataAccess).SelectIndicatorData();
                 if (reader == null) refinedData.Add(null);
-                else refinedData.Add(RefineData(reader));
+                else
+                {
+                    refinedData.Add(RefineData(reader));
+                    reader.Close();
+                }
             }
             // Call RefineData() to refine data
 
@@ -128,6 +134,10 @@ namespace TheNewPanelists.ServiceLayer.UsageAnalysisDashboard
                 data.Add(fields);
                 fields.Clear();
             }
+
+            reader.Close();
+
+
 
             return data;
         }
