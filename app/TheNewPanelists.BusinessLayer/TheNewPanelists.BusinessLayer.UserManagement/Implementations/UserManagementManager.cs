@@ -143,5 +143,18 @@ namespace TheNewPanelists.BusinessLayer
             }
             return false;
         }
+
+        public Dictionary<string, string> accountRetrieval(Dictionary<string, string> accountInfo)
+        {
+            UserManagementService userManagmementServiceObject = new UserManagementService("FIND", accountInfo);
+            Dictionary<string, string> user = userManagmementServiceObject.ReturnUser();
+
+            if (user.Count > 0)
+            {
+                return user;
+            }
+            Console.WriteLine("User is Invalid/DNE! Try Again");
+            return null;
+        }
     }
 }
