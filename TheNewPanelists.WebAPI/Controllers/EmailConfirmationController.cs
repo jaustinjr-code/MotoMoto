@@ -14,7 +14,7 @@ namespace app.TheNewPanelists.API.Controllers
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class EmailValidationController : ControllerBase
+    public class EmailConfirmationController : ControllerBase
     {
         public UserManagementDataAccess AccountDAO = new UserManagementDataAccess();
 
@@ -33,7 +33,7 @@ namespace app.TheNewPanelists.API.Controllers
             Dictionary<string, string> regAcct = new Dictionary<string, string>();
             regAcct.Add("email", email);
             regAcct.Add("url", url);
-            IEntry entry = new RegistrationEntry("VALIDATE EMAIL", regAcct);
+            IEntry entry = new RegistrationEntry("CONFIRMREG", regAcct);
             string result = ((RegistrationEntry)entry).EmailConfirmationRequest();
 
             if (result.StartsWith("Email confirmed."))

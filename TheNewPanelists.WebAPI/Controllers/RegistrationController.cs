@@ -11,7 +11,7 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace app.TheNewPanelists.API.Controllers
 {
-    [EnableCors("CorsPolicy")]
+    // [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class RegistrationController : ControllerBase
@@ -19,15 +19,27 @@ namespace app.TheNewPanelists.API.Controllers
         public UserManagementDataAccess AccountDAO = new UserManagementDataAccess();
 
         [HttpGet]
-        public IActionResult GetUserAccount(string operation, Dictionary<string, string> userAcct)
+        public IActionResult GetRegistrationt(string email)
         {
-            UserManagementManager manager = new UserManagementManager();
+            RegistrationManager registrationManager = new RegistrationManager();
+            Dictionary<string, string> regInfo = new Dictionary<string, string>();
+            string? checkedEmail = email;
 
             try
             {
-                bool isValid = manager.HasValidAttributes(operation, userAcct);
-                Dictionary<string, string> result = AccountDAO.GetAccountInformation();
-                return Ok(isValid);
+                var eAddr = new MailAddress(checkedEmail);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+
+            regInfo.Add("email", checkedEmail);
+            try
+            {
+                Dictionary<string, string> response;
+                response = registrationManager.ReceiveOperation("RETURNREG", regInfo);
+                return Ok(true);
             }
             catch
             {
@@ -42,7 +54,7 @@ namespace app.TheNewPanelists.API.Controllers
 
             try 
             { 
-                var eAddr = new MailAddress(email); 
+                var eAddr = new MailAddress(checkedEmail); 
             }
             catch 
             {
@@ -59,16 +71,15 @@ namespace app.TheNewPanelists.API.Controllers
             if (!passwordValid)
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
 
-            UserManagementManager manager = new UserManagementManager();
             Dictionary<string, string> regAcct = new Dictionary<string, string>();
-            regAcct.Add("email", email);
+            regAcct.Add("email", checkedEmail);
             regAcct.Add("pass", password);
 
             IEntry entry;
             entry = new RegistrationEntry("ACCOUNT REGISTRATION", regAcct);
             string result = ((RegistrationEntry)entry).RegistrationRequest();
 
-            Console.WriteLine(result);
+            // Console.WriteLine(result);
 
             if (result.StartsWith("Registration successful"))
                 return Ok(true);
