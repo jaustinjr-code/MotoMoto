@@ -115,21 +115,6 @@ namespace TheNewPanelists.BusinessLayer
                 UserManagementService userManagmementServiceObject = new UserManagementService(operation , accountInfo);
                 ProfileManagementService profileManagementServiceObject = new ProfileManagementService(operation, accountInfo);
 
-<<<<<<< Updated upstream
-                if (operation == "DELETE" || operation == "BULK_DELETE")
-                {
-                    if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
-                    {
-                        returnVal = true;
-                    }    
-                } 
-                else
-                {
-                    if (userManagmementServiceObject.SqlGenerator() && profileManagementServiceObject.SqlGenerator())
-                    {
-                        returnVal = true;
-                    }
-=======
                 if (operation == "DROP" || operation == "BULK_DELETE")
                 {
                     if (!validateTrueUser(accountInfo)) return false;
@@ -142,7 +127,6 @@ namespace TheNewPanelists.BusinessLayer
                     userManagmementServiceObject.SqlGenerator();
                     profileManagementServiceObject.SqlGenerator();
                     returnVal = true;
->>>>>>> Stashed changes
                 }
             }
             return returnVal;
