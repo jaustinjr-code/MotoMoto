@@ -10,10 +10,10 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
     public class UserManagementService : IUserManagementService 
     {
         private bool accountRecoveryFlag = false;
-        private string operation {get; set;}
-        private UserManagementDataAccess userManagementDataAccess;
+        private string? operation {get; set;}
+        private UserManagementDataAccess? userManagementDataAccess;
         //private UserManagementManager userManagementManager;
-        private Dictionary<string, string> userAccount {get; set;}
+        private Dictionary<string, string>? userAccount {get; set;}
         
         
         public UserManagementService() {}
@@ -84,7 +84,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         public Dictionary<string, string> ReturnUser()
         {
-            string query = "SELECT u.userId FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
+            string query = "SELECT * FROM User u WHERE u.username = '" + this.userAccount!["username"] + "';";
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             return this.userManagementDataAccess.GetAccountInformation();
         }
@@ -95,12 +95,12 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             string query = "";
             if (operation == "VALIDATE")
             {
-                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount["url"]
+                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount!["url"]
                     + "' AND r.email = '" + this.userAccount["email"] + "' AND r.expiration < NOW() AND r.validated = false;";
             }
             else if (operation == "FINDREG")
             {
-                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount["email"] + "';";
+                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount!["email"] + "';";
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             result = this.userManagementDataAccess.GetRegInformation();
@@ -109,17 +109,17 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string EmailValidated()
         {
-            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount["email"] + "';";
+            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount!["email"] + "';";
         }
 
         private string DropRegistration()
         {
-            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount["email"] + "';";
+            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount!["email"] + "';";
         }
 
         private string RegisterUser()
         {
-            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
+            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount!["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
         }
 
        private string FindUser()
@@ -143,7 +143,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
 
         private string DropUser()
         {
-            return $"DELETE u FROM USER u WHERE u.username = '{this.userAccount!["username"]}' AND u.password = " 
+            return $"DELETE FROM USER WHERE username = '{this.userAccount!["username"]}' AND password = " 
                  + $"'{ this.userAccount!["password"]}';";
         }
 
@@ -216,13 +216,13 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         {
             string message = string.Empty; //instantiate a string that will hold the message for the email
             string query = string.Empty; //instantiate a string that will hold the query we want to return
-            if (this.userAccount.ContainsKey("username")) //If the user chose 'Forgot Password' they will input their username, if they input their username they qualify for this case
+            if (this.userAccount!.ContainsKey("username")) //If the user chose 'Forgot Password' they will input their username, if they input their username they qualify for this case
             {
                 string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';"; //Return the email of the user that is selected HOWEVER THIS DOESN'T WORK YET, the email is hardcoded below
                 message = "Please reset your password: "; //Email message to be sent, will eventually include front - end link and expiration time
                 sendEmail(message); //Call sendEmail function to email given message
                 Console.Write("New Password: "); //Ask user for new password
-                string password = Console.ReadLine(); //Read in the new password
+                string? password = Console.ReadLine(); //Read in the new password
                 if (!string.IsNullOrEmpty(password)) //Make sure the string in not empty
                 {
                     this.userAccount["newpassword"] = password; //

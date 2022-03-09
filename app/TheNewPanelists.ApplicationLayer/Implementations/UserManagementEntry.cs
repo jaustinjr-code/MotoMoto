@@ -44,7 +44,8 @@ namespace TheNewPanelists.ApplicationLayer
                 if (isSuccessful) {
                     return successMessage;
                 }
-                else {
+                else 
+                {
                     return failureMessage;
                 }
                 
@@ -63,7 +64,11 @@ namespace TheNewPanelists.ApplicationLayer
             string successMessage = "UM operation was successful";
 
             UserManagementAuthorization authorization = new UserManagementAuthorization();
+<<<<<<< Updated upstream
             bool isAuthorizedOperation = authorization.checkAuthorized(operation);
+=======
+            bool isAuthorizedOperation = authorization.checkAuthorized(this.operation!);
+>>>>>>> Stashed changes
             if (!isAuthorizedOperation) 
             {
                 return failureMessage;

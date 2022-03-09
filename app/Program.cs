@@ -221,7 +221,11 @@ namespace app
                 Console.Write("Username: ");
                 string? username = Console.ReadLine();
                 request.Add("username", username!);
+<<<<<<< Updated upstream
                 Console.WriteLine("Enter " + username + "'s Password: ");
+=======
+                Console.Write("Enter "+username+"'s Password: ");
+>>>>>>> Stashed changes
                 string? password = Console.ReadLine();
                 request.Add("password", password!);
             }

@@ -132,6 +132,7 @@ namespace TheNewPanelists.DataAccessLayer
                     userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
                 }
             }
+            reader.Close();
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
 

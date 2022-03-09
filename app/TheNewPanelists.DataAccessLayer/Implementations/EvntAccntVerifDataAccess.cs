@@ -106,6 +106,7 @@ namespace TheNewPanelists.DataAccessLayer
 
                 // Console.WriteLine("Close");
                 //mySqlConnection.Close();
+                mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -114,7 +115,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 // BuildTempUser();
             }
-
+            mySqlConnection!.Close();
             return false;
         }
 

@@ -115,7 +115,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-
+            mySqlConnection!.Close();
             return false;
         }
 
@@ -126,15 +126,21 @@ namespace TheNewPanelists.DataAccessLayer
 
             MySqlCommand command = new(this.query, mySqlConnection);
 
-            MySqlDataReader reader;
-            reader = command.ExecuteReader();
+            //MySqlDataReader reader;
+            //reader = command.ExecuteReader();
 
             if (command.ExecuteNonQuery() == 1)
             {
                 mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
+            } 
+            else
+            {
+                mySqlConnection?.Close();
+                Console.WriteLine("Connection closed...");
             }
+            /*
             while (reader.Read())
             {
                 Console.WriteLine(String.Format("{0}", reader[0]));
@@ -143,8 +149,10 @@ namespace TheNewPanelists.DataAccessLayer
                     string message = "Your username is: " + reader[0];
                     sendEmail(message);
                 }
+
             }
-            mySqlConnection!.Close();
+            reader.Close();
+            */
             Console.WriteLine("Connection closed...");
             return false;
 
@@ -170,6 +178,8 @@ namespace TheNewPanelists.DataAccessLayer
                 accountInfo.Add("password", myReader.GetString("password"));
                 accountInfo.Add("email", myReader.GetString("email"));
             }
+            myReader.Close();
+            this.mySqlConnection!.Close();
             return accountInfo;
         }
 
@@ -190,8 +200,8 @@ namespace TheNewPanelists.DataAccessLayer
                 accountInfo.Add("url", myReader.GetString("url"));
                 accountInfo.Add("email", myReader.GetString("email"));
             }
-
-            mySqlConnection.Close();
+            myReader.Close();
+            mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             return accountInfo;
         }

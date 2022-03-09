@@ -112,9 +112,10 @@ namespace TheNewPanelists.BusinessLayer
             bool returnVal = false;
             if (HasValidAttributes(operation, accountInfo))
             {
-                UserManagementService userManagmementServiceObject = new UserManagementService(operation, accountInfo);
+                UserManagementService userManagmementServiceObject = new UserManagementService(operation , accountInfo);
                 ProfileManagementService profileManagementServiceObject = new ProfileManagementService(operation, accountInfo);
 
+<<<<<<< Updated upstream
                 if (operation == "DELETE" || operation == "BULK_DELETE")
                 {
                     if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
@@ -128,10 +129,35 @@ namespace TheNewPanelists.BusinessLayer
                     {
                         returnVal = true;
                     }
+=======
+                if (operation == "DROP" || operation == "BULK_DELETE")
+                {
+                    if (!validateTrueUser(accountInfo)) return false;
+                    profileManagementServiceObject.SqlGenerator();
+                    userManagmementServiceObject.SqlGenerator();
+                    returnVal = true;
+                } 
+                else
+                {
+                    userManagmementServiceObject.SqlGenerator();
+                    profileManagementServiceObject.SqlGenerator();
+                    returnVal = true;
+>>>>>>> Stashed changes
                 }
             }
             return returnVal;
         }
 
+        private bool validateTrueUser(Dictionary<string, string> accountInfo)
+        {
+            UserManagementService userManagmementServiceObject = new UserManagementService("FIND", accountInfo);
+            Dictionary<string, string> user = userManagmementServiceObject.ReturnUser();
+
+            if (user.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

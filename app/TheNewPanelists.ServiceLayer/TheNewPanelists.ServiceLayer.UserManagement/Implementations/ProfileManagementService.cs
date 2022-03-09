@@ -61,7 +61,7 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
         }
         private string DropProfile() 
         {
-            return "DELETE p FROM PROFILE p WHERE p.username = '" + this.userProfile!["username"] + "';";
+            return "DELETE p FROM PROFILE p WHERE p.username = \'" + this.userProfile!["username"] + "\';";
         }
 
         private string FindProfile()
