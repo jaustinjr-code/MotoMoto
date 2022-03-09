@@ -24,9 +24,9 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             this.userManagementDataAccess = new UserManagementDataAccess();
             // this.userManagementManager = new UserManagementManager();
         }
-        
+
         public bool SqlGenerator()
-        {   
+        {
             string query = "";
             if (this.operation == "FIND")
             {
@@ -43,85 +43,20 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
             else if (this.operation == "UPDATE")
             {
                 query = this.UpdateOptions();
-            } 
+            }
             else if (this.operation == "ACCOUNT RECOVERY")
             {
                 query = this.AccountRecovery();
                 Console.WriteLine(query);
-            }
-            else if (this.operation == "ISVALID")
-            {
-                query = this.EmailValidated();
-            }
-            else if (operation == "DROPREG")
-            {
-                query = this.DropRegistration();
-            }
-            else if (this.operation == "ACCOUNT REGISTRATION")
-            {
-                query = this.RegisterUser();
-            }
-            else if (this.operation == "ISVALID")
-            {
-                query = this.EmailValidated();
-            }
-            else if (operation == "DROPREG")
-            {
-                query = this.DropRegistration();
-            }
-            else if (this.operation == "ACCOUNT REGISTRATION")
-            {
-                query = this.RegisterUser();
             }
             this.userManagementDataAccess = new UserManagementDataAccess(query);
             //if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false)
             //{
             //    return false;
             //}
-            return this.userManagementDataAccess.SelectAccount(accountRecoveryFlag);            
+            return this.userManagementDataAccess.SelectAccount(accountRecoveryFlag);
         }
-
-        public Dictionary<string, string> ReturnUser()
-        {
-            string query = "SELECT u.userId FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            return this.userManagementDataAccess.GetAccountInformation();
-        }
-
-        public Dictionary<string, string> ReturnRegistrationEntry()
-        {
-            Dictionary<string, string> result;
-            string query = "";
-            if (operation == "VALIDATE")
-            {
-                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount["url"]
-                    + "' AND r.email = '" + this.userAccount["email"] + "' AND r.expiration < NOW() AND r.validated = false;";
-            }
-            else if (operation == "FINDREG")
-            {
-                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount["email"] + "';";
-            }
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            result = this.userManagementDataAccess.GetRegInformation();
-            return result;
-        }
-
-        private string EmailValidated()
-        {
-            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount["email"] + "';";
-        }
-
-        private string DropRegistration()
-        {
-            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount["email"] + "';";
-        }
-
-        private string RegisterUser()
-        {
-            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES ('{this.userAccount["email"]}','{this.userAccount["password"]}', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
-        }
-
-       private string FindUser()
+        private string FindUser()
         {
             return $"SELECT * FROM User u WHERE u.username = \'{this.userAccount!["username"]}\';";
         }
@@ -196,7 +131,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                     "' WHERE u.username= '" + this.userAccount["status"]+"';";
         }
 
-
         private string AccountRecovery()
         {
             string message = string.Empty; //instantiate a string that will hold the message for the email
@@ -240,7 +174,6 @@ namespace TheNewPanelists.ServiceLayer.UserManagement
                 }
             }
         }
-        
         public bool IsValidRequest()
         {
             bool containsOperation = this.operation!.Contains("FIND") ||  this.operation!.Contains("CREATE")

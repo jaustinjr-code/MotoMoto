@@ -66,34 +66,6 @@ namespace app
                     string? filepath = Console.ReadLine();
                     Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
                 }
-                else if (input == "ACCOUNT REGISTRATION")
-                {
-                    bool SessionIsAuthenticated = false;
-
-                    if (!SessionIsAuthenticated)
-                    {
-                        Dictionary<string, string> request = InputRequest(input);
-                        entry = new RegistrationEntry(input, request);
-                        string result = ((RegistrationEntry)entry).RegistrationRequest();
-
-                        Console.WriteLine(result);
-                    }
-                    else
-                        Console.WriteLine("Invalid request. User in active session.");
-                }
-                else if (input == "EMAIL VALIDATION")
-                {
-                    Dictionary<string, string> request = InputRequest(input);
-                    entry = new RegistrationEntry(input, request);
-                    Console.WriteLine(((RegistrationEntry)entry).EmailConfirmationRequest());
-                }
-                else if (input == "BULK")
-                {
-                    entry = new UserManagementEntry();
-                    Console.Write("Enter the request file path: ");
-                    string? filepath = Console.ReadLine();
-                    Console.WriteLine(((UserManagementEntry)entry).BulkOperationRequest(filepath!));
-                }
                 else if (input != "")
                 {
                     Dictionary<string, string> request = InputRequest(input);
@@ -109,7 +81,6 @@ namespace app
                             entry = new UserManagementEntry(input, request);
                             Console.WriteLine(entry.SingleOperationRequest());
                         }
-
                     }
                     else Console.WriteLine("No request...");
                 }
@@ -130,7 +101,6 @@ namespace app
 
                 string? type = Console.ReadLine();
                 request.Add("typeId", type!);
-
                 Console.Write("Username: ");
                 string? username = Console.ReadLine();
                 request.Add("username", username!);
@@ -152,7 +122,7 @@ namespace app
             {
                 bool emailValid = false;
                 bool passwordValid = false;
-                string email = "";
+                string? email = "";
                 string password = "";
                 while (!emailValid)
                 {
@@ -191,7 +161,8 @@ namespace app
 
                     password = input.ToString();
                     passwordValid = letter.IsMatch(password) && num.IsMatch(password)
-                        && specialChar.IsMatch(password) && (password.Length > 8);
+                        && specialChar.IsMatch(password) && (password.Length > 8) && (password.Length < 20);
+                    Console.WriteLine();
                 }
                 request.Add("password", password);
             }
@@ -351,13 +322,12 @@ namespace app
             Console.WriteLine("6) Bulk Operation");
             Console.WriteLine("7) Account Recovery");
             Console.WriteLine("8) Authentication");
-            Console.WriteLine("9) Exit");
-
-            Console.WriteLine("10) Find Rating");
-            Console.WriteLine("11) Find Review");
-            Console.WriteLine("12) Post Rating and Review");
-            Console.WriteLine("13) Account Registration");
-            Console.WriteLine("14) Email Validation");
+            Console.WriteLine("9) Find Rating");
+            Console.WriteLine("10) Find Review");
+            Console.WriteLine("11) Post Rating and Review");
+            Console.WriteLine("12) Account Registration");
+            Console.WriteLine("13) Email Validation");
+            Console.WriteLine("14) Exit");
 
             switch (Console.ReadLine())
             {
@@ -378,18 +348,17 @@ namespace app
                 case "8":
                     return "AUTHENTICATE";
                 case "9":
-                    return "EXIT";
-                case "13":
-                    return "ACCOUNT REGISTRATION";
-                case "14":
-                    return "EMAIL VALIDATION";
-                case "10":
                     return "FIND_RATING";
-                case "11":
+                case "10":
                     return "FIND_REVIEW";
-                case "12":
+                case "11":
                     return "POST_RATING_AND_REVIEW";
-
+                case "12":
+                    return "ACCOUNT REGISTRATION";
+                case "13":
+                    return "EMAIL VALIDATION";
+                case "14":
+                    return "EXIT";
                 default:
                     Console.WriteLine("Invalid Input - Try Again");
                     return menu();

@@ -60,6 +60,15 @@ CREATE TABLE EventAccount (
     CONSTRAINT EventAccount_Pk PRIMARY KEY (username)
 );
 
+CREATE TABLE Registration (
+    email VARCHAR(20) NOT NULL,
+    password VARCHAR(20) NOT NULL,
+    expiration DATETIME NOT NULL,
+    url INT NOT NULL AUTO_INCREMENT,
+    validated BOOL NOT NULL DEFAULT FALSE,
+    CONSTRAINT Registration_Pk PRIMARY KEY (email),
+    CONSTRAINT Url_Uk UNIQUE (url)
+);
 
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),

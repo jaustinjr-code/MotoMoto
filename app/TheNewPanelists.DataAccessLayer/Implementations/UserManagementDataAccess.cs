@@ -6,6 +6,7 @@ using TheNewPanelists.ServiceLayer.Logging;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Net;
+using System.Data;
 
 namespace TheNewPanelists.DataAccessLayer
 {
@@ -44,7 +45,7 @@ namespace TheNewPanelists.DataAccessLayer
             try
             {
                 tempMySqlConnection.Open();
-                // MySqlCommand cmd1 = new MySqlCommand("DROP USER IF EXISTS 'tempuser'@'localhost';", tempMySqlConnection);
+                MySqlCommand cmd1 = new MySqlCommand("DROP USER IF EXISTS 'tempuser'@'localhost';", tempMySqlConnection);
                 MySqlCommand cmd2 = new MySqlCommand("CREATE USER IF NOT EXISTS 'tempuser'@'localhost' IDENTIFIED BY '123';", tempMySqlConnection);
                 MySqlCommand cmd3 = new MySqlCommand("GRANT ALL PRIVILEGES ON *.* TO 'tempuser'@'localhost' WITH GRANT OPTION;", tempMySqlConnection);
                 MySqlCommand cmd4 = new MySqlCommand("FLUSH PRIVILEGES;", tempMySqlConnection);
@@ -52,15 +53,14 @@ namespace TheNewPanelists.DataAccessLayer
                 // MySqlCommand cmd5 = new MySqlCommand("CREATE DATABASE IF NOT EXISTS logs_MM_test;", tempMySqlConnection);
 
                 Console.WriteLine("Connection Open...");
-                // cmd1.ExecuteNonQuery();
+                cmd1.ExecuteNonQuery();
                 Console.WriteLine("DROP");
                 cmd2.ExecuteNonQuery();
-                Console.WriteLine("GRANT");
-                cmd3.ExecuteNonQuery();
-                Console.WriteLine("FLUSH");
-                cmd4.ExecuteNonQuery();
                 Console.WriteLine("CREATE");
-                // cmd5.ExecuteNonQuery();
+                cmd3.ExecuteNonQuery();
+                Console.WriteLine("GRANT");
+                cmd4.ExecuteNonQuery();
+                Console.WriteLine("FLUSH");
                 Console.WriteLine("Temp User Created...");
                 tempMySqlConnection.Close();
             }
@@ -106,7 +106,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
-                //mySqlConnection.Close();
+                // mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -170,29 +170,6 @@ namespace TheNewPanelists.DataAccessLayer
                 accountInfo.Add("password", myReader.GetString("password"));
                 accountInfo.Add("email", myReader.GetString("email"));
             }
-            return accountInfo;
-        }
-
-        public Dictionary<string, string> GetRegInformation()
-        {
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
-
-            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
-
-            MySqlDataReader myReader;
-            myReader = command.ExecuteReader();
-
-            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
-            while (myReader.Read())
-            {
-                accountInfo.Add("password", myReader.GetString("password"));
-                accountInfo.Add("url", myReader.GetString("url"));
-                accountInfo.Add("email", myReader.GetString("email"));
-            }
-
-            mySqlConnection.Close();
-            Console.WriteLine("Connection closed...");
             return accountInfo;
         }
 
