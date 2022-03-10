@@ -61,7 +61,7 @@ namespace TheNewPanelists.ApplicationLayer
             return result;
         }
 
-        public string RegistrationRequest()
+        private string RegistrationRequest()
         {
             string result = "";
             RegistrationManager registrationManager = new RegistrationManager(this.operation, this.request);
@@ -73,19 +73,19 @@ namespace TheNewPanelists.ApplicationLayer
                     // if (registrationManager.SendEmail(request["email"]))
                     if (registrationManager.SendEmail("daniel.bribiesca@student.csulb.edu"))
                     {
-                        result = ("Registration successful. Email confirmation pending.");
+                        result = "Registration successful. Email confirmation pending.";
                     }
                     else
                     {
                         registrationManager.SendOperation("DROPREG", regAcct);
-                        result = ("Error: Email did not sent correctly.");
+                        result = "Error: Email did not sent correctly.";
                     }
                 }
                 else
-                    result = ("Registration error. Please try again."); 
+                    result = "Registration error. Please try again."; 
             }
             else
-                result = ("You are already registered for an account. Please confirm email to confirm registration.");
+                result = "You are already registered for an account. Please confirm email to confirm registration.";
 
             return result;
         }
