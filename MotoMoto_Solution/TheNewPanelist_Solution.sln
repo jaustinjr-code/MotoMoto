@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.DataAccess", "TheNewPanelists.App.DataAccess\TheNewPanelists.App.DataAccess.csproj", "{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.BusinessLayer", "TheNewPanelists.App.BusinessLayer\TheNewPanelists.App.BusinessLayer.csproj", "{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.ServiceLayer", "TheNewPanelists.App.ServiceLayer\TheNewPanelists.App.ServiceLayer.csproj", "{180185C9-4FD0-44A8-BE9D-03592092DF79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.UserManagementAPI", "TheNewPanelists.App.UserManagementAPI\TheNewPanelists.App.UserManagementAPI.csproj", "{D6B32E35-BE63-4C46-AD6A-641DC1D32473}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.Entities", "TheNewPanelists.App.Entities\TheNewPanelists.App.Entities.csproj", "{013F2F48-5928-4779-96F9-A381827F3986}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.App.DataStoreEntities", "TheNewPanelists.App.DataStoreEntities\TheNewPanelists.App.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{013F2F48-5928-4779-96F9-A381827F3986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{013F2F48-5928-4779-96F9-A381827F3986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{013F2F48-5928-4779-96F9-A381827F3986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{013F2F48-5928-4779-96F9-A381827F3986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
+	EndGlobalSection
+EndGlobal

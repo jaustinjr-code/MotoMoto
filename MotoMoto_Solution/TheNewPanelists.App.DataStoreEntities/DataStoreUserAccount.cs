@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheNewPanelists.App.DataStoreEntities
+{
+    public class DataStoreUser : IBaseUser
+    {
+        public string? _userType { get; set; }
+        public string? _username { get; set; }
+        public string? _password { get; set; }
+        public string? _email { get; set; }
+    }
+}
