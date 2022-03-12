@@ -85,7 +85,7 @@ namespace TheNewPanelists.DataAccessLayer
             //{
             //_mySqlConnection.Close();
             //}
-
+            reader.Close();
             return reader;
         }
 

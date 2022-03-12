@@ -158,6 +158,7 @@ namespace TheNewPanelists.DataAccessLayer
                 }
                 output.Add(data);
             }
+            mySqlDataReader.Close();
             return output;
         }
     }

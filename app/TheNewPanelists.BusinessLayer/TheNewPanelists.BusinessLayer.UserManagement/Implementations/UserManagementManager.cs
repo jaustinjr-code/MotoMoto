@@ -66,19 +66,19 @@ namespace TheNewPanelists.BusinessLayer
                     break;
 
                 case "DROPREG":
-                    hasValidAttributes = attributes.ContainsKey("email");
+                    hasValidAttributes = attributes!.ContainsKey("email");
                     break;
 
                 case "FINDREG":
-                    hasValidAttributes = attributes.ContainsKey("email") && attributes.ContainsKey("url");
+                    hasValidAttributes = attributes!.ContainsKey("email") && attributes.ContainsKey("url");
                     break;
 
                 case "ISVALID":
-                    hasValidAttributes = attributes.ContainsKey("email");
+                    hasValidAttributes = attributes!.ContainsKey("email");
                     break;
 
                 case "ACCOUNT REGISTRATION":
-                    hasValidAttributes = attributes.ContainsKey("email") && attributes.ContainsKey("password");
+                    hasValidAttributes = attributes!.ContainsKey("email") && attributes.ContainsKey("password");
                     break;
             }
             return hasValidAttributes;
@@ -117,15 +117,17 @@ namespace TheNewPanelists.BusinessLayer
 
                 if (operation == "DELETE" || operation == "BULK_DELETE")
                 {
-                    if (profileManagementServiceObject.SqlGenerator() && userManagmementServiceObject.SqlGenerator())
+                    if (profileManagementServiceObject.SqlGenerator())
                     {
+                        userManagmementServiceObject.SqlGenerator();
                         returnVal = true;
                     }    
                 } 
                 else
                 {
-                    if (userManagmementServiceObject.SqlGenerator() && profileManagementServiceObject.SqlGenerator())
+                    if (userManagmementServiceObject.SqlGenerator())
                     {
+                        profileManagementServiceObject.SqlGenerator();
                         returnVal = true;
                     }
                 }

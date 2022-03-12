@@ -106,7 +106,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection open");
 
                 // Console.WriteLine("Close");
-                //mySqlConnection.Close();
+                
                 return true;
             }
             catch (Exception e)
@@ -115,7 +115,6 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("ERROR - Creating new user...");
                 BuildTempUser();
             }
-
             return false;
         }
 
@@ -144,6 +143,7 @@ namespace TheNewPanelists.DataAccessLayer
                     sendEmail(message);
                 }
             }
+            reader.Close();
             mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             return false;
@@ -163,13 +163,14 @@ namespace TheNewPanelists.DataAccessLayer
             Dictionary<string, string> accountInfo = new Dictionary<string, string>();
             while (myReader.Read())
             {
-                Console.WriteLine(myReader.FieldCount);
                 accountInfo.Add("typeName", myReader.GetString("typeName"));
                 accountInfo.Add("userId", myReader.GetString("userId"));
                 accountInfo.Add("username", myReader.GetString("username"));
                 accountInfo.Add("password", myReader.GetString("password"));
                 accountInfo.Add("email", myReader.GetString("email"));
             }
+            myReader.Close();
+            mySqlConnection!.Close();
             return accountInfo;
         }
 
@@ -189,9 +190,9 @@ namespace TheNewPanelists.DataAccessLayer
                 accountInfo.Add("password", myReader.GetString("password"));
                 accountInfo.Add("url", myReader.GetString("url"));
                 accountInfo.Add("email", myReader.GetString("email"));
+                
             }
-
-            mySqlConnection.Close();
+            myReader.Close();
             Console.WriteLine("Connection closed...");
             return accountInfo;
         }

@@ -9,8 +9,8 @@ namespace TheNewPanelists.DataAccessLayer
 {
     class AuthenticationDataAccess : IDataAccess
     {
-        private string query { get; set; }
-        private MySqlConnection mySqlConnection = null;
+        private string? query { get; set; } 
+        private MySqlConnection? mySqlConnection = null;
 
         public AuthenticationDataAccess() { }
 
@@ -23,7 +23,7 @@ namespace TheNewPanelists.DataAccessLayer
         {
             // Hides password
             Console.WriteLine("Please Enter Your MariaDB Username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine($"Please Enter the password for {username}:");
             StringBuilder input = new StringBuilder();
             while (true)
@@ -132,7 +132,7 @@ namespace TheNewPanelists.DataAccessLayer
                     userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
                 }
             }
-            mySqlConnection.Close();
+            reader.Close();
             Console.WriteLine("Connection closed...");
 
             return userAccount;
@@ -145,11 +145,11 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
             if (command.ExecuteNonQuery() == 1)
             {
-                mySqlConnection.Close();
+                mySqlConnection!.Close();
                 Console.WriteLine("Connection closed...");
                 return true;
             }
-            mySqlConnection.Close();
+            mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
             return false;
         }
