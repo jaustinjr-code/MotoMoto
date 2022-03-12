@@ -44,7 +44,8 @@ namespace TheNewPanelists.ApplicationLayer
                 if (isSuccessful) {
                     return successMessage;
                 }
-                else {
+                else 
+                {
                     return failureMessage;
                 }
                 

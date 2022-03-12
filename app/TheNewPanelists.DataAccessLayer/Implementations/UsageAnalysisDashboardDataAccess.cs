@@ -43,7 +43,7 @@ namespace TheNewPanelists.DataAccessLayer
                 // Add Logging Service here
                 return false;
             }
-
+            _mySqlConnection.Close();
             return _mySqlConnection.Ping();
         }
 

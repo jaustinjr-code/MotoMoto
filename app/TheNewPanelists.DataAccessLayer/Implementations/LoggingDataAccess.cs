@@ -88,6 +88,7 @@ namespace TheNewPanelists.DataAccessLayer
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
                 Console.WriteLine("Connection open");
+                mySqlConnection.Close();
                 return true;
             }
             catch (Exception e)
@@ -117,7 +118,7 @@ namespace TheNewPanelists.DataAccessLayer
                 Console.WriteLine("Connection opened...");
             }
 
-            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            MySqlCommand command = new (this.query, mySqlConnection);
 
             if (command.ExecuteNonQuery() == 1)
             {

@@ -221,7 +221,7 @@ namespace app
                 Console.Write("Username: ");
                 string? username = Console.ReadLine();
                 request.Add("username", username!);
-                Console.WriteLine("Enter " + username + "'s Password: ");
+                Console.Write("Enter "+username+"'s Password: ");
                 string? password = Console.ReadLine();
                 request.Add("password", password!);
             }
