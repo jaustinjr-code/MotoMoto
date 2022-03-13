@@ -180,16 +180,14 @@ namespace TheNewPanelists.DataAccessLayer
             MySqlCommand command = new(this.query, mySqlConnection);
             int returnVal = command.ExecuteNonQuery();
 
-            if ((returnVal == 1) || ((this.operation == "REGDOESNOTEXIST") && (returnVal == -1)))
-            {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return true;
-            }
-
-            Console.WriteLine("Query Request Failed.");
-            mySqlConnection!.Close(); 
+            mySqlConnection!.Close();
             Console.WriteLine("Connection closed...");
+
+            if (returnVal == 0)
+                return false;
+            else if (returnVal == 1)
+                return true;
+
             return false;
         }
 
