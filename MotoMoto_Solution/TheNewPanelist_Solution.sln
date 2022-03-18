@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ServiceLayer", "TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj", "{180185C9-4FD0-44A8-BE9D-03592092DF79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.UserManagementAPI", "TheNewPanelists.MotoMoto.UserManagementAPI\TheNewPanelists.MotoMoto.UserManagementAPI.csproj", "{D6B32E35-BE63-4C46-AD6A-641DC1D32473}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Entities", "TheNewPanelists.MotoMoto.Entities\TheNewPanelists.MotoMoto.Entities.csproj", "{013F2F48-5928-4779-96F9-A381827F3986}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.DataStoreEntities", "TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
@@ -33,10 +31,6 @@ Global
 		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{180185C9-4FD0-44A8-BE9D-03592092DF79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6B32E35-BE63-4C46-AD6A-641DC1D32473}.Release|Any CPU.Build.0 = Release|Any CPU
 		{013F2F48-5928-4779-96F9-A381827F3986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{013F2F48-5928-4779-96F9-A381827F3986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{013F2F48-5928-4779-96F9-A381827F3986}.Release|Any CPU.ActiveCfg = Release|Any CPU
