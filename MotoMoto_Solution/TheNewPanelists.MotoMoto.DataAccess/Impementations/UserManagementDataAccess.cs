@@ -41,6 +41,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             }
             return false;
         }
+
         /// <summary>
         /// Select account operation will execute any query that it deems necessary. Select account
         /// operation will not return any users, and will be separate operations for specified return API Calls
@@ -117,4 +118,3 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
         }
     }
 }
-
