@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 using TheNewPanelists.MotoMoto.DataAccess.Contracts;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
+using TheNewPanelists.MotoMoto.Entities;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
@@ -46,7 +46,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
         /// operation will not return any users, and will be separate operations for specified return API Calls
         /// </summary>
         /// <returns>true if operation went through, otherwise we exit with failure</returns>
-        public bool SelectAccountOperation()
+        public virtual bool SelectAccountOperation()
         {
             if (!EstablishMariaDBConnection()) return false;
 
@@ -61,6 +61,59 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                     mySqlConnection!.Close();
                     return false;
             }
+        }
+
+        public ISet<AccountEntity> GetAllUsers()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            MySqlCommand command = new MySqlCommand(_query, mySqlConnection);
+            MySqlDataReader myReader = command.ExecuteReader();
+            ISet<AccountEntity> accountsSet = new HashSet<AccountEntity>();
+            while (myReader.Read())
+            {
+                AccountEntity userAccount = new AccountEntity();
+                userAccount.UserId = myReader.GetInt32("userId");
+                userAccount.AccountType = myReader.GetString("typeName");
+                userAccount.username = myReader.GetString("username");
+                userAccount.eventAccount = bool.Parse(myReader.GetString("eventAccount"));
+                accountsSet.Add(userAccount);
+            }
+            myReader.Close();
+            mySqlConnection!.Close();
+            return accountsSet;
+        }
+
+        /// <summary>
+        /// Retrieve specified user entry function is used to return a specific user account
+        /// entity which includers ('accountType', 'username', and 'eventAccount') status'.
+        /// </summary>
+        /// <param></param>
+        /// <returns>The user account entity object</returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public AccountEntity RetrieveSpecifiedUserEntity()
+        {   
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            MySqlCommand command = new MySqlCommand(_query, mySqlConnection);
+            MySqlDataReader myReader = command.ExecuteReader();
+
+            AccountEntity userAccount = new AccountEntity();
+            
+            while (myReader.Read())
+            {
+                userAccount.UserId = myReader.GetInt32("userId");
+                userAccount.AccountType = myReader.GetString("typeName");
+                userAccount.username = myReader.GetString("username");
+                userAccount.eventAccount = bool.Parse(myReader.GetString("eventAccount"));
+            }
+            myReader.Close();
+            mySqlConnection!.Close();
+            return userAccount;
         }
     }
 }
