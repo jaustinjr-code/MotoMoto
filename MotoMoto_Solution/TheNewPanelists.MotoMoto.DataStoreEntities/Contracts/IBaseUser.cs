@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.App.DataStoreEntities
+namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public abstract class IBaseUser
     {
