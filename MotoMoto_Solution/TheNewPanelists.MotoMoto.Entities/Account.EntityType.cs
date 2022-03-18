@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheNewPanelists.App.DataStoreEntities;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.App.Entities
+namespace TheNewPanelists.MotoMoto.Entities
 {
     public class EntityType : IBaseUser
     {

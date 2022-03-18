@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheNewPanelists.App.DataStoreEntities\TheNewPanelists.App.DataStoreEntities.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj" />
   </ItemGroup>
 
 </Project>
