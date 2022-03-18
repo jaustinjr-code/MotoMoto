@@ -1,220 +1,67 @@
-﻿using System.Linq;
+﻿using System;
 using MySql.Data.MySqlClient;
-using System.Collections;
-using System.Text;
-//using TheNewPanelists.ServiceLayer.Logging;
 using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 using TheNewPanelists.MotoMoto.DataAccess.Contracts;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.DataAccessLayer
+namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
     public class UserManagementDataAccess : IDataAccess
     {
-        private string? query { get; set; }
+        private string? _query { get; set; }
         private MySqlConnection? mySqlConnection = null;
 
+        private const string connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
+
         public UserManagementDataAccess() { }
-
-        public UserManagementDataAccess(string query)
+        
+        public UserManagementDataAccess(string query)   
         {
-            this.query = query;
-        }
-
-        private void BuildTempUser()
-        {
-            // Hides password
-            Console.WriteLine("Please Enter Your MariaDB Username:");
-            string? username = Console.ReadLine();
-            Console.WriteLine($"Please Enter the password for {username}:");
-            StringBuilder input = new StringBuilder();
-            while (true)
-            {
-                var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter) break;
-                if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
-                else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
-            }
-            string pass = input.ToString();
-            // Console.WriteLine(pass);
-            // Console.WriteLine(System.Environment.UserName);
-
-            MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={username};password={pass}");
-            // MySqlConnection tempMySqlConnection = new MySqlConnection($"server=localhost;user={user};password={pass}");
-            try
-            {
-                tempMySqlConnection.Open();
-                // MySqlCommand cmd1 = new MySqlCommand("DROP USER IF EXISTS 'tempuser'@'localhost';", tempMySqlConnection);
-                MySqlCommand cmd2 = new MySqlCommand("CREATE USER IF NOT EXISTS 'tempuser'@'localhost' IDENTIFIED BY '123';", tempMySqlConnection);
-                MySqlCommand cmd3 = new MySqlCommand("GRANT ALL PRIVILEGES ON *.* TO 'tempuser'@'localhost' WITH GRANT OPTION;", tempMySqlConnection);
-                MySqlCommand cmd4 = new MySqlCommand("FLUSH PRIVILEGES;", tempMySqlConnection);
-                // MySqlCommand cmd4 = new MySqlCommand("SHOW DATABASE LIKE logs_MM_test;", tempMySqlConnection);
-                // MySqlCommand cmd5 = new MySqlCommand("CREATE DATABASE IF NOT EXISTS logs_MM_test;", tempMySqlConnection);
-
-                Console.WriteLine("Connection Open...");
-                // cmd1.ExecuteNonQuery();
-                Console.WriteLine("DROP");
-                cmd2.ExecuteNonQuery();
-                Console.WriteLine("GRANT");
-                cmd3.ExecuteNonQuery();
-                Console.WriteLine("FLUSH");
-                cmd4.ExecuteNonQuery();
-                Console.WriteLine("CREATE");
-                // cmd5.ExecuteNonQuery();
-                Console.WriteLine("Temp User Created...");
-                tempMySqlConnection.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exited Program with Exit " + e.Message);
-            }
-            EstablishMariaDBConnection();
+            _query = query;
         }
 
         public bool EstablishMariaDBConnection()
         {
-            Dictionary<string, string> informationLog = new Dictionary<string, string>();
-
-            //Console.WriteLine("Please Enter a Valid Database/Schema: ");
-            //string? databaseName = Console.ReadLine();
-
-            // Console.WriteLine("Please Enter Database/Schema password: ");
-            // StringBuilder input = new StringBuilder();
-            // while (true)
-            // {
-            //     var key = Console.ReadKey(true);
-            //     if (key.Key == ConsoleKey.Enter) break;
-            //     if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
-            //     else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
-            // }
-            // string databasePass = input.ToString();
-
-            // string databaseName = "MotoMotoDB";
-            // string databasePass = "naeun";
-            // MySqlConnection mySqlConnection;
-            // This is a hardcoded string, it will be different based on your naming
-            // Need to generalize the database name or create a new database and run the restore sql file on it
-
-            /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-            string connectionString = $"server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
-            //connectionString 
             try
             {
                 mySqlConnection = new MySqlConnection(connectionString);
                 mySqlConnection.Open();
 
-                Console.WriteLine("Connection open");
-
-                // Console.WriteLine("Close");
-
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine("ERROR - Creating new user...");
-                BuildTempUser();
+                Console.WriteLine(ex.Message);
             }
             return false;
         }
-
-        public bool SelectAccount(bool flag) //Will continue to work on this to be more effective
+        /// <summary>
+        /// Select account operation will execute any query that it deems necessary. Select account
+        /// operation will not return any users, and will be separate operations for specified return API Calls
+        /// </summary>
+        /// <returns>true if operation went through, otherwise we exit with failure</returns>
+        public bool SelectAccountOperation()
         {
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
+            if (!EstablishMariaDBConnection()) return false;
 
-            MySqlCommand command = new(this.query, mySqlConnection);
+            MySqlCommand command = new(_query, mySqlConnection);
 
-            MySqlDataReader reader;
-            reader = command.ExecuteReader();
-
-            if (command.ExecuteNonQuery() == 1)
+            switch (command.ExecuteNonQuery())
             {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return true;
-            }
-            while (reader.Read())
-            {
-                Console.WriteLine(String.Format("{0}", reader[0]));
-                if (flag)
-                {
-                    string message = "Your username is: " + reader[0];
-                    sendEmail(message);
-                }
-            }
-            reader.Close();
-            mySqlConnection!.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
-
-        }
-
-        public Dictionary<string, string> GetAccountInformation()
-        {
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
-
-            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
-
-            MySqlDataReader myReader;
-            myReader = command.ExecuteReader();
-
-            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
-            while (myReader.Read())
-            {
-                accountInfo.Add("typeName", myReader.GetString("typeName"));
-                accountInfo.Add("userId", myReader.GetString("userId"));
-                accountInfo.Add("username", myReader.GetString("username"));
-                accountInfo.Add("password", myReader.GetString("password"));
-                accountInfo.Add("email", myReader.GetString("email"));
-            }
-            myReader.Close();
-            mySqlConnection!.Close();
-            return accountInfo;
-        }
-
-        public Dictionary<string, string> GetRegInformation()
-        {
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
-
-            MySqlCommand command = new MySqlCommand(this.query, this.mySqlConnection);
-
-            MySqlDataReader myReader;
-            myReader = command.ExecuteReader();
-
-            Dictionary<string, string> accountInfo = new Dictionary<string, string>();
-            while (myReader.Read())
-            {
-                accountInfo.Add("password", myReader.GetString("password"));
-                accountInfo.Add("url", myReader.GetString("url"));
-                accountInfo.Add("email", myReader.GetString("email"));
-
-            }
-            myReader.Close();
-            Console.WriteLine("Connection closed...");
-            return accountInfo;
-        }
-
-        public void sendEmail(string message) //INEFFICIENT METHOD, Should not have a duplicate method and ideally should avoid a flag
-        {
-            using (MailMessage mail = new MailMessage())
-            {
-                mail.From = new MailAddress("projmotomoto@gmail.com");
-                mail.To.Add("projmotomoto@gmail.com");
-                mail.Subject = "MotoMoto Account Recovery";
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                {
-                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                }
+                case 1:
+                    mySqlConnection!.Close();
+                    return true;
+                default:
+                    mySqlConnection!.Close();
+                    return false;
             }
         }
     }
 }
+
