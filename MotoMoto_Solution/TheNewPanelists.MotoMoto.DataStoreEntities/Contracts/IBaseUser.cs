@@ -9,9 +9,5 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
     public abstract class IBaseUser
     {
         public virtual int UserId { get; set; }
-
-        public DateTimeOffset CreatedDate { get; set; }
-
-        public DateTimeOffset? UpdateDate { get; set; }
     }
 }
