@@ -11,7 +11,6 @@ namespace TheNewPanelists.MotoMoto.Entities
     {
         public string? username { get; set; }
         public bool status { get; set; }
-
         public bool eventAccount { get; set; }
     }
 }

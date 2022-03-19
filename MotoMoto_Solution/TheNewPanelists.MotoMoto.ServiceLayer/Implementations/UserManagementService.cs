@@ -53,7 +53,15 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             }
             return retrievalAccount;
         }
-
+        /// <summary>
+        /// Create account operation allows accounts to be created. This includes all sensitive information 
+        /// regarding a users account which can be modified based on needs.
+        /// </summary>
+        /// <param name="accountType"></param>
+        /// <returns>
+        /// This functionality returns a boolean which represents whether a user was stored successfully
+        /// </returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public bool CreateAccountOperation(EntityType accountType)
         {
             using (var command = new SqlCommand())
@@ -75,7 +83,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 return true;
             }
         }
-        
+        /// <summary>
+        /// DeleteAccountOperation deletes a stored user account from the 'user' table. Dependencies within profile,
+        /// user account image, user description, etc. must be deleted before continuing on with perminate deletion
+        /// </summary>
+        /// <returns>boolean value whether the account was successfully deleted or not</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public bool DeleteAccountOperation()
         {
             if (!UserNamePasswordDSValidation()) 
