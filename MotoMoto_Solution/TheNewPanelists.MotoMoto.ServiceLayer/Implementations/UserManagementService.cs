@@ -31,6 +31,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// Find account operation is a retrieval operation that finds a user's specified account. This function
+        /// is able to return null in the case that there exists no user with the username inserted. 
+        /// </summary>
+        /// <returns> Returns an account that is inserted, otherwise returns a null value</returns>
         public AccountEntity FindAccountOperation()
         {
             AccountEntity retrievalAccount;
@@ -43,6 +48,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 command.Parameters.AddRange(parameters);
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 retrievalAccount = _userManagementDataAccess.RetrieveSpecifiedUserEntity();
+                if (retrievalAccount == null)
+                    throw new NullReferenceException(nameof(retrievalAccount));
             }
             return retrievalAccount;
         }
@@ -63,7 +70,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 if (!_userManagementDataAccess.SelectAccountOperation())
                 {
-                    return false;
+                    throw new InvalidOperationException();
                 }
                 return true;
             }
@@ -84,7 +91,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 if (!_userManagementDataAccess.SelectAccountOperation())
                 {
-                    return false;
+                    throw new InvalidOperationException();
                 }
             }
             return true;
