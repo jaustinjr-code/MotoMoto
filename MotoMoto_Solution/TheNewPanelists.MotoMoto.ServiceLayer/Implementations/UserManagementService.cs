@@ -40,16 +40,33 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 var parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@v1", _userAccount!._username);
 
-                command.Parameters.Add(parameters);
+                command.Parameters.AddRange(parameters);
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 retrievalAccount = _userManagementDataAccess.RetrieveSpecifiedUserEntity();
             }
             return retrievalAccount;
         }
 
-        public bool CreateAccountOperation()
+        public bool CreateAccountOperation(EntityType accountType)
         {
-            throw new NotImplementedException();
+            using (var command = new SqlCommand())
+            {
+                command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
+                                      $"VALUES (@v1, @v2, @v3, @v4,)";
+                var parameters = new SqlParameter[4];
+                parameters[0] = new SqlParameter("@v1", accountType._typeName);
+                parameters[1] = new SqlParameter("@v2", _userAccount!._username);
+                parameters[2] = new SqlParameter("@v3", _userAccount!._password);
+                parameters[3] = new SqlParameter("@v4", _userAccount!._email);
+
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                if (!_userManagementDataAccess.SelectAccountOperation())
+                {
+                    return false;
+                }
+                return true;
+            }
         }
         
         public bool DeleteAccountOperation()
@@ -63,7 +80,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 parameters[0] = new SqlParameter("@v1", _userAccount!._username);
                 parameters[1] = new SqlParameter("@v2", _userAccount!._password);
 
-                command.Parameters.Add(parameters);
+                command.Parameters.AddRange(parameters);
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 if (!_userManagementDataAccess.SelectAccountOperation())
                 {
