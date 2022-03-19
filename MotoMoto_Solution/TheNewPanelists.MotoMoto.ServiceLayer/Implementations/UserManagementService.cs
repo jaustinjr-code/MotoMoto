@@ -1,335 +1,125 @@
-﻿using System.Net;
-using System.Net.Mail;
-using TheNewPanelists.DataAccessLayer;
-using TheNewPanelists.ServiceLayer.Logging;
+﻿using System;
 using System.Collections.Generic;
-//using TheNewPanelists.BusinessLayer.UserManagement;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.DataAccess.Impementations;
+using TheNewPanelists.MotoMoto.ServiceLayer.Contracts;
+using TheNewPanelists.MotoMoto.Entities;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
+using System.Data.SqlClient;
+using System.Data;
 
-namespace TheNewPanelists.ServiceLayer.UserManagement
+namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
 {
     public class UserManagementService : IUserManagementService
     {
         private bool accountRecoveryFlag = false;
-        private string? operation { get; set; }
-        private UserManagementDataAccess? userManagementDataAccess;
-        //private UserManagementManager userManagementManager;
-        private Dictionary<string, string>? userAccount { get; set; }
-
+        private string? _operation { get; set; }
+        private UserManagementDataAccess? _userManagementDataAccess;
+        private DataStoreUser? _userAccount { get; set; }
 
         public UserManagementService() { }
 
-        public UserManagementService(string operation, Dictionary<string, string> userAccount)
+        public UserManagementService(string operation, DataStoreUser userAccount)
         {
-            this.operation = operation;
-            this.userAccount = userAccount;
-            this.userManagementDataAccess = new UserManagementDataAccess();
-            // this.userManagementManager = new UserManagementManager();
+            _operation = operation;
+            _userAccount = userAccount;
         }
-
         public bool SqlGenerator()
         {
-            string query = "";
-            if (this.operation == "FIND")
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Find account operation is a retrieval operation that finds a user's specified account. This function
+        /// is able to return null in the case that there exists no user with the username inserted. 
+        /// </summary>
+        /// <returns> Returns an account that is inserted, otherwise returns a null value</returns>
+        public AccountEntity FindAccountOperation()
+        {
+            AccountEntity retrievalAccount;
+            using (var command = new SqlCommand())
             {
-                query = this.FindUser();
+                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                var parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@v1", _userAccount!._username);
+
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                retrievalAccount = _userManagementDataAccess.RetrieveSpecifiedUserEntity();
+                if (retrievalAccount == null)
+                    throw new NullReferenceException(nameof(retrievalAccount));
             }
-            else if (this.operation == "CREATE")
-            {
-                query = this.CreateUser();
-            }
-            else if (this.operation == "DROP")
-            {
-                query = this.DropUser();
-            }
-            else if (this.operation == "UPDATE")
-            {
-                query = this.UpdateOptions();
-            }
-            else if (this.operation == "ACCOUNT RECOVERY")
-            {
-                query = this.AccountRecovery();
-                Console.WriteLine(query);
-            }
-            else if (this.operation == "ISVALID")
-            {
-                query = this.EmailValidated();
-            }
-            else if (operation == "DROPREG")
-            {
-                query = this.DropRegistration();
-            }
-            else if (this.operation == "ACCOUNT REGISTRATION")
-            {
-                query = this.RegisterUser();
-            }
-            else if (this.operation == "ISVALID")
-            {
-                query = this.EmailValidated();
-            }
-            else if (operation == "DROPREG")
-            {
-                query = this.DropRegistration();
-            }
-            else if (this.operation == "ACCOUNT REGISTRATION")
-            {
-                query = this.RegisterUser();
-            }
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            //if (this.userManagementDataAccess.SelectAccount(accountRecoveryFlag) == false)
-            //{
-            //    return false;
-            //}
-            return this.userManagementDataAccess.SelectAccount(accountRecoveryFlag);
+            return retrievalAccount;
         }
 
-        public Dictionary<string, string> ReturnUser()
+        public bool CreateAccountOperation(EntityType accountType)
         {
-            string query = "SELECT u.userId FROM User u WHERE u.username = '" + this.userAccount["username"] + "';";
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            return this.userManagementDataAccess.GetAccountInformation();
-        }
-
-        public Dictionary<string, string> ReturnRegistrationEntry()
-        {
-            Dictionary<string, string> result;
-            string query = "";
-            if (operation == "VALIDATE")
+            using (var command = new SqlCommand())
             {
-                query = "SELECT r.email, r.password FROM Registration r WHERE r.url = '" + this.userAccount!["url"]
-                    + "' AND r.email = '" + this.userAccount!["email"] + "' AND r.expiration < NOW() AND r.validated = false;";
-            }
-            else if (operation == "FINDREG")
-            {
-                query = "SELECT * FROM Registration r WHERE r.email = '" + this.userAccount!["email"] + "';";
-            }
-            this.userManagementDataAccess = new UserManagementDataAccess(query);
-            result = this.userManagementDataAccess.GetRegInformation();
-            return result;
-        }
+                command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
+                                      $"VALUES (@v1, @v2, @v3, @v4,)";
+                var parameters = new SqlParameter[4];
+                parameters[0] = new SqlParameter("@v1", accountType._typeName);
+                parameters[1] = new SqlParameter("@v2", _userAccount!._username);
+                parameters[2] = new SqlParameter("@v3", _userAccount!._password);
+                parameters[3] = new SqlParameter("@v4", _userAccount!._email);
 
-        private string EmailValidated()
-        {
-            return "UPDATE Registration r SET r.validated = TRUE WHERE r.email = '" + this.userAccount!["email"] + "';";
-        }
-
-        private string DropRegistration()
-        {
-            return "DELETE r FROM REGISTRATION r WHERE r.email = '" + this.userAccount!["email"] + "';";
-        }
-
-        private string RegisterUser()
-        {
-            return $@"INSERT INTO REGISTRATION (email, password, expiration) VALUES (\'{this.userAccount!["email"]}\',\'{this.userAccount["password"]}\', DATE_ADD(NOW(), INTERVAL 24 HOUR));";
-        }
-
-        private string FindUser()
-        {
-            return $"SELECT * FROM User u WHERE u.username = \'{this.userAccount!["username"]}\';";
-        }
-
-        private string CreateUser()
-        {
-            string type1 = "ADMIN";
-            string type2 = "REGISTERED";
-            string type3 = "DEFAULT";
-            //return "INSERT INTO USER (typeID, username, password, email, able, eventAccount) VALUES (2, '" 
-            //        + this.userAccount["username"] + "', '" + this.userAccount["password"] + "', '" 
-            //        + this.userAccount["email"] + "', false, false);";
-            return $@"INSERT INTO USER (typeName, username, password, email) VALUES ('REGISTERED',
-                    '{this.userAccount?["username"]}', 
-                    '{this.userAccount?["password"]}', 
-                    '{this.userAccount?["email"]}');";
-        }
-
-        private string DropUser()
-        {
-            return $"DELETE u FROM USER u WHERE u.username = '{this.userAccount!["username"]}' AND u.password = "
-                 + $"'{ this.userAccount!["password"]}';";
-        }
-
-        private string UpdateOptions()
-        {
-            string query = "UPDATE USER u SET ";
-            for (int i = 0; i < this.userAccount!.Count; i++)
-            {
-                if (this.userAccount.ContainsKey("newusername"))
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                if (!_userManagementDataAccess.SelectAccountOperation())
                 {
-                    query = query + " u.username = '" + this.userAccount!["newusername"] + "'";
-                    if (i + 1 < this.userAccount.Count - 1)
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("newusername");
-                        continue;
-                    }
-                    else this.userAccount.Remove("newusername");
+                    throw new InvalidOperationException();
                 }
-                if (this.userAccount.ContainsKey("newpassword"))
-                {
-                    query = query + " u.password = '" + this.userAccount["newpassword"] + "'";
-                    if (i + 1 < this.userAccount.Count - 1)
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("newpassword");
-                        continue;
-                    }
-                    else this.userAccount.Remove("newpassword");
+                return true;
+            }
+        }
+        
+        public bool DeleteAccountOperation()
+        {
+            if (!UserNamePasswordDSValidation()) 
+                return false;
+            using (var command = new SqlCommand())
+            {
+                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", _userAccount!._username);
+                parameters[1] = new SqlParameter("@v2", _userAccount!._password);
 
-                }
-                if (this.userAccount.ContainsKey("newemail"))
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                if (!_userManagementDataAccess.SelectAccountOperation())
                 {
-                    query = query + " u.email = '" + this.userAccount["newemail"] + "'";
-                    if (i + 1 < this.userAccount.Count - 1)
-                    {
-                        query = query + ", ";
-                        this.userAccount.Remove("newemail");
-                        continue;
-                    }
-                    else this.userAccount.Remove("newemail");
+                    throw new InvalidOperationException();
                 }
             }
-            string queryWhere = $" WHERE u.username= \'{this.userAccount!["username"]}\';";
-            query = query + queryWhere;
-            return query;
-        }
-        public string BulkOperation()
-        {
-            return $"LOAD DATA INFILE 'F:/TEST/BulkOperations.csv'"
-                    + " INTO TABLE DUMMYUSER"
-                    + " FIELDS ENCLOSED BY '\"'"
-                    + " TERMINATED BY \';\'"
-                    + " ESCAPED BY \'\"\'"
-                    + " LINES TERMINATED BY \'\\r\\n\';";
+            return true;
         }
 
-        public string BulkDelete()
+        private bool UserNamePasswordDSValidation()
         {
-            return $"DELETE DUMMYUSER FROM DUMMYUSER WHERE EMAIL LIKE \"%@dummy.xx\"";
-        }
-
-        private string UpdateStatus()
-        {
-            return "UPDATE USER u SET u.status = '" + this.userAccount!["newstatus"] +
-                    "' WHERE u.username= '" + this.userAccount["status"] + "';";
-        }
-
-
-        private string AccountRecovery()
-        {
-            string message = string.Empty; //instantiate a string that will hold the message for the email
-            string query = string.Empty; //instantiate a string that will hold the query we want to return
-            if (this.userAccount!.ContainsKey("username")) //If the user chose 'Forgot Password' they will input their username, if they input their username they qualify for this case
+            DataStoreUser retrievalAccount;
+            using (var command = new SqlCommand())
             {
-                string email = "SELECT u.email FROM User u WHERE u.username = '" + this.userAccount["username"] + "';"; //Return the email of the user that is selected HOWEVER THIS DOESN'T WORK YET, the email is hardcoded below
-                message = "Please reset your password: "; //Email message to be sent, will eventually include front - end link and expiration time
-                sendEmail(message); //Call sendEmail function to email given message
-                Console.Write("New Password: "); //Ask user for new password
-                string? password = Console.ReadLine(); //Read in the new password
-                if (!string.IsNullOrEmpty(password)) //Make sure the string in not empty
+                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                var parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@v1", _userAccount!._username);
+
+                command.Parameters.Add(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                retrievalAccount = _userManagementDataAccess.RetrieveDataStoreSpecifiedUserEntity();
+                if ((retrievalAccount.UserId == _userAccount!.UserId) && (retrievalAccount._password == _userAccount!._password))
                 {
-                    this.userAccount["newpassword"] = password; //
-                    query = UpdateOptions(); //Call the update option 
+                    return true;
                 }
-            }
-            else if (this.userAccount.ContainsKey("email")) //If the user chose 'Forgot Username' they will input their email, if they input their email they qualify for this case
-            {
-                accountRecoveryFlag = true; //Set boolean to true
-                query = "SELECT u.username FROM User u WHERE u.email = '" + this.userAccount["email"] + "';"; //Set query to get username from user with the specified email
-            }
-            return query; //Return the query
-        }
-
-        public void sendEmail(string message)
-        {
-            using (MailMessage mail = new MailMessage()) //Create an email
-            {
-                mail.From = new MailAddress("projmotomoto@gmail.com"); //Who you are sending the email from
-                mail.To.Add("projmotomoto@gmail.com"); //Who you are sending the email to
-                mail.Subject = "MotoMoto Account Recovery"; //What the subject of the email says
-                mail.Body = message; //What the body of the email says
-                mail.IsBodyHtml = true;
-
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)) //Use built in SmtpClient to send email to/from gmail accounts
-                {
-                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!"); //Email and password of email you want to send from
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail); //Send email
-                }
+                return false;
             }
         }
 
-        public bool IsValidRequest()
-        {
-            bool containsOperation = this.operation!.Contains("FIND") || this.operation!.Contains("CREATE")
-                                     || this.operation!.Contains("DROP") || this.operation!.Contains("UPDATE")
-                                     || this.operation!.Contains("ACCOUNT RECOVERY");
-            if (containsOperation)
-            {
-                return HasValidAttributes();
-            }
-            return false;
-        }
-
-        public string getQuery()
-        {
-            string query = "";
-            switch (this.operation)
-            {
-                case "FIND":
-                    query = this.FindUser();
-                    break;
-
-                case "CREATE":
-                    query = this.CreateUser();
-                    break;
-
-                case "DROP":
-                    query = this.DropUser();
-                    break;
-
-                case "UPDATE":
-                    query = this.UpdateOptions();
-                    break;
-                case "ACCOUNT RECOVERY":
-                    //query = this.AccountRecovery();
-                    break;
-                case "BULK":
-                    query = this.BulkOperation();
-                    break;
-                case "BULK_DELETE":
-                    query = this.BulkDelete();
-                    break;
-                default:
-                    break;
-            }
-            return query;
-        }
-        public bool HasValidAttributes()
-        {
-            bool hasValidAttributes = false;
-            string query = this.getQuery();
-
-            switch (this.operation)
-            {
-                case "FIND":
-                    hasValidAttributes = query.Contains("SELECT u.username FROM User u WHERE u.username =");
-                    break;
-                case "CREATE":
-                    hasValidAttributes = query.Contains("INSERT INTO USER (username, password, email)");
-                    break;
-
-                case "DROP":
-                    hasValidAttributes = query.Contains("DELETE u FROM USER u WHERE u.username = ")
-                                        && query.Contains("AND u.password =");
-                    break;
-                case "UPDATE":
-                    hasValidAttributes = (query.Contains("UPDATE USER u SET") && (query.Contains("u.username")
-                                        || query.Contains("password") || query.Contains("email")));
-                    break;
-                case "ACCOUNT RECOVERY":
-                    hasValidAttributes = query.Contains("SELECT u.email FROM User u WHERE u.username = ") || query.Contains("SELECT u.username FROM User u WHERE u.email = ");
-                    break;
-            }
-            return hasValidAttributes;
+        public bool UpdateAccountOperation()
+        { 
+            throw new NotImplementedException(); 
         }
     }
 }
