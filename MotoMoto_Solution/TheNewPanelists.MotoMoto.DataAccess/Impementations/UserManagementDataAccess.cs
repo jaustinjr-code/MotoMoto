@@ -146,8 +146,33 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 myReader.Close();
                 mySqlConnection!.Close();
                 return userAccount;
-            }   
+            }
+        }
+        public ProfileEntity RetrieveSpecifiedProfileEntity()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand(_query, mySqlConnection))
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
 
+                MySqlDataReader myReader = command.ExecuteReader();
+                ProfileEntity userProfile = new ProfileEntity();
+
+                while (myReader.Read())
+                {
+                    userProfile.UserId = myReader.GetInt32("userId");
+                    userProfile.username = myReader.GetString("username");
+                    userProfile.status = myReader.GetBoolean("status");
+                    userProfile.status = myReader.GetBoolean("eventAccount");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return userProfile;
+            }
         }
     }
 }

@@ -16,8 +16,17 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
     {
         private bool accountRecoveryFlag = false;
         private string? _operation { get; set; }
-        private UserManagementDataAccess? userManagementDataAccess;
+        private UserManagementDataAccess? _userManagementDataAccess;
         private DataStoreUserProfile? _userProfile { get; set; }
+
+        public ProfileManagementService() { }
+
+        public ProfileManagementService(string operation, DataStoreUserProfile userProfile)
+        {
+            _operation = operation;
+            _userProfile = userProfile;
+            _userManagementDataAccess = new UserManagementDataAccess();
+        }
         public bool SqlGenerator()
         {
             throw new NotImplementedException();
@@ -25,20 +34,36 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
 
         public ProfileEntity FindProfileOperation()
         {
-            throw new NotImplementedException();
+            ProfileEntity retrievalAccount;
+            using (var command = new SqlCommand())
+            {
+                command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
+                var parameters = new SqlParameter[1];
+                parameters[0] = new SqlParameter("@v1", _userProfile!._username);
+
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                retrievalAccount = _userManagementDataAccess.RetrieveSpecifiedProfileEntity();
+                if (retrievalAccount == null)
+                    throw new NullReferenceException(nameof(retrievalAccount));
+            }
+            return retrievalAccount;
         }
 
         public bool CreateProfileOperation()
         {
-            throw new NotImplementedException();
+            using (var command = new SqlCommand())
+            {
+                command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+                                        EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                if (!_userManagementDataAccess.SelectAccountOperation())
+                    throw new NullReferenceException(nameof(command));
+                return true;    
+            }
         }
 
         public bool DeleteProfileOperation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UserNamePasswordDSValidation()
         {
             throw new NotImplementedException();
         }
