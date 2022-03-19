@@ -9,6 +9,8 @@ using System.Net.Mail;
 using System.Net;
 using TheNewPanelists.MotoMoto.DataAccess.Contracts;
 using TheNewPanelists.MotoMoto.Entities;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
+using System.Data;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
@@ -79,7 +81,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 userAccount.UserId = myReader.GetInt32("userId");
                 userAccount.AccountType = myReader.GetString("typeName");
                 userAccount.username = myReader.GetString("username");
-                userAccount.eventAccount = bool.Parse(myReader.GetString("eventAccount"));
                 accountsSet.Add(userAccount);
             }
             myReader.Close();
@@ -100,21 +101,53 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             {
                 throw new NullReferenceException();
             }
-            MySqlCommand command = new MySqlCommand(_query, mySqlConnection);
-            MySqlDataReader myReader = command.ExecuteReader();
-
-            AccountEntity userAccount = new AccountEntity();
-            
-            while (myReader.Read())
+            using (MySqlCommand command = new MySqlCommand(_query, mySqlConnection))
             {
-                userAccount.UserId = myReader.GetInt32("userId");
-                userAccount.AccountType = myReader.GetString("typeName");
-                userAccount.username = myReader.GetString("username");
-                userAccount.eventAccount = bool.Parse(myReader.GetString("eventAccount"));
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                AccountEntity userAccount = new AccountEntity();
+
+                while (myReader.Read())
+                {
+                    userAccount.UserId = myReader.GetInt32("userId");
+                    userAccount.AccountType = myReader.GetString("typeName");
+                    userAccount.username = myReader.GetString("username");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return userAccount;
+            }           
+        }
+
+        public DataStoreUser RetrieveDataStoreSpecifiedUserEntity()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
             }
-            myReader.Close();
-            mySqlConnection!.Close();
-            return userAccount;
+            using (MySqlCommand command = new MySqlCommand(_query, mySqlConnection))
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                DataStoreUser userAccount = new DataStoreUser();
+
+                while (myReader.Read())
+                {
+                    userAccount.UserId = myReader.GetInt32("userId");
+                    userAccount._userType = myReader.GetString("typeName");
+                    userAccount._username = myReader.GetString("username");
+                    userAccount._password = myReader.GetString("password");
+                    userAccount._email = myReader.GetString("email");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return userAccount;
+            }   
+
         }
     }
 }

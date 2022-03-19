@@ -7,11 +7,11 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.Entities
 {
-    public class AccountEntity : IBaseUser
+    public class ProfileEntity : IBaseUser
     {
-        public string? AccountType { get; set; }
-
         public string? username { get; set; }
+        public bool status { get; set; }
 
+        public bool eventAccount { get; set; }
     }
 }
