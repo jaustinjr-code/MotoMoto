@@ -119,7 +119,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 var parameters = new SqlParameter[1];
                 parameters[0] = new SqlParameter("@v1", _userAccount!._username);
 
-                command.Parameters.Add(parameters);
+                command.Parameters.AddRange(parameters);
                 _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 retrievalAccount = _userManagementDataAccess.RetrieveDataStoreSpecifiedUserEntity();
                 if ((retrievalAccount.UserId == _userAccount!.UserId) && (retrievalAccount._password == _userAccount!._password))
@@ -130,9 +130,40 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             }
         }
 
-        public bool UpdateAccountOperation()
-        { 
-            throw new NotImplementedException(); 
+        public bool UpdateAccountOptionsOperation(string operation, string newValue)
+        {
+            using (var command = new SqlCommand())
+            {
+                command.CommandText = $"UPDATE USER U SET @v1 = @v2 WHERE U.USERNAME = @v3";
+                var parameters = new SqlParameter[3];
+                switch (operation)
+                {
+                    case "NEWUSERNAME":
+                        parameters[0] = new SqlParameter("@v1", "U.USERNAME");
+                        parameters[1] = new SqlParameter("@v2", $"\"{newValue}\"");
+                        parameters[2] = new SqlParameter("@v3", _userAccount!._username);
+                        break;
+                    case "NEWPASSWORD":
+                        parameters[0] = new SqlParameter("@v1", "U.PASSWORD");
+                        parameters[1] = new SqlParameter("@v2", $"\"{newValue}\"");
+                        parameters[2] = new SqlParameter("@v3", _userAccount!._username);
+                        break;
+                    case "NEWEMAIL":
+                        parameters[0] = new SqlParameter("@v1", "U.EMAIL");
+                        parameters[1] = new SqlParameter("@v2", $"\"{newValue}\"");
+                        parameters[2] = new SqlParameter("@v3", _userAccount!._username);
+                        break;
+                    default:
+                        break;
+                }
+                command.Parameters.AddRange(parameters);
+                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
+                if (!_userManagementDataAccess.SelectAccountOperation())
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+            return true;
         }
     }
 }

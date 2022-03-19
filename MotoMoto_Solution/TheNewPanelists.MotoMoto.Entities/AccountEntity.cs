@@ -10,7 +10,6 @@ namespace TheNewPanelists.MotoMoto.Entities
     public class AccountEntity : IBaseUser
     {
         public string? AccountType { get; set; }
-
         public string? username { get; set; }
 
     }

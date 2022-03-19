@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    internal class DataStoreUserProfile : IBaseUser
+    public class DataStoreUserProfile : IBaseUser
     {
         /// <summary>
         /// username and userId are connected by foreign keys to the users table. 
