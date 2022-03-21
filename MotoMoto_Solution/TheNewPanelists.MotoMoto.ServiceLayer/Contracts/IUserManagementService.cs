@@ -8,6 +8,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Contracts
 {
     public interface IUserManagementService
     {
-        public bool SqlGenerator();
+        //public bool SqlGenerator();
     }
 }

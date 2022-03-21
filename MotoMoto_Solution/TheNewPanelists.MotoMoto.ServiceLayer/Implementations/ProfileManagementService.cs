@@ -31,7 +31,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         {
             throw new NotImplementedException();
         }
-
+        /*
         public ProfileEntity FindProfileOperation()
         {
             ProfileEntity retrievalAccount;
@@ -42,10 +42,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 parameters[0] = new SqlParameter("@v1", _userProfile!._username);
 
                 command.Parameters.AddRange(parameters);
-                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
-                retrievalAccount = _userManagementDataAccess.RetrieveSpecifiedProfileEntity();
-                if (retrievalAccount == null)
-                    throw new NullReferenceException(nameof(retrievalAccount));
             }
             return retrievalAccount;
         }
@@ -62,7 +58,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 return true;    
             }
         }
-
+        */
         public bool DeleteProfileOperation()
         {
             throw new NotImplementedException();

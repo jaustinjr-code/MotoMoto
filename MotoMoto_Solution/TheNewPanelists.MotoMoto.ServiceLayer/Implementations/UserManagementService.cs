@@ -8,8 +8,8 @@ using TheNewPanelists.MotoMoto.DataAccess.Impementations;
 using TheNewPanelists.MotoMoto.ServiceLayer.Contracts;
 using TheNewPanelists.MotoMoto.Entities;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
 {
@@ -36,6 +36,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         /// is able to return null in the case that there exists no user with the username inserted. 
         /// </summary>
         /// <returns> Returns an account that is inserted, otherwise returns a null value</returns>
+        /*
         public AccountEntity FindAccountOperation()
         {
             AccountEntity retrievalAccount;
@@ -75,7 +76,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 parameters[3] = new SqlParameter("@v4", _userAccount!._email);
 
                 command.Parameters.AddRange(parameters);
-                _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
                 if (!_userManagementDataAccess.SelectAccountOperation())
                 {
                     throw new InvalidOperationException();
@@ -165,5 +165,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             }
             return true;
         }
+        */
     }
 }
