@@ -149,7 +149,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return returnUser;
             }
         }
-        public bool InsertNewDataStoreAccountEntity(EntityType accountType, DataStoreUser userAccount)
+        public bool InsertNewDataStoreAccountEntity(DataStoreUser userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -160,7 +160,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
                                       $"VALUES (@v1, @v2, @v3, @v4,)";
                 var parameters = new SqlParameter[4];
-                parameters[0] = new SqlParameter("@v1", accountType._typeName);
+                parameters[0] = new SqlParameter("@v1", userAccount!._userType);
                 parameters[1] = new SqlParameter("@v2", userAccount!._username);
                 parameters[2] = new SqlParameter("@v3", userAccount!._password);
                 parameters[3] = new SqlParameter("@v4", userAccount!._email);

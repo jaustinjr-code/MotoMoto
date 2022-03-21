@@ -12,9 +12,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         /// username and userId are connected by foreign keys to the users table. 
         /// Where profile is dependent on the object of User
         /// </summary>
-        public int _userId { get; set; }
         public string? _username { get; set; }
-
         public bool _status { get; set; }
         public bool _eventAccount { get; set; }
     }

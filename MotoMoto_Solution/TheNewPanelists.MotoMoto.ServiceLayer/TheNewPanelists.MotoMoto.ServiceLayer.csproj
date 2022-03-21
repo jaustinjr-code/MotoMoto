@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataAccess\TheNewPanelists.MotoMoto.DataAccess.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.Entities\TheNewPanelists.MotoMoto.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

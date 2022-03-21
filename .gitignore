@@ -55,3 +55,6 @@ app/bin/Debug/net6.0/app.dll
 *.json
 *.json
 app/obj/project.nuget.cache
+MotoMoto_Solution/.vs/TheNewPanelist_Solution/v17/.suo
+*.v2
+*.v1

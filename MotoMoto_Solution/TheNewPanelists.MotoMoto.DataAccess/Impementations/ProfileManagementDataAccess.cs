@@ -14,10 +14,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
     public class ProfileManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection = null;
-
         private readonly string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
-
         private readonly UserManagementDataAccess userManagementDataAccess;
+
         public ProfileManagementDataAccess() 
         {
             userManagementDataAccess = new UserManagementDataAccess();
@@ -121,4 +120,3 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
         
     }
 }
-
