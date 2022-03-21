@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.En
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.DataStoreEntities", "TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.WebServices", "TheNewPanelists.MotoMoto.WebServices", "{B97E2D09-07AD-457D-9935-51872B7A69F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{295C0A77-AC72-4890-9F92-EE0C79168E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,11 +45,23 @@ Global
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 EndGlobal
