@@ -13,13 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.En
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.DataStoreEntities", "TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.ApplicationLayer", "TheNewPanelists.MotoMoto.ApplicationLayer", "{A1082E32-46AD-46A7-8952-A22C5F465624}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.WebServices", "TheNewPanelists.MotoMoto.WebServices", "{B97E2D09-07AD-457D-9935-51872B7A69F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ApplicationLayer.Login", "TheNewPanelists.MotoMoto.ApplicationLayer\TheNewPanelists.MotoMoto.ApplicationLayer.Login\TheNewPanelists.MotoMoto.ApplicationLayer.Login.csproj", "{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{295C0A77-AC72-4890-9F92-EE0C79168E8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ApplicationLayer.UsageAnalysisDashboard", "TheNewPanelists.MotoMoto.ApplicationLayer\TheNewPanelists.MotoMoto.ApplicationLayer.UsageAnalysisDashboard\TheNewPanelists.MotoMoto.ApplicationLayer.UsageAnalysisDashboard.csproj", "{A2EA09DE-FC67-4FC5-8A8C-C535618AE053}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement", "TheNewPanelists.MotoMoto.ApplicationLayer\TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement\TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement.csproj", "{E648B3C9-A521-4113-9438-A29C3DDF8FC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,18 +45,14 @@ Global
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,8 +61,7 @@ Global
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279} = {A1082E32-46AD-46A7-8952-A22C5F465624}
-		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053} = {A1082E32-46AD-46A7-8952-A22C5F465624}
-		{E648B3C9-A521-4113-9438-A29C3DDF8FC5} = {A1082E32-46AD-46A7-8952-A22C5F465624}
+		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 EndGlobal

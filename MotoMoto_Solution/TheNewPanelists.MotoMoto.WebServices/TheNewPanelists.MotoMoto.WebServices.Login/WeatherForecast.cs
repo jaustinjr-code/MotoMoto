@@ -1,4 +1,4 @@
-namespace TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement;
+namespace TheNewPanelists.MotoMoto.WebServices.Login;
 
 public class WeatherForecast
 {
