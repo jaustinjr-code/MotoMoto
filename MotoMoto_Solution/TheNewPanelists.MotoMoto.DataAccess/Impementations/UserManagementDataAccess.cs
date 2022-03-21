@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 using TheNewPanelists.MotoMoto.DataAccess.Contracts;
-using TheNewPanelists.MotoMoto.Entities;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
+using TheNewPanelists.MotoMoto.Entities;
 using System.Data;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
