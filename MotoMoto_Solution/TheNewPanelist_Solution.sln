@@ -21,12 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement", "TheNewPanelists.MotoMoto.ApplicationLayer\TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement\TheNewPanelists.MotoMoto.ApplicationLayer.UserManagement.csproj", "{E648B3C9-A521-4113-9438-A29C3DDF8FC5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.Logging", "TheNewPanelists.MotoMoto.Logging", "{315C607F-4A53-494C-85D8-18FF2E859C85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Logging.DataAccess", "TheNewPanelists.MotoMoto.Logging\TheNewPanelists.MotoMoto.Logging.DataAccess\TheNewPanelists.MotoMoto.Logging.DataAccess.csproj", "{7BFBF8A7-CC10-42B3-A186-B74270659C79}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Logging.ServiceLayer", "TheNewPanelists.MotoMoto.Logging\TheNewPanelists.MotoMoto.Logging.ServiceLayer\TheNewPanelists.MotoMoto.Logging.ServiceLayer.csproj", "{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,14 +59,6 @@ Global
 		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E648B3C9-A521-4113-9438-A29C3DDF8FC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BFBF8A7-CC10-42B3-A186-B74270659C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BFBF8A7-CC10-42B3-A186-B74270659C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BFBF8A7-CC10-42B3-A186-B74270659C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BFBF8A7-CC10-42B3-A186-B74270659C79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,7 +70,5 @@ Global
 		{B9A40291-D9DC-4CBA-9DB1-5A6FE27F8279} = {A1082E32-46AD-46A7-8952-A22C5F465624}
 		{A2EA09DE-FC67-4FC5-8A8C-C535618AE053} = {A1082E32-46AD-46A7-8952-A22C5F465624}
 		{E648B3C9-A521-4113-9438-A29C3DDF8FC5} = {A1082E32-46AD-46A7-8952-A22C5F465624}
-		{7BFBF8A7-CC10-42B3-A186-B74270659C79} = {315C607F-4A53-494C-85D8-18FF2E859C85}
-		{8EE0BCFC-6CD2-4091-A544-8DFFD8FF8EDB} = {315C607F-4A53-494C-85D8-18FF2E859C85}
 	EndGlobalSection
 EndGlobal
