@@ -24,9 +24,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             _userManagementDAO = userManagementDAO;
         }
 
-        public ISet<DataStoreUser> RetrieveAllAccounts(AccountEntity userAccount)
+        public ISet<AccountEntity> RetrieveAllAccounts(AccountEntity userAccount)
         {
-            throw new NotImplementedException();
+            var accountEntities = _userManagementDAO.GetAllUsers();
+
+            var userAccounts = accountEntities.Select(acct => new AccountEntity()
+            {
+                AccountType = userAccount!.AccountType,
+                username = userAccount!.username
+            }).ToHashSet();
+            return userAccounts;
         }
         public bool CreateAccount(DataStoreUser createdUser)
         {
@@ -39,13 +46,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             };
             return _userManagementDAO.InsertNewDataStoreAccountEntity(dataStoreUser);
         }
-        public bool DeleteAccount(DataStoreUser deletedAccount)
+        public bool DeleteAccount(DeleteAccountEntity deletedAccount)
         {
-            var dataStoreUser = new DataStoreUser()
+            var dataStoreUser = new DeleteAccountEntity()
             {
-                _username = deletedAccount!._username,
-                _password = deletedAccount!._password,
-                _email = deletedAccount!._email,
+                username = deletedAccount!.username,
+                verifiedPassword = deletedAccount!.verifiedPassword
             };
 
             return _userManagementDAO.DeleteAccountEntity(dataStoreUser);

@@ -65,7 +65,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             while (myReader.Read())
             {
                 AccountEntity userAccount = new AccountEntity();
-                userAccount.UserId = myReader.GetInt32("userId");
                 userAccount.AccountType = myReader.GetString("typeName");
                 userAccount.username = myReader.GetString("username");
                 accountsSet.Add(userAccount);
@@ -102,7 +101,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 AccountEntity returnAccount = new AccountEntity();
                 while (myReader.Read())
                 {
-                    returnAccount.UserId = myReader.GetInt32("userId");
                     returnAccount.AccountType = myReader.GetString("typeName");
                     returnAccount.username = myReader.GetString("username");
                 }
@@ -149,6 +147,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return returnUser;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool InsertNewDataStoreAccountEntity(DataStoreUser userAccount)
         {
             if (!EstablishMariaDBConnection())
@@ -169,27 +173,42 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return(ExecuteQuery(command));
             }
         }
-        public bool DeleteAccountEntity(DataStoreUser userAccount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public bool DeleteAccountEntity(DeleteAccountEntity userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
                 throw new NotImplementedException();
             }
-            if (!UserNamePasswordDSValidation(userAccount))
-                return false;
+            var dataStoreUser = new DataStoreUser()
+            {
+                _username = userAccount.username,
+                _password = userAccount.verifiedPassword
+            };
+            if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
+
             profileDAO!.DeleteProfileEntity(userAccount);
             using (var command = new SqlCommand())
             {
                 command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
                 var parameters = new SqlParameter[2];
-                parameters[0] = new SqlParameter("@v1", userAccount!._username);
-                parameters[1] = new SqlParameter("@v2", userAccount!._password);
+                parameters[0] = new SqlParameter("@v1", userAccount!.username);
+                parameters[1] = new SqlParameter("@v2", userAccount!.verifiedPassword);
 
                 command.Parameters.AddRange(parameters);
             }
             return true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
         private bool UserNamePasswordDSValidation(DataStoreUser userAccount)
         {
             DataStoreUser retrievalAccount;

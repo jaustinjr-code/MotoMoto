@@ -7,7 +7,7 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.Entities
 {
-    public class EntityType : IBaseUser
+    public class EntityType
     {
         public int _typeId { get; set; }
         public string? _typeName { get; set; }

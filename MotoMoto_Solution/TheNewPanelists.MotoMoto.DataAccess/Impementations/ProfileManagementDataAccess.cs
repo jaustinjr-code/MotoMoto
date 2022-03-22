@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.Entities;
 using TheNewPanelists.MotoMoto.DataAccess.Contracts;
-using System.Data.SqlClient;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
@@ -75,7 +75,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 ProfileEntity returnProfile = new ProfileEntity();
                 while (myReader.Read())
                 {
-                    returnProfile.UserId = myReader.GetInt32("userId");
                     returnProfile.username = myReader.GetString("username");
                     returnProfile.status = myReader.GetBoolean("status");
                     returnProfile.eventAccount = myReader.GetBoolean("eventAccount");
@@ -98,7 +97,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return (ExecuteQuery(command));
             }
         }
-        public bool DeleteProfileEntity(DataStoreUser userAccount)
+        public bool DeleteProfileEntity(DeleteAccountEntity userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -109,9 +108,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
 
-                command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERID = \'@v1\';";
+                command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.UserId);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));
