@@ -80,6 +80,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return returnProfile;
             }
         }
+        public ISet<ProfileEntity> GetAllProfiles()
+        {
+            MySqlCommand command = new MySqlCommand();
+            MySqlDataReader myReader = command.ExecuteReader();
+            ISet<ProfileEntity> accountsSet = new HashSet<ProfileEntity>();
+            while (myReader.Read())
+            {
+                ProfileEntity userProfile = new ProfileEntity();
+                userProfile.username = myReader.GetString("typeName");
+                userProfile.status = myReader.GetBoolean("status");
+                userProfile.eventAccount = myReader.GetBoolean("eventAccount");
+                accountsSet.Add(userProfile);
+            }
+            myReader.Close();
+            mySqlConnection!.Close();
+            return accountsSet;
+        }
         public bool InsertNewProfileEntity()
         {
             if (!EstablishMariaDBConnection())
