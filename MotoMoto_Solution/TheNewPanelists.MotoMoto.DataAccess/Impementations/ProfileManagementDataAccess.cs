@@ -5,27 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
-using TheNewPanelists.MotoMoto.Entities;
-using TheNewPanelists.MotoMoto.DataAccess.Contracts;
+using TheNewPanelists.MotoMoto;
+using TheNewPanelists.MotoMoto.Models;
+using System.Data;
 
-namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
+namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public class ProfileManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection = null;
         private readonly string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
-        private readonly UserManagementDataAccess userManagementDataAccess;
 
-        public ProfileManagementDataAccess() 
-        {
-            userManagementDataAccess = new UserManagementDataAccess();
-        }
+        public ProfileManagementDataAccess() {}
 
         public ProfileManagementDataAccess(string connectionString)
         {
             _connectionString = connectionString;
-            userManagementDataAccess = new UserManagementDataAccess(connectionString);
         }
         private bool ExecuteQuery(MySqlCommand command)
         {
@@ -64,6 +59,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
 
                 command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
@@ -92,6 +88,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             }
             using (MySqlCommand command = new MySqlCommand())
             {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
                 command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                                         EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
                 return (ExecuteQuery(command));
@@ -107,6 +107,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
 
                 command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
@@ -116,6 +117,5 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return(ExecuteQuery(command));
             }
         }
-        
     }
 }

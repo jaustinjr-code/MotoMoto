@@ -4,26 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataAccess;
-using TheNewPanelists.MotoMoto.DataAccess.Impementations;
-using TheNewPanelists.MotoMoto.ServiceLayer.Contracts;
-using TheNewPanelists.MotoMoto.Entities;
+using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class UserManagementService : IUserManagementService
     {
         // Readonly means that the object/variable cannot be defined outside of the
         // constructor
         private readonly UserManagementDataAccess _userManagementDAO;
-
-        public UserManagementService(UserManagementDataAccess userManagementDAO) 
+        public UserManagementService()
         {
-            _userManagementDAO = userManagementDAO;
-        }
+            _userManagementDAO = new UserManagementDataAccess();
 
+        }
         public ISet<AccountEntity> RetrieveAllAccounts(AccountEntity userAccount)
         {
             var accountEntities = _userManagementDAO.GetAllUsers();
@@ -53,7 +50,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
                 username = deletedAccount!.username,
                 verifiedPassword = deletedAccount!.verifiedPassword
             };
-
             return _userManagementDAO.DeleteAccountEntity(dataStoreUser);
         }
     }

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheNewPanelists.MotoMoto.DataAccess.Impementations;
-using TheNewPanelists.MotoMoto.ServiceLayer.Contracts;
-using TheNewPanelists.MotoMoto.Entities;
+using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class ProfileManagementService : IUserManagementService
     {
+        /*
         private bool accountRecoveryFlag = false;
         private string? _operation { get; set; }
-        private UserManagementDataAccess? _userManagementDataAccess;
+        private readonly UserManagementDataAccess? _userManagementDataAccess;
         private DataStoreUserProfile? _userProfile { get; set; }
 
         public ProfileManagementService() { }
@@ -31,7 +31,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         {
             throw new NotImplementedException();
         }
-        /*
+        
         public ProfileEntity FindProfileOperation()
         {
             ProfileEntity retrievalAccount;

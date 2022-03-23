@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.MotoMoto.Entities
+namespace TheNewPanelists.MotoMoto.Models
 {
     public class AccountEntity
     {

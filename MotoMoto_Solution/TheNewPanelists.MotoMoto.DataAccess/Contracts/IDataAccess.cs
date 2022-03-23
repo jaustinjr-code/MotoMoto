@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.DataAccess.Contracts
+namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public interface IDataAccess
     {

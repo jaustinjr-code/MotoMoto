@@ -3,21 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.DataAccess", "TheNewPanelists.MotoMoto.DataAccess\TheNewPanelists.MotoMoto.DataAccess.csproj", "{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.DataAccess", "TheNewPanelists.MotoMoto.DataAccess\TheNewPanelists.MotoMoto.DataAccess.csproj", "{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.BusinessLayer", "TheNewPanelists.MotoMoto.BusinessLayer\TheNewPanelists.MotoMoto.BusinessLayer.csproj", "{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.BusinessLayer", "TheNewPanelists.MotoMoto.BusinessLayer\TheNewPanelists.MotoMoto.BusinessLayer.csproj", "{B21BEF11-10C3-4880-8983-E7FF3C8AEB16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.ServiceLayer", "TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj", "{180185C9-4FD0-44A8-BE9D-03592092DF79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.ServiceLayer", "TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj", "{180185C9-4FD0-44A8-BE9D-03592092DF79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.Entities", "TheNewPanelists.MotoMoto.Entities\TheNewPanelists.MotoMoto.Entities.csproj", "{013F2F48-5928-4779-96F9-A381827F3986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Models", "TheNewPanelists.MotoMoto.Entities\TheNewPanelists.MotoMoto.Models.csproj", "{013F2F48-5928-4779-96F9-A381827F3986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.DataStoreEntities", "TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.DataStoreEntities", "TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj", "{44619BBF-92B4-4614-8AFE-1F8E3ED95369}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.WebServices", "TheNewPanelists.MotoMoto.WebServices", "{B97E2D09-07AD-457D-9935-51872B7A69F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{295C0A77-AC72-4890-9F92-EE0C79168E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{295C0A77-AC72-4890-9F92-EE0C79168E8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.UnitTests", "TheNewPanelists.MotoMoto.UnitTests\TheNewPanelists.MotoMoto.UnitTests.csproj", "{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,15 +55,19 @@ Global
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
 	EndGlobalSection
 EndGlobal
