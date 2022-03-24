@@ -7,10 +7,10 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.Models
 {
-    public class ProfileEntity 
+    public class AccountModel
     {
+        public string? AccountType { get; set; }
         public string? username { get; set; }
-        public bool status { get; set; }
-        public bool eventAccount { get; set; }
+
     }
 }

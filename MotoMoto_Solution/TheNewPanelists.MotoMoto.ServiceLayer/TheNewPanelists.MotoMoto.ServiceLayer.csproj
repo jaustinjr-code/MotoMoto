@@ -26,6 +26,7 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataAccess\TheNewPanelists.MotoMoto.DataAccess.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.Entities\TheNewPanelists.MotoMoto.Models.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.Models\TheNewPanelists.MotoMoto.Models.csproj" />
   </ItemGroup>
 
 </Project>

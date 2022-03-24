@@ -50,14 +50,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return false;
         }
-        public ISet<AccountEntity> GetAllUsers()
+        public ISet<AccountModel> GetAllUsers()
         {
             MySqlCommand command = new MySqlCommand();
             MySqlDataReader myReader = command.ExecuteReader();
-            ISet<AccountEntity> accountsSet = new HashSet<AccountEntity>();
+            ISet<AccountModel> accountsSet = new HashSet<AccountModel>();
             while (myReader.Read())
             {
-                AccountEntity userAccount = new AccountEntity();
+                AccountModel userAccount = new AccountModel();
                 userAccount.AccountType = myReader.GetString("typeName");
                 userAccount.username = myReader.GetString("username");
                 accountsSet.Add(userAccount);
@@ -74,7 +74,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param></param>
         /// <returns>The user account entity object</returns>
         /// <exception cref="NullReferenceException"></exception>
-        public AccountEntity RetrieveSpecifiedUserEntity(AccountEntity userAccount)
+        public AccountModel RetrieveSpecifiedUserEntity(AccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -91,7 +91,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                AccountEntity returnAccount = new AccountEntity();
+                AccountModel returnAccount = new AccountModel();
                 while (myReader.Read())
                 {
                     returnAccount.AccountType = myReader.GetString("typeName");
@@ -172,7 +172,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="userAccount"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool DeleteAccountEntity(DeleteAccountEntity userAccount)
+        public bool DeleteAccountEntity(DeleteAccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
@@ -21,11 +17,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             _userManagementDAO = new UserManagementDataAccess();
 
         }
-        public ISet<AccountEntity> RetrieveAllAccounts(AccountEntity userAccount)
+        public ISet<AccountModel> RetrieveAllAccounts(AccountModel userAccount)
         {
             var accountEntities = _userManagementDAO.GetAllUsers();
 
-            var userAccounts = accountEntities.Select(acct => new AccountEntity()
+            var userAccounts = accountEntities.Select(acct => new AccountModel()
             {
                 AccountType = userAccount!.AccountType,
                 username = userAccount!.username
@@ -43,9 +39,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.InsertNewDataStoreAccountEntity(dataStoreUser);
         }
-        public bool DeleteAccount(DeleteAccountEntity deletedAccount)
+        public bool DeleteAccount(DeleteAccountModel deletedAccount)
         {
-            var dataStoreUser = new DeleteAccountEntity()
+            var dataStoreUser = new DeleteAccountModel()
             {
                 username = deletedAccount!.username,
                 verifiedPassword = deletedAccount!.verifiedPassword

@@ -20,11 +20,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             _profileManagementDAO = new ProfileManagementDataAccess();
         }
 
-        public ISet<ProfileEntity> RetrieveAllProfiles(ProfileEntity userAccount)
+        public ISet<ProfileModel> RetrieveAllProfiles(ProfileModel userAccount)
         {
             var accountEntities = _profileManagementDAO!.GetAllProfiles();
 
-            var userAccounts = accountEntities.Select(acct => new ProfileEntity()
+            var userAccounts = accountEntities.Select(acct => new ProfileModel()
             {
                 username = userAccount!.username,
                 status = userAccount!.status,
@@ -33,9 +33,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return userAccounts;
         }
 
-        public bool CreateAccountProfile(DeleteAccountEntity deletedProfile)
+        public bool CreateAccountProfile(DeleteAccountModel deletedProfile)
         {
-            var dataStoreUserProfile = new DeleteAccountEntity()
+            var dataStoreUserProfile = new DeleteAccountModel()
             {
                 username = deletedProfile!.username,
                 verifiedPassword = deletedProfile!.verifiedPassword,

@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         public void IsValidDeleteDataAccessOperation_WithValidDeleteUserEntity_ReturnTrue()
         {
             UserManagementDataAccess userManagementDAO = new UserManagementDataAccess();
-            var userTestAccountDeletionEntity = new DeleteAccountEntity
+            var userTestAccountDeletionEntity = new DeleteAccountModel
             {
                 username = "testUsername",
                 verifiedPassword = "testVerifiedPassword"

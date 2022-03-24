@@ -49,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return false;
         }
-        public ProfileEntity RetrieveSpecifiedProfileEntity(ProfileEntity userProfile)
+        public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel userProfile)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -68,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                ProfileEntity returnProfile = new ProfileEntity();
+                ProfileModel returnProfile = new ProfileModel();
                 while (myReader.Read())
                 {
                     returnProfile.username = myReader.GetString("username");
@@ -80,14 +80,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return returnProfile;
             }
         }
-        public ISet<ProfileEntity> GetAllProfiles()
+        public ISet<ProfileModel> GetAllProfiles()
         {
             MySqlCommand command = new MySqlCommand();
             MySqlDataReader myReader = command.ExecuteReader();
-            ISet<ProfileEntity> accountsSet = new HashSet<ProfileEntity>();
+            ISet<ProfileModel> accountsSet = new HashSet<ProfileModel>();
             while (myReader.Read())
             {
-                ProfileEntity userProfile = new ProfileEntity();
+                ProfileModel userProfile = new ProfileModel();
                 userProfile.username = myReader.GetString("typeName");
                 userProfile.status = myReader.GetBoolean("status");
                 userProfile.eventAccount = myReader.GetBoolean("eventAccount");
@@ -114,7 +114,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return (ExecuteQuery(command));
             }
         }
-        public bool DeleteProfileEntity(DeleteAccountEntity userAccount)
+        public bool DeleteProfileEntity(DeleteAccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {

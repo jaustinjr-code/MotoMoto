@@ -7,7 +7,7 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.Models
 {
-    public class EntityType
+    public class ModelType
     {
         public int _typeId { get; set; }
         public string? _typeName { get; set; }
