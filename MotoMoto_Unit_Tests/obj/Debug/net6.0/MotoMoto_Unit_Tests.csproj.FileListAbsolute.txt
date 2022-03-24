@@ -246,3 +246,6 @@
 /Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/obj/Debug/net6.0/ref/MotoMoto_Unit_Tests.dll
 /Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/obj/Debug/net6.0/MotoMoto_Unit_Tests.pdb
 /Users/naeun/Desktop/Naeun's/School/CSULB/2021 Fall/CECS 491A/MotoMoto/GitHub/MotoMoto_Unit_Tests/obj/Debug/net6.0/MotoMoto_Unit_Tests.genruntimeconfig.cache
+C:\Users\kayla\Desktop\MotoMoto\MotoMoto_Unit_Tests\obj\Debug\net6.0\MotoMoto_Unit_Tests.dll
+C:\Users\kayla\Desktop\MotoMoto\MotoMoto_Unit_Tests\obj\Debug\net6.0\ref\MotoMoto_Unit_Tests.dll
+C:\Users\kayla\Desktop\MotoMoto\MotoMoto_Unit_Tests\obj\Debug\net6.0\MotoMoto_Unit_Tests.pdb

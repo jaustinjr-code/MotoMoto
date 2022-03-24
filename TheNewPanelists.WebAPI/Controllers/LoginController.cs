@@ -5,25 +5,24 @@ using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using VueJsToNetCore.ViewModel;
 
 namespace TheNewPanelists.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : ControllerBase
+    public class LoginController : ControllerBase
     {
-        //string sessionId = "";
         [HttpOptions]
         public IActionResult Index()
         {
             return NoContent();
         }
-        [HttpPost (Name = "Login")]
-        public async Task<IActionResult> Login(string username, string password, Dictionary<string, string>result)
+        [HttpPost]
+        public async Task<IActionResult> Login(User user)
         {
-            //DataAccessLayer.UserManagementDataAccess manager = new DataAccessLayer.UserManagementDataAccess();
-            result.Add("username", username); 
-            result.Add("password", password);
+            string username = user.getUsername();
+            string password = user.getPassword();
             string connectionString = $"server=localhost;user=root;database=motomoto_um;port=3306;password=password;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             try
@@ -80,18 +79,6 @@ namespace TheNewPanelists.WebAPI.Controllers
             
         }
 
-        /*
-        [HttpGet (Name = "Logout")]
-        [Route("Logout")]
-        public async Task<IActionResult> Logout(String logout)
-        {
-            
-            await HttpContext.SignOutAsync();
-            return NoContent();
-        }
-        */
-        
-
-
+       
     }
 }
