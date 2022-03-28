@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.Entities
+namespace TheNewPanelists.MotoMoto.Models
 {
-    internal class ChangePasswordEntity
+    public class ForgotUsernameModel
     {
+        public string? email { get; set; }
     }
 }

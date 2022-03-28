@@ -48,5 +48,31 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.DeleteAccountEntity(dataStoreUser);
         }
+        public bool ForgotUsername(ForgotUsernameModel forgottenUsername)
+        {
+            var dataStoreUser = new ForgotUsernameModel()
+            {
+                email = forgottenUsername!.email
+            };
+            return _userManagementDAO.ForgotUsernameEntity(dataStoreUser);
+        }
+        public bool ForgotPassword(ForgotPasswordModel forgottenPassword) //What is forgottenPassword supposed to be?
+        {
+            var dataStoreUser = new ForgotPasswordModel()
+            {
+                email = forgottenPassword!.email,
+                username = forgottenPassword!.username
+            };
+            return _userManagementDAO.ForgotPasswordEntity(dataStoreUser); //What does this do?
+        }
+        public bool ChangePassword(ChangePasswordModel changedPassword)
+        {
+            var dataStoreUser = new ChangePasswordModel()
+            {
+                email = changedPassword!.email,
+                username = changedPassword!.username
+            };
+            return _userManagementDAO.ChangePasswordEntity(dataStoreUser);
+        }
     }
 }

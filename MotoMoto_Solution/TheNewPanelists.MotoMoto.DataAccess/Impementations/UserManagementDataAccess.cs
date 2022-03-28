@@ -217,5 +217,57 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
+
+
+        //Isabel's Changes Below...probably inefficient, check with team if i'm making duplicate functions
+        //Is this necessary, or am I callling the entities incorrectly now?
+        public bool SelectAccount(bool flag) //Will continue to work on this to be more effective
+        {
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new(this.query, mySqlConnection);
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+
+            if (command.ExecuteNonQuery() == 1)
+            {
+                mySqlConnection!.Close();
+                Console.WriteLine("Connection closed...");
+                return true;
+            }
+            while (reader.Read())
+            {
+                Console.WriteLine(String.Format("{0}", reader[0]));
+                if (flag)
+                {
+                    string message = "Your username is: " + reader[0];
+                    sendEmail(message);
+                }
+            }
+            mySqlConnection!.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
+
+        }
+        public void sendEmail(string message) //INEFFICIENT METHOD, Should not have a duplicate method and ideally should avoid a flag
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("projmotomoto@gmail.com");
+                mail.To.Add("projmotomoto@gmail.com");
+                mail.Subject = "MotoMoto Account Recovery";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+        }
     }
 }
