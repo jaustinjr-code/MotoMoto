@@ -1,31 +1,26 @@
 ﻿using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
-using TheNewPanelists.MotoMoto.Entities;
-using TheNewPanelists.MotoMoto.DataAccess.Contracts;
-using System.Data.SqlClient;
+using TheNewPanelists.MotoMoto;
+using TheNewPanelists.MotoMoto.Models;
+using System.Data;
 
-namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
+namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public class ProfileManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection = null;
         private readonly string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
-        private readonly UserManagementDataAccess userManagementDataAccess;
 
-        public ProfileManagementDataAccess() 
-        {
-            userManagementDataAccess = new UserManagementDataAccess();
-        }
+        public ProfileManagementDataAccess() {}
 
         public ProfileManagementDataAccess(string connectionString)
         {
             _connectionString = connectionString;
-            userManagementDataAccess = new UserManagementDataAccess(connectionString);
         }
         private bool ExecuteQuery(MySqlCommand command)
         {
@@ -54,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             }
             return false;
         }
-        public ProfileEntity RetrieveSpecifiedProfileEntity(ProfileEntity userProfile)
+        public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel userProfile)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -64,6 +59,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
 
                 command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
@@ -72,10 +68,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                ProfileEntity returnProfile = new ProfileEntity();
+                ProfileModel returnProfile = new ProfileModel();
                 while (myReader.Read())
                 {
-                    returnProfile.UserId = myReader.GetInt32("userId");
                     returnProfile.username = myReader.GetString("username");
                     returnProfile.status = myReader.GetBoolean("status");
                     returnProfile.eventAccount = myReader.GetBoolean("eventAccount");
@@ -85,20 +80,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
                 return returnProfile;
             }
         }
-        public bool InsertNewProfileEntity()
+        public ISet<ProfileModel> GetAllProfiles()
         {
-            if (!EstablishMariaDBConnection())
+            MySqlCommand command = new MySqlCommand();
+            MySqlDataReader myReader = command.ExecuteReader();
+            ISet<ProfileModel> accountsSet = new HashSet<ProfileModel>();
+            while (myReader.Read())
             {
-                throw new NullReferenceException();
+                ProfileModel userProfile = new ProfileModel();
+                userProfile.username = myReader.GetString("typeName");
+                userProfile.status = myReader.GetBoolean("status");
+                userProfile.eventAccount = myReader.GetBoolean("eventAccount");
+                accountsSet.Add(userProfile);
             }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
-                                        EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
-                return (ExecuteQuery(command));
-            }
+            myReader.Close();
+            mySqlConnection!.Close();
+            return accountsSet;
         }
-        public bool DeleteProfileEntity(DataStoreUser userAccount)
+        public bool InsertNewProfileEntity()
         {
             if (!EstablishMariaDBConnection())
             {
@@ -108,15 +107,32 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
 
-                command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERID = \'@v1\';";
+                command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+                                        EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
+                return (ExecuteQuery(command));
+            }
+        }
+        public bool DeleteProfileEntity(DeleteAccountModel userAccount)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.UserId);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));
             }
         }
-        
     }
 }
