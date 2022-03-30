@@ -60,7 +60,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new ForgotPasswordModel()
             {
-                email = forgottenPassword!.email,
                 username = forgottenPassword!.username
             };
             return _userManagementDAO.ForgotPasswordEntity(dataStoreUser); //What does this do?
@@ -69,8 +68,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new ChangePasswordModel()
             {
-                email = changedPassword!.email,
-                username = changedPassword!.username
+                newPassword = changedPassword!.newPassword,
+                verifiedNewPassword = changedPassword!.verifiedNewPassword
             };
             return _userManagementDAO.ChangePasswordEntity(dataStoreUser);
         }

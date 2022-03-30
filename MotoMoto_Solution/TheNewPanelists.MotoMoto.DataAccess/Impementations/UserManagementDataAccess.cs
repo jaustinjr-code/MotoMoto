@@ -17,7 +17,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
 
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
+        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";//write config so this only appears once
 
         public UserManagementDataAccess() {}
         public UserManagementDataAccess(string connectionString) 
@@ -219,54 +219,108 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         }
 
 
+
+
+
         //Isabel's Changes Below...probably inefficient, check with team if i'm making duplicate functions
-        //Is this necessary, or am I callling the entities incorrectly now?
-        public bool SelectAccount(bool flag) //Will continue to work on this to be more effective
+        //CHECK WITH ISABEL BEFORE CHANGING/REMOVING
+        private bool UserEmailDSValidation(DataStoreUser userAccount)
         {
-            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-            else Console.WriteLine("Connection opened...");
-
-            MySqlCommand command = new(this.query, mySqlConnection);
-
-            MySqlDataReader reader;
-            reader = command.ExecuteReader();
-
-            if (command.ExecuteNonQuery() == 1)
+            DataStoreUser retrievalAccount;
+            using (var command = new MySqlCommand())
             {
-                mySqlConnection!.Close();
-                Console.WriteLine("Connection closed...");
-                return true;
-            }
-            while (reader.Read())
-            {
-                Console.WriteLine(String.Format("{0}", reader[0]));
-                if (flag)
-                {
-                    string message = "Your username is: " + reader[0];
-                    sendEmail(message);
-                }
-            }
-            mySqlConnection!.Close();
-            Console.WriteLine("Connection closed...");
-            return false;
+                command.CommandText = $"SELECT * FROM USER U WHERE U.EMAIL = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", userAccount!._email);
 
+                command.Parameters.AddRange(parameters);
+                retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
+                if (retrievalAccount._email == userAccount!._email)
+                    return true;
+                return false;
+            }
         }
-        public void sendEmail(string message) //INEFFICIENT METHOD, Should not have a duplicate method and ideally should avoid a flag
+        public bool ForgotUsernameEntity(ForgotUsernameModel userAccount) 
         {
-            using (MailMessage mail = new MailMessage())
+            if (!EstablishMariaDBConnection())
             {
-                mail.From = new MailAddress("projmotomoto@gmail.com");
-                mail.To.Add("projmotomoto@gmail.com");
-                mail.Subject = "MotoMoto Account Recovery";
-                mail.Body = message;
-                mail.IsBodyHtml = true;
+                return false;
+            }
+            var dataStoreUser = new DataStoreUser()
+            {
+                _email = userAccount.email
+            };
+            if (!UserEmailDSValidation(dataStoreUser)) return false;
 
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                {
-                    smtp.Credentials = new NetworkCredential("projmotomoto@gmail.com", "Tester491!");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                }
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", userAccount!.username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
+        private bool UserNameDSValidation(DataStoreUser userAccount)
+        {
+            DataStoreUser retrievalAccount;
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+
+                command.Parameters.AddRange(parameters);
+                retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
+                if (retrievalAccount._username == userAccount!._username)
+                    return true;
+                return false;
+            }
+        }
+        public bool ForgotPasswordEntity(ForgotPasswordModel userAccount) 
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                return false;
+            }
+            var dataStoreUser = new DataStoreUser()
+            {
+                _username = userAccount.username
+            };
+            if (!UserEmailDSValidation(dataStoreUser)) return false;
+
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", userAccount!.username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
+        public bool ChangePasswordEntity(ChangePasswordModel userAccount)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                return false;
+            }
+            var dataStoreUser = new DataStoreUser()
+            {
+                _password = userAccount.newPassword,
+                _password = userAccount.verifiedNewPassword
+            };
+            //if (!UserEmailDSValidation(dataStoreUser)) return false;
+
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", userAccount!.username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
             }
         }
     }

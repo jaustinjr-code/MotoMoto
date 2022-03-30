@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class ChangePasswordModel
     {
-        public string? username { get; set; }
-        public string? email { get; set; }
+        public string? newPassword { get; set; }
+        public string? verifiedNewPassword { get; set; }
     }
 }
