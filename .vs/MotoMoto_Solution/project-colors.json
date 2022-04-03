@@ -11,31 +11,21 @@
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
     },
-    "7935e7b9-6f6b-4aa0-bb14-a6e371b15b51": {
-      "ProjectGuid": "7935e7b9-6f6b-4aa0-bb14-a6e371b15b51",
-      "DisplayName": "TheNewPanelists.WebAPI",
+    "be1a9ff2-a82c-4bb6-8a20-35691186092b": {
+      "ProjectGuid": "be1a9ff2-a82c-4bb6-8a20-35691186092b",
+      "DisplayName": "applayer",
       "ColorIndex": 1
-    },
-    "88f0fb17-e863-433b-8f66-7de9fe89db3c": {
-      "ProjectGuid": "88f0fb17-e863-433b-8f66-7de9fe89db3c",
-      "DisplayName": "TheNewPanelists.WebAPI",
-      "ColorIndex": 2
     },
     "6dd96d9a-f795-463e-b2c4-f449cb370d38": {
       "ProjectGuid": "6dd96d9a-f795-463e-b2c4-f449cb370d38",
       "DisplayName": "MotoMoto_Unit_Tests",
+      "ColorIndex": 2
+    },
+    "88f0fb17-e863-433b-8f66-7de9fe89db3c": {
+      "ProjectGuid": "88f0fb17-e863-433b-8f66-7de9fe89db3c",
+      "DisplayName": "TheNewPanelists.WebAPI",
       "ColorIndex": 3
-    },
-    "be1a9ff2-a82c-4bb6-8a20-35691186092b": {
-      "ProjectGuid": "be1a9ff2-a82c-4bb6-8a20-35691186092b",
-      "DisplayName": "applayer",
-      "ColorIndex": 4
-    },
-    "e0517fca-21f0-4bb1-b6c2-51f8b80075e6": {
-      "ProjectGuid": "e0517fca-21f0-4bb1-b6c2-51f8b80075e6",
-      "DisplayName": "thenewpanelistsfe",
-      "ColorIndex": 5
     }
   },
-  "NextColorIndex": 6
+  "NextColorIndex": 4
 }

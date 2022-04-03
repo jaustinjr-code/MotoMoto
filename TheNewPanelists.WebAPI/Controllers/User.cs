@@ -2,6 +2,7 @@
 {
     public class User
     {
+        private int id;
         public string Username { get; set; }
         public string Password { get; set; }
 
@@ -12,6 +13,10 @@
         public string getPassword()
         {
                 return Password;
+        }
+        public int getID()
+        {
+            return id; 
         }
     }
 }

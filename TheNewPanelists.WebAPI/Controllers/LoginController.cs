@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using VueJsToNetCore.ViewModel;
+using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.WebAPI.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -31,13 +33,9 @@ namespace TheNewPanelists.WebAPI.Controllers
                 Console.WriteLine("Connection open");
                 string query = "SELECT * FROM USER u WHERE u.username = '" + username+ "' AND u.password = '" + password + "'";
                 MySqlCommand cmd = new MySqlCommand(query,connection);
-                MySqlDataReader reader = cmd.ExecuteReader(); ;
+                MySqlDataReader reader = cmd.ExecuteReader();
                 if(reader.HasRows)
                 {
-                    var claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, username));
-                    var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await Request.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal);
                     
                     Dictionary<string, string> log = new Dictionary<string, string>();
                     string operation = "SERVER";
