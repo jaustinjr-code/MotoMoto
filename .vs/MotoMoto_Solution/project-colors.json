@@ -20,6 +20,7 @@
       "ProjectGuid": "6dd96d9a-f795-463e-b2c4-f449cb370d38",
       "DisplayName": "MotoMoto_Unit_Tests",
       "ColorIndex": 2
+<<<<<<< Updated upstream
     },
     "88f0fb17-e863-433b-8f66-7de9fe89db3c": {
       "ProjectGuid": "88f0fb17-e863-433b-8f66-7de9fe89db3c",
@@ -28,4 +29,9 @@
     }
   },
   "NextColorIndex": 4
+=======
+    }
+  },
+  "NextColorIndex": 3
+>>>>>>> Stashed changes
 }
