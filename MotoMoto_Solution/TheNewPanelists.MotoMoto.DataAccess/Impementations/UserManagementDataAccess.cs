@@ -1,8 +1,5 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
@@ -155,7 +152,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             using (MySqlCommand command = new MySqlCommand())
             {
                 command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
-                                      $"VALUES (@v1, @v2, @v3, @v4,)";
+                                      $"VALUES (@v1, @v2, @v3, @v4)";
                 var parameters = new SqlParameter[4];
                 parameters[0] = new SqlParameter("@v1", userAccount!._userType);
                 parameters[1] = new SqlParameter("@v2", userAccount!._username);
@@ -163,7 +160,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 parameters[3] = new SqlParameter("@v4", userAccount!._email);
 
                 command.Parameters.AddRange(parameters);
-                return(ExecuteQuery(command));
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                return (ExecuteQuery(command));
             }
         }
         /// <summary>
@@ -193,6 +192,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 parameters[1] = new SqlParameter("@v2", userAccount!.verifiedPassword);
 
                 command.Parameters.AddRange(parameters);
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 return (ExecuteQuery(command));
             }
         }
