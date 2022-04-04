@@ -8,11 +8,11 @@ CREATE TABLE Category (
     CONSTRAINT Category_Pk PRIMARY KEY (categoryName)
 );
 CREATE TABLE Log (
-    logId INT NOT NULL AUTO_INCREMENT,
+    logId VARCHAR(256) NOT NULL,
     categoryName VARCHAR(100) NOT NULL,
     levelName VARCHAR(50) NOT NULL,
     timeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    userID INT NOT NULL,
+    userID VARCHAR(256) NOT NULL,
     DSCRIPTION VARCHAR(1000) NOT NULL,
     CONSTRAINT Log_Category_FK FOREIGN KEY (categoryName) REFERENCES Category (categoryName),
     CONSTRAINT Log_Level_FK FOREIGN KEY (levelName) REFERENCES Level (levelName),

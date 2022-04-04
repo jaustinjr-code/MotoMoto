@@ -19,8 +19,8 @@ CREATE TABLE Type (
 CREATE TABLE User (
 -- should add typeID that references profile table
     typeName VARCHAR(25) NOT NULL,
-    userId INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(25) NOT NULL,
+    userId VARCHAR(256) NOT NULL,
+    username VARCHAR(25),
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
     CONSTRAINT user_Pk PRIMARY KEY (userId),
@@ -29,8 +29,8 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Authentication (
-    userId INT NOT NULL,
-    username VARCHAR(25) NOT NULL,
+    userId VARCHAR(256) NOT NULL,
+    username VARCHAR(25),
     otp VARCHAR(9),
     otpExpireTime VARCHAR(80),
     attempts INT NOT NULL,
@@ -44,8 +44,8 @@ CREATE TABLE Authentication (
 
 
 CREATE TABLE Profile (
-    userId INT NOT NULL,
-    username VARCHAR(25) NOT NULL,
+    userId VARCHAR(256) NOT NULL,
+    username VARCHAR(25),
     status BOOL NOT NULL DEFAULT TRUE,
     eventAccount BOOL NOT NULL DEFAULT FALSE,
     CONSTRAINT Profile_Pk PRIMARY KEY (username),

@@ -126,7 +126,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser.UserId = myReader.GetString("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
@@ -149,15 +149,18 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 throw new NullReferenceException();
             }
+            GenerateCiphertext hashedUsername = new GenerateCiphertext(userAccount!._username!, userAccount!._email!);
+            userAccount.UserId = hashedUsername.HashedString;
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
-                                      $"VALUES (@v1, @v2, @v3, @v4)";
-                var parameters = new SqlParameter[4];
-                parameters[0] = new SqlParameter("@v1", userAccount!._userType);
-                parameters[1] = new SqlParameter("@v2", userAccount!._username);
-                parameters[2] = new SqlParameter("@v3", userAccount!._password);
-                parameters[3] = new SqlParameter("@v4", userAccount!._email);
+                command.CommandText = $"INSERT INTO USER (userId, typeName, username, password, email)" +
+                                      $"VALUES (@v0, @v1, @v2, @v3, @v4)";
+                var parameters = new SqlParameter[5];
+                parameters[0] = new SqlParameter("@v0", userAccount!.UserId);
+                parameters[1] = new SqlParameter("@v1", userAccount!._userType);
+                parameters[2] = new SqlParameter("@v2", userAccount!._username);
+                parameters[3] = new SqlParameter("@v3", userAccount!._password);
+                parameters[4] = new SqlParameter("@v4", userAccount!._email);
 
                 command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
@@ -241,6 +244,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
+        /*
         public bool ForgotUsernameEntity(ForgotUsernameModel userAccount) 
         {
             if (!EstablishMariaDBConnection())
@@ -324,5 +328,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return (ExecuteQuery(command));
             }
         }
+        */
     }
 }

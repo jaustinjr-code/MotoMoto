@@ -39,7 +39,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 Console.WriteLine(ex.Message);
             }
-            return false
+            return false;
         }
     }
 }
