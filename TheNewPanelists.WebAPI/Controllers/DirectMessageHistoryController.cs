@@ -30,8 +30,6 @@ namespace TheNewPanelists.WebAPI.Controllers
                 while (reader.Read())
                 {
                     users.Add(reader.GetString(0));
-                    users.Add(reader.GetString(1));
-                    reader.NextResult();
                 }
                 reader.Close();
                 return users;
