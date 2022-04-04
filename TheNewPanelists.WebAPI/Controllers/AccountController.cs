@@ -9,7 +9,6 @@ using TheNewPanelists.ServiceLayer.Logging;
 
 namespace app.TheNewPanelists.API.Controllers
 {
-    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserAccountController : ControllerBase

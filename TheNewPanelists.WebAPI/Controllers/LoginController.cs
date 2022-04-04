@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.WebAPI.Controllers
 {
-    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
