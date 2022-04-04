@@ -48,6 +48,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.DeleteAccountEntity(dataStoreUser);
         }
+        /*
         public bool ForgotUsername(ForgotUsernameModel forgottenUsername)
         {
             var dataStoreUser = new ForgotUsernameModel()
@@ -73,5 +74,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.ChangePasswordEntity(dataStoreUser);
         }
+        */
     }
 }
