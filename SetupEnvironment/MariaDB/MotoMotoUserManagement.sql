@@ -21,8 +21,9 @@ CREATE TABLE User (
     typeName VARCHAR(25) NOT NULL,
     userId VARCHAR(256) NOT NULL,
     username VARCHAR(25),
-    password  VARCHAR(50) NOT NULL,
+    password  VARCHAR(256) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
+    salt VARCHAR(32) NOT NULL,
     CONSTRAINT user_Pk PRIMARY KEY (userId),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)

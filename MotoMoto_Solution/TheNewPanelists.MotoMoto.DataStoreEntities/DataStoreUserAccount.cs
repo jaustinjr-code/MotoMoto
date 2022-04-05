@@ -12,5 +12,6 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? _username { get; set; }
         public string? _password { get; set; }
         public string? _email { get; set; }
+        public string? _salt { get; set; }
     }
 }
