@@ -8,6 +8,9 @@ app/bin/Debug/net6.0/
 app/obj/Debug/net6.0/
 app/obj/
 app/bin/
+MotoMoto_Solution/TheNewPanelists.MotoMoto.ApplicationLayer/TheNewPanelists.MotoMoto.ApplicationLayer.Login/obj
+obj/
+bin/
 app/.vs/
 app/.vscode/
 MotoMoto_Unit_Tests/obj/
@@ -52,3 +55,9 @@ app/bin/Debug/net6.0/app.dll
 *.json
 *.json
 app/obj/project.nuget.cache
+MotoMoto_Solution/.vs/TheNewPanelist_Solution/v17/.suo
+*.v2
+*.v1
+MotoMoto_Solution/.vs/TheNewPanelist_Solution/v17/.suo
+MotoMoto_Solution/.vs/TheNewPanelist_Solution/v17/.suo
+MotoMoto_Solution/.vs/TheNewPanelist_Solution/DesignTimeBuild/.dtbcache.v2
