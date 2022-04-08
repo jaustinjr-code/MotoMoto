@@ -11,11 +11,19 @@ namespace TheNewPanelists.WebAPI.Controllers
         }
 
         [HttpGet(Name = "Logout")]
-        public async Task<IActionResult> Logout(String logout)
+        public async Task<IActionResult> Logout()
         {
-
-            await HttpContext.SignOutAsync();
-            return NoContent();
+            try
+            {
+                Response.Cookies.Delete("UserId");
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            
         }
 
 

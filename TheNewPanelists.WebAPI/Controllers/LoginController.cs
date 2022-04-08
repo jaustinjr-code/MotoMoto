@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using TheNewPanelists.ServiceLayer.Logging;
-using System.Web;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using VueJsToNetCore.ViewModel;
-using Microsoft.AspNetCore.Cors;
+using System.Web;
+using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace TheNewPanelists.WebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -43,6 +45,11 @@ namespace TheNewPanelists.WebAPI.Controllers
                     log.Add("userId", "0");
                     log.Add("DSCRIPTION", "Login Success");
                     LogService logservice = new LogService(operation, log, true);
+                    HomeController controller = new HomeController(new HttpContextAccessor());
+                    controller.Set("UserId", user.getID().ToString(), 60);
+
+                    Console.WriteLine(controller.Get("UserId"));
+
                     return Ok(true);
                 }
                 else
@@ -76,6 +83,7 @@ namespace TheNewPanelists.WebAPI.Controllers
             
         }
 
-       
+ 
+
     }
 }

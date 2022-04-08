@@ -1,14 +1,14 @@
+C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\testhost.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\app.deps.json
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\app.runtimeconfig.json
-C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\testhost.dll
-C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\appsettings.json
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\testhost.exe
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\xunit.runner.utility.netcoreapp10.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\app.exe
+C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\appsettings.json
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\TheNewPanelists.WebAPI.exe
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\TheNewPanelists.WebAPI.deps.json
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\TheNewPanelists.WebAPI.runtimeconfig.json
@@ -57,6 +57,7 @@ C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\MySqlCon
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\NuGet.Frameworks.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\RestSharp.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\kayla\Desktop\MotoMoto\TheNewPanelists.WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

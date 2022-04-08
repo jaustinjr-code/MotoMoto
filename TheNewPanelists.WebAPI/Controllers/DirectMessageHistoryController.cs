@@ -15,7 +15,7 @@ namespace TheNewPanelists.WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<String> getMessageHistory(int currentUser)
+        public List<String> GetMessageHistory(int currentUser)
         {
             List<String> users = new List<String>();
             string connectionString = $"server=localhost;user=root;database=motomoto_um;port=3306;password=password;";
