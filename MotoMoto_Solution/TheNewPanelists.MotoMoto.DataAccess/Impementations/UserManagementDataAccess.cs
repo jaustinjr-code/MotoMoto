@@ -263,8 +263,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
 
 
-        //Isabel's Changes Below...probably inefficient, check with team if i'm making duplicate functions
-        //CHECK WITH ISABEL BEFORE CHANGING/REMOVING
+
+        //**********DO NOT DELETE BELOW***********
+        //Account Recovery Functions needed later
+
+        /*
         private bool UserEmailDSValidation(DataStoreUser userAccount)
         {
             DataStoreUser retrievalAccount;
@@ -281,7 +284,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
-        /*
+        
         public bool ForgotUsernameEntity(ForgotUsernameModel userAccount) 
         {
             if (!EstablishMariaDBConnection())
@@ -351,7 +354,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             var dataStoreUser = new DataStoreUser()
             {
                 _password = userAccount.newPassword,
-                _password = userAccount.verifiedNewPassword
+                _verifiedPassword = userAccount.verifiedNewPassword
             };
             //if (!UserEmailDSValidation(dataStoreUser)) return false;
 
