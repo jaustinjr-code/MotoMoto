@@ -1,9 +1,7 @@
-
-
 title Part Price Analysis Comparison Success Diagram
 
 
-Front End->Part Price Analysis Application Layer:CompareParts(part1, part2) : comparisonObject
+Front End->Part Price Analysis Application Layer:CompareParts(ComparisonModel comparisonModel) : ComparisonObject
 activate Front End
 activate Part Price Analysis Application Layer
 
@@ -11,23 +9,23 @@ Part Price Analysis Application Layer -> Part Price Analysis Business Layer: <<C
 activate Part Price Analysis Business Layer
 Part Price Analysis Business Layer -->Part Price Analysis Application Layer: Activated Business Layer
 
-Part Price Analysis Application Layer ->Part Price Analysis Business Layer: CompareParts(PartTypeEntity, FirstPartTypeID, SecondPartTypeID) : PartPriceAnalysisService.CompareVehicleParts(ComparisonPartModel)
+Part Price Analysis Application Layer ->Part Price Analysis Business Layer: CompareParts(PartTypeEntity partType, ComparisonObject comparisonObject) : PartPriceAnalysisService.CompareVehicleParts(ComparisonPartModel)
 
-Part Price Analysis Business Layer -> Part Price Analysis Service Layer: <<Constructor>> PartPriceAnalysisService(PartPriceAnalysisDataAccess partPriceAnalyisisDAO) : 
+Part Price Analysis Business Layer -> Part Price Analysis Service Layer: <<Constructor>> PartPriceAnalysisService(PartPriceAnalysisDataAccess partPriceAnalyisisDAO)
 
 activate Part Price Analysis Service Layer
 
 Part Price Analysis Service Layer -->Part Price Analysis Business Layer: Activated Part Price Analysis Service 
 
 
-Part Price Analysis Business Layer ->Part Price Analysis Service Layer: CompareVehicleParts(ComparisonPartModel): partPriceAnalysisDAO.RetrieveTwoVehicleParts(ComparisonPartModel) 
+Part Price Analysis Business Layer ->Part Price Analysis Service Layer: CompareVehicleParts(ComparisonPartModel): partPriceAnalysisDAO.RetrieveTwoVehicleParts(ComparisonPartModel comparisonPartModel) 
 
 Part Price Analysis Service Layer -> Part Price Analysis Data Access Layer: <<Constructor>> PartPriceAnalysisDataAccess()
 
 activate Part Price Analysis Data Access Layer
 Part Price Analysis Data Access Layer -->Part Price Analysis Service Layer : Activated Part Price Analysis Service 
 
-Part Price Analysis Service Layer ->Part Price Analysis Data Access Layer : RetrieveTwoVehicleParts(ComparisonPartModel)
+Part Price Analysis Service Layer ->Part Price Analysis Data Access Layer : RetrieveTwoVehicleParts(ComparisonPartModel comparisonPartModel)
 
 database VehicleParts
 
@@ -61,9 +59,9 @@ activate Log Service Layer
 
 Log Service Layer -->Part Price Analysis Application Layer: Activated Logging Services
 
-Part Price Analysis Application Layer->Log Service Layer: LogCurrentEvent(LoggingModel) : bool
+Part Price Analysis Application Layer->Log Service Layer: LogCurrentEvent(LoggingModel loggingModel) : bool
 
-Log Service Layer -> Log Data Access Layer: CreateNewLogEvent(LoggingModel) : bool
+Log Service Layer -> Log Data Access Layer: CreateNewLogEvent(LoggingModel loggingModel) : bool
 activate Log Data Access Layer
 
 database Log Database
@@ -79,5 +77,3 @@ Log Data Access Layer -->Log Service Layer: Return True
 deactivate Log Data Access Layer
 
 Log Service Layer-->Part Price Analysis Application Layer: Return True
-
-
