@@ -1,8 +1,5 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
@@ -17,7 +14,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
 
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";//write config so this only appears once
+        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;"; //write config so this only appears once
 
         public UserManagementDataAccess() {}
         public UserManagementDataAccess(string connectionString) 
@@ -25,6 +22,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
             _connectionString = connectionString;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         private bool ExecuteQuery(MySqlCommand command)
         {
             if (command.ExecuteNonQuery() == 1)
@@ -35,6 +37,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             mySqlConnection!.Close();
             return false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool EstablishMariaDBConnection()
         {
             try
@@ -50,6 +56,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ISet<AccountModel> GetAllUsers()
         {
             MySqlCommand command = new MySqlCommand();
@@ -129,11 +139,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser.UserId = myReader.GetString("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
                     returnUser._email = myReader.GetString("email");
+                    returnUser._salt = myReader.GetString("salt");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -152,18 +163,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 throw new NullReferenceException();
             }
+            GenerateCiphertext cipherText = new GenerateCiphertext();
+            cipherText.GeneratePasswordHash(userAccount!._password!);
+            cipherText.GenerateUsernameHash(userAccount!._username!);
+            userAccount._salt = cipherText.Salt;
+            userAccount.UserId = cipherText.HashedString;
+
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"INSERT INTO USER (typeName, username, password, email)" +
-                                      $"VALUES (@v1, @v2, @v3, @v4,)";
-                var parameters = new SqlParameter[4];
-                parameters[0] = new SqlParameter("@v1", userAccount!._userType);
-                parameters[1] = new SqlParameter("@v2", userAccount!._username);
-                parameters[2] = new SqlParameter("@v3", userAccount!._password);
-                parameters[3] = new SqlParameter("@v4", userAccount!._email);
+                command.CommandText = $"INSERT INTO USER (userId, typeName, username, password, email)" +
+                                      $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
+                var parameters = new SqlParameter[6];
+                parameters[0] = new SqlParameter("@v0", userAccount!.UserId);
+                parameters[1] = new SqlParameter("@v1", userAccount!._userType);
+                parameters[2] = new SqlParameter("@v2", userAccount!._username);
+                parameters[3] = new SqlParameter("@v3", userAccount!._password);
+                parameters[4] = new SqlParameter("@v4", userAccount!._email);
+                parameters[5] = new SqlParameter("@v5", userAccount!._salt);
 
                 command.Parameters.AddRange(parameters);
-                return(ExecuteQuery(command));
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                
             }
         }
         /// <summary>
@@ -193,7 +214,27 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 parameters[1] = new SqlParameter("@v2", userAccount!.verifiedPassword);
 
                 command.Parameters.AddRange(parameters);
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 return (ExecuteQuery(command));
+            }
+        }
+        private string RetrieveSaltFromDataStore(DataStoreUser dataStoreUser)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new ArgumentNullException(nameof(dataStoreUser));
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
+
+                command.Parameters.AddRange(parameters);
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                return ""; // **** must fix and return salt from the retrieval of mysql.reader! ****
             }
         }
         /// <summary>
@@ -222,8 +263,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
 
 
-        //Isabel's Changes Below...probably inefficient, check with team if i'm making duplicate functions
-        //CHECK WITH ISABEL BEFORE CHANGING/REMOVING
+
+        //**********DO NOT DELETE BELOW***********
+        //Account Recovery Functions needed later
+
+        /*
         private bool UserEmailDSValidation(DataStoreUser userAccount)
         {
             DataStoreUser retrievalAccount;
@@ -240,6 +284,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
+        
         public bool ForgotUsernameEntity(ForgotUsernameModel userAccount) 
         {
             if (!EstablishMariaDBConnection())
@@ -309,7 +354,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             var dataStoreUser = new DataStoreUser()
             {
                 _password = userAccount.newPassword,
-                _password = userAccount.verifiedNewPassword
+                _verifiedPassword = userAccount.verifiedNewPassword
             };
             //if (!UserEmailDSValidation(dataStoreUser)) return false;
 
@@ -323,5 +368,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return (ExecuteQuery(command));
             }
         }
+        */
     }
 }
