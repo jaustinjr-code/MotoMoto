@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj" />
+		<ProjectReference Include="..\TheNewPanelists.MotoMoto.Models\TheNewPanelists.MotoMoto.Models.csproj" />
+	</ItemGroup>
+	
 </Project>
