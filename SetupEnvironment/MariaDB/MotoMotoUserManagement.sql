@@ -19,19 +19,18 @@ CREATE TABLE Type (
 CREATE TABLE User (
 -- should add typeID that references profile table
     typeName VARCHAR(25) NOT NULL,
-    userId VARCHAR(256) NOT NULL,
-    username VARCHAR(25),
-    password  VARCHAR(256) NOT NULL,
+    userId INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(25) NOT NULL,
+    password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
-    salt VARCHAR(32) NOT NULL,
     CONSTRAINT user_Pk PRIMARY KEY (userId),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
 );
 
 CREATE TABLE Authentication (
-    userId VARCHAR(256) NOT NULL,
-    username VARCHAR(25),
+    userId INT NOT NULL,
+    username VARCHAR(25) NOT NULL,
     otp VARCHAR(9),
     otpExpireTime VARCHAR(80),
     attempts INT NOT NULL,
@@ -43,10 +42,9 @@ CREATE TABLE Authentication (
     CONSTRAINT Authentication_FK FOREIGN KEY (userId) REFERENCES User (userId)
 );
 
-
 CREATE TABLE Profile (
-    userId VARCHAR(256) NOT NULL,
-    username VARCHAR(25),
+    userId INT NOT NULL,
+    username VARCHAR(25) NOT NULL,
     status BOOL NOT NULL DEFAULT TRUE,
     eventAccount BOOL NOT NULL DEFAULT FALSE,
     CONSTRAINT Profile_Pk PRIMARY KEY (username),
@@ -78,3 +76,28 @@ VALUES (NULL, 'ADMIN'),
 INSERT INTO USER(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
 INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
+
+/* Vehicle Data information */
+
+CREATE TABLE CarOriginCountry (
+    country VARCHAR(20) NOT NULL,
+    makeId INT NOT NULL,
+    CONSTRAINT CarOriginCountry_Pk PRIMARY KEY (country, makeId),
+    CONSTRAINT VehicleMake_Fk FOREIGN KEY (makeId) REFERENCES CarMake (makeId)
+);
+
+CREATE TABLE CarMake (
+    makeId INT NOT NULL AUTO_INCREMENT,
+    make VARCHAR(25) NOT NULL,
+    CONSTRAINT CarMake_PK PRIMARY KEY (makeId),
+    CONSTRAINT CarMake_Uk UNIQUE (make)
+);
+
+INSERT INTO CarMake (make) VALUES 
+    ('Acura'), ('Alfa Romeo'), ('Aston Martin'), ('Audi'), ('Bentley'), ('BMW'), ('Buick'), ('Cadillac'), ('Chevrolet'),
+    ('Chrysler'), ('Dodge'), ('Ferrari'), ('FIAT'), ('Ford'), ('Freightliner'), ('Genesis'), ('GMC'), ('Honda'),
+    ('Hyundai'), ('INFINITI'), ('Jaguar'), ('Jeep'), ('Kia'), ('Lamborghini'), ('Land Rover'), ('Lexus'), ('Lincoln'),
+    ('Lotus'), ('Lucid'), ('Maserati'), ('MAZDA'), ('McLaren'), ('Mercedes-Benz'), ('MINI'), ('Mitsubishi'), ('Nissan'), ('Plymouth')
+    ('Polestar'), ('Porsche'), ('Ram'), ('Rolls-Royce'), ('Subaru'), ('Tesla'), ('Toyota'), ('VinFast'), ('Volkswagen'),
+    ('Volvo'); 
+
