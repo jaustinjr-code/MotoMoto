@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.DataStoreEntities
+namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
 {
-    internal class Class1
+    internal class CarBuildService
     {
     }
 }
