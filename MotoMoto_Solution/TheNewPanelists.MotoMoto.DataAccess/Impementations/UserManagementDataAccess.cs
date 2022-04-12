@@ -184,7 +184,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                
+                return ExecuteQuery(command);
             }
         }
         /// <summary>
