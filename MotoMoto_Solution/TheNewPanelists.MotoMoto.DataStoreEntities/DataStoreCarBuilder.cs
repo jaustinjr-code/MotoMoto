@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    internal class Class1
+    internal class DataStoreCarBuilder
     {
     }
 }
