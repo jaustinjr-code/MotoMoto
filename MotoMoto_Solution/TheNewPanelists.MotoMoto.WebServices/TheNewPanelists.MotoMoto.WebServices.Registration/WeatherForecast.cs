@@ -1,4 +1,4 @@
-namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
+namespace Registration
 {
     public class WeatherForecast
     {
