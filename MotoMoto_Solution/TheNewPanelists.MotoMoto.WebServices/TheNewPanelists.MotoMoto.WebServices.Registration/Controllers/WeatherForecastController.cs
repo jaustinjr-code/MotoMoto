@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.Controllers
+namespace Registration.Controllers
 {
     [ApiController]
     [Route("[controller]")]
