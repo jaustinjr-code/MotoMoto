@@ -79,25 +79,31 @@ INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u
 
 /* Vehicle Data information */
 
-CREATE TABLE CarOriginCountry (
-    country VARCHAR(20) NOT NULL,
-    makeId INT NOT NULL,
-    CONSTRAINT CarOriginCountry_Pk PRIMARY KEY (country, makeId),
-    CONSTRAINT VehicleMake_Fk FOREIGN KEY (makeId) REFERENCES CarMake (makeId)
+CREATE TABLE Country (
+    countryName VARCHAR(20) NOT NULL,
+    countryId VARCHAR(3) NOT NULL,
+    CONSTRAINT Country_Pk PRIMARY KEY (countryId),
+    CONSTRAINT Country_fullName UNIQUE KEY (countryName)
 );
 
 CREATE TABLE CarMake (
     makeId INT NOT NULL AUTO_INCREMENT,
     make VARCHAR(25) NOT NULL,
+    countryId VARCHAR(3) NOT NULL,
     CONSTRAINT CarMake_PK PRIMARY KEY (makeId),
-    CONSTRAINT CarMake_Uk UNIQUE (make)
+    CONSTRAINT Country_Fk FOREIGN KEY (countryId) REFERENCES Country (countryId),
+    CONSTRAINT CarMake_make UNIQUE KEY (make)
 );
 
-INSERT INTO CarMake (make) VALUES 
-    ('Acura'), ('Alfa Romeo'), ('Aston Martin'), ('Audi'), ('Bentley'), ('BMW'), ('Buick'), ('Cadillac'), ('Chevrolet'),
-    ('Chrysler'), ('Dodge'), ('Ferrari'), ('FIAT'), ('Ford'), ('Freightliner'), ('Genesis'), ('GMC'), ('Honda'),
-    ('Hyundai'), ('INFINITI'), ('Jaguar'), ('Jeep'), ('Kia'), ('Lamborghini'), ('Land Rover'), ('Lexus'), ('Lincoln'),
-    ('Lotus'), ('Lucid'), ('Maserati'), ('MAZDA'), ('McLaren'), ('Mercedes-Benz'), ('MINI'), ('Mitsubishi'), ('Nissan'), ('Plymouth')
-    ('Polestar'), ('Porsche'), ('Ram'), ('Rolls-Royce'), ('Subaru'), ('Tesla'), ('Toyota'), ('VinFast'), ('Volkswagen'),
-    ('Volvo'); 
+INSERT INTO Country (countryName, countryId) VALUES
+    ('United States', 'USA'), ('Japan', 'JPN'), ('Germany', 'DEU'), ('Italy', 'ITA'), ('United Kingdom', 'GBR'), ('France', 'FRA'),
+    ('China', 'CHN'), ('South Korea', 'KOR'), ('Austrailia', 'AUS'), ('Sweden', 'SWE');
+
+INSERT INTO CarMake (make, countryId) VALUES 
+    ('Acura', 'JPN'), ('Alfa Romeo', 'ITA'), ('Aston Martin', 'GBR'), ('Audi', 'DEU'), ('Bentley', 'GBR'), ('BMW', 'DEU'), ('Buick', 'USA'), ('Cadillac', 'USA'), 
+    ('Chevrolet', 'USA'), ('Chrysler', 'USA'), ('Dodge', 'USA'), ('Ferrari', 'ITA'), ('FIAT', 'ITA'), ('Ford', 'USA'), ('Genesis', 'KOR'), ('GMC', 'USA'), 
+    ('Honda', 'JPN'), ('Hyundai', 'KOR'), ('INFINITI', 'JPN'), ('Jaguar', 'GBR'), ('Jeep', 'USA'), ('Kia', 'KOR'), ('Lamborghini', 'ITA'), ('Land Rover', 'GBR'), 
+    ('Lexus', 'JPN'), ('Lincoln', 'USA'), ('Lotus', 'GBR'), ('Maserati', 'ITA'), ('MAZDA', 'JPN'), ('McLaren', 'GBR'), ('Mercedes-Benz', 'DEU'), ('MINI', 'GBR'), 
+    ('Mitsubishi', 'JPN'), ('Nissan', 'JPN'), ('Plymouth', 'USA'), ('Porsche', 'DEU'), ('Ram', 'USA'), ('Rolls-Royce', 'GBR'), ('Subaru', 'JPN'), ('Suzuki', 'JPN'), 
+    ('Tesla', 'USA'), ('Toyota', 'JPN'), ('Volkswagen', 'DEU'), ('Volvo', 'SWE'); 
 
