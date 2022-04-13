@@ -15,6 +15,9 @@ npm/
 node_modules/
 package-lock.json
 jsconfig.json
+appsettings.json
+appsettings.*.json
+launchsettings.json
 app/.vs/
 app/.vscode/
 MotoMoto_Unit_Tests/obj/
