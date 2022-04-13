@@ -11,6 +11,9 @@ app/bin/
 MotoMoto_Solution/TheNewPanelists.MotoMoto.ApplicationLayer/TheNewPanelists.MotoMoto.ApplicationLayer.Login/obj
 obj/
 bin/
+npm/
+node_modules/
+package-lock.json
 app/.vs/
 app/.vscode/
 MotoMoto_Unit_Tests/obj/
