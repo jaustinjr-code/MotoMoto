@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
-using System.Data.SqlClient;
 using System.Data;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -19,7 +15,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _profileManagementDAO = new ProfileManagementDataAccess();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
         public ISet<ProfileModel> RetrieveAllProfiles(ProfileModel userAccount)
         {
             var accountEntities = _profileManagementDAO!.GetAllProfiles();
@@ -32,19 +32,25 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }).ToHashSet();
             return userAccounts;
         }
-
-        public bool CreateAccountProfile(DeleteAccountModel deletedProfile)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deletedProfile"></param>
+        /// <returns></returns>
+        public bool DeleteAccountProfile(DeleteAccountModel deletedProfile)
         {
             var dataStoreUserProfile = new DeleteAccountModel()
             {
                 Username = deletedProfile!.Username,
-                VerifiedPassword = deletedProfile!.VerifiedPassword,
-
+                VerifiedPassword = deletedProfile!.VerifiedPassword
             };
             return _profileManagementDAO!.DeleteProfileEntity(dataStoreUserProfile);
         }
 
-
+        public bool CreateAccountProfile()
+        {
+            return _profileManagementDAO!.InsertNewProfileEntity();
+        }
 
             /*
             private bool accountRecoveryFlag = false;

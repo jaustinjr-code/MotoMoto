@@ -63,7 +63,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userProfile!.username);
+                parameters[0] = new MySqlParameter("@v1", userProfile!.Username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -71,9 +71,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 ProfileModel returnProfile = new ProfileModel();
                 while (myReader.Read())
                 {
-                    returnProfile.username = myReader.GetString("username");
-                    returnProfile.status = myReader.GetBoolean("status");
-                    returnProfile.eventAccount = myReader.GetBoolean("eventAccount");
+                    returnProfile.Username = myReader.GetString("username");
+                    returnProfile.Status = myReader.GetBoolean("status");
+                    returnProfile.EventAccount = myReader.GetBoolean("eventAccount");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -88,9 +88,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             while (myReader.Read())
             {
                 ProfileModel userProfile = new ProfileModel();
-                userProfile.username = myReader.GetString("typeName");
-                userProfile.status = myReader.GetBoolean("status");
-                userProfile.eventAccount = myReader.GetBoolean("eventAccount");
+                userProfile.Username = myReader.GetString("typeName");
+                userProfile.Status = myReader.GetBoolean("status");
+                userProfile.EventAccount = myReader.GetBoolean("eventAccount");
                 accountsSet.Add(userProfile);
             }
             myReader.Close();
@@ -128,7 +128,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));

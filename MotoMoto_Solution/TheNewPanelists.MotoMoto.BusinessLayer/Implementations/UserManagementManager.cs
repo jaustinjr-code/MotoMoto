@@ -26,11 +26,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>boolean value based off of the account deletion service</returns>
         public bool DeleteAccountManager(DeleteAccountModel deleteAccountUser)
         {
-            if (deleteAccountUser.username!.Length == 0 || deleteAccountUser.username!.Length > 24)
+            if (deleteAccountUser.Username!.Length == 0 || deleteAccountUser.Username!.Length > 24)
             {
                 return false;
             }
-            if (deleteAccountUser.verifiedPassword!.Length == 0 || deleteAccountUser.verifiedPassword.Length > 24)
+            if (deleteAccountUser.VerifiedPassword!.Length == 0 || deleteAccountUser.VerifiedPassword.Length > 24)
             {
                 return false;
             }
@@ -47,7 +47,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             var accountModel = new AccountModel()
             {
                 AccountType = "REGISTERED",
-                username = username
+                Username = username
             };
             return _userManagementService.RetrieveAllAccounts(accountModel);
         }
