@@ -14,6 +14,7 @@ bin/
 npm/
 node_modules/
 package-lock.json
+jsconfig.json
 app/.vs/
 app/.vscode/
 MotoMoto_Unit_Tests/obj/
@@ -55,8 +56,6 @@ app/obj/Debug/net6.0/app.csproj.AssemblyReference.cache
 app/bin/Debug/net6.0/ref/app.dll
 app/bin/Debug/net6.0/app.pdb
 app/bin/Debug/net6.0/app.dll
-*.json
-*.json
 app/obj/project.nuget.cache
 MotoMoto_Solution/.vs/TheNewPanelist_Solution/v17/.suo
 *.v2
