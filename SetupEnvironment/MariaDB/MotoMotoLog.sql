@@ -8,7 +8,7 @@ CREATE TABLE Category (
     CONSTRAINT Category_Pk PRIMARY KEY (categoryName)
 );
 CREATE TABLE Log (
-    logId VARCHAR(256) NOT NULL,
+    logId INT NOT NULL,
     categoryName VARCHAR(100) NOT NULL,
     levelName VARCHAR(50) NOT NULL,
     timeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

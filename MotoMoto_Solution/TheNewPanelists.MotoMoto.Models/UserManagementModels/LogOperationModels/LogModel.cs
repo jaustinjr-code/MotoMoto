@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class LogModel
     {
-        public string? LogId { get; set; }
+        public int? LogId { get; set; }
         public string? LevelName { get; set; }
         public string? CategoryName { get; set; }
         public string? _dateTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");

@@ -69,7 +69,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 AccountModel userAccount = new AccountModel();
                 userAccount.AccountType = myReader.GetString("typeName");
-                userAccount.username = myReader.GetString("username");
+                userAccount.Username = myReader.GetString("username");
                 accountsSet.Add(userAccount);
             }
             myReader.Close();
@@ -94,7 +94,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
                 var parameters = new SqlParameter[1];
-                parameters[0] = new SqlParameter("@v1", userAccount!.username);
+                parameters[0] = new SqlParameter("@v1", userAccount!.Username);
 
                 command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
@@ -105,7 +105,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 while (myReader.Read())
                 {
                     returnAccount.AccountType = myReader.GetString("typeName");
-                    returnAccount.username = myReader.GetString("username");
+                    returnAccount.Username = myReader.GetString("username");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -139,7 +139,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetString("userId");
+                    returnUser.UserId = myReader.GetInt32("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
@@ -167,7 +167,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             cipherText.GeneratePasswordHash(userAccount!._password!);
             cipherText.GenerateUsernameHash(userAccount!._username!);
             userAccount._salt = cipherText.Salt;
-            userAccount.UserId = cipherText.HashedString;
 
             using (MySqlCommand command = new MySqlCommand())
             {
@@ -201,8 +200,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             var dataStoreUser = new DataStoreUser()
             {
-                _username = userAccount.username,
-                _password = userAccount.verifiedPassword
+                _username = userAccount.Username,
+                _password = userAccount.VerifiedPassword
             };
             if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
 
@@ -210,8 +209,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
                 var parameters = new SqlParameter[2];
-                parameters[0] = new SqlParameter("@v1", userAccount!.username);
-                parameters[1] = new SqlParameter("@v2", userAccount!.verifiedPassword);
+                parameters[0] = new SqlParameter("@v1", userAccount!.Username);
+                parameters[1] = new SqlParameter("@v2", userAccount!.VerifiedPassword);
 
                 command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
