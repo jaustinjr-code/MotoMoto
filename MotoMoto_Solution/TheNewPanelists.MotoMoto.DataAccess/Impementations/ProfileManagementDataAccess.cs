@@ -1,11 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheNewPanelists.MotoMoto;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.Models;
 using System.Data;
 
