@@ -34,11 +34,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool KeepDeleteAccountManager(DeleteAccountModel deleteAccountModel)
         {
-            if (deleteAccountModel.username!.Length == 0 || deleteAccountModel.username!.Length > 24)
+            if (deleteAccountModel.Username!.Length == 0 || deleteAccountModel.Username!.Length > 24)
             {
                 return false;
             }
-            if (deleteAccountModel.verifiedPassword!.Length == 0 || deleteAccountModel.verifiedPassword.Length > 24)
+            if (deleteAccountModel.VerifiedPassword!.Length == 0 || deleteAccountModel.VerifiedPassword.Length > 24)
             {
                 return false;
             }
