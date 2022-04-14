@@ -2,12 +2,12 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Text;
-using TheNewPanelists.ServiceLayer.Logging;
+using TheNewPanelists.MotoMoto.DataAccess;
 
 
 namespace TheNewPanelists.DataAccessLayer
 {
-    class AuthenticationDataAccess : IDataAccess
+    public class AuthenticationDataAccess : IDataAccess
     {
         private string query { get; set; }
         private MySqlConnection mySqlConnection = null;

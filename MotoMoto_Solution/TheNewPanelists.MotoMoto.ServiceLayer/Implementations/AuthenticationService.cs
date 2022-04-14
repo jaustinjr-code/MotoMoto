@@ -1,14 +1,14 @@
+using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.DataAccessLayer;
-using TheNewPanelists.ServiceLayer.Logging;
-using TheNewPanelists.BusinessLayer;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mail;
+using System;
 
-namespace TheNewPanelists.ServiceLayer.Authentication
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private string operation {get; set;}
         private Dictionary<string, string> userAccount {get; set;}
@@ -45,6 +45,10 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             this.userIp = null;
             this.accountStatus = null;
             this.authenticationDataAccess = new AuthenticationDataAccess();
+        }
+        public bool CheckUser(string username, string password)
+        {
+            return ValidateInput("username", username);
         }
 
         public Dictionary<string, string> RequestInput()
