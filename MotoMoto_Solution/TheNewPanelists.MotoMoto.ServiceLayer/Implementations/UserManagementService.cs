@@ -53,8 +53,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new DeleteAccountModel()
             {
-                username = deletedAccount!.username,
-                verifiedPassword = deletedAccount!.verifiedPassword
+                Username = deletedAccount!.Username,
+                VerifiedPassword = deletedAccount!.VerifiedPassword
             };
             return _userManagementDAO.KeepDeleteAccountEntity(dataStoreUser);
         }
