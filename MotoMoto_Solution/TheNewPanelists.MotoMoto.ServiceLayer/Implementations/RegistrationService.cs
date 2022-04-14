@@ -16,25 +16,25 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public string AccountRegistrationRequest(RegistrationRequestModel registrationRequest)
         {
-            string registrationEmail = registrationRequest.Email!;
+            string email = registrationRequest.Email!;
 
-            if (_registrationDAO.QueryUserTable(registrationEmail))
+            if (_registrationDAO.QueryUserTable(email))
                 return "An account already exists with that email. Please login to access the account.";
-            else if (_registrationDAO.HasActiveRegistration(registrationEmail))
+            else if (_registrationDAO.HasActiveRegistration(email))
                 return "Unable to register. Account is currently pending email validation.";
             else
             {
                 if (_registrationDAO.InsertRegistrationEntry(registrationRequest))
                 {
-                    RegistrationEntity registrationEntry = _registrationDAO.ReturnActiveRegistrationEntry(registrationEmail);
+                    int registrationId = _registrationDAO.ReturnRegistrationId(email);
 
-                    if (SendEmailConfirmationRequest(registrationEntry))
+                    if (SendEmailConfirmationRequest(email, registrationId))
                         return "Registration submitted. Please validate your email to complete registration.";
                     else
                     {
                         // Log send email failure
                         // Delete from registration table
-                        if (!_registrationDAO.DeleteActiveRegistrationEntry(registrationEmail));
+                        if (!_registrationDAO.DeleteActiveRegistration(email));
                             // log deletion error
                     }
                 }
@@ -44,22 +44,38 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return "Account registration Error.";
         }
 
-        //public string EmailConfirmation(EmailConfirmationRequestModel emailConfirmationRequest)
-        //{
-        //    string registrationEmail = emailConfirmationRequest.Email!;
-
-        //    if ()
-        //}
-
-        public static bool SendEmailConfirmationRequest(RegistrationEntity registrationEntry)
+        public string EmailConfirmation(EmailConfirmationRequestModel emailConfirmationRequest)
         {
-            
+            if (_registrationDAO.ConfirmRegistration(emailConfirmationRequest))
+            {
+                DSConfirmedAccount entry = _registrationDAO.ReturnConfirmedAccount(emailConfirmationRequest);
+                DataStoreUser newUserAccount = new DataStoreUser();
+                string userName = GenerateUniqueName(emailConfirmationRequest.RegistrationID!);
+
+                newUserAccount._userType = "Registered";
+                newUserAccount._username = userName;
+                newUserAccount._email = entry.Email;
+                newUserAccount._password = entry.Password;
+
+                UserManagementService userManagementService = new UserManagementService();
+
+                if (userManagementService.CreateAccount(newUserAccount))
+                    return String.Format("Registration complete!\n\n Username = {0}", userName);
+                else
+                    return "Registration Error.";
+            }
+            else
+                return "ERROR: Registration not found.";
+        }
+
+        public static bool SendEmailConfirmationRequest(string email, int registrationId)
+        {
             // Need to generate a unique url here and insert the link into the email
-            // string uniqueLink = URLGenerator(registrationEntry.Email!);
+            string uniqueLink = URLGenerator(registrationId);
             
             string From = "projmotomoto@gmail.com";
             string FromName = "MotoMoto Registration";
-            string To = registrationEntry.Email!;
+            string To = email;
             string SMTP_Username = "smtp_username";
             string SMTP_Password = "smtp_password";
             // string Configset = "ConfigSet";
@@ -103,7 +119,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }
         }
         
-        public static string URLGenerator(string registrationID)
+        public static string URLGenerator(int? registrationID)
         {
             const int suffixSize = 10;
 
@@ -129,7 +145,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                         break;
                 }
             }
-            return (registrationID + urlSuffix);
+            return (registrationID.ToString() + urlSuffix);
         }
 
         public static string GenerateUniqueName(string registrationID)

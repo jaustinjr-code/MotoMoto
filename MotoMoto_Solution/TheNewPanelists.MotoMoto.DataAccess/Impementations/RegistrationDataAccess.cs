@@ -54,8 +54,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.CommandText = $"SELECT U FROM USER WHERE U.EMAIL = @v1;";
                 var parameter = new SqlParameter("@v1", email);
-
                 command.Parameters.Add(parameter);
+
                 return (ExecuteQuery(command));
             }
         }
@@ -85,8 +85,26 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.CommandText = $"SELECT R FROM REGISTRATION WHERE R.EMAIL = @v1 AND R.VALIDATED = FALSE AND DATE.NOW() < EXPIRATION;";
                 var parameter = new SqlParameter("@v1", email);
-
                 command.Parameters.Add(parameter);
+
+                return (ExecuteQuery(command));
+            }
+        }
+
+        public bool ConfirmRegistration(EmailConfirmationRequestModel confirmationRequest)
+        {
+            if (!EstablishMariaDBConnection())
+                throw new NullReferenceException();
+
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.CommandText = $"SELECT R FROM REGISTRATION WHERE R.REGISTRATIONID = @v1 AND R.EMAIL = @v2 AND R.VALIDATED = FALSE AND DATE.NOW() < EXPIRATION;";
+
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", confirmationRequest.RegistrationID!);
+                parameters[1] = new SqlParameter("@v2", confirmationRequest.Email!);
+                command.Parameters.AddRange(parameters);
+
                 return (ExecuteQuery(command));
             }
         }
@@ -104,13 +122,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 var parameters = new SqlParameter[4];
                 parameters[0] = new SqlParameter("@v1", registrationRequest!.Email);
                 parameters[1] = new SqlParameter("@v2", registrationRequest!.Password);
-
                 command.Parameters.AddRange(parameters);
+
                 return (ExecuteQuery(command));
             }
         }
 
-        public bool DeleteActiveRegistrationEntry(string email)
+        public bool DeleteActiveRegistration(string email)
         {
             if (!EstablishMariaDBConnection())
                 throw new NullReferenceException();
@@ -119,42 +137,69 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.CommandText = $"DELETE FROM REGISTRATION R WHERE R.EMAIL = @v1 AND DATE.NOW() < EXPIRATION;";
                 var parameter = new SqlParameter("@v1", email);
-
                 command.Parameters.Add(parameter);
+
                 return (ExecuteQuery(command));
             }
         }
 
-        public RegistrationEntity ReturnActiveRegistrationEntry(string email)
+        public int ReturnRegistrationId(string email)
         {
             if (!EstablishMariaDBConnection())
                 throw new NullReferenceException();
 
             using (var command = new MySqlCommand())
             {
-                command.CommandText = $"SELECT * FROM REGISTRATION R WHERE R.EMAIL = @v1 AND DATE.NOW() < EXPIRATION;";
+                command.CommandText = $"SELECT REGISTRATIONID FROM REGISTRATION R WHERE R.EMAIL = @v1 AND DATE.NOW() < EXPIRATION;";
                 var parameters = new SqlParameter[2];
                 parameters[0] = new SqlParameter("@v1", email);
-
                 command.Parameters.AddRange(parameters);
+
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                RegistrationEntity registrationEntity = new RegistrationEntity();
+                int regId = -1;
+
+                if (myReader.Read())
+                    regId = myReader.GetInt32("registrationId");
+                
+                myReader.Close();
+                _mySqlConnection!.Close();
+
+                return regId;
+            }
+        }
+
+        public DSConfirmedAccount ReturnConfirmedAccount(EmailConfirmationRequestModel confirmationRequest)
+        {
+            if (!EstablishMariaDBConnection())
+                throw new NullReferenceException();
+
+            using (var command = new MySqlCommand())
+            {
+                command.CommandText = $"SELECT REGISTRATIONID, EMAIL, PASSWORD FROM REGISTRATION R WHERE R.REGISTRATIONID = @v1 AND R.EMAIL = @v2 AND DATE.NOW() < EXPIRATION AND VALIDATED = FALSE;";
+                var parameters = new SqlParameter[2];
+                parameters[0] = new SqlParameter("@v1", confirmationRequest.RegistrationID);
+                parameters[0] = new SqlParameter("@v2", confirmationRequest.Email);
+                command.Parameters.AddRange(parameters);
+
+                command.Transaction = _mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                DSConfirmedAccount confirmedAccount = new DSConfirmedAccount();
 
                 while (myReader.Read())
                 {
-                    registrationEntity.RegistrationID = myReader.GetInt32("registrationId");
-                    registrationEntity.Email = myReader.GetString("email");
-                    registrationEntity.Password = myReader.GetString("password");
-                    registrationEntity.Expiration = myReader.GetDateTime("expiration");
-                    registrationEntity.Validated = myReader.GetBoolean("validated");
+                    confirmedAccount.RegistrationId = myReader.GetInt32("registraionId");
+                    confirmedAccount.Email = myReader.GetString("email");
+                    confirmedAccount.Password = myReader.GetString("password");
                 }
                 myReader.Close();
                 _mySqlConnection!.Close();
 
-                return registrationEntity;
+                return confirmedAccount;
             }
         }
     }
