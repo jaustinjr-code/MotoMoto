@@ -19,6 +19,26 @@ namespace TheNewPanelists.WebAPI.Controllers
             return NoContent();
         }
 
+        [Route("LoginTest")]
+        [HttpPost]
+        public IActionResult Login(string username)
+        {
+            /*
+            Console.WriteLine("Console");
+            AuthenticationService authService = new AuthenticationService();
+            try
+            {
+                bool service = authService.CheckUser(username, "pass");
+                return Ok(service);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            */
+            return Ok();
+
+        }
 
 
 
