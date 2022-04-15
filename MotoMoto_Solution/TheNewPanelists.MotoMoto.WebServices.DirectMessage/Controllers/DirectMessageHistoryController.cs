@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheNewPanelists.MotoMoto.BusinessLayer;
-
 namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DirectMessageController : Controller
+    public class DirectMessageHistoryController : Controller
     {
-
         [HttpOptions]
         public IActionResult Index()
         {
@@ -15,12 +13,30 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMessages(string sender, string receiver)
+        public IActionResult GetMessageHistory(string sender)
         {
             try
             {
                 DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
-                return Ok(directMessageBusinessLayer.GetMessages(sender, receiver));
+                List<string> users = new List<string>();
+                users = directMessageBusinessLayer.GetMessageHistory(sender);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        [HttpPut]
+        public IActionResult CreateNewDirectMessage(string sender, string receiver)
+        {
+            try
+            {
+                DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
+                return Ok(directMessageBusinessLayer.CreateNewDirectMessage(sender, receiver));
             }
             catch (Exception ex)
             {
@@ -29,21 +45,5 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult SendMessage(string sender, string receiver, string message)
-        {
-            try
-            {
-                DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
-                return Ok(directMessageBusinessLayer.SendMessage(sender, receiver, message));
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        }
-
-        
     }
 }
