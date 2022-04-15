@@ -1,238 +1,17 @@
-using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
-using TheNewPanelists.MotoMoto.Models;
+using System.Collections;
+using System.Text;
+using TheNewPanelists.ServiceLayer.Logging;
 
 
-namespace TheNewPanelists.MotoMoto.DataAccess
+namespace TheNewPanelists.DataAccessLayer
 {
     class AuthenticationDataAccess : IDataAccess
     {
-        private MySqlConnection? mySqlConnection { get; set; }
+        private string query { get; set; }
+        private MySqlConnection mySqlConnection = null;
 
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;"; //write config so this only appears once
-
-        public AuthenticationDataAccess() {}
-
-        public AuthenticationDataAccess(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        private bool ExecuteQuery(MySqlCommand command)
-        {
-            switch (command.ExecuteNonQuery())
-            {
-                case 1:
-                    mySqlConnection!.Close();
-                    return true;
-                default:
-                    mySqlConnection!.Close();
-                    return false;
-            }
-        }
-        public bool EstablishMariaDBConnection()
-        {
-            try
-            {
-                mySqlConnection = new MySqlConnection(_connectionString);
-                mySqlConnection.Open();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return false;
-        }
-
-        public void InsertAuthenticatedUser(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            DataStoreUser dataStoreUser = RetrieveDataStoreSpecifiedUserEntity(authenticationModel!.Username!);
-            if (dataStoreUser != null) 
-                return;
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "INSERT INTO AUTHENTICATION (userId, username, attempts)"
-                                    + "VALUES ((SELECT @v1 FROM User WHERE userId = @v2), (SELECT"
-                                    + "username FROM User WHERE userId = {this.userId}), "
-                                    + "'@v3');";
-                var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel!.UserId);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel!.UserId);
-                parameters[2] = new MySqlParameter("@v3", authenticationModel!.Attempts);
-                
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-            }
-        }
-
-        public DataStoreUser RetrieveDataStoreSpecifiedUserEntity(string username)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "SELECT * FROM USER U WHERE U.USERNAME = @v1";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", username);
-
-                command.Parameters.AddRange(parameters);
-
-                MySqlDataReader myReader = command.ExecuteReader();
-                DataStoreUser returnUser = new DataStoreUser();
-                while (myReader.Read())
-                {
-                    returnUser.UserId = myReader.GetInt32("userId");
-                    returnUser._userType = myReader.GetString("typeName");
-                    returnUser._username = myReader.GetString("username");
-                    returnUser._password = myReader.GetString("password");
-                    returnUser._email = myReader.GetString("email");
-                    returnUser._salt = myReader.GetString("salt");
-                }
-                myReader.Close();
-                mySqlConnection!.Close();
-                return returnUser;
-            }
-        }
-
-        public void UpdateAuthenticationReset(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE AUTHENTICATION SET attempts = '@v1'"
-                                    + ", otp = '@v2', otpExpireTime = '@v3', WHERE"
-                                    + "userId = @v4;";
-                var parameters = new MySqlParameter[4];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel!.Attempts);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel!.Otp);
-                parameters[2] = new MySqlParameter("@v3", authenticationModel!.OtpExpireTime);
-                parameters[3] = new MySqlParameter("@v4", authenticationModel!.UserId);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-            }
-        }
-
-        public void LockUserAccountFor24Hours(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE AUTHENTICATION SET accountStatus = '@v1'"
-                                    + "WHERE userId = @v2;";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", false);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel.UserId);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-            }
-        }
-
-        public void RemoveUserFromAuthenticationTable(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "DELETE FROM AUTHENTICATION WHERE userId = @v1;";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel.UserId);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-            }
-        }
-
-        public void SetAuthenticationSessionTime(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE AUTHENTICATION SET sessionEndTime = '@v1'"
-                                    + "WHERE userId = @v2;";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel.SessionEndTime);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel.UserId);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-            }
-        }
-
-        public void SetAttemptsAndEndSessionTimeAuthentication(AuthenticationModel authenticationModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (var command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE AUTHENTICATION SET attempts = @v1,"
-                                    + "sessionEndTime = '@v2' WHERE userId = @v3;";
-                var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel.Attempts);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel.SessionEndTime);
-                parameters[2] = new MySqlParameter("@v3", authenticationModel.UserId);
-            }
-        }
-        /*
         public AuthenticationDataAccess() {}
 
         public AuthenticationDataAccess(string query)
@@ -316,65 +95,63 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             // Need to generalize the database name or create a new database and run the restore sql file on it
             
             /** ROOT CONNECTION PASSWORD IS DIFFERENT FOR EVERYONE!!! PLEASE CHANGE*/
-        /*
-        string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
-        //connectionString 
-        try
-        {
-            mySqlConnection = new MySqlConnection(connectionString);
-            mySqlConnection.Open();
-
-            Console.WriteLine("Connection open");
-
-            // Console.WriteLine("Close");
-            //mySqlConnection.Close();
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine("ERROR - Creating new user...");
-            BuildTempUser();
-        }
-
-        return false;
-    }
-    public Dictionary<string, string> SelectUser()
-    {
-        Dictionary<string, string> userAccount = new Dictionary<string, string>();
-        if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-        else Console.WriteLine("Connection opened...");
-
-        MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
-        MySqlDataReader reader = command.ExecuteReader();
-        while (reader.Read())
-        {  
-            for (int i = 0; i < reader.FieldCount; i++)
+            string connectionString = $"server=localhost;user=root;database={databaseName};port=3306;password={databasePass};";
+            //connectionString 
+            try
             {
-                userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
+                mySqlConnection = new MySqlConnection(connectionString);
+                mySqlConnection.Open();
+                
+                Console.WriteLine("Connection open");
+
+                // Console.WriteLine("Close");
+                //mySqlConnection.Close();
+                return true;
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("ERROR - Creating new user...");
+                BuildTempUser();
+            }
+             
+            return false;
         }
-        mySqlConnection.Close();
-        Console.WriteLine("Connection closed...");
-
-        return userAccount;
-    }
-    public bool UpdateAuthenticationTable()
-    {  
-        if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
-        else Console.WriteLine("Connection opened...");
-
-        MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
-        if (command.ExecuteNonQuery() == 1)
+        public Dictionary<string, string> SelectUser()
         {
+            Dictionary<string, string> userAccount = new Dictionary<string, string>();
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {  
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    userAccount[reader.GetName(i).ToString()] = reader[i].ToString();
+                }
+            }
             mySqlConnection.Close();
             Console.WriteLine("Connection closed...");
-            return true;
+
+            return userAccount;
         }
-        mySqlConnection.Close();
-        Console.WriteLine("Connection closed...");
-        return false;
-    }
-    */
+        public bool UpdateAuthenticationTable()
+        {  
+            if (!EstablishMariaDBConnection()) Console.WriteLine("Connection failed to open...");
+            else Console.WriteLine("Connection opened...");
+
+            MySqlCommand command = new MySqlCommand(this.query, mySqlConnection);
+            if (command.ExecuteNonQuery() == 1)
+            {
+                mySqlConnection.Close();
+                Console.WriteLine("Connection closed...");
+                return true;
+            }
+            mySqlConnection.Close();
+            Console.WriteLine("Connection closed...");
+            return false;
+        }
     }
 }

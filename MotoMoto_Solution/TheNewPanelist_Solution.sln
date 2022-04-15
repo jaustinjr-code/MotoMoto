@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.UnitTests", "TheNewPanelists.MotoMoto.UnitTests\TheNewPanelists.MotoMoto.UnitTests.csproj", "{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Registration", "Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj", "{C96FF410-6E7D-4278-9A4D-5FCC28424A02}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Security", "TheNewPanelists.MotoMoto.Security\TheNewPanelists.MotoMoto.Security.csproj", "{540CD445-6C5C-4719-94B9-45FA803F4BDF}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "TheNewPanelists.MotoMoto.FrontEnd", "TheNewPanelists.MotoMoto.FrontEnd\TheNewPanelists.MotoMoto.FrontEnd.njsproj", "{8DBC69B6-3801-4609-8453-BB4193048248}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis", "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj", "{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,14 +65,18 @@ Global
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96FF410-6E7D-4278-9A4D-5FCC28424A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96FF410-6E7D-4278-9A4D-5FCC28424A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96FF410-6E7D-4278-9A4D-5FCC28424A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96FF410-6E7D-4278-9A4D-5FCC28424A02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DBC69B6-3801-4609-8453-BB4193048248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DBC69B6-3801-4609-8453-BB4193048248}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DBC69B6-3801-4609-8453-BB4193048248}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DBC69B6-3801-4609-8453-BB4193048248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{1F8261D5-4F74-4FB6-9A06-9C67E0793F1E} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
