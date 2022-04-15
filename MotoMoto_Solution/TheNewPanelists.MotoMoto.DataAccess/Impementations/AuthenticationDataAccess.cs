@@ -66,7 +66,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
             DataStoreUser dataStoreUser = RetrieveDataStoreSpecifiedUserEntity(authenticationModel!.Username!);
-            if (dataStoreUser != null) 
+            if (dataStoreUser == null) 
                 return;
             using (var command = new MySqlCommand())
             {
@@ -76,12 +76,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = "INSERT INTO AUTHENTICATION (userId, username, attempts)"
-                                    + "VALUES ((SELECT @v1 FROM User WHERE userId = @v2), (SELECT"
-                                    + "username FROM User WHERE userId = {this.userId}), "
-                                    + "'@v3');";
+                                    + "VALUES ((SELECT userId FROM User WHERE userId = @v1), (SELECT"
+                                    + "username FROM User WHERE userId = @v2), "
+                                    + "@v3);";
                 var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", authenticationModel!.UserId);
-                parameters[1] = new MySqlParameter("@v2", authenticationModel!.UserId);
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!.UserId);
+                parameters[1] = new MySqlParameter("@v2", dataStoreUser!.UserId);
                 parameters[2] = new MySqlParameter("@v3", authenticationModel!.Attempts);
                 
                 command.Parameters.AddRange(parameters);
