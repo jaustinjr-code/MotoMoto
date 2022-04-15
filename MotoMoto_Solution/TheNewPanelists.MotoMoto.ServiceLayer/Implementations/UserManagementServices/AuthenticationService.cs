@@ -1,16 +1,69 @@
-using TheNewPanelists.DataAccessLayer;
-using TheNewPanelists.ServiceLayer.Logging;
-using TheNewPanelists.BusinessLayer;
+using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.Models;
+using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mail;
 
-namespace TheNewPanelists.ServiceLayer.Authentication
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    class AuthenticationService : IAuthenticationService
+    public class AuthenticationService
     {
-        private string operation {get; set;}
+        private readonly AuthenticationDataAccess? _authenticationDAO;
+
+        public AuthenticationService(AuthenticationDataAccess authenticationDAO)
+        {
+            _authenticationDAO = authenticationDAO;
+        }
+        private void SendEmailToAuthorizedUser(AuthenticationModel authenticationModel)
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private void GenerateOneTimePw(AuthenticationModel authentiactionModel)
+        {
+            Random rand = new Random();
+            char[] charArray = new char[9];
+            string OTP = "";
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                int num = i < 3 ? num = i : num = rand.Next(0, 3);
+                switch (num)
+                {
+                    case 0:
+                        charArray[i] = (char)rand.Next(65, 91);
+                        break;
+                    case 1:
+                        charArray[i] = (char)rand.Next(97, 123);
+                        break;
+                    default:
+                        charArray[i] = (char)rand.Next(48, 58);
+                        break;
+                }
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                int randomNumOne = rand.Next(charArray.Length);
+                int randomNumTwo = rand.Next(charArray.Length);
+                char temp = charArray[randomNumOne];
+                charArray[randomNumOne] = charArray[randomNumTwo];
+                charArray[randomNumTwo] = temp;
+            }
+            foreach (char ch in charArray)
+                OTP += ch;
+            authentiactionModel.Otp = OTP;
+        }
+    }
+}
+
+/*
+  private string operation {get; set;}
         private Dictionary<string, string> userAccount {get; set;}
         private int userId {get; set;}
         private string username {get; set;}
@@ -446,4 +499,4 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             return otp;
         }
     }
-}
+ */

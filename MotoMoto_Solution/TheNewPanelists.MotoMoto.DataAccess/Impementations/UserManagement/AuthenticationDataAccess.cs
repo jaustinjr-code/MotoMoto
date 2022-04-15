@@ -7,7 +7,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    class AuthenticationDataAccess : IDataAccess
+    public class AuthenticationDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
 
