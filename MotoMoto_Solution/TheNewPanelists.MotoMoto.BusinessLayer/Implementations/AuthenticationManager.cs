@@ -43,10 +43,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             Regex specialChar = new Regex(@"[.,@!]");
             Regex otpLength = new Regex(@"[a-zA-Z0-9.,@!]{8,}");
 
-            bool IsValidPattern = lowerCase.IsMatch(authenticationModel!.ValidatedOTP!) 
+            bool IsValidPattern = lowerCase.IsMatch(authenticationModel!.ValidatedOTP!)
                                 && upperCase.IsMatch(authenticationModel!.ValidatedOTP!)
                                 && num.IsMatch(authenticationModel!.ValidatedOTP!)
-                                && num.IsMatch(authenticationModel!.ValidatedOTP!) 
+                                && num.IsMatch(authenticationModel!.ValidatedOTP!)
                                 && otpLength.IsMatch(authenticationModel!.ValidatedOTP!);
             return IsValidPattern;
         }
@@ -62,7 +62,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             DataStoreUser dataStoreUser = _authenticationService.RetrieveUserFromDataStoreService(authenticationModel);
             if (dataStoreUser == null)
                 return false;
-            return true;            
+            return true;
         }
         /// <summary>
         /// 
@@ -109,7 +109,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 authenticationModel.Authenticated = true;
                 //_authenticationService.Delete
-            } 
+            }
             else
             {
                 authenticationModel.Attempts++;

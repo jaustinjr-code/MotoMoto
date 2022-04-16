@@ -13,7 +13,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;"; //write config so this only appears once
 
-        public AuthenticationDataAccess() {}
+        public AuthenticationDataAccess() { }
         /// <summary>
         /// 
         /// </summary>
@@ -66,7 +66,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
             DataStoreUser dataStoreUser = RetrieveDataStoreSpecifiedUserEntity(authenticationModel!.Username!);
-            if (dataStoreUser == null) 
+            if (dataStoreUser == null)
                 return;
             using (var command = new MySqlCommand())
             {
@@ -83,7 +83,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 parameters[0] = new MySqlParameter("@v1", dataStoreUser!.UserId);
                 parameters[1] = new MySqlParameter("@v2", dataStoreUser!.UserId);
                 parameters[2] = new MySqlParameter("@v3", authenticationModel!.Attempts);
-                
+
                 command.Parameters.AddRange(parameters);
                 ExecuteQuery(command);
             }

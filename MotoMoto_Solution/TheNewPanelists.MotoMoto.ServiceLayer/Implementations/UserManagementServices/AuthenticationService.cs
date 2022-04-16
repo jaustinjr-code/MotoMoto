@@ -1,5 +1,6 @@
-using TheNewPanelists.MotoMoto.DataAccess;
+﻿using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -16,15 +17,99 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _authenticationDAO = authenticationDAO;
         }
+        public DataStoreUser RetrieveUserFromDataStoreService(AuthenticationModel authenticationModel)
+        {
+            return _authenticationDAO!.RetrieveDataStoreSpecifiedUserEntity(authenticationModel.Username!);
+        }
         private void SendEmailToAuthorizedUser(AuthenticationModel authenticationModel)
         {
+            StringBuilder input = new StringBuilder();
 
+            string email = "projmotomoto@gmail.com";
+            string pass = "Tester491!";
+            DataStoreUser dataStoreUser = RetrieveUserFromDataStoreService(authenticationModel);
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress(email, "MotoMoto");
+                mail.To.Add(dataStoreUser!._email!);
+                mail.Subject = "One-Time Password";
+
+                mail.Body = @$"
+                    <html>
+                        <body>
+                            <p></p>Hello,</p>
+                            <p>Here is the One-Time Password you need to confirm your 
+                            identity and access your account.<br>
+                            <p>Your One-Time Password is: {authenticationModel.Otp}</p>
+                            <p>The One-Time Password will expire in 2 minutes, so please complete this 
+                            step as soon as possible.</p><br>
+                            <p>Sincerely,<br><br>
+                            MotoMoto Customer Care</p>
+                        </body>
+                    </html>";
+                // mail.BodyEncoding = System.Text.Encoding.UTF8;
+                // text or html
+                mail.IsBodyHtml = true;
+
+                smtpServer.Port = 587;
+                smtpServer.Credentials = new System.Net.NetworkCredential(email, pass);
+                smtpServer.EnableSsl = true;
+
+                smtpServer.Send(mail);
+                DateTime sentTime = DateTime.Now;
+                authenticationModel.OtpExpireTime = sentTime.AddMinutes(2);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
+        private void GenerateOneTimePassword(AuthenticationModel authentiactionModel)
+        {
+            Random rand = new Random();
+            char[] charArray = new char[9];
+            string OTP = "";
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                int num = i < 3 ? num = i : num = rand.Next(0, 3);
+                switch (num)
+                {
+                    case 0:
+                        charArray[i] = (char)rand.Next(65, 91);
+                        break;
+                    case 1:
+                        charArray[i] = (char)rand.Next(97, 123);
+                        break;
+                    default:
+                        charArray[i] = (char)rand.Next(48, 58);
+                        break;
+                }
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                int randomNumOne = rand.Next(charArray.Length);
+                int randomNumTwo = rand.Next(charArray.Length);
+                char temp = charArray[randomNumOne];
+                charArray[randomNumOne] = charArray[randomNumTwo];
+                charArray[randomNumTwo] = temp;
+            }
+            foreach (char ch in charArray)
+                OTP += ch;
+            authentiactionModel.Otp = OTP;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authentiactionModel"></param>
         private void GenerateOneTimePw(AuthenticationModel authentiactionModel)
         {
             Random rand = new Random();
@@ -225,192 +310,30 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }
             return userAccount;
         }
+>>>>>>> 63a8123d052f53c03e8abbc6a94e614947c8277a:MotoMoto_Solution/TheNewPanelists.MotoMoto.ServiceLayer/Implementations/UserManagementServices/AuthenticationService.cs
 
-        private void UpdateTable(int code)
+        public AuthenticationService(AuthenticationDataAccess authenticationDAO)
         {
-            // code: 
-            //  0: checks wheather the user is already in the Authentication table or not
-            //  1: updates number of attempts, otp, otpExpireTime
-            //  2: updates accountStatus
-            //  3: delete user from the authentication table once the user successfully authenticated the account
-            //  4: starts 24 hour timer
-            //  5: resets 24 hour timer
-
-            string query = "";
-
-            if (code == 0)
-            {
-                query = $@"SELECT userId, username FROM Authentication
-                        WHERE username = '{this.userAccount["username"]}';";
-        
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-
-                if (authenticationDataAccess.SelectUser().Count == 0)
-                {
-                    query = $@"INSERT INTO AUTHENTICATION (userId, username, attempts)
-                                    VALUES ((SELECT userId
-                                    FROM User
-                                    WHERE userId = {this.userId}),
-                                    (SELECT username
-                                    FROM User
-                                    WHERE userId = {this.userId}), '{this.attempts}');";
-                    this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                    if (authenticationDataAccess.UpdateAuthenticationTable())
-                    {
-                        Console.WriteLine("Inserted successessfully!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Insertion failed!!");
-                    }
-                }
-            }
-            else if (code == 1)
-            {
-                query = $@"UPDATE AUTHENTICATION
-                            SET attempts = '{this.attempts}', otp = '{this.otp}',
-                            otpExpireTime = '{this.otpExpireTime}'
-                            WHERE userId = {this.userId};";
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                authenticationDataAccess.UpdateAuthenticationTable();
-            }
-            else if (code == 2)     // locks user account when attempts reaches 5
-            {
-                query = $@"UPDATE AUTHENTICATION
-                            SET accountStatus = '{this.accountStatus}'
-                            WHERE userId = {this.userId};";
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                authenticationDataAccess.UpdateAuthenticationTable();
-            }
-            else if (code == 3)
-            {
-                query = $@"DELETE FROM AUTHENTICATION
-                            WHERE userId = {this.userId};";
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                authenticationDataAccess.UpdateAuthenticationTable();
-            }
-            else if (code == 4)
-            {
-                query = $@"UPDATE AUTHENTICATION
-                            SET sessionEndTime = '{this.sessionEndTime}'
-                            WHERE userId = {this.userId};";
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                authenticationDataAccess.UpdateAuthenticationTable();
-            }
-            else if (code == 5)
-            {
-                query = $@"UPDATE AUTHENTICATION
-                            SET attempts = {this.attempts}, sessionEndTime = '{this.sessionEndTime}'
-                            WHERE userId = {this.userId};";
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                authenticationDataAccess.UpdateAuthenticationTable();
-            }
+            _authenticationDAO = authenticationDAO;
         }
-
-        private Dictionary<string, string> SelectUser(string tableName)
+        public DataStoreUser RetrieveUserFromDataStoreService(AuthenticationModel authenticationModel)
         {
-            Dictionary<string, string> userInfo = new Dictionary<string, string> ();
-            string query = "";
-            
-            // checks if the user is in the User table with the given username & password
-            if (tableName == "User")
-            {
-                query = $@"SELECT userId, email FROM {tableName}
-                        WHERE username = '{this.userAccount["username"]}'
-                        AND password = '{this.userAccount["password"]}';";
-
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                userInfo = this.authenticationDataAccess.SelectUser();
-            }
-
-            // checks if the user is already in the Authentication table
-            // if so, sets otp, otpExpiretime, attempts, userIp...
-            else if (tableName == "Authentication")
-            {
-                query = $@"SELECT * FROM {tableName}
-                        WHERE userId = {this.userId};";
-
-                this.authenticationDataAccess = new AuthenticationDataAccess(query);
-                userInfo = this.authenticationDataAccess.SelectUser();
-                if (userInfo.Count != 0)
-                {
-                    this.otp = !string.IsNullOrEmpty(userInfo["otp"])? userInfo["otp"] : null;
-                    this.otpExpireTime = !string.IsNullOrEmpty(userInfo["otpExpireTime"])? 
-                                        DateTime.Parse(userInfo["otpExpireTime"]) : null;
-                    this.attempts = int.Parse(userInfo["attempts"]);
-                    this.sessionEndTime = DateTime.Parse(userInfo["sessionEndTime"]);
-                    this.userIp = userInfo["userIp"];
-                }
-                
-            }
-            return userInfo;
+            return _authenticationDAO!.RetrieveDataStoreSpecifiedUserEntity(authenticationModel.Username!);
         }
-
-        private bool ValidateInput(string type, string typeValue)
+        private void SendEmailToAuthorizedUser(AuthenticationModel authenticationModel)
         {
-            Regex lowerCase = new Regex(@"[a-z]");
-            Regex upperCase = new Regex(@"[A-Z]");
-            Regex num = new Regex(@"[0-9]");
-            Regex specialChar = new Regex(@"[.,@!]");
-            Regex otpLength = new Regex(@"[a-zA-Z0-9.,@!]{8,}");
-
-            bool IsValidPattern;
-
-            switch (type)
-            {
-                case "username":
-                    IsValidPattern = lowerCase.IsMatch(typeValue) && num.IsMatch(typeValue) 
-                        && specialChar.IsMatch(typeValue);
-                    if (!IsValidPattern)
-                    {
-                        Console.WriteLine("failed username test");
-                        return false;
-                    }
-                    Console.WriteLine("passed username test");
-                    return true;
-                
-                case "otp":
-                    IsValidPattern = lowerCase.IsMatch(typeValue) && upperCase.IsMatch(typeValue)
-                        && num.IsMatch(typeValue) 
-                        && num.IsMatch(typeValue) && otpLength.IsMatch(typeValue);
-                    if (!IsValidPattern)
-                    {
-                        Console.WriteLine("failed OTP test");
-                        return false;
-                    }
-                    Console.WriteLine("passed OTP test");
-                    return true;
-                
-                default:
-                    Console.WriteLine("Invalid Input - Try Again");
-                    return false;
-            }
-        }
-
-        private void SendEmail(string otp, string userEmail)
-        {   
             StringBuilder input = new StringBuilder();
 
             string email = "projmotomoto@gmail.com";
             string pass = "Tester491!";
-            // Console.WriteLine($"Enter password for {email}:");
-            // while (true)
-            // {
-            //     var key = Console.ReadKey(true);
-            //     if (key.Key == ConsoleKey.Enter) break;
-            //     if (key.Key == ConsoleKey.Backspace && input.Length > 0) input.Remove(input.Length - 1, 1);
-            //     else if (key.Key != ConsoleKey.Backspace) input.Append(key.KeyChar);
-            // }
-            // string pass = input.ToString();
-
+            DataStoreUser dataStoreUser = RetrieveUserFromDataStoreService(authenticationModel);
             try
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
                 mail.From = new MailAddress(email, "MotoMoto");
-                mail.To.Add(userEmail);
-                // mail.To.Add("jacob.sunia@student.csulb.edu");
+                mail.To.Add(dataStoreUser!._email!);
                 mail.Subject = "One-Time Password";
 
                 mail.Body = @$"
@@ -419,7 +342,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                             <p></p>Hello,</p>
                             <p>Here is the One-Time Password you need to confirm your 
                             identity and access your account.<br>
-                            <p>Your One-Time Password is: {otp}</p>
+                            <p>Your One-Time Password is: {authenticationModel.Otp}</p>
                             <p>The One-Time Password will expire in 2 minutes, so please complete this 
                             step as soon as possible.</p><br>
                             <p>Sincerely,<br><br>
@@ -436,67 +359,50 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
                 smtpServer.Send(mail);
                 DateTime sentTime = DateTime.Now;
-                this.otpExpireTime = sentTime.AddMinutes(2);
-                Console.WriteLine("sent time: " + sentTime);
-                Console.WriteLine("expire time: " + otpExpireTime);
-                Console.WriteLine("An One-Time Password has been sent to your email.");
+                authenticationModel.OtpExpireTime = sentTime.AddMinutes(2);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
         }
-
-        private string GenerateOTP()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private void GenerateOneTimePassword(AuthenticationModel authentiactionModel)
         {
-            // A - Z: ASCII 65 - 90 rand.Next(65, 91)
-            // a - z: ASCII 97 - 122 rand.Next(97, 123)
-            // 0 - 9: ASCII 48 - 57 rand.Next(48, 58)
             Random rand = new Random();
-            char[] chArr = new char[9];
-            string otp = "";
+            char[] charArray = new char[9];
+            string OTP = "";
 
-            for (int i = 0; i < chArr.Length; i++)
+            for (int i = 0; i < charArray.Length; i++)
             {
-                int num =  i < 3? num = i : num = rand.Next(0, 3);
-
-                if (num == 0) 
+                int num = i < 3 ? num = i : num = rand.Next(0, 3);
+                switch (num)
                 {
-                    chArr[i] = (char) rand.Next(65, 91);     // upper case
-                }
-
-                else if (num == 1)
-                {
-                    chArr[i] = (char) rand.Next(97, 123);   // lower case
-                }
-
-                else if (num == 2)
-                {
-                    chArr[i] = (char) rand.Next(48, 58);    // number 0 - 9
+                    case 0:
+                        charArray[i] = (char)rand.Next(65, 91);
+                        break;
+                    case 1:
+                        charArray[i] = (char)rand.Next(97, 123);
+                        break;
+                    default:
+                        charArray[i] = (char)rand.Next(48, 58);
+                        break;
                 }
             }
-
-            Console.Write("before shuffle: ");
-            foreach (char ch in chArr)
-            {
-                Console.Write(ch);
-            }
-
             for (int i = 0; i < 100; i++)
             {
-                int randNum1 = rand.Next(chArr.Length);
-                int randNum2 = rand.Next(chArr.Length);
-                char temp = chArr[randNum1];
-                chArr[randNum1] = chArr[randNum2];
-                chArr[randNum2] = temp;
+                int randomNumOne = rand.Next(charArray.Length);
+                int randomNumTwo = rand.Next(charArray.Length);
+                char temp = charArray[randomNumOne];
+                charArray[randomNumOne] = charArray[randomNumTwo];
+                charArray[randomNumTwo] = temp;
             }
-            
-            foreach (char ch in chArr)
-            {
-                otp += ch;
-            }
-            Console.WriteLine("\notp: " + otp);
-            return otp;
+            foreach (char ch in charArray)
+                OTP += ch;
+            authentiactionModel.Otp = OTP;
         }
     }
  */
