@@ -108,7 +108,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             if ((authenticationModel.Otp == authenticationModel.OtpEntry) && (dateTime <= authenticationModel.OtpExpireTime))
             {
                 authenticationModel.Authenticated = true;
-                //_authenticationService.Delete
+                _authenticationService.DeleteAuthenticatedSessionWithValidOTP(authenticationModel);
             }
             else
             {
@@ -125,7 +125,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 default:
                     break;
             }
-
         }
     }
 }

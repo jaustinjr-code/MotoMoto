@@ -1,4 +1,5 @@
-﻿using TheNewPanelists.DataAccessLayer;
+﻿/*
+using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 using TheNewPanelists.BusinessLayer;
 using System.Text.RegularExpressions;
@@ -411,4 +412,4 @@ namespace TheNewPanelists.ServiceLayer.Authentication
             return otp;
         }
     }
-}
+}*/
