@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DirectMessage from '../views/DirectMessageView.vue'
+import Login from '../views/LoginView.vue'
 
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
     }
+  },
+  {
+    path:'/Login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/DM',

@@ -1,30 +1,39 @@
 <template>
-  <div class = sidebar>
-      <div class= users  v-for="item in items" :key="item" > 
-            <buttons @click="getUserClicked(item.username)">
+  <div class = "sidebar">
+      <div class = "search">
+          <input class = "input">
+          <button>search</button>
+          </div>    
+      <div class= "users"  v-for="item in items" :key="item" > 
+            <buttons>
                 {{item.username}}
             </buttons>    
       </div>
-      <h1>this.user</h1>
 
   </div>
 </template>
 
 <script>
 import {instance} from '../router/directMessageConnection'
+import { useCookies } from "vue3-cookies";
 export default {
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     name: 'DirectMessageSideBar',
     data() {
         return {
-        items: [{ username: 'Foo' }, { username: 'Bar' }],
-        username: 'ran',
-        user:'User'
-        }
+        user: '',  
+        items: []
+
+    }
 
     },
     created()
     {
-        let params = {sender: this.username};
+        this.user = this.$cookies.get('username');
+        let params = {sender: this.user};
         instance.get('DirectMessageHistory/GetMessageHistory', {params}).then((res) =>{
             console.log(`Server replied with: ${res.data}`);
             console.log(JSON.stringify(this.items));
@@ -39,23 +48,23 @@ export default {
     },
     methods: 
     {
-        getUserClicked(username)
-        {
-            
-        }
+
     }
 
 }
 </script>
 
 <style>
+template
+{
+    background-color: blue;
+}
 .sidebar
 {
   min-height: 100vh;
   width: 25%;
   height:fit-content;
   overflow: hidden;
-
   background-color: slategray;
   
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
@@ -15,6 +16,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         }
 
         [HttpGet]
+        [Route("GetMessage")]
         public IActionResult GetMessages(string sender, string receiver)
         {
             try
@@ -28,6 +30,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+       
 
         [HttpPut]
         public IActionResult SendMessage(string sender, string receiver, string message)
@@ -44,6 +48,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
             }
         }
 
-        
+
+
+
     }
 }
