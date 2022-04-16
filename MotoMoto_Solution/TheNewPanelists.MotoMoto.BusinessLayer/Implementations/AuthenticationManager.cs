@@ -49,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// 
         /// </summary>
         /// <param name="authenticationModel"></param>
-        public void ValidateGeneratedOTP(AuthenticationModel authenticationModel)
+        public bool ValidateGeneratedOTP(AuthenticationModel authenticationModel)
         {
             DateTime dateTime = DateTime.Now;
 
@@ -57,6 +57,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 authenticationModel.Authenticated = true;
                 _authenticationService.DeleteAuthenticatedSessionWithValidOTP(authenticationModel);
+                return true;
             }
             else
             {
@@ -64,7 +65,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 authenticationModel.Otp = "";
                 authenticationModel.OtpExpireTime = null;
                 _authenticationService.UpdateAuthenticatedSessionWithInvalidInput(authenticationModel);
+                return false;
             }
+            /*
             switch (authenticationModel.Attempts)
             {
                 case 5:
@@ -73,6 +76,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 default:
                     break;
             }
+            */
         }
         /// <summary>
         /// 
