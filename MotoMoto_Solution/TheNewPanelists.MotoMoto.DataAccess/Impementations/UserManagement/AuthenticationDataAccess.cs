@@ -313,6 +313,66 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return returnUser!._salt!;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authenticationModel"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void UpdateAndSetOTPAndAttempts(AuthenticationModel authenticationModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE AUTHENTICATION SET attempts ="
+                                    + "'@v1', otp = '@v2', otpExpireTime = '@v3'"
+                                    + "WHERE userId = @v4;";
+                var parameters = new MySqlParameter[4];
+                parameters[0] = new MySqlParameter("@v1", authenticationModel.Attempts);
+                parameters[1] = new MySqlParameter("@v2", authenticationModel.Otp);
+                parameters[2] = new MySqlParameter("@v3", authenticationModel.OtpExpireTime);
+                parameters[3] = new MySqlParameter("@v4", authenticationModel.UserId);
+
+                command.Parameters.AddRange(parameters);
+                ExecuteQuery(command);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authenticationModel"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void UpdateAndSetNewExpireTime(AuthenticationModel authenticationModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE AUTHENTICATION SET otpExpireTime ="
+                                    + "'@v1' WHERE userId = @v2;";
+                var parameters = new MySqlParameter[4];
+
+                parameters[2] = new MySqlParameter("@v1", authenticationModel.OtpExpireTime);
+                parameters[3] = new MySqlParameter("@v2", authenticationModel.UserId);
+
+                command.Parameters.AddRange(parameters);
+                ExecuteQuery(command);
+            }
+        }
     }
 }
 /*

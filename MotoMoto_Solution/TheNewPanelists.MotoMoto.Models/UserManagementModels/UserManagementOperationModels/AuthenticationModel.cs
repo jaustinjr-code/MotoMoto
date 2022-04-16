@@ -18,7 +18,6 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? ValidatedOTP { get; set; }
         public DateTime? OtpExpireTime { get; set; }
         public DateTime? SessionEndTime { get; set; }
-        public string? UserOtp { get; set; }
         public string? UserIP { get; set; }
         public string? AccountStatus = "";
         public string? Salt { get; set; }

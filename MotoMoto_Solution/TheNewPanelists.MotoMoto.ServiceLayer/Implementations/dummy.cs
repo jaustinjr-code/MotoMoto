@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using TheNewPanelists.DataAccessLayer;
 using TheNewPanelists.ServiceLayer.Logging;
 using TheNewPanelists.BusinessLayer;

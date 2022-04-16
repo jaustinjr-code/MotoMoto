@@ -20,6 +20,65 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// </summary>
         /// <param name="authenticationModel"></param>
         /// <returns></returns>
+        public ReturnAuthenticationModel AuthenticateLoginInformation(AuthenticationModel authenticationModel)
+        {
+            ReturnAuthenticationModel returnAuthenticationModel = new ReturnAuthenticationModel();
+            returnAuthenticationModel._authenticationModel = authenticationModel;
+
+            if (!ValidateUsernameInput(authenticationModel))
+                return returnAuthenticationModel;
+
+            DataStoreUser dataStoreUser = _authenticationService.RetrieveUserFromDataStoreService(authenticationModel);
+            if (dataStoreUser == null)
+                return returnAuthenticationModel;
+
+            authenticationModel.Salt = dataStoreUser!._salt;
+            GenerateSHA256ValidatePassword(authenticationModel);
+
+            if ((dataStoreUser!._username == authenticationModel.Username) && (dataStoreUser._password == authenticationModel.Password))
+            {
+                authenticationModel.UserId = dataStoreUser.UserId;
+                _authenticationService.GenerateOneTimePassword(authenticationModel);
+
+                returnAuthenticationModel._authenticationModel = authenticationModel;
+                return returnAuthenticationModel;
+            }
+            return returnAuthenticationModel;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authenticationModel"></param>
+        public void ValidateGeneratedOTP(AuthenticationModel authenticationModel)
+        {
+            DateTime dateTime = DateTime.Now;
+
+            if ((authenticationModel.Otp == authenticationModel.OtpEntry) && (dateTime <= authenticationModel.OtpExpireTime))
+            {
+                authenticationModel.Authenticated = true;
+                _authenticationService.DeleteAuthenticatedSessionWithValidOTP(authenticationModel);
+            }
+            else
+            {
+                authenticationModel.Attempts++;
+                authenticationModel.Otp = "";
+                authenticationModel.OtpExpireTime = null;
+                _authenticationService.UpdateAuthenticatedSessionWithInvalidInput(authenticationModel);
+            }
+            switch (authenticationModel.Attempts)
+            {
+                case 5:
+                    authenticationModel.AccountStatus = "LOCKED";
+                    break;
+                default:
+                    break;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authenticationModel"></param>
+        /// <returns></returns>
         private bool ValidateUsernameInput(AuthenticationModel authenticationModel)
         {
             Regex lowerCase = new Regex(@"[a-z]");
@@ -68,20 +127,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// 
         /// </summary>
         /// <param name="authenticationModel"></param>
-        /// <returns></returns>
-        public bool AuthenticateLoginInformation(AuthenticationModel authenticationModel)
-        {
-            DataStoreUser dataStoreUser = _authenticationService.RetrieveUserFromDataStoreService(authenticationModel);
-            authenticationModel.Salt = dataStoreUser._salt;
-            GenerateSHA256ValidatePassword(authenticationModel);
-            if ((dataStoreUser._username == authenticationModel.Username) && (dataStoreUser._password == authenticationModel.Password))
-                return true;
-            return false;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="authenticationModel"></param>
         private void GenerateSHA256ValidatePassword(AuthenticationModel authenticationModel)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -96,35 +141,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                     stringBuilder.Append(b.ToString("x2"));
             }
             authenticationModel.Password = stringBuilder.ToString();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="authenticationModel"></param>
-        private void ValidateGeneratedOTP(AuthenticationModel authenticationModel)
-        {
-            DateTime dateTime = DateTime.Now;
-
-            if ((authenticationModel.Otp == authenticationModel.OtpEntry) && (dateTime <= authenticationModel.OtpExpireTime))
-            {
-                authenticationModel.Authenticated = true;
-                _authenticationService.DeleteAuthenticatedSessionWithValidOTP(authenticationModel);
-            }
-            else
-            {
-                authenticationModel.Attempts++;
-                authenticationModel.Otp = "";
-                authenticationModel.OtpExpireTime = null;
-                //_authenticationService.Update(authenticationModel);
-            }
-            switch (authenticationModel.Attempts)
-            {
-                case 5:
-                    authenticationModel.AccountStatus = "LOCKED";
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }
