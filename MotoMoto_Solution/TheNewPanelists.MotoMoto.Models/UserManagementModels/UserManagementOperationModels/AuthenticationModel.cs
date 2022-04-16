@@ -14,11 +14,13 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? ValidatedUsername { get; set; }
         public string? ValidatedPasword { get; set; }
         public string? Otp { get; set; }
+        public string? OtpEntry { get; set; }
+        public string? ValidatedOTP { get; set; }
         public DateTime? OtpExpireTime { get; set; }
         public DateTime? SessionEndTime { get; set; }
         public string? UserOtp { get; set; }
         public string? UserIP { get; set; }
-        private string? AccountStatus { get; set; }
+        public string? AccountStatus = "";
         public string? Salt { get; set; }
         public bool ValidUsername = false;
         public bool Authenticated = false;

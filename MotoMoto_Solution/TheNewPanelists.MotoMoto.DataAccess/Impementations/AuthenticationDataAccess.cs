@@ -7,7 +7,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    class AuthenticationDataAccess : IDataAccess
+    public class AuthenticationDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
 
@@ -266,6 +266,51 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 parameters[0] = new MySqlParameter("@v1", authenticationModel.Attempts);
                 parameters[1] = new MySqlParameter("@v2", authenticationModel.SessionEndTime);
                 parameters[2] = new MySqlParameter("@v3", authenticationModel.UserId);
+
+                command.Parameters.AddRange(parameters);
+                ExecuteQuery(command);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStoreUser"></param>
+        /// <returns>boolean value that updates their information and executes those values</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private string RetrieveSaltFromDataStore(DataStoreUser dataStoreUser)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new ArgumentNullException(nameof(dataStoreUser));
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
+
+                command.Parameters.AddRange(parameters);
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                DataStoreUser returnUser = new DataStoreUser();
+                while (myReader.Read())
+                {
+                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userType = myReader.GetString("typeName");
+                    returnUser._username = myReader.GetString("username");
+                    returnUser._password = myReader.GetString("password");
+                    returnUser._email = myReader.GetString("email");
+                    returnUser._salt = myReader.GetString("salt");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return returnUser!._salt!;
             }
         }
     }
