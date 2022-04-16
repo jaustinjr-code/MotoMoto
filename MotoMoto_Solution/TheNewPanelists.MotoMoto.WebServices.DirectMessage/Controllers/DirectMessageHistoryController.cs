@@ -11,9 +11,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         {
             return View();
         }
-
+        
         [HttpGet]
-        public IActionResult GetMessageHistory(string sender)
+        [Route("GetMessageHistory")]
+        public IActionResult GetMessageHistory(string ? sender)
         {
             try
             {
