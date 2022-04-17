@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
-    internal class CarBuildDataAccess
+    public class CarBuildDataAccess
     {
+        
     }
 }

@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer.Implementations
 {
-    internal class CarBuildManager
+    public class CarBuildManager
     {
+        private readonly CarBuildService _carBuildService;
+
+        public CarBuildManager(CarBuildService carBuildService)
+        {
+            _carBuildService = carBuildService;
+        }
+
+        public bool SaveCarBuildManager(CarTypeModel savedCarBuild)
+        {
+            return true;
+        }
+
+        public bool ModifyCarBuildManager(ModifyCarBuildModel modifiedCarBuild)
+        {
+            return true;
+        }
     }
 }
