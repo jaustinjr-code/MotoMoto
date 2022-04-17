@@ -25,31 +25,44 @@ export default {
     data() {
         return {
         user: '',  
-        items: []
+        items: [],
+        timer: ''
 
     }
 
     },
     created()
     {
-        this.user = this.$cookies.get('username');
-        let params = {sender: this.user};
-        instance.get('DirectMessageHistory/GetMessageHistory', {params}).then((res) =>{
+        this.getMessageHistory();
+        this.timer = setInterval(this.getMessageHistory, 5000);
+
+    },
+    methods:
+    {
+        getMessageHistory()
+        {
+            this.user = this.$cookies.get("username")
+            let params = {sender: this.user};
+            instance.get('DirectMessageHistory/GetMessageHistory', {params}).then((res) =>{
             console.log(`Server replied with: ${res.data}`);
-            console.log(JSON.stringify(this.items));
             for(let i = 0; i < res.data.length; i++)
             {
-                this.items.push({'username' :res.data[i]});
+                if(!this.items.some(data => data.username === res.data[i]))
+                {
+                    this.items.push({'username' :res.data[i]});
+                }
             }
             //console.log(JSON.stringify(this.items));
-        }).catch((e)=>{
-            console.log(e);
-         });
+            }).catch((e)=>{
+                console.log(e);
+            });
+        }
     },
-    methods: 
+    beforeDestroy()
     {
-
+        clearInterval(this.timer);
     }
+
 
 }
 </script>

@@ -33,23 +33,42 @@ export default {
         return {
             sender: '',
             receiver: 'kchu',
-            messages:[]
+            messages:[],
+            timer: ''   
         }
     },
     created()
     {
-        this.sender = this.$cookies.get('username');
-        let params = {sender: this.sender, receiver: this.receiver};
-        instance.get('DirectMessage/GetMessage', {params}).then((res) => {
+        this.getMessages();
+        this.timer = setInterval(this.getMessages, 5000);
+    },
+    methods:
+    {
+        getMessages()
+        {
+            this.sender = this.$cookies.get('username');
+            let params = {sender: this.sender, receiver: this.receiver};
+            instance.get('DirectMessage/GetMessage', {params}).then((res) => {
             console.log(`Server replied with: ${res.data}`);
+            
             for(let i = 0; i<res.data.length; i++)
             {
-                this.messages.push({'sender' :res.data[i][0], 'messages' :res.data[i][1], 'time' :res.data[i][2]});
-            }
-        }).catch((e)=>{
-            console.log(e);
-        });
 
+                if(!this.messages.some(data => data.time === res.data[i][2]))
+                {
+
+                    this.messages.push({'sender' :res.data[i][0], 'messages' :res.data[i][1], 'time' :res.data[i][2]});
+                }
+            }
+            
+            }).catch((e)=>{
+                console.log(e);
+            });   
+        }
+    },
+    beforeDestroy()
+    {
+        clearInterval(this.timer);
     }
 }
 </script>
