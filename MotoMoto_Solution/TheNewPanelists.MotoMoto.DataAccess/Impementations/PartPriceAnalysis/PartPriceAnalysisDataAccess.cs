@@ -7,15 +7,22 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     public class PartPriceAnalysisDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_PPA;port=3306;password=motomoto;";//write config so this only appears once
+        private string _connectionString = "server=localhost;user=dev_moto;database=dev_moto;port=3306;password=motomoto;";//write config so this only appears once
 
         public PartPriceAnalysisDataAccess() { }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString"></param>
         public PartPriceAnalysisDataAccess(string connectionString)
         {
             _connectionString = connectionString;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         private bool ExecuteQuery(MySqlCommand command)
         {
             if (command.ExecuteNonQuery() == 1)
@@ -26,7 +33,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             mySqlConnection!.Close();
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool EstablishMariaDBConnection()
         {
             try
