@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.Models
+namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public class DataStoreLog
+    public class DataStoreLog 
     {
-        string? LogId { get; set; }
-        string? LevelName { get; set; }
-        string? CategoryName { get; set; }
-        string? _dateTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-        string? Description { get; set; }
+        public int? LogId { get; set; }
+        public string? LevelName { get; set; }
+        public string? CategoryName { get; set; }
+        public string? _dateTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+        public string? UserId { get; set; }
+        public string? Description { get; set; }
     }
 }

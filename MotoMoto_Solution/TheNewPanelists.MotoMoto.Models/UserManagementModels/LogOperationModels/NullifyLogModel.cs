@@ -9,7 +9,6 @@ namespace TheNewPanelists.MotoMoto.Models
     public class NullifyLogModel
     {
         public string? UserID { get; set; }
-        
         public string? Username { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         // Readonly means that the object/variable cannot be defined outside of the
         // constructor
         private readonly UserManagementDataAccess _userManagementDAO;
-        public UserManagementService()
+        public UserManagementService(UserManagementDataAccess userManagementDataAccess)
         {
-            _userManagementDAO = new UserManagementDataAccess();
+            _userManagementDAO = userManagementDataAccess;
 
         }
         public ISet<AccountModel> RetrieveAllAccounts(AccountModel userAccount)
@@ -24,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             var userAccounts = accountEntities.Select(acct => new AccountModel()
             {
                 AccountType = userAccount!.AccountType,
-                username = userAccount!.username
+                Username = userAccount!.Username
             }).ToHashSet();
             return userAccounts;
         }
@@ -39,14 +39,24 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.InsertNewDataStoreAccountEntity(dataStoreUser);
         }
-        public bool DeleteAccount(DeleteAccountModel deletedAccount)
+        public bool PerminateDeleteAccount(DeleteAccountModel deletedAccount)
         {
             var dataStoreUser = new DeleteAccountModel()
             {
-                username = deletedAccount!.username,
-                verifiedPassword = deletedAccount!.verifiedPassword
+                Username = deletedAccount!.Username,
+                VerifiedPassword = deletedAccount!.VerifiedPassword
             };
-            return _userManagementDAO.DeleteAccountEntity(dataStoreUser);
+            return _userManagementDAO.PerminateDeleteAccountEntity(dataStoreUser);
+        }
+
+        public bool KeepDeleteAccount(DeleteAccountModel deletedAccount)
+        {
+            var dataStoreUser = new DeleteAccountModel()
+            {
+                Username = deletedAccount!.Username,
+                VerifiedPassword = deletedAccount!.VerifiedPassword
+            };
+            return _userManagementDAO.KeepDeleteAccountEntity(dataStoreUser);
         }
 
         //**********DO NOT DELETE BELOW***********
