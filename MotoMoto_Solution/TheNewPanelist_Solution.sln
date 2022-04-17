@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Security", "TheNewPanelists.MotoMoto.Security\TheNewPanelists.MotoMoto.Security.csproj", "{540CD445-6C5C-4719-94B9-45FA803F4BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis", "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj", "{4B0B4777-D6EE-4200-8273-C0B07BEA358B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,10 +65,6 @@ Global
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B0B4777-D6EE-4200-8273-C0B07BEA358B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B0B4777-D6EE-4200-8273-C0B07BEA358B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B0B4777-D6EE-4200-8273-C0B07BEA358B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B0B4777-D6EE-4200-8273-C0B07BEA358B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,7 +72,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{4B0B4777-D6EE-4200-8273-C0B07BEA358B} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}

@@ -15,6 +15,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public UserManagementService(UserManagementDataAccess userManagementDataAccess)
         {
             _userManagementDAO = userManagementDataAccess;
+
         }
         public ISet<AccountModel> RetrieveAllAccounts(AccountModel userAccount)
         {
