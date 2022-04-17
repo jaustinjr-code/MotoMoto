@@ -18,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "SELECT * FROM USER u WHERE u.username = '" + username + "'";
+                string query = "SELECT * FROM Profile p WHERE p.username = '" + username + "'";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows) 
@@ -43,32 +43,32 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         }
 
-        private List<int> getSenderRecieverID(string sender, string reciever)
+        private List<int> getSenderReceiverID(string sender, string receiver)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
-            List<int> senderRecieverId = new List<int>();
+            List<int> senderReceiverId = new List<int>();
             try
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT userId FROM USER u WHERE u.username = '" + sender + "'";
+                string getSenderUserIdQuery = "SELECT userId FROM Profile p WHERE p.username = '" + sender + "'";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    senderRecieverId.Add(reader.GetInt32(0));
+                    senderReceiverId.Add(reader.GetInt32(0));
                     reader.Close();
                 }
 
-                string getRecieverUserIdQuery = "SELECT userId FROM USER u WHERE u.username = '" + reciever + "'";
-                cmd = new MySqlCommand(getRecieverUserIdQuery, connection);
+                string getReceiverUserIdQuery = "SELECT userId FROM Profile p WHERE p.username = '" + receiver + "'";
+                cmd = new MySqlCommand(getReceiverUserIdQuery, connection);
                 reader = cmd.ExecuteReader();
 
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    senderRecieverId.Add(reader.GetInt32(0));
+                    senderReceiverId.Add(reader.GetInt32(0));
                     reader.Close();
                 }
                 reader.Close();
@@ -82,12 +82,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Close();
             }
-            return senderRecieverId;
+            return senderReceiverId;
         }
 
         private bool NoDuplicateMessage(string sender, string receiver)
         {
-            List<int> ids = getSenderRecieverID(sender, receiver);
+            List<int> ids = getSenderReceiverID(sender, receiver);
             if (ids.Count != 2)
             {
                 return false;
@@ -99,7 +99,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "SELECT * FROM MESSAGEHISTORY mh WHERE (mh.senderId = '" + senderId + "' AND mh.recieverId = '" + receiverId + "') OR (mh.senderId = '" + receiverId + "' AND mh.recieverId = '" + senderId + "');";
+                string query = "SELECT * FROM MESSAGEHISTORY mh WHERE (mh.senderId = '" + senderId + "' AND mh.receiverId = '" + receiverId + "') OR (mh.senderId = '" + receiverId + "' AND mh.receiverId = '" + senderId + "');";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if(reader.HasRows)
@@ -123,7 +123,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         public bool CreateNewDirectMessage(string sender, string receiver)
         {
-            List<int> ids = getSenderRecieverID(sender, receiver);
+            List<int> ids = getSenderReceiverID(sender, receiver);
             if(ids.Count != 2)
             {
                 return false;
@@ -140,9 +140,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "INSERT INTO MESSAGEHISTORY (senderID, recieverID) VALUES (" + senderId + "," + receiverId + ");";
+                string query = "INSERT INTO MESSAGEHISTORY (senderID, receiverID, request) VALUES (" + senderId + "," + receiverId + ", true);";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.ExecuteNonQuery(); 
+                cmd.ExecuteNonQuery();
                 return true;
             } catch (Exception ex)
             {
@@ -160,7 +160,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public bool SendMessage(string sender, string receiver, string message)
         {
             int messageHistoryId = -1;
-            List<int> ids = getSenderRecieverID(sender, receiver);
+            List<int> ids = getSenderReceiverID(sender, receiver);
             if (ids.Count != 2)
             {
                 return false;
@@ -173,7 +173,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "SELECT messageHistoryId FROM MESSAGEHISTORY mh WHERE senderID = '" + senderId + "' AND recieverID = '" + receiverId + "';";
+                string query = "SELECT messageHistoryId FROM MESSAGEHISTORY mh WHERE senderID = '" + senderId + "' AND receiverID = '" + receiverId + "';";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -207,7 +207,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public List<string> GetMessageHistory(string sender)
         {
             List<string> userMessaged = new List<string>();
-            List<int> ids = getSenderRecieverID(sender, "");
+            List<int> ids = getSenderReceiverID(sender, "");
             int senderId = ids.ElementAt(0);
 
             MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -215,12 +215,15 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "SELECT username FROM USER u INNER JOIN MESSAGEHISTORY mh ON u.userID = mh.recieverId WHERE mh.senderID = '" + senderId + "';";
+                string query = "SELECT username, request FROM Profile p INNER JOIN MESSAGEHISTORY mh ON p.userID = mh.receiverId WHERE mh.senderID = '" + senderId + "';";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    userMessaged.Add(reader.GetString(0));
+                    if (reader.GetBoolean(1) == false)
+                    {
+                        userMessaged.Add(reader.GetString(0));
+                    }
                 }
                 
             }
@@ -241,22 +244,22 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             List<List<string>>allMessages = new List<List<string>>();
             List<string>messages = new List<string>();
 
-            List<int> ids = getSenderRecieverID(sender, receiver);
+            List<int> ids = getSenderReceiverID(sender, receiver);
             int senderId = ids.ElementAt(0);
             int receiverId = ids.ElementAt(1);
             MySqlConnection connection = new MySqlConnection(_connectionString);
             try
             {
                 connection.Open();
-                string query = "SELECT U.USERNAME, M.MESSAGES,M.TIMESTAMP FROM MESSAGES M " +
+                string query = "SELECT P.USERNAME, M.MESSAGES,M.TIMESTAMP FROM MESSAGES M " +
                     "INNER JOIN MESSAGEHISTORY MH ON M.MESSAGEHISTORYID = MH.MESSAGEHISTORYID " +
-                    "INNER JOIN USER U ON MH.SENDERID = U.USERID " +
-                    "WHERE MH.SENDERID = '" + senderId + "'AND MH.RECIEVERID = '" + receiverId +"'" +
+                    "INNER JOIN PROFILE P ON MH.SENDERID = P.USERID " +
+                    "WHERE MH.SENDERID = '" + senderId + "'AND MH.RECEIVERID = '" + receiverId +"'" +
                     "UNION  " +
-                    "SELECT U.USERNAME, M.MESSAGES,M.TIMESTAMP FROM MESSAGES M " +
+                    "SELECT P.USERNAME, M.MESSAGES,M.TIMESTAMP FROM MESSAGES M " +
                     "INNER JOIN MESSAGEHISTORY MH ON M.MESSAGEHISTORYID = MH.MESSAGEHISTORYID " +
-                    "INNER JOIN USER U ON MH.SENDERID = U.USERID " +
-                    "WHERE MH.SENDERID = '" + receiverId + "'" + " AND MH.RECIEVERID = '" + senderId + "' " +
+                    "INNER JOIN PROFILE P ON MH.SENDERID = P.USERID " +
+                    "WHERE MH.SENDERID = '" + receiverId + "'" + " AND MH.RECEIVERID = '" + senderId + "' " +
                     "ORDER BY TIMESTAMP;";
                 MySqlCommand cmd = new MySqlCommand( query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();

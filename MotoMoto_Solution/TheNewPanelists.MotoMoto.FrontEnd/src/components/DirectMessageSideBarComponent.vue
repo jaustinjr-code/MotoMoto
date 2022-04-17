@@ -1,11 +1,11 @@
 <template>
   <div class = "sidebar">
       <div class = "search">
-          <input class = "input">
-          <button>search</button>
+          <input class = "input"  v-model = "newChatUser">
+          <button @click = "createNewChat">search</button>
           </div>    
       <div class= "users"  v-for="item in items" :key="item" > 
-            <buttons>
+            <buttons @click = "getUserClicked(item.username)">
                 {{item.username}}
             </buttons>    
       </div>
@@ -56,6 +56,22 @@ export default {
             }).catch((e)=>{
                 console.log(e);
             });
+        },
+        getUserClicked(receiverUsername)
+        {
+            this.$emit('receiver', receiverUsername);
+        },
+        createNewChat()
+        {
+            console.log("This.newchat user" + this.newChatUser);
+            let params = {sender: this.$cookies.get('username'), receiver: this.newChatUser};
+            instance.put('DirectMessageHistory/CreateNewChat', params).then((res) => {
+                console.log(`Server replied with: ${res.data}`);
+                this.getMessageHistory();
+
+            }).catch((e)=>{
+                console.log(e);
+            });   
         }
     },
     beforeDestroy()

@@ -1,7 +1,7 @@
 <template>
   <div class = dm>
-    <DirectMessageSideBarComponent/>
-    <DirectMessageComponent/>
+    <DirectMessageSideBarComponent @receiver = "getUserClicked"></DirectMessageSideBarComponent>
+    <DirectMessageComponent :receiver = "receiver"></DirectMessageComponent>
   </div>
 </template>
 
@@ -16,6 +16,18 @@ export default {
   {
     DirectMessageSideBarComponent,
     DirectMessageComponent
+  },
+  data(){
+    return{
+      receiver: '',
+    }
+  },
+  methods:
+  {
+    getUserClicked(receiver)
+    {
+      this.receiver = receiver;
+    }
   }
 }
 </script>

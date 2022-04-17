@@ -32,8 +32,11 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         }
 
         [HttpPut]
-        public IActionResult CreateNewDirectMessage(string sender, string receiver)
+        [Route("CreateNewChat")]
+        public IActionResult CreateNewDirectMessage(MessageHistory messageHisotry)
         {
+            string sender = messageHisotry.GetSender();
+            string receiver = messageHisotry.GetReceiver();
             try
             {
                 DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();

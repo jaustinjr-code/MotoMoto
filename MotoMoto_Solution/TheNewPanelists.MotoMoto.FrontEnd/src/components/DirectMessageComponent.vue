@@ -10,8 +10,8 @@
             </div>
         </div>
         <div class = "chat">
-            <textarea class = "textArea" v-model = "message"></textarea>
-            <button class = "sendMessage"> Send </button>
+            <textarea class = "textArea" v-model = "message" :maxlength="1000"></textarea>
+            <button class = "sendMessage" @click = "addMessage"> Send </button>
 
         </div>
     </div>
@@ -22,6 +22,7 @@
 import { useCookies } from "vue3-cookies";
 import {instance} from '../router/directMessageConnection'
 export default {
+    props: ['receiver'],
     setup()
     {
         const { cookies } = useCookies();
@@ -32,9 +33,18 @@ export default {
     {
         return {
             sender: '',
-            receiver: 'kchu',
             messages:[],
+            message: '',
+            sMessage: '',
             timer: ''   
+        }
+    },
+    watch: 
+    {
+        receiver:function()
+        {
+           this.messages = [];
+           this.getMessages();
         }
     },
     created()
@@ -46,6 +56,7 @@ export default {
     {
         getMessages()
         {
+            console.log("DM receiver: " + this.receiver);
             this.sender = this.$cookies.get('username');
             let params = {sender: this.sender, receiver: this.receiver};
             instance.get('DirectMessage/GetMessage', {params}).then((res) => {
@@ -61,6 +72,19 @@ export default {
                 }
             }
             
+            }).catch((e)=>{
+                console.log(e);
+            });   
+        },
+        addMessage()
+        {
+
+            let params = {sender: this.$cookies.get('username'), receiver: this.receiver, message: this.message};
+            //let params = {sender: this.$cookies.get('username'), receiver:this.receiver, message:this.sMessage}
+            instance.put('DirectMessage/SendMessage', params).then((res) => {
+                console.log(`Server replied with: ${res.data}`);
+                this.getMessages();
+
             }).catch((e)=>{
                 console.log(e);
             });   

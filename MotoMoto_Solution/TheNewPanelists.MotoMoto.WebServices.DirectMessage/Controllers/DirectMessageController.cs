@@ -34,8 +34,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
        
 
         [HttpPut]
-        public IActionResult SendMessage(string sender, string receiver, string message)
+        [Route("SendMessage")]
+        public IActionResult SendMessage(Message userMessage)
         {
+            string sender = userMessage.GetSender();
+            string receiver = userMessage.GetReceiver();
+            string message = userMessage.GetMessage();
+
             try
             {
                 DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
