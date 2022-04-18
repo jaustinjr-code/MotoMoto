@@ -34,5 +34,20 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         {
             return directMessageServices.GetMessages(sender, receiver);
         }
+
+        public List<string>GetRequest(string currentUser)
+        {
+            return directMessageServices.GetRequests(currentUser);
+        }
+
+        public bool AcceptRequest(string sender, string receiver)
+        {
+            return directMessageServices.AcceptRequest(sender, receiver);
+        }
+
+        public bool DeclineRequest(string sender, string receiver)
+        {
+            return directMessageServices.DeclineRequest(sender, receiver);
+        }
     }
 }

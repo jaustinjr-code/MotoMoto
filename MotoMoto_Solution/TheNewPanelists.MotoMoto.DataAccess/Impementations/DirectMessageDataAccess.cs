@@ -285,5 +285,104 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return allMessages;
 
         }
+        
+        public List<string>GetRequest(string currentUser)
+        {
+            List<string> requests = new List<string>();
+            List<int> ids = getSenderReceiverID(currentUser, "");
+            int currentUserId = ids.ElementAt(0);
+
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            try
+            {
+                connection.Open();
+                string query = "SELECT P.USERNAME FROM MESSAGEHISTORY MH " +
+                    "INNER JOIN PROFILE P ON P.USERID = MH.SENDERID " +
+                    "WHERE MH.RECEIVERID = '" + currentUserId + "' AND MH.REQUEST = TRUE;";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    requests.Add(reader.GetString(0)); 
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return requests;
+
+        }
+   
+        public bool AcceptRequest(string sender, string receiver)
+        {
+            List<int> ids = getSenderReceiverID(sender, receiver);
+            if (ids.Count != 2)
+            {
+                return false;
+            }
+            int senderId = ids.ElementAt(0);
+            int receiverId = ids.ElementAt(1);
+
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            try
+            {
+                connection.Open();
+                string query = "UPDATE MESSAGEHISTORY mh SET mh.request = false WHERE mh.senderID = '" + senderId + "' AND mh.receiverID = '"+receiverId + "';";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+
+                query = "INSERT INTO MESSAGEHISTORY (senderId, receiverId, request) VALUES ('" + receiverId + "','" + senderId + "', false);";
+                cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+
+        public bool DeclineRequest(string sender, string receiver)
+        {
+            List<int> ids = getSenderReceiverID(sender, receiver);
+            if (ids.Count != 2)
+            {
+                return false;
+            }
+            int senderId = ids.ElementAt(0);
+            int receiverId = ids.ElementAt(1);
+
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            try
+            {
+                connection.Open();
+                string query = "DELETE FROM MESSAGEHISTORY mh WHERE mh.senderId = '" + senderId + "' AND mh.receiverId = '" + receiverId + "';";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

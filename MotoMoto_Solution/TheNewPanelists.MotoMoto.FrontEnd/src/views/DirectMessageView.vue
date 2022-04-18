@@ -10,12 +10,14 @@
 import DirectMessageSideBarComponent from "../components/DirectMessageSideBarComponent.vue"
 import DirectMessageComponent from '../components/DirectMessageComponent.vue'
 
+
 export default {
   name: 'DirectMessageView',
+
   components: 
   {
     DirectMessageSideBarComponent,
-    DirectMessageComponent
+    DirectMessageComponent,
   },
   data(){
     return{
