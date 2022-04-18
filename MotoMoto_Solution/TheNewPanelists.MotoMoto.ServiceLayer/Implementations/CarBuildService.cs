@@ -19,7 +19,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             _carBuildDAO = new CarBuildDataAccess();
         }
 
-        public bool SaveCarBuild(DataStoreCarType carType)
+        public bool SaveCarType(DataStoreCarType carType)
         {
             var dataStoreCarType = new DataStoreCarType()
             {
@@ -31,6 +31,41 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             };
             return _carBuildDAO.InsertNewDataStoreCarTypeEntity(dataStoreCarType);
         }
+
+        public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
+        {
+            var dataStoreCarBuilds = new DataStoreCarBuilds()
+            {
+                carBuildID = carBuilds.carID,
+                carID = carBuilds?.carID,
+                username = carBuilds?.username
+            };
+            return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(dataStoreCarBuilds);
+        }
+
+        public bool SaveCarModifications(DataStoreCarModifications carModifications)
+        {
+            var dataStoreCarModifications = new DataStoreCarModifications()
+            {
+                carModificationID = carModifications.carModificationID,
+                carBuildID = carModifications.carBuildID,
+                partID = carModifications.partID
+            };
+            return _carBuildDAO.InsertNewDataStoreCarModificationsEntity(dataStoreCarModifications);
+        }
+
+        public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
+        {
+            var dataStoreOEMAndAfterMarketParts = new DataStoreOEMAndAfterMarketParts()
+            {
+                partID = carParts.partID,
+                partName = carParts.partName,
+                type = carParts.type
+            };
+            return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(dataStoreOEMAndAfterMarketParts);
+        }
+
+
         /*
         public bool SaveCarBuild(CarTypeModel carType)
         {

@@ -78,5 +78,83 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 return (ExecuteQuery(command));
             }
         }
+
+        public bool InsertNewDataStoreCarBuildsEntity(DataStoreCarBuilds carBuilds)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"INSERT INTO USER (carBuildID, carID, username)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2)";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v0", carBuilds!.carBuildID);     // Should be removed because you do not need this if auto-incrementing
+                parameters[1] = new MySqlParameter("@v1", carBuilds!.carID);
+                parameters[2] = new MySqlParameter("@v2", carBuilds!.username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
+
+        public bool InsertNewDataStoreCarModificationsEntity(DataStoreCarModifications carModifications)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"INSERT INTO USER (carModificationID, carBuildID, partID)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2)";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v0", carModifications!.carModificationID);     // Should be removed because you do not need this if auto-incrementing
+                parameters[1] = new MySqlParameter("@v1", carModifications!.carBuildID);
+                parameters[2] = new MySqlParameter("@v2", carModifications!.partID);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
+
+        public bool InsertNewDataStoreOEMAndAfterMarketPartsEntity(DataStoreOEMAndAfterMarketParts carParts)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"INSERT INTO USER (partID, partName, type)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2)";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
+                parameters[1] = new MySqlParameter("@v1", carParts!.partName);
+                parameters[2] = new MySqlParameter("@v2", carParts!.type);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
     }
 }
