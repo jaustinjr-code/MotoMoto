@@ -11,8 +11,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         [Fact]
         public void Send_Email_Confirmation_Request_ReturnTrue()
         {
-            var testEmail = "daniel.bribiesca2@gmail.com";
+            // Password for gmail account: Secret#1
+            var testEmail = "motomoto1ca@gmail.com";
             var testRegistrationId = 542356;
+
             UserManagementDataAccess _userManagementDAO = new UserManagementDataAccess();
             RegistrationService registrationService = new RegistrationService(_userManagementDAO);
 
