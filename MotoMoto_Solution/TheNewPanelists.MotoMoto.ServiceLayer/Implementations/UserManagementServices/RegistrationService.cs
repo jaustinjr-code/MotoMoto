@@ -73,7 +73,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 return "ERROR: Registration not found.";
         }
 
-        private static bool SendEmailConfirmationRequest(string email, int registrationId)
+        public bool SendEmailConfirmationRequest(string email, int registrationId)
         {
             // Need to generate a unique url here and insert the link into the email
             string uniqueLink = URLGenerator(registrationId);
