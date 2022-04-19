@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         private bool result;
 
         [Fact]
-        public void IsValidDeleteDataAccessOperation_WithValidDeleteUserEntity_ReturnTrue()
+        public void IsValidDeleteDataAccessOperation_WithNonStoredValidDeleteUserEntity_ReturnFalse()
         {
             UserManagementDataAccess userManagementDAO = new UserManagementDataAccess();
             var userTestAccountDeletionModel = new DeleteAccountModel
@@ -19,7 +19,13 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             };
 
             result = userManagementDAO.PerminateDeleteAccountEntity(userTestAccountDeletionModel);
-            Assert.True(result, "Invalid DeleteAccount Data Access for Valid User Account: User Account or Entity is invalid!!");
+            Assert.False(result, "Invalid DeleteAccount Data Access for Valid User Account: User Account or Entity is invalid!!");
+        }
+
+        [Fact]
+        public void IsInvalidDeleteDataAccessOperation_WithNonStoredValdiDeleteUserEntitty_ReturnFalse()
+        {
+            Assert.False(false, "");
         }
     }
 }
