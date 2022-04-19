@@ -51,7 +51,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             return false;
         }
 
-        public bool InsertNewDataStoreCarTypeEntity(DataStoreCarType carType)
+        public bool InsertNewDataStoreCarTypeEntity(CarTypeModel carType)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -65,10 +65,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (carID, make, model, country, year)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1, @v2, @v3, @v4)";
-                var parameters = new MySqlParameter[5];
-                parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
+                command.CommandText = $"INSERT INTO USER (make, model, country, year)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2, @v3)";
+                var parameters = new MySqlParameter[4];
+                //parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
                 parameters[1] = new MySqlParameter("@v1", carType!.make);
                 parameters[2] = new MySqlParameter("@v2", carType!.model);
                 parameters[3] = new MySqlParameter("@v3", carType!.country);

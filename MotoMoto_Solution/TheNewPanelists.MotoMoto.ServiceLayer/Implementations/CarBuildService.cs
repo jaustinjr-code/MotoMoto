@@ -19,17 +19,28 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             _carBuildDAO = new CarBuildDataAccess();
         }
 
-        public bool SaveCarType(DataStoreCarType carType)
+        public bool SaveCarType(CarTypeModel carType)
         {
-            var dataStoreCarType = new DataStoreCarType()
+            var carTypeModel = new CarTypeModel()
             {
-                carID = carType!.carID, //Remove because auto-increment
+                //carID = carType!.carID, //Remove because auto-increment
                 make = carType!.make,
                 model = carType!.model,
                 year = carType!.year,
                 country = carType!.country
             };
-            return _carBuildDAO.InsertNewDataStoreCarTypeEntity(dataStoreCarType);
+            return _carBuildDAO.InsertNewDataStoreCarTypeEntity(carTypeModel);
+        }
+
+        public bool SaveModifiedCarBuild(ModifyCarBuildModel modifiedCar)
+        {
+            var modifyCarBuildModel = new ModifyCarBuildModel()
+            {
+                partName = modifiedCar!.partName,
+                type = modifiedCar!.type
+            };
+            return true; //delete this, temporary so code will compile
+            //return _carBuildDAO.InsertNewDataStoreCarTypeEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
         }
 
         public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
@@ -43,7 +54,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(dataStoreCarBuilds);
         }
 
-        public bool SaveCarModifications(DataStoreCarModifications carModifications)
+        public bool SaveCarModifications(DataStoreCarModifications carModifications) 
         {
             var dataStoreCarModifications = new DataStoreCarModifications()
             {
@@ -64,41 +75,5 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(dataStoreOEMAndAfterMarketParts);
         }
-
-
-        /*
-        public bool SaveCarBuild(CarTypeModel carType)
-        {
-            var dataStoreCarType = new CarTypeModel()
-            {
-                make = carType!.make,
-                model = carType!.model,
-                year = carType!.year,
-                country = carType!.country
-            };
-            return _carBuildDAO.CarTypeEntity(dataStoreCarType);
-        }
-
-        public bool ModifyCarBuild(DataStoreCarModifications modifiedCar)
-        {
-            var dataStoreCarModifications = new DataStoreCarModifications()
-            {
-                _carModificationID = modifiedCar!._carModificationID,
-                _carBuildID = modifiedCar!._carBuildID,
-                _partID = modifiedCar!._partID
-            };
-            return _carBuildDAO.InsertNewDataStoreCarModificationsEntity(dataStoreCarModifications);
-        }
-
-        public bool ModifyCarBuild(ModifyCarBuildModel modifiedCar)
-        {
-            var dataStoreCarModifications = new ModifyCarBuildModel()
-            {
-                partName = modifiedCar!.partName,
-                type = modifiedCar!.type
-            };
-            return _carBuildDAO.ModifyCarBuildEntity(dataStoreCarModifications);
-        }
-        */
     }
 }
