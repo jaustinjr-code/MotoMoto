@@ -58,35 +58,5 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.KeepDeleteAccountEntity(dataStoreUser);
         }
-
-        //**********DO NOT DELETE BELOW***********
-        //Account Recovery Functions needed later
-        /*
-        public bool ForgotUsername(ForgotUsernameModel forgottenUsername)
-        {
-            var dataStoreUser = new ForgotUsernameModel()
-            {
-                email = forgottenUsername!.email
-            };
-            return _userManagementDAO.ForgotUsernameEntity(dataStoreUser);
-        }
-        public bool ForgotPassword(ForgotPasswordModel forgottenPassword) //What is forgottenPassword supposed to be?
-        {
-            var dataStoreUser = new ForgotPasswordModel()
-            {
-                username = forgottenPassword!.username
-            };
-            return _userManagementDAO.ForgotPasswordEntity(dataStoreUser); //What does this do?
-        }
-        public bool ChangePassword(ChangePasswordModel changedPassword)
-        {
-            var dataStoreUser = new ChangePasswordModel()
-            {
-                newPassword = changedPassword!.newPassword,
-                verifiedNewPassword = changedPassword!.verifiedNewPassword
-            };
-            return _userManagementDAO.ChangePasswordEntity(dataStoreUser);
-        }
-        */
     }
 }
