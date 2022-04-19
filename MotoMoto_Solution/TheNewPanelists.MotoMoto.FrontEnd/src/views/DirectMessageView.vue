@@ -1,4 +1,5 @@
 <template>
+  <LogoutComponent/>
   <div class = dm>
     <DirectMessageSideBarComponent @receiver = "getUserClicked"></DirectMessageSideBarComponent>
     <DirectMessageComponent :receiver = "receiver"></DirectMessageComponent>
@@ -9,6 +10,7 @@
 
 import DirectMessageSideBarComponent from "../components/DirectMessageSideBarComponent.vue"
 import DirectMessageComponent from '../components/DirectMessageComponent.vue'
+import LogoutComponent from "@/components/LogoutComponent.vue";
 
 
 export default {
@@ -18,7 +20,8 @@ export default {
   {
     DirectMessageSideBarComponent,
     DirectMessageComponent,
-  },
+    LogoutComponent
+},
   data(){
     return{
       receiver: '',

@@ -16,9 +16,6 @@
             <button class = "submit" @click="loginClick">Submit</button>
            
         </div>
-
-        <p>Username: {{username}}</p>
-        <p>Password: {{password}} </p>
     </div>
   </div>
 </template>
@@ -45,38 +42,26 @@ export default defineComponent({
 
   methods: {
         login(){
-            console.log("click3");
             let params = {username: this.username, password: this.password};
-            console.log("click4");
             instance.get('Login/Login', {params}).then((res)=>{
                 console.log(`Server replied with: ${res.data}`);
                 if(res.data == true)
                 {
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
-                    this.$router.push({path: '/DM'});
+                    this.$router.push({path: '/CommunityDashboard'});
                 }
             }).catch((e)=>{
             console.log(e);
             });
         },
         loginClick() {
-            console.log("clicked");
-            this.$emit("userLogin", {user: this.username, pass: this.password});
-            console.log("click2");
             this.login();
         }
 
-  },
-
-
-  // <data, methods...>
-  
-  mounted() {
-    let my_cookie_value = this.cookies.get("myCoookie");
-    console.log(my_cookie_value);
-    this.cookies.set("myCoookie", "abcdefg");
   }
+
+
 })
 </script>
 
