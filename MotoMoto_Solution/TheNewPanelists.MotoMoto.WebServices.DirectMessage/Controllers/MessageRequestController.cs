@@ -50,8 +50,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         [Route("DeclineRequest")]
         public IActionResult DeclineRequest(string sender, string receiver)
         {
-            //string receiver = messageHistory.GetReceiver();
-            //string sender = messageHistory.GetSender();
             try
             {
                 DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();

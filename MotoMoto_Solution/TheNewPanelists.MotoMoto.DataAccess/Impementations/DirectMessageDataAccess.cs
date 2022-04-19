@@ -369,7 +369,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             try
             {
                 connection.Open();
-                string query = "DELETE FROM MESSAGEHISTORY mh WHERE mh.senderId = '" + senderId + "' AND mh.receiverId = '" + receiverId + "';";
+                string query = "DELETE FROM MESSAGEHISTORY WHERE senderId = '" + senderId + "' AND receiverId = '" + receiverId + "';";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 return true;

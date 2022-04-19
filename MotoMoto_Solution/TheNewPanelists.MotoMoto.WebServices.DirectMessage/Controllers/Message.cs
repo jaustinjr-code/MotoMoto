@@ -8,6 +8,20 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         public string sender { get; set; }
         public string receiver { get; set; }
         public string message { get; set; }
+        public void setSender(string sender)
+        {
+            this.sender = sender;  
+        }
+
+        public void setReceiver(string receiver)
+        {
+            this.receiver = receiver;
+        }
+
+        public void setMessage(string message)
+        {
+            this.message = message;
+        }
 
         public string GetSender()
         {
