@@ -61,7 +61,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 newUserAccount._email = entry.Email;
                 newUserAccount._password = entry.Password;
 
-
                 UserManagementService userManagementService = new UserManagementService(_userManagementDAO);
 
                 if (userManagementService.CreateAccount(newUserAccount))
