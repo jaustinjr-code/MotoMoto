@@ -60,22 +60,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
-        //public bool SingleQueryRegistrationTable(string email)
-        //{
-        //    if (!EstablishMariaDBConnection())
-        //    {
-        //        throw new NullReferenceException();
-        //    }
-        //    using (MySqlCommand command = new MySqlCommand())
-        //    {
-        //        command.CommandText = $"SELECT R FROM REGISTRATION WHERE R.EMAIL = @v1 AND R.VALIDATED = FALSE;";
-        //        var parameter = new SqlParameter("@v1", email);
-
-        //        command.Parameters.Add(parameter);
-        //        return (ExecuteQuery(command));
-        //    }
-        //}
-
         public bool HasActiveRegistration(string email)
         {
             if (!EstablishMariaDBConnection())
@@ -171,7 +155,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
-        public DSConfirmedAccount ReturnConfirmedAccount(EmailConfirmationRequestModel confirmationRequest)
+        public DataStoreConfirmedAccount ReturnConfirmedAccount(EmailConfirmationRequestModel confirmationRequest)
         {
             if (!EstablishMariaDBConnection())
                 throw new NullReferenceException();
@@ -188,7 +172,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                DSConfirmedAccount confirmedAccount = new DSConfirmedAccount();
+                DataStoreConfirmedAccount confirmedAccount = new DataStoreConfirmedAccount();
 
                 while (myReader.Read())
                 {

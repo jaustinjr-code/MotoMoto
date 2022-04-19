@@ -8,7 +8,7 @@ using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class CarBuildService 
     {

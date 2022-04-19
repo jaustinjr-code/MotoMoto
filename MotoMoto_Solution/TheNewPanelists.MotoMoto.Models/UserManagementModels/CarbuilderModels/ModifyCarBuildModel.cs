@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.Models
+namespace TheNewPanelists.MotoMoto
 {
     public class ModifyCarBuildModel
     {
