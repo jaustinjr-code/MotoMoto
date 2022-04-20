@@ -17,7 +17,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string receiver = "user10";
             DirectMessageBusinessLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
             bool result = directMessageBusinessLayer.CreateNewDirectMessage(sender, receiver);
-
+            System.Diagnostics.Debug.WriteLine("result: " + result);
             Assert.True(result);
         }
 
