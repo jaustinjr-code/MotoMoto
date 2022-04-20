@@ -97,7 +97,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
 
@@ -135,7 +135,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
@@ -181,7 +181,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (userId, typeName, username, password, email)" +
+                command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email)" +
                                       $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
                 var parameters = new MySqlParameter[6];
                 parameters[0] = new MySqlParameter("@v0", userAccount!.UserId);
@@ -221,7 +221,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                command.CommandText = $"DELETE * FROM User U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
                 var parameters = new MySqlParameter[2];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
                 parameters[1] = new MySqlParameter("@v2", userAccount!.VerifiedPassword);
@@ -256,7 +256,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE USER SET USER.USERNAME = NULL, USER.EMAIL = NULL WHERE USER.USERNAME = @v1";
+                command.CommandText = $"UPDATE User SET USER.USERNAME = NULL, USER.EMAIL = NULL WHERE USER.USERNAME = @v1";
                 var parameters = new MySqlParameter[2];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
 
@@ -284,7 +284,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
+                command.CommandText = $"SELECT SALT FROM User WHERE USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
 
@@ -325,7 +325,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
