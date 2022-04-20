@@ -103,8 +103,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = @"INSERT INTO Profile (userId, username) SELECT u.userId, u.username FROM USER u 
-                                        EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
+                command.CommandText = @"INSERT INTO Profile (userId, username) SELECT u.userId, u.username FROM User u 
+                                        EXCEPT SELECT p.userId, p.username FROM Profile p;";
                 return (ExecuteQuery(command));
             }
         }
