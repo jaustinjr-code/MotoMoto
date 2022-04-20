@@ -1,12 +1,12 @@
+/*s
 using MySql.Data.MySqlClient;
 using TheNewPanelists.MotoMoto.Models;
 using System.Configuration;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class PostContentDataAccess //: IContentDataAccess
+    public class PostContentDataAccess : IContentDataAccess
     {
-        /*
         private MySqlConnection? _mySqlConnection { get; }
         private string _connectionString; // Need config file to store connection string
 
@@ -28,7 +28,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         // Get Comments
         // Get Images
         // Get Content
-        */
     }
-       
 }
+*/

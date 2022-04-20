@@ -12,9 +12,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         // Readonly means that the object/variable cannot be defined outside of the
         // constructor
         private readonly UserManagementDataAccess _userManagementDAO;
-        public UserManagementService()
+        public UserManagementService(UserManagementDataAccess userManagementDataAccess)
         {
-            _userManagementDAO = new UserManagementDataAccess();
+            _userManagementDAO = userManagementDataAccess;
 
         }
         public ISet<AccountModel> RetrieveAllAccounts(AccountModel userAccount)
@@ -39,44 +39,24 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             };
             return _userManagementDAO.InsertNewDataStoreAccountEntity(dataStoreUser);
         }
-        public bool DeleteAccount(DeleteAccountModel deletedAccount)
+        public bool PerminateDeleteAccount(DeleteAccountModel deletedAccount)
         {
             var dataStoreUser = new DeleteAccountModel()
             {
                 Username = deletedAccount!.Username,
                 VerifiedPassword = deletedAccount!.VerifiedPassword
             };
-            return _userManagementDAO.DeleteAccountEntity(dataStoreUser);
+            return _userManagementDAO.PerminateDeleteAccountEntity(dataStoreUser);
         }
 
-        //**********DO NOT DELETE BELOW***********
-        //Account Recovery Functions needed later
-        /*
-        public bool ForgotUsername(ForgotUsernameModel forgottenUsername)
+        public bool KeepDeleteAccount(DeleteAccountModel deletedAccount)
         {
-            var dataStoreUser = new ForgotUsernameModel()
+            var dataStoreUser = new DeleteAccountModel()
             {
-                email = forgottenUsername!.email
+                Username = deletedAccount!.Username,
+                VerifiedPassword = deletedAccount!.VerifiedPassword
             };
-            return _userManagementDAO.ForgotUsernameEntity(dataStoreUser);
+            return _userManagementDAO.KeepDeleteAccountEntity(dataStoreUser);
         }
-        public bool ForgotPassword(ForgotPasswordModel forgottenPassword) //What is forgottenPassword supposed to be?
-        {
-            var dataStoreUser = new ForgotPasswordModel()
-            {
-                username = forgottenPassword!.username
-            };
-            return _userManagementDAO.ForgotPasswordEntity(dataStoreUser); //What does this do?
-        }
-        public bool ChangePassword(ChangePasswordModel changedPassword)
-        {
-            var dataStoreUser = new ChangePasswordModel()
-            {
-                newPassword = changedPassword!.newPassword,
-                verifiedNewPassword = changedPassword!.verifiedNewPassword
-            };
-            return _userManagementDAO.ChangePasswordEntity(dataStoreUser);
-        }
-        */
     }
 }

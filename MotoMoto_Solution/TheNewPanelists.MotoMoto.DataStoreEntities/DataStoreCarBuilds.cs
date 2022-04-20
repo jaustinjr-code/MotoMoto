@@ -8,8 +8,8 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public class DataStoreCarBuilds
     {
-        public int? CarBuildID { get; set; }    //Auto-incremented ID for each car build
-        public int? CarID { get; set; }         //Auto-incremented ID pulled from CarTypes table
-        public string? Username { get; set; }   //The user associated with the car build
+        public int? carBuildID { get; set; }    //Auto-incremented ID for each car build
+        public int? carID { get; set; }         //Auto-incremented ID pulled from CarTypes table
+        public string? username { get; set; }   //The user associated with the car build
     }
 }

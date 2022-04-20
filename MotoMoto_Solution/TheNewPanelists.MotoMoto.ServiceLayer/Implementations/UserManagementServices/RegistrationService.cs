@@ -11,8 +11,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     public class RegistrationService : IUserManagementService
     {
         private readonly RegistrationDataAccess _registrationDAO;
-
-        public RegistrationService() { _registrationDAO = new RegistrationDataAccess(); }
+        private readonly UserManagementDataAccess _userManagementDAO;
+        public RegistrationService(UserManagementDataAccess UserManagementDAO) 
+        { 
+            _registrationDAO = new RegistrationDataAccess();
+            _userManagementDAO = UserManagementDAO;
+        }
 
         public string AccountRegistrationRequest(RegistrationRequestModel registrationRequest)
         {
@@ -48,7 +52,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             if (_registrationDAO.ConfirmRegistration(emailConfirmationRequest))
             {
-                DSConfirmedAccount entry = _registrationDAO.ReturnConfirmedAccount(emailConfirmationRequest);
+                DataStoreConfirmedAccount entry = _registrationDAO.ReturnConfirmedAccount(emailConfirmationRequest);
                 DataStoreUser newUserAccount = new DataStoreUser();
                 string userName = GenerateUniqueName(emailConfirmationRequest.RegistrationID!);
 
@@ -57,7 +61,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 newUserAccount._email = entry.Email;
                 newUserAccount._password = entry.Password;
 
-                UserManagementService userManagementService = new UserManagementService();
+                UserManagementService userManagementService = new UserManagementService(_userManagementDAO);
 
                 if (userManagementService.CreateAccount(newUserAccount))
                     return String.Format("Registration complete!\n\n Username = {0}", userName);
@@ -68,16 +72,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 return "ERROR: Registration not found.";
         }
 
-        public static bool SendEmailConfirmationRequest(string email, int registrationId)
+        public bool SendEmailConfirmationRequest(string email, int registrationId)
         {
             // Need to generate a unique url here and insert the link into the email
             string uniqueLink = URLGenerator(registrationId);
             
-            string From = "projmotomoto@gmail.com";
-            string FromName = "MotoMoto Registration";
+            string From = "support@motomotoca.com";
+            string FromName = "MotoMoto Support";
             string To = email;
-            string SMTP_Username = "smtp_username";
-            string SMTP_Password = "smtp_password";
+            string SMTP_Username = "AKIA3YUD2T2A6VR4HELH";
+            string SMTP_Password = "BNQUdw9SMvqsU8qmQvKAyk6y96wKve1U1q21O1NPJeIz";
             // string Configset = "ConfigSet";
             string Host = "email-smtp.us-west-2.amazonaws.com";
             int Port = 587;
@@ -119,7 +123,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }
         }
         
-        public static string URLGenerator(int? registrationID)
+        private static string URLGenerator(int? registrationID)
         {
             const int suffixSize = 10;
 
@@ -148,7 +152,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return (registrationID.ToString() + urlSuffix);
         }
 
-        public static string GenerateUniqueName(string registrationID)
+        private static string GenerateUniqueName(string registrationID)
         {
             Random rand = new Random();
             int nameSize = 5;

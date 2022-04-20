@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.Models
+namespace TheNewPanelists.MotoMoto
 {
-    public class CarTypedModel
+    public class CarTypeModel
     {
         public string? make { get; set; }       //Car make
         public string? model { get; set; }      //Car model
-        public DateTime? year { get; set; }     //Car year
+        public string? year { get; set; }       //Car year
         public string? country { get; set; }    //Car country of origin
     }
 }

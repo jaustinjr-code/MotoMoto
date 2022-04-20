@@ -9,17 +9,23 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         private bool result;
 
         [Fact]
-        public void IsValidDeleteDataAccessOperation_WithValidDeleteUserEntity_ReturnTrue()
+        public void IsValidDeleteDataAccessOperation_WithNonStoredValidDeleteUserEntity_ReturnFalse()
         {
             UserManagementDataAccess userManagementDAO = new UserManagementDataAccess();
-            var userTestAccountDeletionEntity = new DeleteAccountModel
+            var userTestAccountDeletionModel = new DeleteAccountModel
             {
-               // username = "testUsername",
-                //verifiedPassword = "testVerifiedPassword"
+                Username = "testUsername",
+                VerifiedPassword = "testVerifiedPassword"
             };
 
-            result = true;//userManagementDAO.DeleteAccountEntity(userTestAccountDeletionEntity);
-            Assert.True(result, "Invalid DeleteAccount Data Access for Valid User Account: User Account or Entity is invalid!!");
+            result = userManagementDAO.PerminateDeleteAccountEntity(userTestAccountDeletionModel);
+            Assert.False(result, "Invalid DeleteAccount Data Access for Valid User Account: User Account or Entity is invalid!!");
+        }
+
+        [Fact]
+        public void IsInvalidDeleteDataAccessOperation_WithNonStoredValdiDeleteUserEntitty_ReturnFalse()
+        {
+            Assert.False(false, "");
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
+namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
 {
-    internal class CarBuildDataAccess
+    internal class CarBuilderServiceUnitTests
     {
     }
 }

@@ -92,13 +92,16 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             using (var command = new MySqlCommand())
             {
-                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
-                var parameters = new SqlParameter[1];
-                parameters[0] = new SqlParameter("@v1", userAccount!.Username);
-
-                command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+
+                command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 AccountModel returnAccount = new AccountModel();
@@ -127,13 +130,16 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
-                var parameters = new SqlParameter[1];
-                parameters[0] = new SqlParameter("@v1", userAccount!._username);
-
-                command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+
+                command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 DataStoreUser returnUser = new DataStoreUser();
@@ -170,20 +176,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"INSERT INTO USER (userId, typeName, username, password, email)" +
-                                      $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
-                var parameters = new SqlParameter[6];
-                parameters[0] = new SqlParameter("@v0", userAccount!.UserId);
-                parameters[1] = new SqlParameter("@v1", userAccount!._userType);
-                parameters[2] = new SqlParameter("@v2", userAccount!._username);
-                parameters[3] = new SqlParameter("@v3", userAccount!._password);
-                parameters[4] = new SqlParameter("@v4", userAccount!._email);
-                parameters[5] = new SqlParameter("@v5", userAccount!._salt);
-
-                command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                return ExecuteQuery(command);
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"INSERT INTO USER (userId, typeName, username, password, email)" +
+                                      $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
+                var parameters = new MySqlParameter[6];
+                parameters[0] = new MySqlParameter("@v0", userAccount!.UserId);
+                parameters[1] = new MySqlParameter("@v1", userAccount!._userType);
+                parameters[2] = new MySqlParameter("@v2", userAccount!._username);
+                parameters[3] = new MySqlParameter("@v3", userAccount!._password);
+                parameters[4] = new MySqlParameter("@v4", userAccount!._email);
+                parameters[5] = new MySqlParameter("@v5", userAccount!._salt);
+
+                command.Parameters.AddRange(parameters);
+                return(ExecuteQuery(command));
             }
         }
         /// <summary>
@@ -192,7 +201,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="userAccount"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool DeleteAccountEntity(DeleteAccountModel userAccount)
+        public bool PerminateDeleteAccountEntity(DeleteAccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -207,17 +216,61 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
             using (var command = new MySqlCommand())
             {
-                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
-                var parameters = new SqlParameter[2];
-                parameters[0] = new SqlParameter("@v1", userAccount!.Username);
-                parameters[1] = new SqlParameter("@v2", userAccount!.VerifiedPassword);
-
-                command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+                parameters[1] = new MySqlParameter("@v2", userAccount!.VerifiedPassword);
+
+                command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
             }
         }
+        /// <summary>
+        /// KeepDeleteAccountEntity is going to be the default option for accounts where we totally remove the username and email to protect ourselves from having to 
+        /// remove all information
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns>boolean value that deletes a user perminately and removes their unique ID and all items</returns>
+        public bool KeepDeleteAccountEntity(DeleteAccountModel userAccount)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                return false;
+            }
+            var dataStoreUser = new DataStoreUser()
+            {
+                _username = userAccount.Username,
+                _password = userAccount.VerifiedPassword
+            };
+            if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
+
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE USER SET USER.USERNAME = NULL, USER.EMAIL = NULL WHERE USER.USERNAME = @v1";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+
+                command.Parameters.AddRange(parameters);
+
+                return (ExecuteQuery(command));
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStoreUser"></param>
+        /// <returns>boolean value that updates their information and executes those values</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         private string RetrieveSaltFromDataStore(DataStoreUser dataStoreUser)
         {
             if (!EstablishMariaDBConnection())
@@ -226,14 +279,31 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             using (var command = new MySqlCommand())
             {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
                 command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
 
                 command.Parameters.AddRange(parameters);
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                return ""; // **** must fix and return salt from the retrieval of mysql.reader! ****
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                DataStoreUser returnUser = new DataStoreUser();
+                while (myReader.Read())
+                {
+                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userType = myReader.GetString("typeName");
+                    returnUser._username = myReader.GetString("username");
+                    returnUser._password = myReader.GetString("password");
+                    returnUser._email = myReader.GetString("email");
+                    returnUser._salt = myReader.GetString("salt");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return returnUser!._salt!;
             }
         }
         /// <summary>
@@ -243,9 +313,18 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         private bool UserNamePasswordDSValidation(DataStoreUser userAccount)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new ArgumentNullException();
+            }
             DataStoreUser retrievalAccount;
             using (var command = new MySqlCommand())
             {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
                 command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!._username);
@@ -257,11 +336,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
-
-
-
-
-
 
         //**********DO NOT DELETE BELOW***********
         //Account Recovery Functions needed later
