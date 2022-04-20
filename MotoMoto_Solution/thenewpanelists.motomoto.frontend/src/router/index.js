@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AccountDelete from '../views/AccountDeletion.vue'
+import AccountDeletionView from '../views/AccountDeletionView.vue'
 
 const routes = [
   {
@@ -21,7 +21,7 @@ const routes = [
   {
     path: '/accountdelete',
     name: 'accountdelete',
-    component: AccountDelete
+    component: AccountDeletionView
   }
 ]
 
