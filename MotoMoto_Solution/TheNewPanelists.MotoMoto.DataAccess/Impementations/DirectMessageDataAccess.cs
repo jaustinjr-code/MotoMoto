@@ -99,7 +99,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string query = "SELECT * FROM MessageHistory (mh.senderId = '" + senderId + "' AND mh.receiverId = '" + receiverId + "') OR (mh.senderId = '" + receiverId + "' AND mh.receiverId = '" + senderId + "');";
+                string query = "SELECT * FROM MessageHistory mh WHERE (mh.senderId = '" + senderId + "' AND mh.receiverId = '" + receiverId + "') OR (mh.senderId = '" + receiverId + "' AND mh.receiverId = '" + senderId + "');";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if(reader.HasRows)
