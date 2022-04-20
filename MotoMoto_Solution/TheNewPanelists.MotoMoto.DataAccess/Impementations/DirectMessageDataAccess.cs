@@ -191,6 +191,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 query = "INSERT INTO MESSAGES (messageHistoryId, messages) VALUES ('" + messageHistoryId + "' , '" + message + "');";
                 cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
+
                 return true;
             }
             catch (Exception ex)
@@ -255,11 +256,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     "INNER JOIN MESSAGEHISTORY MH ON M.MESSAGEHISTORYID = MH.MESSAGEHISTORYID " +
                     "INNER JOIN PROFILE P ON MH.SENDERID = P.USERID " +
                     "WHERE MH.SENDERID = '" + senderId + "'AND MH.RECEIVERID = '" + receiverId +"'" +
-                    "UNION  " +
-                    "SELECT P.USERNAME, M.MESSAGES,M.TIMESTAMP FROM MESSAGES M " +
-                    "INNER JOIN MESSAGEHISTORY MH ON M.MESSAGEHISTORYID = MH.MESSAGEHISTORYID " +
-                    "INNER JOIN PROFILE P ON MH.SENDERID = P.USERID " +
-                    "WHERE MH.SENDERID = '" + receiverId + "'" + " AND MH.RECEIVERID = '" + senderId + "' " +
+                    "M.USERHISTORYID = '" + senderId + "'" +
                     "ORDER BY TIMESTAMP;";
                 MySqlCommand cmd = new MySqlCommand( query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
