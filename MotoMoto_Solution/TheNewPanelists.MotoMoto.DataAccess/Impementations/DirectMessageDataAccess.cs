@@ -188,7 +188,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     return false;
                 }
 
-                query = "INSERT INTO MESSAGES (messageHistoryId, messages) VALUES ('" + messageHistoryId + "' , '" + message + "');";
+                query = "INSERT INTO MESSAGES (userHistoryId,messageHistoryId, messages) VALUES ('" + sender + "','" + messageHistoryId + "' , '" + message + "');";
                 cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 return true;
