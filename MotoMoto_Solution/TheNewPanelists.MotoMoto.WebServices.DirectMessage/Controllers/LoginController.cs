@@ -17,13 +17,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.DirectMessage.Controllers
         public IActionResult Login(string username, string password)
         {
 
-            string connectionString = $"server=localhost;user=root;database=motomoto_um;port=3306;password=password;";
+            string connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             try
             {
                 connection.Open();
                 Console.WriteLine("Connection open");
-                string query = "SELECT * FROM USER u WHERE u.username = '" + username + "' AND u.password = '" + password + "'";
+                string query = "SELECT * FROM User u WHERE u.username = '" + username + "' AND u.password = '" + password + "'";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
