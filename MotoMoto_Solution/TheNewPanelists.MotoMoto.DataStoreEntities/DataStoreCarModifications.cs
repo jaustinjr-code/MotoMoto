@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    internal class DataStoreCarModifications
+    public class DataStoreCarModifications
     {
         public int carModificationID { get; set; }  //Auto-incremented ID for each car build
         public int carBuildID { get; set; }         //Auto-incremented ID pulled from CarBuilds table
