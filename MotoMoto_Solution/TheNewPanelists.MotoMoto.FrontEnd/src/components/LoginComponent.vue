@@ -43,8 +43,7 @@ export default defineComponent({
   methods: {
         login(){
             let params = {username: this.username, password: this.password};
-            
-            instance.get('api/Login/Login', {params}).then((res)=>{
+            instance.get('Login/Login', {params}).then((res)=>{
                 console.log(`Server replied with: ${res.data}`);
                 if(res.data == true)
                 {
