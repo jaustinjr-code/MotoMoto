@@ -23,7 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Registration", "TheNewPanelists.MotoMoto.WebServices.Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj", "{85CB37EE-9F9A-46D1-A830-1E778E892A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.CarBuilder", "..\WebServices\CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj", "{6DA32067-8AF6-4353-960B-53C668BA5322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.CarBuilder", "..\WebServices\CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj", "{6DA32067-8AF6-4353-960B-53C668BA5322}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9E43324-A2E1-401E-AA4C-EB11769D4E51}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +68,6 @@ Global
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{540CD445-6C5C-4719-94B9-45FA803F4BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
