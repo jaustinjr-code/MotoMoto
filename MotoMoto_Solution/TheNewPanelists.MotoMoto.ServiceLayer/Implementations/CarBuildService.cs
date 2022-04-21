@@ -66,9 +66,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
         {
-            var dataStoreOEMAndAfterMarketParts = new DataStoreOEMAndAfterMarketParts()
+            var dataStoreOEMAndAfterMarketParts = new ModifyCarBuildModel()
             {
-                partID = carParts.partID,
                 partName = carParts.partName,
                 type = carParts.type
             };
