@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.UnitTests", "TheNewPanelists.MotoMoto.UnitTests\TheNewPanelists.MotoMoto.UnitTests.csproj", "{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Security", "TheNewPanelists.MotoMoto.Security\TheNewPanelists.MotoMoto.Security.csproj", "{540CD445-6C5C-4719-94B9-45FA803F4BDF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Login", "WebApplication1\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{8499420E-A004-4054-AE4F-0F1452DFAD6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.DirectMessage", "TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj", "{EBC1E9D2-56F5-40EF-B936-486011B95C37}"
