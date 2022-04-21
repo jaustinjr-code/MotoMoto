@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheNewPanelists.MotoMoto.DataAccess;
-using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.BusinessLayer;
+using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
@@ -38,15 +39,23 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             }
         }
 
-        /*
+        [RequireHttps]
         [HttpPost]
-        public async Task<IActionResult<AccountModel>> RegisterUserAccount(string username, string password, string email)
+        public IActionResult RetrieveAllUsers(DataStoreUser user)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
 
-            throw new NotImplementedException();
-        } */
+            try
+            {
+                ISet<AccountModel> acct = manager.RetrieveAllUsers(user!._username!);
+                return Ok(acct);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status400BadRequest);
+            }
+        }
 
         [RequireHttps]
         [HttpDelete]
