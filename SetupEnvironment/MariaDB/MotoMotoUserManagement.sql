@@ -23,7 +23,7 @@ CREATE TABLE User (
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
-    CONSTRAINT user_Pk PRIMARY KEY (userId, username),
+    CONSTRAINT user_Pk PRIMARY KEY (userId),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
 );
@@ -73,7 +73,7 @@ VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
     (NULL, "DEFAULT");
 
-INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
+INSERT INTO USER(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
 INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
 

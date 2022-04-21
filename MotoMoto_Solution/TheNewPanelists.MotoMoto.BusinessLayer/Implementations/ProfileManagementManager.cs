@@ -15,7 +15,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool DeleteProfileManager(DeleteAccountModel deleteAccountModel)
         {
-            if (deleteAccountModel.UserId < 0)
+            if (deleteAccountModel.userId < 0)
                 return false;
             return _profileManagementService!.DeleteAccountProfile(deleteAccountModel);
         }

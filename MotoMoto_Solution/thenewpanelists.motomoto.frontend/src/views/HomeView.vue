@@ -1,4 +1,3 @@
-import http from "./Http-coman"
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">

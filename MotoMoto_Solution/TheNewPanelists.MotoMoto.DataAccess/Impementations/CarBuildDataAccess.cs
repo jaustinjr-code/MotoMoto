@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.DataAccess.Impementations
 {
-    internal class CarBuildService
+    internal class CarBuildDataAccess
     {
     }
 }

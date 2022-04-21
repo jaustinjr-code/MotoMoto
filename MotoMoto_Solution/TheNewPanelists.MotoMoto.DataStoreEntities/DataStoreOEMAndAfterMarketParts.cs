@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public class DataStoreOEMAndAfterMarketParts
+    internal class DataStoreOEMAndAfterMarketParts
     {
         public int partID { get; set; }         //Auto-incremented ID for each part in the table
         public string? partName { get; set; }   //Name of the part

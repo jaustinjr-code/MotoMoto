@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public class DataStoreConfirmedAccount : iBaseRegistration
+    public class DSConfirmedAccount : iBaseRegistration
     {
         public int? RegistrationId { get; set; }
         public string? Email { get; set; }

@@ -1,4 +1,9 @@
-﻿using TheNewPanelists.MotoMoto.ServiceLayer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
@@ -19,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// </summary>
         /// <param name="DeleteAccountUser"></param>
         /// <returns>boolean value based off of the account deletion service</returns>
-        public bool PerminateDeleteAccountManager(DeleteAccountModel deleteAccountUser)
+        public bool DeleteAccountManager(DeleteAccountModel deleteAccountUser)
         {
             if (deleteAccountUser.Username!.Length == 0 || deleteAccountUser.Username!.Length > 24)
             {
@@ -29,20 +34,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 return false;
             }
-            return _userManagementService.PerminateDeleteAccount(deleteAccountUser);
-        }
-
-        public bool KeepDeleteAccountManager(DeleteAccountModel deleteAccountModel)
-        {
-            if (deleteAccountModel.Username!.Length == 0 || deleteAccountModel.Username!.Length > 24)
-            {
-                return false;
-            }
-            if (deleteAccountModel.VerifiedPassword!.Length == 0 || deleteAccountModel.VerifiedPassword.Length > 24)
-            {
-                return false;
-            }
-            return _userManagementService.KeepDeleteAccount(deleteAccountModel);
+            return _userManagementService.DeleteAccount(deleteAccountUser);
         }
 
         /// <summary>
