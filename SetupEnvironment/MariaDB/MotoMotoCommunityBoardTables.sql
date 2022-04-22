@@ -31,6 +31,18 @@ CREATE TABLE Feed (
     feedName VARCHAR(25) NOT NULL UNIQUE,
     CONSTRAINT Feed_PK PRIMARY KEY (feedName)
 );
+
+CREATE TABLE VotePosts (
+    likeid INT NOT NULL, 
+    postID INT UNSIGNED NOT NULL,
+    username VARCHAR(25),
+    vote BOOL NOT NULL,
+    CONSTRAINT LikedPosts_Pk PRIMARY KEY (likeid),
+    CONSTRAINT Post_Image_FK FOREIGN KEY (postID) REFERENCES Post (postID),
+    CONSTRAINT Username_FK FOREIGN KEY (username) REFERENCES Profile (username)    
+);
+
+
 -- Feed dummy data
 INSERT INTO Feed
 VALUES (NULL, 'test');

@@ -52,6 +52,13 @@ CREATE TABLE Profile (
     CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId)
 );
 
+CREATE TABLE UpvotePosts (
+    likeid INT NOT NULL, 
+    username VARCHAR(25),
+    CONSTRAINT LikedPosts_Pk PRIMARY KEY (likeid)
+    CONSTRAINT Username_FK FOREIGN KEY (username) REFERENCES Profile (username)    
+);
+
 CREATE TABLE EventAccount (
     username VARCHAR(25),
     rating VARCHAR(1) NOT NULL,

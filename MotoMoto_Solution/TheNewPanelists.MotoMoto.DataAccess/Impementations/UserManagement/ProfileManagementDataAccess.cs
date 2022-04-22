@@ -128,5 +128,21 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return(ExecuteQuery(command));
             }
         }
+        public bool RetrieveProfileInformation()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileDescription()
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public bool UpdateProfileImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

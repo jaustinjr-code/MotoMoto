@@ -14,14 +14,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
     public class UserManagementController : ControllerBase
     { 
         private readonly UserManagementDataAccess _userManagementDataAccess = new UserManagementDataAccess();
-        [RequireHttps]
+
         [HttpOptions]
         public IActionResult PreFlightRoute()
         {
             return NoContent();
         }
 
-        [RequireHttps]
         [HttpGet]
         public IActionResult GetUserAccounts(string username)
         {
@@ -39,7 +38,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             }
         }
 
-        [RequireHttps]
         [HttpPost]
         public IActionResult RetrieveAllUsers(DataStoreUser user)
         {
@@ -56,8 +54,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
         }
-
-        [RequireHttps]
         [HttpDelete]
         public IActionResult DeleteAccount(string _username, string _password)
         {
