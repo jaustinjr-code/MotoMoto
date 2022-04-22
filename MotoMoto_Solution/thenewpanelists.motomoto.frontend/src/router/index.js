@@ -1,13 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import AccountDeletionView from '../views/AccountDeletionView.vue'
+import LoggedOutView from '../views/LoggedOutView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
   {
     path: '/about',
     name: 'about',
@@ -22,6 +18,16 @@ const routes = [
     path: '/accountdelete',
     name: 'accountdelete',
     component: AccountDeletionView
+  },
+  {
+    path: '/',
+    name: 'homedefault',
+    component: LoggedOutView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   }
 ]
 

@@ -8,7 +8,10 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@vue/cli-shared-utils": "^5.0.4",
+    "axios": "^0.26.1",
     "vue": "^3.2.13",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.0.3",
     "vue3-cookies": "^1.0.6",
     "vuex": "^4.0.0"
@@ -31,5 +34,12 @@
   ],
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest/presets/no-babel"
-  }
+  },
+  "description": "```\r npm install\r ```",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "author": "",
+  "license": "ISC"
 }
