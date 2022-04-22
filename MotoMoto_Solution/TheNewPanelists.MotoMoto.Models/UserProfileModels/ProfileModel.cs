@@ -15,6 +15,10 @@ namespace TheNewPanelists.MotoMoto.Models
 
         public string? ProfileImagePath { get; set; }
 
-        public List<Posts> UpVotedPosts { get; set; }
+        public string? ProfileDescription { get; set; }
+
+        public List<UpvotedPostsModel>? UpVotedPosts { get; set; }
+
+        public List<UserPostModel>? userPosts { get; set; }
     }
 }

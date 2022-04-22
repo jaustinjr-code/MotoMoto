@@ -128,21 +128,155 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return(ExecuteQuery(command));
             }
         }
-        public bool RetrieveProfileInformation()
-        {
-            throw new NotImplementedException();
-        }
-        public bool UpdateProfileDescription()
+        public ProfileModel RetrieveProfileInformation(ProfileModel profileModel)
         {
             if (!EstablishMariaDBConnection())
             {
                 throw new NullReferenceException();
             }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "SELECT * FROM Profile P WHERE P.username = '@v1';";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
+
+                command.Parameters.AddRange(parameters);
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                ProfileModel returnProfile = new ProfileModel();
+                while (myReader.Read())
+                {
+                    returnProfile.Username = myReader.GetString("username");
+                    returnProfile.Status = myReader.GetBoolean("status");
+                    returnProfile.EventAccount = myReader.GetBoolean("eventAccount");
+                    returnProfile.ProfileDescription = myReader.GetString("profileDescription");
+                    returnProfile.ProfileImagePath = myReader.GetString("profileImage");
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                GetUserUpvotedPosts(returnProfile);
+                GetUserPosts(returnProfile);
+                return returnProfile;
+            }
+        }
+        private void GetUserUpvotedPosts(ProfileModel profileModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "SELECT * FROM VotePosts v WHERE v.username = '@v1';";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                command.Parameters.AddRange(parameters);
+                
+                while (myReader.Read())
+                {
+                    if (myReader.GetBoolean("vote") == true)
+                    {
+                        var upvotepost = new UpvotedPostsModel()
+                        {
+                            likeid = myReader.GetInt32("likeid"),
+                            postid = myReader.GetInt32("postid"),
+                            vote = myReader.GetBoolean("vote")
+                        };
+                        profileModel.UpVotedPosts!.Add(upvotepost);
+                    }
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+            }
         }
 
-        public bool UpdateProfileImage()
+        private void GetUserPosts(ProfileModel profileModel)
         {
-            throw new NotImplementedException();
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "SELECT * FROM Posts v WHERE v.postUsername = '@v1';";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                command.Parameters.AddRange(parameters);
+
+                while (myReader.Read())
+                {
+                    var upvotepost = new UserPostModel()
+                    {
+                        postTitle = myReader.GetString("postTitle"),
+                        postDescription = myReader.GetString("postDescription"),
+                        contentType = myReader.GetString("feedName"),
+                        submitUTC = myReader.GetDateTime("submitUTC ")
+                    };
+                    profileModel.userPosts!.Add(upvotepost);
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+            }
+        }
+
+        public bool UpdateProfileDescription(ProfileModel profileModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE Profile P SET P.profileDescription = '@v1' WHERE P.username = '@v2';";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", profileModel!.ProfileDescription);
+                parameters[1] = new MySqlParameter("@v2", profileModel!.Username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
+        }
+
+        public bool UpdateProfileImage(ProfileModel profileModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE Profile P SET P.profileImage = '@v1' WHERE P.username = '@v2';";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", profileModel!.ProfileImagePath);
+                parameters[1] = new MySqlParameter("@v2", profileModel!.Username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
         }
     }
 }

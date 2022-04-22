@@ -12,3 +12,4 @@ namespace TheNewPanelists.MotoMoto.Models
         IEnumerable<byte[]> imageList { get; set; }
     }
 }
+
