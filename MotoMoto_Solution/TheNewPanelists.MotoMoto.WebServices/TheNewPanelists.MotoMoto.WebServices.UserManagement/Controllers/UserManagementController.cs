@@ -14,6 +14,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
     public class UserManagementController : ControllerBase
     { 
         private readonly UserManagementDataAccess _userManagementDataAccess = new UserManagementDataAccess();
+        private readonly LogService _logService = new LogService();
 
         [HttpOptions]
         public IActionResult PreFlightRoute()
@@ -22,32 +23,27 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUserAccounts(string username)
+        public async Task<ISet<AccountModel>> GetUserAccounts(string username, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
 
-            try
-            {
-                ISet<AccountModel> retrieveAllAccounts = manager.RetrieveAllUsers(username);
-                return Ok(retrieveAllAccounts);
-            }
-            catch 
-            {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
+            ISet<AccountModel> retrieveAllAccounts = manager.RetrieveAllUsers(username);
+            await Task.Delay(10_000, token);
+               
+            return retrieveAllAccounts;
         }
 
         [HttpPost]
-        public IActionResult RetrieveAllUsers(DataStoreUser user)
+        public IActionResult RetrieveAllUsers(DataStoreUser user, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
 
             try
             {
-                ISet<AccountModel> acct = manager.RetrieveAllUsers(user!._username!);
-                return Ok(acct);
+                ISet<AccountModel> account = manager.RetrieveAllUsers(user!._username!);
+                return Ok(account);
             }
             catch
             {
@@ -55,7 +51,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteAccount(string _username, string _password)
+        public IActionResult DeleteAccount(string _username, string _password, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);

@@ -12,10 +12,12 @@ CREATE TABLE Log (
     categoryName VARCHAR(100) NOT NULL,
     levelName VARCHAR(50) NOT NULL,
     timeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    userID VARCHAR(256) NOT NULL,
-    DSCRIPTION VARCHAR(1000) NOT NULL,
+    userID INT NOT NULL,
+    username VARCHAR(256),
+    description VARCHAR(1000) NOT NULL,
     CONSTRAINT Log_Category_FK FOREIGN KEY (categoryName) REFERENCES Category (categoryName),
     CONSTRAINT Log_Level_FK FOREIGN KEY (levelName) REFERENCES Level (levelName),
+    CONSTRAINT Log_User_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username), 
     CONSTRAINT Log_PK PRIMARY KEY (logId)
 );
 -- ALTER TABLE Category CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

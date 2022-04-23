@@ -49,7 +49,7 @@ CREATE TABLE Profile (
     eventAccount BOOL NOT NULL DEFAULT FALSE,
     CONSTRAINT Profile_Pk PRIMARY KEY (username),
     CONSTRAINT Username_UK UNIQUE (username),
-    CONSTRAINT User_ID_FK FOREIGN KEY (userId) REFERENCES User (userId)
+    CONSTRAINT User_FK FOREIGN KEY (userId, username) REFERENCES User (userId, username)
 );
 
 CREATE TABLE EventAccount (

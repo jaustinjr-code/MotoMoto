@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
+using System.Data;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
@@ -66,19 +67,41 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"INSERT INTO LOG (logId, categoryName, levelName, timeStamp, userId, DSCRIPTION) " +
-                                      $"VALUES (@v1, @v2, @v3, @v4, @v5, @v6);";
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "INSERT INTO LOG (categoryName, levelName, userId, username, description) " +
+                                      "VALUES ('@v2', '@v3', '@v5, @v6);";
                 var parameters = new MySqlParameter[6];
-                parameters[0] = new MySqlParameter("@v1", dataStoreLog!._logId);
-                parameters[1] = new MySqlParameter("@v2", dataStoreLog!._categoryName);
-                parameters[2] = new MySqlParameter("@v3", dataStoreLog!._levelName);
-                parameters[3] = new MySqlParameter("@v4", dataStoreLog!._dateTime);
-                parameters[4] = new MySqlParameter("@v5", dataStoreLog!._userId);
+                parameters[1] = new MySqlParameter("@v1", dataStoreLog!._categoryName);
+                parameters[2] = new MySqlParameter("@v2", dataStoreLog!._levelName);
+                parameters[4] = new MySqlParameter("@v3", dataStoreLog!._userId);
+                parameters[5] = new MySqlParameter("@v4", dataStoreLog!._username);
                 parameters[5] = new MySqlParameter("@v6", dataStoreLog!._description);
 
                 command.Parameters.AddRange(parameters);
+                
+                return (ExecuteQuery(command));
+            }
+        }
+        public bool RemoveUsernameFromLogFiles(LogEntryModel logEntryModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "UPDATE Log L SET L.username = NULL WHERE L.username = '@v1'";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", logEntryModel._username);
                 return (ExecuteQuery(command));
             }
         }
