@@ -9,7 +9,7 @@ CREATE TABLE Comment (
 CREATE TABLE Post (
     postID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
     postUsername VARCHAR(25) NOT NULL,
-    feedName VARCHAR(25) NOT NULL UNIQUE,
+    feedName VARCHAR(25) NOT NULL,
     postTitle VARCHAR(75) NOT NULL,
     postDescription VARCHAR(1500) NOT NULL,
     -- imageID INT UNSIGNED NOT NULL,
@@ -36,7 +36,7 @@ INSERT INTO Feed
 VALUES (NULL, 'test');
 -- Post dummy data
 INSERT INTO Post
-VALUES (1, 'test', 'test', 'test', 'test', NULL);
+VALUES (null, 'testuser', 'test', 'test', 'test', NULL);
 -- Image dummy data
 INSERT INTO Image
 VALUES (1, NULL, '/Desktop/');
