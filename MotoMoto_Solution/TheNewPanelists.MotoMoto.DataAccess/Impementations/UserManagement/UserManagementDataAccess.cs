@@ -113,7 +113,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
@@ -151,7 +151,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
@@ -197,8 +197,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email)" +
-                                      $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
+                command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email, salt)" +
+                                      $"VALUES (@v0, '@v1', '@v2', '@v3', '@v4', @v5, salt)";
                 var parameters = new MySqlParameter[6];
                 parameters[0] = new MySqlParameter("@v0", userAccount!._userId);
                 parameters[1] = new MySqlParameter("@v1", userAccount!._userType);

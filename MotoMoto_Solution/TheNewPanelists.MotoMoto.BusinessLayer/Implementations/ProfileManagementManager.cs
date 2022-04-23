@@ -24,6 +24,25 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         {
             return _profileManagementService!.CreateExistingAccountProfiles();
         }
-
+        public bool UpdateProfileUsername()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileImage()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileDescription()
+        {
+            throw new NotImplementedException();
+        }
+        public ProfileModel RetrieveSpecifiedUserProfile()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileStatus()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

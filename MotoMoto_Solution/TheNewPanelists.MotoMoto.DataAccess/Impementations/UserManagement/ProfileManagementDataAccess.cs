@@ -22,13 +22,19 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
         /// <summary>
-        /// 
+        /// Uses the configuration file to set the name of the connection string. We do not use the overloaded constructor
+        /// unless for expansion purposes where information needs to be stored to a new data store
         /// </summary>
         /// <param name="connectionString"></param>
         public ProfileManagementDataAccess(string connectionString)
         {
             _connectionString = connectionString;
         }
+        /// <summary>
+        /// ExecuteQuery function is used
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         private bool ExecuteQuery(MySqlCommand command)
         {
             switch (command.ExecuteNonQuery())
@@ -330,10 +336,38 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// </summary>
         /// <param name="dataStoreUser"></param>
         /// <returns></returns>
-        public bool UpdateProfileUsername(DataStoreUser dataStoreUser)
+        public bool UpdateProfileUsername(AccountModel accountUser)
         {
-            throw new NotImplementedException();
+            UserManagementDataAccess _userManagementDAO = new UserManagementDataAccess();
+            var retrievalAccount = _userManagementDAO.RetrieveSpecifiedUserEntity(accountUser);
+
+            switch (retrievalAccount)
+            {
+                case null:
+                    return false;
+                default:
+                    using (MySqlCommand command = new MySqlCommand())
+                    {
+                        command.Transaction = mySqlConnection!.BeginTransaction();
+                        command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                        command.Connection = mySqlConnection!;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = "UPDATE Profile P SET P.username = '@v1' WHERE P.username = '@v2';";
+                        var parameters = new MySqlParameter[1];
+                        parameters[0] = new MySqlParameter("@v1", accountUser!._username);
+                        parameters[1] = new MySqlParameter("@v2", retrievalAccount!._username);
+
+                        command.Parameters.AddRange(parameters);
+                        return (ExecuteQuery(command));
+                    }
+            }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool UpdateProfileStatus(ProfileModel profile)
         {
             if (!EstablishMariaDBConnection())

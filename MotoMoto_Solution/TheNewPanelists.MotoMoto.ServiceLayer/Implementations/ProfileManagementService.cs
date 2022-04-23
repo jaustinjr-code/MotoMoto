@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -59,6 +60,15 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public ProfileModel RetrieveSpecifiedUserProfile(ProfileModel userProfile)
         {
             return _profileManagementDAO!.RetrieveSpecifiedProfileEntity(userProfile);
+        }
+
+        public bool UpdateUserProfileUsername(ProfileModel profileModel)
+        {
+            var _dataStoreUserAccount = new AccountModel
+            {
+                _username = profileModel._username
+            };
+            return _profileManagementDAO!.UpdateProfileUsername(_dataStoreUserAccount);
         }
     }
 }
