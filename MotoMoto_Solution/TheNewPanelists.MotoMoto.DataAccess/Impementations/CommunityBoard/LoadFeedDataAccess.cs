@@ -96,6 +96,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
+            // The post id will be visible on the client side so using this info is okay
+            string commandText = "SELECT * FROM Post WHERE postID = @postID;";
+            using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
+            {
+                command.Parameters.AddWithValue("@postID", postInput.postID);
+                try
+                {
+                    _mySqlConnection!.BeginTransaction();
+                    IPostEntity result = ((List<IPostEntity>)RefineData(command.ExecuteReader())).ElementAt(0);
+                    _mySqlConnection.Close();
+                    //Console.WriteLine(result);
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+            }
 
             IPostEntity? entity = null;
             return entity;
@@ -119,10 +137,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 int diff = 7;
                 command.Parameters.AddWithValue("@feedname", feedInput.feedName);
                 command.Parameters.AddWithValue("@diff", diff);
-                command.Transaction = _mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 try
                 {
+                    command.Transaction = _mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     IEnumerable<IPostEntity> result = RefineData(command.ExecuteReader());
                     _mySqlConnection.Close();
                     IFeedEntity feed = new DataStoreCommunityFeed(feedInput.feedName, result, null);

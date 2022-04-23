@@ -33,7 +33,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
 
         // Not a useful test as it uses mock data
         //[Fact]
-        //public void IsLoadFeedFetchingPosts()
+        //public void IsLoadFeedFetchingAllPosts()
         //{
         //    // Given
         //IContentDataAccess feedDataAccess = new LoadFeedDataAccess();
@@ -43,7 +43,19 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
         //IFeedEntity? entity = ((LoadFeedDataAccess)feedDataAccess).FetchAllPosts(model);
         //    // Then
         ////Assert.Throws(((LoadFeedDataAccess)feedDataAccess).FetchAllPosts(model));
-        // Not Null fails a successful query with no recent posts so the IFeedEntity will be null
+        // // Not Null fails a successful query with no recent posts so the IFeedEntity will be null
+        //Assert.NotNull(entity);
+        //}
+
+        //[Fact]
+        //public void IsLoadFeedFetchingPost()
+        //{
+        //// Given
+        //IContentDataAccess postDataAccess = new LoadFeedDataAccess();
+        //IPostModel model = new FeedPostModel(1);
+        //// When
+        //IPostEntity? entity = ((LoadFeedDataAccess)postDataAccess).FetchPost(model);
+        //// Then
         //Assert.NotNull(entity);
         //}
     }
