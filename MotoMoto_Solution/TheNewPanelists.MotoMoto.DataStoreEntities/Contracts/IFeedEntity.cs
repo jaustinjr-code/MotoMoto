@@ -4,6 +4,6 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
     {
         string feedName { get; }
         IEnumerable<IPostEntity> postList { get; }
-        IAnalytic feedAnalytic { get; set; }
+        IAnalytic? feedAnalytic { get; }
     }
 }
