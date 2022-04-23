@@ -29,14 +29,5 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             partComparisonModel.currentPriceDifference = tempMax - tempMin;
             return partComparisonModel;
         }
-
-        public PartComparisonModel RetrievePartComparisonInformation(PartComparisonModel partComparisonModel)
-        {
-            foreach (PartModel part in partComparisonModel!.ComparisonParts!)
-                continue;
-            return null;
-        }
-
-        //public 
     }
 }

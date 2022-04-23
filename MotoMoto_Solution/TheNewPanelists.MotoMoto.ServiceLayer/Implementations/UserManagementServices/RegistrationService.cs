@@ -115,7 +115,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     client.Send(message);
                     return true;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // log error message
                     return false;
