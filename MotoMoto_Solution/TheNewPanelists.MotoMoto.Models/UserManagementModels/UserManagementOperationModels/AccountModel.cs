@@ -9,8 +9,8 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class AccountModel
     {
-        public string? AccountType { get; set; }
-        public string? Username { get; set; }
-
+        public string? _accountType { get; set; }
+        public string? _username { get; set; }
+        public string? _newUsername { get; set; }
     }
 }

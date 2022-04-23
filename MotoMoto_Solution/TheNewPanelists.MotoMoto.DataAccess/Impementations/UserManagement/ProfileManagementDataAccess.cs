@@ -2,16 +2,29 @@
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.Models;
 using System.Data;
+using System.Configuration;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public class ProfileManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection = null;
-        private readonly string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string? _connectionString { get; set; }
 
-        public ProfileManagementDataAccess() {}
+        public ProfileManagementDataAccess() 
+        {
+            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 
+            if (settings != null)
+            {
+                foreach (ConnectionStringSettings cs in settings)
+                    _connectionString = cs.ConnectionString;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString"></param>
         public ProfileManagementDataAccess(string connectionString)
         {
             _connectionString = connectionString;
@@ -28,6 +41,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     return false;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool EstablishMariaDBConnection()
         {
             try
@@ -43,6 +60,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userProfile"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel userProfile)
         {
             if (!EstablishMariaDBConnection())
@@ -58,7 +81,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM Profile P WHERE P.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userProfile!.Username);
+                parameters[0] = new MySqlParameter("@v1", userProfile!._username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -66,9 +89,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 ProfileModel returnProfile = new ProfileModel();
                 while (myReader.Read())
                 {
-                    returnProfile.Username = myReader.GetString("username");
-                    returnProfile.Status = myReader.GetBoolean("status");
-                    returnProfile.EventAccount = myReader.GetBoolean("eventAccount");
+                    returnProfile._username = myReader.GetString("username");
+                    returnProfile._status = myReader.GetBoolean("status");
+                    returnProfile._eventAccount = myReader.GetBoolean("eventAccount");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -77,25 +100,48 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return returnProfile;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public ISet<ProfileModel> GetAllProfiles()
         {
-            MySqlCommand command = new MySqlCommand();
-            MySqlDataReader myReader = command.ExecuteReader();
-            ISet<ProfileModel> accountsSet = new HashSet<ProfileModel>();
-            while (myReader.Read())
+            if (!EstablishMariaDBConnection())
             {
-                ProfileModel userProfile = new ProfileModel();
-                userProfile.Username = myReader.GetString("typeName");
-                userProfile.Status = myReader.GetBoolean("status");
-                userProfile.EventAccount = myReader.GetBoolean("eventAccount");
-                userProfile.ProfileDescription = myReader.GetString("profileDescription");
-                userProfile.ProfileImagePath = myReader.GetString("profileImage")
-                accountsSet.Add(userProfile);
+                throw new NullReferenceException();
             }
-            myReader.Close();
-            mySqlConnection!.Close();
-            return accountsSet;
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = $"SELECT * FROM Profile";
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                ISet<ProfileModel> accountsSet = new HashSet<ProfileModel>();
+                while (myReader.Read())
+                {
+                    ProfileModel userProfile = new ProfileModel();
+                    userProfile._username = myReader.GetString("typeName");
+                    userProfile._status = myReader.GetBoolean("status");
+                    userProfile._eventAccount = myReader.GetBoolean("eventAccount");
+                    userProfile._profileDescription = myReader.GetString("profileDescription");
+                    userProfile._profileImagePath = myReader.GetString("profileImage");
+                    accountsSet.Add(userProfile);
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+                return accountsSet;
+            }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool InsertNewProfileEntity()
         {
             if (!EstablishMariaDBConnection())
@@ -114,7 +160,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return (ExecuteQuery(command));
             }
         }
-        public bool DeleteProfileEntity(DeleteAccountModel userAccount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public bool DeleteProfile(DeleteAccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -127,14 +179,19 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"DELETE * FROM Profile P WHERE P.USERNAME = \'@v1\';";
+                command.CommandText = "DELETE * FROM Profile P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
 
                 command.Parameters.AddRange(parameters);
-                return(ExecuteQuery(command));
+                return (ExecuteQuery(command));
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <exception cref="NullReferenceException"></exception>
         private void GetUserUpvotedPosts(ProfileModel profileModel)
         {
             if (!EstablishMariaDBConnection())
@@ -150,29 +207,33 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM VotePosts v WHERE v.username = '@v1';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
+                parameters[0] = new MySqlParameter("@v1", profileModel._username);
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 command.Parameters.AddRange(parameters);
-                
+
                 while (myReader.Read())
                 {
                     if (myReader.GetBoolean("vote") == true)
                     {
                         var upvotepost = new UpvotedPostsModel()
                         {
-                            likeid = myReader.GetInt32("likeid"),
-                            postid = myReader.GetInt32("postid"),
-                            vote = myReader.GetBoolean("vote")
+                            _likeId = myReader.GetInt32("likeid"),
+                            _postId = myReader.GetInt32("postid"),
+                            _userVote = myReader.GetBoolean("vote")
                         };
-                        profileModel.UpVotedPosts!.Add(upvotepost);
+                        profileModel._upVotedPosts!.Add(upvotepost);
                     }
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <exception cref="NullReferenceException"></exception>
         private void GetUserPosts(ProfileModel profileModel)
         {
             if (!EstablishMariaDBConnection())
@@ -188,7 +249,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM Posts v WHERE v.postUsername = '@v1';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
+                parameters[0] = new MySqlParameter("@v1", profileModel._username);
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 command.Parameters.AddRange(parameters);
@@ -197,18 +258,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 {
                     var upvotepost = new UserPostModel()
                     {
-                        postTitle = myReader.GetString("postTitle"),
-                        postDescription = myReader.GetString("postDescription"),
-                        contentType = myReader.GetString("feedName"),
-                        submitUTC = myReader.GetDateTime("submitUTC ")
+                        _postTitle = myReader.GetString("postTitle"),
+                        _postDescription = myReader.GetString("postDescription"),
+                        _contentType = myReader.GetString("feedName"),
+                        _submitUTC = myReader.GetDateTime("submitUTC ")
                     };
-                    profileModel.userPosts!.Add(upvotepost);
+                    profileModel._userPosts!.Add(upvotepost);
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool UpdateProfileDescription(ProfileModel profileModel)
         {
             if (!EstablishMariaDBConnection())
@@ -222,16 +288,21 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE Profile P SET P.profileDescription = '@v1' WHERE P.username = '@v2';";
+                command.CommandText = "UPDATE Profile P SET P.profileDescription = '@v1' WHERE P.username = '@v2';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel!.ProfileDescription);
-                parameters[1] = new MySqlParameter("@v2", profileModel!.Username);
+                parameters[0] = new MySqlParameter("@v1", profileModel!._profileDescription);
+                parameters[1] = new MySqlParameter("@v2", profileModel!._username);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public bool UpdateProfileImage(ProfileModel profileModel)
         {
             if (!EstablishMariaDBConnection())
@@ -245,10 +316,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE Profile P SET P.profileImage = '@v1' WHERE P.username = '@v2';";
+                command.CommandText = "UPDATE Profile P SET P.profileImage = '@v1' WHERE P.username = '@v2';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel!.ProfileImagePath);
-                parameters[1] = new MySqlParameter("@v2", profileModel!.Username);
+                parameters[0] = new MySqlParameter("@v1", profileModel!._profileImagePath);
+                parameters[1] = new MySqlParameter("@v2", profileModel!._username);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
@@ -262,6 +333,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public bool UpdateProfileUsername(DataStoreUser dataStoreUser)
         {
             throw new NotImplementedException();
+        }
+        public bool UpdateProfileStatus(ProfileModel profile)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "UPDATE Profile P SET P.Status = v0 WHERE P.username = '@v1';";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v0", profile._status);
+                parameters[1] = new MySqlParameter("@v1", profile._username);
+
+                command.Parameters.AddRange(parameters);
+                return (ExecuteQuery(command));
+            }
         }
     }
 }

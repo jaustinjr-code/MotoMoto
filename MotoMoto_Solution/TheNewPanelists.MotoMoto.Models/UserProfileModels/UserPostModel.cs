@@ -8,10 +8,10 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class UserPostModel
     { 
-        public string? postTitle { get; set; }
-        public string? contentType { get; set; }
-        public string? postDescription { get; set; }
-        public DateTime? submitUTC { get; set; }
+        public string? _postTitle { get; set; }
+        public string? _contentType { get; set; }
+        public string? _postDescription { get; set; }
+        public DateTime? _submitUTC { get; set; }
     }
 }
 

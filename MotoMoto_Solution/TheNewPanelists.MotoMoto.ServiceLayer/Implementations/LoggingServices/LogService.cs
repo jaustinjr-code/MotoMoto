@@ -16,11 +16,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         {
             var dataStoreLog = new DataStoreLog()
             {
-                LogId = _dataStoreLog.LogId,
-                LevelName = _dataStoreLog.LevelName,
-                CategoryName = _dataStoreLog.CategoryName,
-                UserId = _dataStoreLog.UserId,
-                Description = _dataStoreLog.Description,
+                _logId = _dataStoreLog._logId,
+                _levelName = _dataStoreLog._levelName,
+                _categoryName = _dataStoreLog._categoryName,
+                _userId = _dataStoreLog._userId,
+                _description = _dataStoreLog._description,
             };
             return _logDataAccess!.InsertNewLogEntity(dataStoreLog);
         }

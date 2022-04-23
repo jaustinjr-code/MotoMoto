@@ -26,9 +26,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
             var userAccounts = accountEntities.Select(acct => new ProfileModel()
             {
-                Username = userProfile!.Username,
-                Status = userProfile!.Status,
-                EventAccount = userProfile!.EventAccount,
+                _username = userProfile!._username,
+                _status = userProfile!._status,
+                _eventAccount = userProfile!._eventAccount,
             }).ToHashSet();
             return userAccounts;
         }
@@ -41,22 +41,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUserProfile = new DeleteAccountModel()
             {
-                Username = deletedProfile!.Username,
-                VerifiedPassword = deletedProfile!.VerifiedPassword
+                _username = deletedProfile!._username,
+                _verifiedPassword = deletedProfile!._verifiedPassword
             };
-            return _profileManagementDAO!.DeleteProfileEntity(dataStoreUserProfile);
+            return _profileManagementDAO!.DeleteProfile(dataStoreUserProfile);
         }
 
         public bool CreateExistingAccountProfiles()
         {
             return _profileManagementDAO!.InsertNewProfileEntity();
         }
-        public bool DeleteProfileOperation(DeleteAccountModel deletedProfile)
-        {
-
-            return _profileManagementDAO!.DeleteProfileEntity(deletedProfile);
-        }
-
         public bool UpdateProfileDescription(ProfileModel profileModel)
         {
             return _profileManagementDAO!.UpdateProfileDescription(profileModel);

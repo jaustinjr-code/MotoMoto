@@ -64,8 +64,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             {
                 var deleteAccountModel = new DeleteAccountModel()
                 {
-                    Username = _username,
-                    VerifiedPassword = _password
+                    _username = _username,
+                    _verifiedPassword = _password
                 };
                 bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
                 return Ok();

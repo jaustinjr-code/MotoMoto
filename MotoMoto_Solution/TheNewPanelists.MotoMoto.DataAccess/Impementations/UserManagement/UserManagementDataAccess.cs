@@ -1,5 +1,6 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
@@ -14,13 +15,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
 
-        private readonly string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string? _connectionString { get; set; }
         //write config so this only appears once
 
-        public UserManagementDataAccess() {}
+        public UserManagementDataAccess() 
+        {
+            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
+
+            if (settings != null)
+            {
+                foreach(ConnectionStringSettings cs in settings)
+                    _connectionString = cs.ConnectionString;
+            }
+        }
         public UserManagementDataAccess(string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
+
+            if (settings != null)
+            {
+                foreach (ConnectionStringSettings cs in settings)
+                    _connectionString = cs.ConnectionString;
+            }
         }
         /// <summary>
         /// 
@@ -68,8 +84,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             while (myReader.Read())
             {
                 AccountModel userAccount = new AccountModel();
-                userAccount.AccountType = myReader.GetString("typeName");
-                userAccount.Username = myReader.GetString("username");
+                userAccount._accountType = myReader.GetString("typeName");
+                userAccount._username = myReader.GetString("username");
                 accountsSet.Add(userAccount);
             }
             myReader.Close();
@@ -99,7 +115,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -107,8 +123,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 AccountModel returnAccount = new AccountModel();
                 while (myReader.Read())
                 {
-                    returnAccount.AccountType = myReader.GetString("typeName");
-                    returnAccount.Username = myReader.GetString("username");
+                    returnAccount._accountType = myReader.GetString("typeName");
+                    returnAccount._username = myReader.GetString("username");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -145,7 +161,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userId = myReader.GetInt32("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
@@ -184,7 +200,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email)" +
                                       $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
                 var parameters = new MySqlParameter[6];
-                parameters[0] = new MySqlParameter("@v0", userAccount!.UserId);
+                parameters[0] = new MySqlParameter("@v0", userAccount!._userId);
                 parameters[1] = new MySqlParameter("@v1", userAccount!._userType);
                 parameters[2] = new MySqlParameter("@v2", userAccount!._username);
                 parameters[3] = new MySqlParameter("@v3", userAccount!._password);
@@ -209,8 +225,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             var dataStoreUser = new DataStoreUser()
             {
-                _username = userAccount.Username,
-                _password = userAccount.VerifiedPassword
+                _username = userAccount._username,
+                _password = userAccount._verifiedPassword
             };
             if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
 
@@ -223,8 +239,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"DELETE * FROM User U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
                 var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
-                parameters[1] = new MySqlParameter("@v2", userAccount!.VerifiedPassword);
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+                parameters[1] = new MySqlParameter("@v2", userAccount!._verifiedPassword);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
@@ -244,8 +260,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             var dataStoreUser = new DataStoreUser()
             {
-                _username = userAccount.Username,
-                _password = userAccount.VerifiedPassword
+                _username = userAccount._username,
+                _password = userAccount._verifiedPassword
             };
             if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
 
@@ -258,7 +274,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"UPDATE User SET USER.USERNAME = NULL, USER.EMAIL = NULL WHERE USER.USERNAME = @v1";
                 var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -294,7 +310,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userId = myReader.GetInt32("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
@@ -331,13 +347,18 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.Parameters.AddRange(parameters);
                 retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
-                if ((retrievalAccount.UserId == userAccount!.UserId) && (retrievalAccount._password == userAccount!._password))
+                if ((retrievalAccount._userId == userAccount!._userId) && (retrievalAccount._password == userAccount!._password))
                     return true;
                 return false;
             }
         }
-
-        private bool SetNewUsername(AccountModel account)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private bool SetNewUsername(AccountModel userAccount)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -350,112 +371,15 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
+
+                command.CommandText = $"UPDATE User U SET U.USERNAME = '@v1' WHERE U.USERNAME ='@v2'";
+                var parameters = new MySqlParameter[1];
+                parameters[0] = new MySqlParameter("@v1", userAccount!._newUsername);
+                parameters[1] = new MySqlParameter("@v2", userAccount!._username);
+
+                command.Parameters.AddRange(parameters);
+                return(ExecuteQuery(command));
             }
+        }
     }
 }
-
-//**********DO NOT DELETE BELOW***********
-//Account Recovery Functions needed later
-
-/*
-private bool UserEmailDSValidation(DataStoreUser userAccount)
-{
-    DataStoreUser retrievalAccount;
-    using (var command = new MySqlCommand())
-    {
-        command.CommandText = $"SELECT * FROM USER U WHERE U.EMAIL = @v1";
-        var parameters = new MySqlParameter[1];
-        parameters[0] = new MySqlParameter("@v1", userAccount!._email);
-
-        command.Parameters.AddRange(parameters);
-        retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
-        if (retrievalAccount._email == userAccount!._email)
-            return true;
-        return false;
-    }
-}
-
-public bool ForgotUsernameEntity(ForgotUsernameModel userAccount) 
-{
-    if (!EstablishMariaDBConnection())
-    {
-        return false;
-    }
-    var dataStoreUser = new DataStoreUser()
-    {
-        _email = userAccount.email
-    };
-    if (!UserEmailDSValidation(dataStoreUser)) return false;
-
-    using (var command = new MySqlCommand())
-    {
-        command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
-        var parameters = new SqlParameter[2];
-        parameters[0] = new SqlParameter("@v1", userAccount!.username);
-
-        command.Parameters.AddRange(parameters);
-        return (ExecuteQuery(command));
-    }
-}
-private bool UserNameDSValidation(DataStoreUser userAccount)
-{
-    DataStoreUser retrievalAccount;
-    using (var command = new MySqlCommand())
-    {
-        command.CommandText = $"SELECT * FROM USER U WHERE U.USERNAME = @v1";
-        var parameters = new MySqlParameter[1];
-        parameters[0] = new MySqlParameter("@v1", userAccount!._username);
-
-        command.Parameters.AddRange(parameters);
-        retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
-        if (retrievalAccount._username == userAccount!._username)
-            return true;
-        return false;
-    }
-}
-public bool ForgotPasswordEntity(ForgotPasswordModel userAccount) 
-{
-    if (!EstablishMariaDBConnection())
-    {
-        return false;
-    }
-    var dataStoreUser = new DataStoreUser()
-    {
-        _username = userAccount.username
-    };
-    if (!UserEmailDSValidation(dataStoreUser)) return false;
-
-    using (var command = new MySqlCommand())
-    {
-        command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
-        var parameters = new SqlParameter[2];
-        parameters[0] = new SqlParameter("@v1", userAccount!.username);
-
-        command.Parameters.AddRange(parameters);
-        return (ExecuteQuery(command));
-    }
-}
-public bool ChangePasswordEntity(ChangePasswordModel userAccount)
-{
-    if (!EstablishMariaDBConnection())
-    {
-        return false;
-    }
-    var dataStoreUser = new DataStoreUser()
-    {
-        _password = userAccount.newPassword,
-        _verifiedPassword = userAccount.verifiedNewPassword
-    };
-    //if (!UserEmailDSValidation(dataStoreUser)) return false;
-
-    using (var command = new MySqlCommand())
-    {
-        command.CommandText = $"DELETE * FROM USER U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
-        var parameters = new SqlParameter[2];
-        parameters[0] = new SqlParameter("@v1", userAccount!.username);
-
-        command.Parameters.AddRange(parameters);
-        return (ExecuteQuery(command));
-    }
-}
-*/

@@ -69,12 +69,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandText = $"INSERT INTO LOG (logId, categoryName, levelName, timeStamp, userId, DSCRIPTION) " +
                                       $"VALUES (@v1, @v2, @v3, @v4, @v5, @v6);";
                 var parameters = new MySqlParameter[6];
-                parameters[0] = new MySqlParameter("@v1", dataStoreLog!.LogId);
-                parameters[1] = new MySqlParameter("@v2", dataStoreLog!.CategoryName);
-                parameters[2] = new MySqlParameter("@v3", dataStoreLog!.LevelName);
+                parameters[0] = new MySqlParameter("@v1", dataStoreLog!._logId);
+                parameters[1] = new MySqlParameter("@v2", dataStoreLog!._categoryName);
+                parameters[2] = new MySqlParameter("@v3", dataStoreLog!._levelName);
                 parameters[3] = new MySqlParameter("@v4", dataStoreLog!._dateTime);
-                parameters[4] = new MySqlParameter("@v5", dataStoreLog!.UserId);
-                parameters[5] = new MySqlParameter("@v6", dataStoreLog!.Description);
+                parameters[4] = new MySqlParameter("@v5", dataStoreLog!._userId);
+                parameters[5] = new MySqlParameter("@v6", dataStoreLog!._description);
 
                 command.Parameters.AddRange(parameters);
                 command.Transaction = mySqlConnection!.BeginTransaction();

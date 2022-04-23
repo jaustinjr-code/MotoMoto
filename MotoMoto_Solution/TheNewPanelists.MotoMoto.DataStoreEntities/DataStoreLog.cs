@@ -8,11 +8,11 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public class DataStoreLog 
     {
-        public int? LogId { get; set; }
-        public string? LevelName { get; set; }
-        public string? CategoryName { get; set; }
+        public int? _logId { get; set; }
+        public string? _levelName { get; set; }
+        public string? _categoryName { get; set; }
         public string? _dateTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-        public string? UserId { get; set; }
-        public string? Description { get; set; }
+        public string? _userId { get; set; }
+        public string? _description { get; set; }
     }
 }

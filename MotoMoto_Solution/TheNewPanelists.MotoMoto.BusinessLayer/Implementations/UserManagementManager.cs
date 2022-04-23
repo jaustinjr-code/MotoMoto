@@ -21,11 +21,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>boolean value based off of the account deletion service</returns>
         public bool PerminateDeleteAccountManager(DeleteAccountModel deleteAccountUser)
         {
-            if (deleteAccountUser.Username!.Length == 0 || deleteAccountUser.Username!.Length > 24)
+            if (deleteAccountUser._username!.Length == 0 || deleteAccountUser._username!.Length > 24)
             {
                 return false;
             }
-            if (deleteAccountUser.VerifiedPassword!.Length == 0 || deleteAccountUser.VerifiedPassword.Length > 24)
+            if (deleteAccountUser._verifiedPassword!.Length == 0 || deleteAccountUser._verifiedPassword!.Length > 24)
             {
                 return false;
             }
@@ -34,11 +34,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool KeepDeleteAccountManager(DeleteAccountModel deleteAccountModel)
         {
-            if (deleteAccountModel.Username!.Length == 0 || deleteAccountModel.Username!.Length > 24)
+            if (deleteAccountModel._username!.Length == 0 || deleteAccountModel._username!.Length > 24)
             {
                 return false;
             }
-            if (deleteAccountModel.VerifiedPassword!.Length == 0 || deleteAccountModel.VerifiedPassword.Length > 24)
+            if (deleteAccountModel._verifiedPassword!.Length == 0 || deleteAccountModel._verifiedPassword.Length > 24)
             {
                 return false;
             }
@@ -54,8 +54,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         {
             var accountModel = new AccountModel()
             {
-                AccountType = "REGISTERED",
-                Username = username
+                _accountType = "REGISTERED",
+                _username = username
             };
             return _userManagementService.RetrieveAllAccounts(accountModel);
         }
