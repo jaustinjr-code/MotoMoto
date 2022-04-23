@@ -14,8 +14,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             UserManagementDataAccess userManagementDAO = new UserManagementDataAccess();
             var userTestAccountDeletionModel = new DeleteAccountModel
             {
-                Username = "testUsername",
-                VerifiedPassword = "testVerifiedPassword"
+                _username = "testUsername",
+                _verifiedPassword = "testVerifiedPassword"
             };
 
             result = userManagementDAO.PerminateDeleteAccountEntity(userTestAccountDeletionModel);

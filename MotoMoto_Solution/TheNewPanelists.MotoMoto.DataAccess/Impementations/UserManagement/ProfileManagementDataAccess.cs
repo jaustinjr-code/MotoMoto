@@ -181,7 +181,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "DELETE * FROM Profile P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));

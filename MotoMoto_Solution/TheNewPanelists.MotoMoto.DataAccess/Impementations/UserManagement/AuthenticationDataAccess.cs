@@ -80,8 +80,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                                     + "username FROM User WHERE userId = @v2), "
                                     + "@v3);";
                 var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", dataStoreUser!.UserId);
-                parameters[1] = new MySqlParameter("@v2", dataStoreUser!.UserId);
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._userId);
+                parameters[1] = new MySqlParameter("@v2", dataStoreUser!._userId);
                 parameters[2] = new MySqlParameter("@v3", authenticationModel!.Attempts);
 
                 command.Parameters.AddRange(parameters);
@@ -117,7 +117,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userId = myReader.GetInt32("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");
@@ -301,7 +301,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser.UserId = myReader.GetInt32("userId");
+                    returnUser._userId = myReader.GetInt32("userId");
                     returnUser._userType = myReader.GetString("typeName");
                     returnUser._username = myReader.GetString("username");
                     returnUser._password = myReader.GetString("password");

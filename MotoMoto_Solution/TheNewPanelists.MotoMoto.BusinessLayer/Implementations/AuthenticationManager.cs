@@ -37,7 +37,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
             if ((dataStoreUser!._username == authenticationModel.Username) && (dataStoreUser._password == authenticationModel.Password))
             {
-                authenticationModel.UserId = dataStoreUser.UserId;
+                authenticationModel.UserId = dataStoreUser._userId;
                 _authenticationService.GenerateOneTimePassword(authenticationModel);
 
                 returnAuthenticationModel._authenticationModel = authenticationModel;
