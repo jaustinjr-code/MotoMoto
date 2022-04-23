@@ -22,7 +22,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool CreateAccountManager()
         {
-            return (_profileManagementService!.CreateAccountProfile());
+            return _profileManagementService!.CreateExistingAccountProfiles();
         }
 
     }

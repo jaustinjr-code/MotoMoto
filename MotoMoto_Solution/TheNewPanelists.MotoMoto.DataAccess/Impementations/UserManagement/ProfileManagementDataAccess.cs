@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     public class ProfileManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection = null;
-        private readonly string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
+        private readonly string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         public ProfileManagementDataAccess() {}
 
@@ -53,6 +53,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = $"SELECT * FROM Profile P WHERE P.USERNAME = @v1";
@@ -71,6 +72,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
+                GetUserUpvotedPosts(returnProfile);
+                GetUserPosts(returnProfile);
                 return returnProfile;
             }
         }
@@ -85,6 +88,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 userProfile.Username = myReader.GetString("typeName");
                 userProfile.Status = myReader.GetBoolean("status");
                 userProfile.EventAccount = myReader.GetBoolean("eventAccount");
+                userProfile.ProfileDescription = myReader.GetString("profileDescription");
+                userProfile.ProfileImagePath = myReader.GetString("profileImage")
                 accountsSet.Add(userProfile);
             }
             myReader.Close();
@@ -101,6 +106,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = @"INSERT INTO Profile (userId, username) SELECT u.userId, u.username FROM User u 
@@ -118,6 +124,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = $"DELETE * FROM Profile P WHERE P.USERNAME = \'@v1\';";
@@ -126,41 +133,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));
-            }
-        }
-        public ProfileModel RetrieveProfileInformation(ProfileModel profileModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "SELECT * FROM Profile P WHERE P.username = '@v1';";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel.Username);
-
-                command.Parameters.AddRange(parameters);
-
-                MySqlDataReader myReader = command.ExecuteReader();
-                ProfileModel returnProfile = new ProfileModel();
-                while (myReader.Read())
-                {
-                    returnProfile.Username = myReader.GetString("username");
-                    returnProfile.Status = myReader.GetBoolean("status");
-                    returnProfile.EventAccount = myReader.GetBoolean("eventAccount");
-                    returnProfile.ProfileDescription = myReader.GetString("profileDescription");
-                    returnProfile.ProfileImagePath = myReader.GetString("profileImage");
-                }
-                myReader.Close();
-                mySqlConnection!.Close();
-                GetUserUpvotedPosts(returnProfile);
-                GetUserPosts(returnProfile);
-                return returnProfile;
             }
         }
         private void GetUserUpvotedPosts(ProfileModel profileModel)
@@ -173,6 +145,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = "SELECT * FROM VotePosts v WHERE v.username = '@v1';";
@@ -210,6 +183,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = "SELECT * FROM Posts v WHERE v.postUsername = '@v1';";
@@ -245,6 +219,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = $"UPDATE Profile P SET P.profileDescription = '@v1' WHERE P.username = '@v2';";
@@ -267,6 +242,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = $"UPDATE Profile P SET P.profileImage = '@v1' WHERE P.username = '@v2';";
@@ -277,6 +253,15 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStoreUser"></param>
+        /// <returns></returns>
+        public bool UpdateProfileUsername(DataStoreUser dataStoreUser)
+        {
+            throw new NotImplementedException();
         }
     }
 }

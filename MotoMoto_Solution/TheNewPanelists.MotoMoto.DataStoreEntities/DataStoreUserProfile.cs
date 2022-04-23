@@ -15,5 +15,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? _username { get; set; }
         public bool _status { get; set; }
         public bool _eventAccount { get; set; }
+        public string? _description { get; set; }
+        public string? _ProfileDescription { get; set; }
     }
 }
