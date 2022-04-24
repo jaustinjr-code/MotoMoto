@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _partPriceAnalysisDAO = partPriceAnalysisDAO;
         }
-
+        /*
         private PartComparisonModel EvaluateCurrentPriceDifference(PartComparisonModel partComparisonModel)
         {
             double tempMax = -1;
@@ -28,6 +28,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 }
             partComparisonModel.currentPriceDifference = tempMax - tempMin;
             return partComparisonModel;
-        }
+        } 
+        */
     }
 }

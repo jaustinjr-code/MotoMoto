@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheNewPanelists.MotoMoto.Models
 {
-    public class PartPrice
+    public class PartListModel
     {
-        public int _productId { get; set; }
-        public double _productPrice { get; set; }
-        public DateTime _priceSetDate { get; set; } 
+        public string? _partCategory { get; set; }
+        public List<PartModel> _partList = new List<PartModel>();
     }
 }

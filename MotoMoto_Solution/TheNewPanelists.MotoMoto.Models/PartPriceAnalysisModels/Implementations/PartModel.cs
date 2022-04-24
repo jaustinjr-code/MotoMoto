@@ -2,8 +2,12 @@
 {
     public class PartModel : IPart
     {
-        public string? _partID { get; set; }
+        public int _partID { get; set; }
         public string? _partName { get; set; }
-        public List<PartDatePrice>? PartDatePrices { get; set; }
+        public string? _rating { get; set; }
+        public int _ratingCount { get; set; }
+        public string? _productURL { get; set; }
+        public double _currentPrice { get; set; }
+        public List<PartPrice>? _partPrices = new List<PartPrice>();
     }
 }
