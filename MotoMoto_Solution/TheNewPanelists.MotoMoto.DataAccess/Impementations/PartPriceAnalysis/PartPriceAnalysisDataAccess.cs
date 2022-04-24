@@ -10,9 +10,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         private string _connectionString = "";
-        /// <summary>
-        /// 
-        /// </summary>
+
         public PartPriceAnalysisDataAccess()
         {
             ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
@@ -23,16 +21,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     _connectionString = cs.ConnectionString;
             } 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="connectionString"></param>
         public PartPriceAnalysisDataAccess(string connectionString)
         {
             _connectionString = connectionString;
         }
         /// <summary>
-        /// 
+        /// Execute query function is soley used to execute non queries
+        /// in the sense of sql database. We use this functionality of 
+        /// booleans to determine if the query returns valid or not.
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -47,7 +43,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
         /// <summary>
-        /// 
+        /// Establish mariadbconnection ensures the our connection string
+        /// is valid. If it does not pass the establishment portion then
+        /// our system is notified that connection cannot be passed
         /// </summary>
         /// <returns></returns>
         public bool EstablishMariaDBConnection()
@@ -65,7 +63,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
         /// <summary>
-        /// 
+        /// RetrieveAllCategorialPartInformation will be used to allow users to see specified
+        /// lists of items on their view. 
         /// </summary>
         /// <param name="listModel"></param>
         /// <returns></returns>
@@ -105,7 +104,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
         /// <summary>
-        /// 
+        /// Retrieve part information will be used to fetch part information from the 
+        /// datastore. This function will primarily be called to display our list of items
+        /// in the database for quick retrieval. If a user wants to see visually more in
+        /// depth information about a product we will provide the Amazon URL for them.
         /// </summary>
         /// <param name="part"></param>
         /// <returns></returns>
@@ -146,7 +148,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
         /// <summary>
-        /// 
+        /// RetrievSpecifiedPartPriceHistory is used to verify the part price history
+        /// of specified items shown on our webpage. This information is soley used
+        /// to fetch and respond to part price history that a product has gone through
         /// </summary>
         /// <param name="partModel"></param>
         /// <returns></returns>
