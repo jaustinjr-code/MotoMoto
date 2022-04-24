@@ -2,6 +2,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public class DataStorePost : IPostEntity
     {
+        public string type { get; } = "post";
         public int postId { get; }
         public string postTitle { get; }
         public DataStoreUserProfile? postUser { get; }

@@ -1,6 +1,6 @@
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public interface IFeedEntity
+    public interface IFeedEntity : IContentEntity
     {
         string feedName { get; }
         IEnumerable<IPostEntity> postList { get; }

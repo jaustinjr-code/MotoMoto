@@ -1,6 +1,6 @@
 namespace TheNewPanelists.MotoMoto.Models
 {
-    public interface IPostModel
+    public interface IPostModel : IContentModel
     {
         int postID { get; }
         string? postTitle { get; set; }

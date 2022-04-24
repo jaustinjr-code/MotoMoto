@@ -2,6 +2,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class FeedPostModel : IPostModel
     {
+        public string type { get; } = "post";
         public int postID { get; }
         public string? postTitle { get; set; }
         public string? contentType { get; set; }

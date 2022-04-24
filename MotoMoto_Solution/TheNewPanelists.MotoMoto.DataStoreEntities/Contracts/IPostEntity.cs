@@ -1,6 +1,6 @@
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public interface IPostEntity
+    public interface IPostEntity : IContentEntity
     {
         int postId { get; }
         string postTitle { get; }

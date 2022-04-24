@@ -2,6 +2,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public class DataStoreCommunityFeed : IFeedEntity
     {
+        public string type { get; } = "feed";
         public string feedName { get; }
         public IEnumerable<IPostEntity> postList { get; }
         public IAnalytic? feedAnalytic { get; }
