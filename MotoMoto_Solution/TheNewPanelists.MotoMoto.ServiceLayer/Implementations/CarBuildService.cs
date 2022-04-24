@@ -39,7 +39,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 partName = modifiedCar!.partName,
                 type = modifiedCar!.type
             };
-            return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
+            return true; //delete this, temporary so code will compile
+            //return _carBuildDAO.InsertNewDataStoreCarTypeEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
         }
 
         public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
@@ -66,8 +67,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
         {
-            var dataStoreOEMAndAfterMarketParts = new ModifyCarBuildModel()
+            var dataStoreOEMAndAfterMarketParts = new DataStoreOEMAndAfterMarketParts()
             {
+                partID = carParts.partID,
                 partName = carParts.partName,
                 type = carParts.type
             };

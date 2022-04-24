@@ -55,7 +55,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM Profile P WHERE P.USERNAME = @v1";
+                command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userProfile!.Username);
 
@@ -103,8 +103,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = @"INSERT INTO Profile (userId, username) SELECT u.userId, u.username FROM User u 
-                                        EXCEPT SELECT p.userId, p.username FROM Profile p;";
+                command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+                                        EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
                 return (ExecuteQuery(command));
             }
         }
@@ -120,7 +120,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"DELETE * FROM Profile P WHERE P.USERNAME = \'@v1\';";
+                command.CommandText = $"DELETE * FROM PROFILE P WHERE P.USERNAME = \'@v1\';";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.Username);
 

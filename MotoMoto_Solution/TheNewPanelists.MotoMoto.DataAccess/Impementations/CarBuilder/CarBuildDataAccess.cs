@@ -69,10 +69,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                                       $"VALUES (@v0, @v1, @v2, @v3)";
                 var parameters = new MySqlParameter[4];
                 //parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[0] = new MySqlParameter("@v1", carType!.make);
-                parameters[1] = new MySqlParameter("@v2", carType!.model);
-                parameters[2] = new MySqlParameter("@v3", carType!.country);
-                parameters[3] = new MySqlParameter("@v4", carType!.year);
+                parameters[1] = new MySqlParameter("@v1", carType!.make);
+                parameters[2] = new MySqlParameter("@v2", carType!.model);
+                parameters[3] = new MySqlParameter("@v3", carType!.country);
+                parameters[4] = new MySqlParameter("@v4", carType!.year);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
@@ -131,7 +131,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             }
         }
 
-        public bool InsertNewDataStoreOEMAndAfterMarketPartsEntity(ModifyCarBuildModel modifiedCar)
+        public bool InsertNewDataStoreOEMAndAfterMarketPartsEntity(DataStoreOEMAndAfterMarketParts carParts)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -145,12 +145,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (partName, type)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1)";
-                var parameters = new MySqlParameter[1];
-                //parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[1] = new MySqlParameter("@v1", modifiedCar!.partName);
-                parameters[2] = new MySqlParameter("@v2", modifiedCar!.type);
+                command.CommandText = $"INSERT INTO USER (partID, partName, type)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2)";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
+                parameters[1] = new MySqlParameter("@v1", carParts!.partName);
+                parameters[2] = new MySqlParameter("@v2", carParts!.type);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));

@@ -52,7 +52,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.CommandText = $"SELECT U FROM User WHERE U.EMAIL = @v1;";
+                command.CommandText = $"SELECT U FROM USER WHERE U.EMAIL = @v1;";
                 var parameter = new SqlParameter("@v1", email);
                 command.Parameters.Add(parameter);
 
