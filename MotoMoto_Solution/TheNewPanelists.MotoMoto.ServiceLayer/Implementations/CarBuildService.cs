@@ -64,14 +64,15 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return _carBuildDAO.InsertNewDataStoreCarModificationsEntity(dataStoreCarModifications);
         }
 
-        public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
-        {
-            var dataStoreOEMAndAfterMarketParts = new ModifyCarBuildModel()
-            {
-                partName = carParts.partName,
-                type = carParts.type
-            };
-            return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(dataStoreOEMAndAfterMarketParts);
-        }
+        //public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
+        //{
+        //    var dataStoreOEMAndAfterMarketParts = new DataStoreOEMAndAfterMarketParts()
+        //    {
+        //        partID = carParts.partID,
+        //        partName = carParts.partName,
+        //        type = carParts.type
+        //    };
+        //    return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(dataStoreOEMAndAfterMarketParts);
+        //}
     }
 }
