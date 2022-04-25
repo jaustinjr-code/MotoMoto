@@ -8,5 +8,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class UserManagementServiceUnitTest
     {
+
     }
 }

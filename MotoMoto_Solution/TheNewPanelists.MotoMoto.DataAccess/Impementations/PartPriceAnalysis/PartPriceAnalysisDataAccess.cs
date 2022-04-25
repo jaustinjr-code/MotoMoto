@@ -10,7 +10,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         private string _connectionString = "";
-
+        private enum _categories
+        {
+            alternator,
+            brakePads,
+            brakeRotor,
+            cylinderHead,
+            engineBlock,
+            exhaustManifold,
+            muffler,
+            oilFilter,
+            radiator,
+            sparkPlug,
+            timingBelt,
+            timingChain,
+            turbo,
+            waterPump
+        }
         public PartPriceAnalysisDataAccess()
         {
             ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;

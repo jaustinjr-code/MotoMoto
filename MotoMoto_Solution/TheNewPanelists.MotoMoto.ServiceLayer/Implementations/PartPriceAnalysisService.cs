@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _partPriceAnalysisDAO = partPriceAnalysisDAO;
         }
-        public PartListModel RetrievAllParts(PartListModel partListModel)
+        public PartListModel RetrievSpecifiedCategorialParts(PartListModel partListModel)
         {
             return _partPriceAnalysisDAO!.RetrieveAllCategorialPartInformationDataAccess(partListModel);
         }

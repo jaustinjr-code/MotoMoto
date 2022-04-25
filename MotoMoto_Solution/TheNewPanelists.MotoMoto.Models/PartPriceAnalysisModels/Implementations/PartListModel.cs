@@ -10,5 +10,12 @@ namespace TheNewPanelists.MotoMoto.Models
     {
         public string? partCategory { get; set; }
         public List<PartModel> partList = new List<PartModel>();
+        public bool returnValueNoRealCategory = true;
+
+        public PartListModel InvalidRetrunValueForNoTrueCategory()
+        { 
+            returnValueNoRealCategory = false;
+            return this;
+        }
     }
 }
