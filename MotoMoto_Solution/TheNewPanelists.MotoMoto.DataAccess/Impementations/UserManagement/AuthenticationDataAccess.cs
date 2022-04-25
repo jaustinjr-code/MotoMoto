@@ -80,8 +80,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                                     + "username FROM User WHERE userId = @v2), "
                                     + "@v3);";
                 var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._userId);
-                parameters[1] = new MySqlParameter("@v2", dataStoreUser!._userId);
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!.userId);
+                parameters[1] = new MySqlParameter("@v2", dataStoreUser!.userId);
                 parameters[2] = new MySqlParameter("@v3", authenticationModel!.Attempts);
 
                 command.Parameters.AddRange(parameters);
@@ -117,12 +117,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser._userId = myReader.GetInt32("userId");
-                    returnUser._userType = myReader.GetString("typeName");
-                    returnUser._username = myReader.GetString("username");
-                    returnUser._password = myReader.GetString("password");
-                    returnUser._email = myReader.GetString("email");
-                    returnUser._salt = myReader.GetString("salt");
+                    returnUser.userId = myReader.GetInt32("userId");
+                    returnUser.userType = myReader.GetString("typeName");
+                    returnUser.username = myReader.GetString("username");
+                    returnUser.password = myReader.GetString("password");
+                    returnUser.email = myReader.GetString("email");
+                    returnUser.salt = myReader.GetString("salt");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -293,7 +293,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!.username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -301,16 +301,16 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser._userId = myReader.GetInt32("userId");
-                    returnUser._userType = myReader.GetString("typeName");
-                    returnUser._username = myReader.GetString("username");
-                    returnUser._password = myReader.GetString("password");
-                    returnUser._email = myReader.GetString("email");
-                    returnUser._salt = myReader.GetString("salt");
+                    returnUser.userId = myReader.GetInt32("userId");
+                    returnUser.userType = myReader.GetString("typeName");
+                    returnUser.username = myReader.GetString("username");
+                    returnUser.password = myReader.GetString("password");
+                    returnUser.email = myReader.GetString("email");
+                    returnUser.salt = myReader.GetString("salt");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
-                return returnUser!._salt!;
+                return returnUser!.salt!;
             }
         }
         /// <summary>

@@ -195,7 +195,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <exception cref="NotImplementedException"></exception>
         public PartComparisonModel RetrieveMultipleProductsToCompare(PartComparisonModel partComparisonModel)
         {
-            foreach (PartModel part in partComparisonModel!._comparisonParts!)
+            foreach (PartModel part in partComparisonModel!.comparisonParts!)
             {
                 RetrievePartInformation(part);
                 RetrieveSpecifiedPartPriceHistory(part);

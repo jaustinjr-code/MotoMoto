@@ -33,22 +33,22 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             double min = double.PositiveInfinity;
             double max = double.NegativeInfinity;
-            foreach (PartModel part in partComparisonModel!._comparisonParts!)
-                if (part._currentPrice > max && part._currentPrice > min)
+            foreach (PartModel part in partComparisonModel!.comparisonParts!)
+                if (part.currentPrice > max && part.currentPrice > min)
                 {
-                    max = part._currentPrice;
+                    max = part.currentPrice;
                 }
                 else
                 {
-                    min = part._currentPrice;
+                    min = part.currentPrice;
                 }
             double temp = max - min;
-            partComparisonModel!._currentPriceDifference!.Add(temp);
+            partComparisonModel!.currentPriceDifference!.Add(temp);
         }
 
         private void CompareMultiplePartModelPrices(PartComparisonModel partComparisonModel)
         {
-            switch (partComparisonModel._comparisonParts!.Count)
+            switch (partComparisonModel.comparisonParts!.Count)
             {
                 case 2:
                     ComparePrices(partComparisonModel);
@@ -62,14 +62,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             double maxi = double.PositiveInfinity;
             double mini = double.NegativeInfinity;
-            if (partComparisonModel!._comparisonParts!.Count > 0 && partComparisonModel!._comparisonParts!.Count > 2)
+            if (partComparisonModel!.comparisonParts!.Count > 0 && partComparisonModel!.comparisonParts!.Count > 2)
             {
-                for (int i = 0; i < partComparisonModel!._comparisonParts.Count; i++)
-                    for (int j = 0; j < i; j++)
-                        if (maxi < partComparisonModel!._comparisonParts[i]._currentPrice)
-                        {
-                             = partComparisonModel!._comparisonParts[i]._currentPrice;
-                        }
+                for (int i = 0; i < partComparisonModel!.comparisonParts.Count; i++)
+                    for (int j = 1; j < i-1; j++)
+                        partComparisonModel!.currentPriceDifference!.Add(1);
             }
         }
     }
