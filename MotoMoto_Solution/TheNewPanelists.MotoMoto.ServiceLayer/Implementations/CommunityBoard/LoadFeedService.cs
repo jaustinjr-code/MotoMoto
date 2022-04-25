@@ -1,7 +1,7 @@
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
-using System;
+using System.Collections.Generic;
 //using System.Diagnostics;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -30,10 +30,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public IResponseModel BuildResponse(IContentEntity contentResult)
         {
-            string message = ((IFeedModel)contentToFetch).feedName + " Feed Retrieved";
+            string message = ((IFeedModel)contentToFetch).feedName + " Feed Retrieved "
+                + ((List<IPostEntity>)((IFeedEntity)contentResult).postList).Count + " Results Found";
             //Debug.WriteLine(message);
             // When will isComplete be false? Can use an async request to then timeout for incompleteness
-            return new LoadFeedResponseModel(message, true, true);
+            return new LoadFeedResponseModel((IFeedEntity)contentResult, message, true, true);
         }
 
         public IResponseModel BuildDefaultResponse()
