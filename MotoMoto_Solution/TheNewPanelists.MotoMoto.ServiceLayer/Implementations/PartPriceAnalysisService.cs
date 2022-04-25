@@ -8,6 +8,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     {
         private readonly PartPriceAnalysisDataAccess? _partPriceAnalysisDAO;
 
+        public PartPriceAnalysisService()
+        {
+            _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
+        }
         public PartPriceAnalysisService(PartPriceAnalysisDataAccess partPriceAnalysisDAO)
         {
             _partPriceAnalysisDAO = partPriceAnalysisDAO;

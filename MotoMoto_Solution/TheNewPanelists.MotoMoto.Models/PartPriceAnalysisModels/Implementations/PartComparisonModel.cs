@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class PartComparisonModel 
     {
-        public List<PartModel>? comparisonParts { get; set; }
+        public List<PartModel>? comparisonParts = new List<PartModel>();
         public List<double>? currentPriceDifference = new List<double>();
         public bool returnCaseBool = true;
         public PartComparisonModel ReturnNullableStatementForPartPriceAnalysis() 
