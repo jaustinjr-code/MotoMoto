@@ -1,6 +1,6 @@
 <template>
     <div class = "Search">
-        <input type="text" v-model="search" placeholder="Zip Code Search">
+        <input type="text" v-model="search" placeholder="Search">
     </div>
 </template>
 
@@ -15,3 +15,14 @@ export default {
 }
 
 </script>
+
+<style>
+
+.Search
+{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    width: 100%;
+    overflow: hidden;
+}
+</style>
