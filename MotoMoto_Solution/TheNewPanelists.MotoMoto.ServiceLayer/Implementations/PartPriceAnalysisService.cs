@@ -25,7 +25,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public PartComparisonModel RetrieveSpecifiedComparisonPartPriceHistory(PartComparisonModel partComparisonModel)
         {
             partComparisonModel = _partPriceAnalysisDAO!.RetrieveMultipleProductsToCompare(partComparisonModel);
-            //ComparePrices(partComparisonModel);
+            ComparePrices(partComparisonModel);
             return partComparisonModel;
         }
 
@@ -44,30 +44,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 }
             double temp = max - min;
             partComparisonModel!.currentPriceDifference!.Add(temp);
-        }
-
-        private void CompareMultiplePartModelPrices(PartComparisonModel partComparisonModel)
-        {
-            switch (partComparisonModel.comparisonParts!.Count)
-            {
-                case 2:
-                    ComparePrices(partComparisonModel);
-                    break;
-                case 3:
-                    break;
-            }
-        }
-
-        private void CompareMultipleSpecifiedPartPrices(PartComparisonModel partComparisonModel)
-        {
-            double maxi = double.PositiveInfinity;
-            double mini = double.NegativeInfinity;
-            if (partComparisonModel!.comparisonParts!.Count > 0 && partComparisonModel!.comparisonParts!.Count > 2)
-            {
-                for (int i = 0; i < partComparisonModel!.comparisonParts.Count; i++)
-                    for (int j = 1; j < i-1; j++)
-                        partComparisonModel!.currentPriceDifference!.Add(1);
-            }
         }
     }
 }
