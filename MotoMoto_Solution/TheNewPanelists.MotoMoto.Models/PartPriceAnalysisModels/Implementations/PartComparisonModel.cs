@@ -8,8 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class PartComparisonModel 
     {
-        public List<PartModel>? ComparisonParts { get; set; }
-        public double currentPriceDifference { get; set; }
-
+        public List<PartModel>? _comparisonParts { get; set; }
+        public List<double>? _currentPriceDifference = new List<double>();
     }
 }

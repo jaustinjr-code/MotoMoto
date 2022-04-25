@@ -8,8 +8,8 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class UpvotedPostsModel
     {
-        public int _likeId { get; set; }
-        public int _postId { get; set; }
-        public bool _userVote { get; set; }
+        public int likeId { get; set; }
+        public int postId { get; set; }
+        public bool userVote { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class PartListModel
     {
-        public string? _partCategory { get; set; }
-        public List<PartModel> _partList = new List<PartModel>();
+        public string? partCategory { get; set; }
+        public List<PartModel> partList = new List<PartModel>();
     }
 }

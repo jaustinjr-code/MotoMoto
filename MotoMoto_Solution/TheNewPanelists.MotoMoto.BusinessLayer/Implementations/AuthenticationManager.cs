@@ -23,7 +23,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public ReturnAuthenticationModel AuthenticateLoginInformation(AuthenticationModel authenticationModel)
         {
             ReturnAuthenticationModel returnAuthenticationModel = new ReturnAuthenticationModel();
-            returnAuthenticationModel._authenticationModel = authenticationModel;
+            returnAuthenticationModel.authenticationModel = authenticationModel;
 
             if (!ValidateUsernameInput(authenticationModel))
                 return returnAuthenticationModel;
@@ -32,15 +32,15 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             if (dataStoreUser == null)
                 return returnAuthenticationModel;
 
-            authenticationModel.Salt = dataStoreUser!._salt;
+            authenticationModel.Salt = dataStoreUser!.salt;
             GenerateSHA256ValidatePassword(authenticationModel);
 
-            if ((dataStoreUser!._username == authenticationModel.Username) && (dataStoreUser._password == authenticationModel.Password))
+            if ((dataStoreUser!.username == authenticationModel.Username) && (dataStoreUser.password == authenticationModel.Password))
             {
-                authenticationModel.UserId = dataStoreUser._userId;
+                authenticationModel.UserId = dataStoreUser.userId;
                 _authenticationService.GenerateOneTimePassword(authenticationModel);
 
-                returnAuthenticationModel._authenticationModel = authenticationModel;
+                returnAuthenticationModel.authenticationModel = authenticationModel;
                 return returnAuthenticationModel;
             }
             return returnAuthenticationModel;

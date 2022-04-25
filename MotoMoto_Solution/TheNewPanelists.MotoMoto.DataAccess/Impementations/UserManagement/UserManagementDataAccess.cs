@@ -14,7 +14,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     public class UserManagementDataAccess : IDataAccess
     {
         private MySqlConnection? mySqlConnection { get; set; }
-
         private string? _connectionString { get; set; }
         //write config so this only appears once
 
@@ -84,8 +83,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             while (myReader.Read())
             {
                 AccountModel userAccount = new AccountModel();
-                userAccount._accountType = myReader.GetString("typeName");
-                userAccount._username = myReader.GetString("username");
+                userAccount.accountType = myReader.GetString("typeName");
+                userAccount.username = myReader.GetString("username");
                 accountsSet.Add(userAccount);
             }
             myReader.Close();
@@ -115,7 +114,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -123,8 +122,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 AccountModel returnAccount = new AccountModel();
                 while (myReader.Read())
                 {
-                    returnAccount._accountType = myReader.GetString("typeName");
-                    returnAccount._username = myReader.GetString("username");
+                    returnAccount.accountType = myReader.GetString("typeName");
+                    returnAccount.username = myReader.GetString("username");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -153,7 +152,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -161,12 +160,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser._userId = myReader.GetInt32("userId");
-                    returnUser._userType = myReader.GetString("typeName");
-                    returnUser._username = myReader.GetString("username");
-                    returnUser._password = myReader.GetString("password");
-                    returnUser._email = myReader.GetString("email");
-                    returnUser._salt = myReader.GetString("salt");
+                    returnUser.userId = myReader.GetInt32("userId");
+                    returnUser.userType = myReader.GetString("typeName");
+                    returnUser.username = myReader.GetString("username");
+                    returnUser.password = myReader.GetString("password");
+                    returnUser.email = myReader.GetString("email");
+                    returnUser.salt = myReader.GetString("salt");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -186,9 +185,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
             GenerateCiphertext cipherText = new GenerateCiphertext();
-            cipherText.GeneratePasswordHash(userAccount!._password!);
-            cipherText.GenerateUsernameHash(userAccount!._username!);
-            userAccount._salt = cipherText.Salt;
+            cipherText.GeneratePasswordHash(userAccount!.password!);
+            cipherText.GenerateUsernameHash(userAccount!.username!);
+            userAccount.salt = cipherText.Salt;
 
             using (MySqlCommand command = new MySqlCommand())
             {
@@ -200,12 +199,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email, salt)" +
                                       $"VALUES (@v0, '@v1', '@v2', '@v3', '@v4', @v5, salt)";
                 var parameters = new MySqlParameter[6];
-                parameters[0] = new MySqlParameter("@v0", userAccount!._userId);
-                parameters[1] = new MySqlParameter("@v1", userAccount!._userType);
-                parameters[2] = new MySqlParameter("@v2", userAccount!._username);
-                parameters[3] = new MySqlParameter("@v3", userAccount!._password);
-                parameters[4] = new MySqlParameter("@v4", userAccount!._email);
-                parameters[5] = new MySqlParameter("@v5", userAccount!._salt);
+                parameters[0] = new MySqlParameter("@v0", userAccount!.userId);
+                parameters[1] = new MySqlParameter("@v1", userAccount!.userType);
+                parameters[2] = new MySqlParameter("@v2", userAccount!.username);
+                parameters[3] = new MySqlParameter("@v3", userAccount!.password);
+                parameters[4] = new MySqlParameter("@v4", userAccount!.email);
+                parameters[5] = new MySqlParameter("@v5", userAccount!.salt);
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));
@@ -225,8 +224,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             var dataStoreUser = new DataStoreUser()
             {
-                _username = userAccount._username,
-                _password = userAccount._verifiedPassword
+                username = userAccount.username,
+                password = userAccount.verifiedPassword
             };
             if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
 
@@ -239,8 +238,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"DELETE * FROM User U WHERE U.USERNAME = @v1 AND U.PASSWORD = @v2";
                 var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
-                parameters[1] = new MySqlParameter("@v2", userAccount!._verifiedPassword);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
+                parameters[1] = new MySqlParameter("@v2", userAccount!.verifiedPassword);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
@@ -260,8 +259,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             var dataStoreUser = new DataStoreUser()
             {
-                _username = userAccount._username,
-                _password = userAccount._verifiedPassword
+                username = userAccount.username,
+                password = userAccount.verifiedPassword
             };
             if (!UserNamePasswordDSValidation(dataStoreUser)) return false;
 
@@ -274,7 +273,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"UPDATE User SET USER.USERNAME = NULL, USER.EMAIL = NULL WHERE USER.USERNAME = @v1";
                 var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -302,7 +301,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT SALT FROM User WHERE USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", dataStoreUser!._username);
+                parameters[0] = new MySqlParameter("@v1", dataStoreUser!.username);
 
                 command.Parameters.AddRange(parameters);
 
@@ -310,16 +309,16 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 DataStoreUser returnUser = new DataStoreUser();
                 while (myReader.Read())
                 {
-                    returnUser._userId = myReader.GetInt32("userId");
-                    returnUser._userType = myReader.GetString("typeName");
-                    returnUser._username = myReader.GetString("username");
-                    returnUser._password = myReader.GetString("password");
-                    returnUser._email = myReader.GetString("email");
-                    returnUser._salt = myReader.GetString("salt");
+                    returnUser.userId = myReader.GetInt32("userId");
+                    returnUser.userType = myReader.GetString("typeName");
+                    returnUser.username = myReader.GetString("username");
+                    returnUser.password = myReader.GetString("password");
+                    returnUser.email = myReader.GetString("email");
+                    returnUser.salt = myReader.GetString("salt");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
-                return returnUser!._salt!;
+                return returnUser!.salt!;
             }
         }
         /// <summary>
@@ -343,11 +342,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
                 retrievalAccount = RetrieveDataStoreSpecifiedUserEntity(userAccount);
-                if ((retrievalAccount._userId == userAccount!._userId) && (retrievalAccount._password == userAccount!._password))
+                if ((retrievalAccount.userId == userAccount!.userId) && (retrievalAccount.password == userAccount!.password))
                     return true;
                 return false;
             }
@@ -364,7 +363,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 throw new ArgumentNullException();
             }
-            DataStoreUser retrievalAccount;
             using (var command = new MySqlCommand())
             {
                 command.Transaction = mySqlConnection!.BeginTransaction();
@@ -374,8 +372,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = $"UPDATE User U SET U.USERNAME = '@v1' WHERE U.USERNAME ='@v2'";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", userAccount!._newUsername);
-                parameters[1] = new MySqlParameter("@v2", userAccount!._username);
+                parameters[0] = new MySqlParameter("@v1", userAccount!.newUsername);
+                parameters[1] = new MySqlParameter("@v2", userAccount!.username);
 
                 command.Parameters.AddRange(parameters);
                 return(ExecuteQuery(command));

@@ -84,7 +84,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM VehicleParts v WHERE v.productName LIKE %@v1%";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", listModel._partCategory);
+                parameters[0] = new MySqlParameter("@v1", listModel.partCategory);
 
                 command.Parameters.AddRange(parameters);
 
@@ -93,10 +93,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 {
                     PartModel partModel = new PartModel()
                     {
-                        _partID = myReader.GetInt32("productId")
+                        partID = myReader.GetInt32("productId")
                     };
                     RetrievePartInformation(partModel);
-                    listModel._partList.Add(partModel);
+                    listModel.partList.Add(partModel);
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -127,7 +127,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM VehicleParts v WHERE v.partId = @v1;";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", part._partID);
+                parameters[0] = new MySqlParameter("@v1", part.partID);
 
                 command.Parameters.AddRange(parameters);
 
@@ -135,12 +135,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 PartPrice _partPrice = new PartPrice();
                 while (myReader.Read())
                 {
-                    part._partID = myReader.GetInt32("productId");
-                    part._partName = myReader.GetString("productName");
-                    part._rating = myReader.GetString("rating");
-                    part._ratingCount = myReader.GetInt32("ratingCount");
-                    part._productURL = myReader.GetString("productURL");
-                    part._currentPrice = myReader.GetDouble("productPrice");
+                    part.partID = myReader.GetInt32("productId");
+                    part.partName = myReader.GetString("productName");
+                    part.rating = myReader.GetString("rating");
+                    part.ratingCount = myReader.GetInt32("ratingCount");
+                    part.productURL = myReader.GetString("productURL");
+                    part.currentPrice = myReader.GetDouble("productPrice");
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
@@ -170,22 +170,37 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM FormerPartPrices f WHERE f.productId = @v1";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", partModel._partID);
+                parameters[0] = new MySqlParameter("@v1", partModel.partID);
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 PartPrice _partPrice = new PartPrice();
                 while (myReader.Read())
                 {
-                    _partPrice._productId = myReader.GetInt32("productId");
-                    _partPrice._productPrice = myReader.GetDouble("productPrice");
-                    _partPrice._priceSetDate = myReader.GetDateTime("lastRecordedDate");
-                    partModel._partPrices!.Add(_partPrice);
+                    _partPrice.productId = myReader.GetInt32("productId");
+                    _partPrice.productPrice = myReader.GetDouble("productPrice");
+                    _partPrice.priceSetDate = myReader.GetDateTime("lastRecordedDate");
+                    partModel.partPrices!.Add(_partPrice);
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
                 return partModel;
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partComparisonModel"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public PartComparisonModel RetrieveMultipleProductsToCompare(PartComparisonModel partComparisonModel)
+        {
+            foreach (PartModel part in partComparisonModel!._comparisonParts!)
+            {
+                RetrievePartInformation(part);
+                RetrieveSpecifiedPartPriceHistory(part);
+            }
+            return partComparisonModel;
         }
     }
 }

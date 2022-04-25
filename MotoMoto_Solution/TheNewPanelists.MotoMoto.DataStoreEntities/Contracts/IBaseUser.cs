@@ -8,6 +8,6 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public abstract class IBaseUser
     {
-        public virtual int _userId { get; set; }
+        public virtual int userId { get; set; }
     }
 }

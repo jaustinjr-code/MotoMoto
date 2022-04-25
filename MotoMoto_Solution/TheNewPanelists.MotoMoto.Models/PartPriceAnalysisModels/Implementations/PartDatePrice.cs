@@ -8,8 +8,8 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class PartPrice
     {
-        public int _productId { get; set; }
-        public double _productPrice { get; set; }
-        public DateTime _priceSetDate { get; set; } 
+        public int productId { get; set; }
+        public double productPrice { get; set; }
+        public DateTime priceSetDate { get; set; } 
     }
 }

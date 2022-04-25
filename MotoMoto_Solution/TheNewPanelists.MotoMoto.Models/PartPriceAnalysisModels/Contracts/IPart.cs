@@ -2,7 +2,7 @@
 {
     public interface IPart
     {
-        int _partID { get; set; }
-        string? _partName { get; set; }
+        int partID { get; set; }
+        string? partName { get; set; }
     }
 }
