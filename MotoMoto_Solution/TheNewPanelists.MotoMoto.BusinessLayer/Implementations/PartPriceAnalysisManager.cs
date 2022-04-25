@@ -5,6 +5,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public enum PartCategories
     {
+        // each value is used to represent the parts that will be available on motomotoca.com
+        // all values are subject to expand or decrease based on the extensibility of this project
         alternator,
         brakePads,
         brakeRotor,
