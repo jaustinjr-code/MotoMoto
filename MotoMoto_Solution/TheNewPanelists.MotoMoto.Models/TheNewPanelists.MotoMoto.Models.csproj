@@ -11,4 +11,15 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EventListModels\Contracts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CommunityBoardModels\Properties\launchSettings.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

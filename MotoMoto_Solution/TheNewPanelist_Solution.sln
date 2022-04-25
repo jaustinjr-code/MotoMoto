@@ -29,7 +29,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Registration", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj", "{5070ED88-8CEE-49F4-8323-29EC8665E09F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelsists.MotoMoto.EventList", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelsists.MotoMoto.EventList\TheNewPanelsists.MotoMoto.EventList.csproj", "{E773A061-2866-489E-8645-520318506A58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelsists.MotoMoto.WebServices.EventList", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelsists.MotoMoto.EventList\TheNewPanelsists.MotoMoto.WebServices.EventList.csproj", "{E773A061-2866-489E-8645-520318506A58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16} = {B21BEF11-10C3-4880-8983-E7FF3C8AEB16}
+		{013F2F48-5928-4779-96F9-A381827F3986} = {013F2F48-5928-4779-96F9-A381827F3986}
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6} = {CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369} = {44619BBF-92B4-4614-8AFE-1F8E3ED95369}
+		{180185C9-4FD0-44A8-BE9D-03592092DF79} = {180185C9-4FD0-44A8-BE9D-03592092DF79}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
