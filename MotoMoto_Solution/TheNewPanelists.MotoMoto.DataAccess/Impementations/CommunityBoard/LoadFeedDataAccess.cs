@@ -12,16 +12,21 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //private Object? _input;
         //MySqlCommand? _command;
 
-        // Default Empty Constructor
         // I opted out of using this because I may not need to define _connectionString
         // or create a _mySqlConnection if something goes wrong in the process of the operation.
+        /// <summary>
+        /// Default Empty Constructor
+        /// </summary>
         public LoadFeedDataAccess() { }
 
-        // Establishes the MariaDB connection for cleaner code
-        // I try to use the ConfigurationManager to avoid hardcoding the connection
-        // but it does not work
+        /// <summary>
+        /// Establishes the MariaDB connection for cleaner code
+        /// </summary>
+        /// <returns></returns>
         public bool EstablishMariaDBConnection()
         {
+            // I try to use the ConfigurationManager to avoid hardcoding the connection
+            // but it does not work
             // Production code
             //ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["MotoMotoRDSConnection"];
             // Development code
@@ -68,7 +73,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //return "";
         //}
 
-        // Refines the data retrieved by the MySqlDataReader
+        /// <summary>
+        /// Refines the data retrieved by the MySqlDataReader
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public IEnumerable<IPostEntity> RefineData(MySqlDataReader reader)
         {
             // I opted of using a for-loop with FieldCount b/c I know what I want from the record
@@ -107,10 +116,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //return command;
         //}
 
-        // Fetches only one post according to the post ID
-        // The post ID will be available on the client side because it is the only unqiue attribute
-        // for a post at the moment
-        // As long as the post ID is not modifiable throughout this process then nothing should break
+        /// <summary>
+        /// Fetches only one post according to the post ID
+        /// The post ID will be available on the client side because it is the only unqiue attribute
+        /// for a post at the moment
+        /// As long as the post ID is not modifiable throughout this process then nothing should break
+        /// </summary>
+        /// <param name="postInput"></param>
+        /// <returns></returns>
         public IPostEntity? FetchPost(IPostModel postInput)
         {
             if (!EstablishMariaDBConnection())
@@ -143,8 +156,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return entity;
         }
 
-        // Fetches all the posts of a specified community feed name
-        // Feed names are unique, that's why it is input for this operation
+        /// <summary>
+        /// Fetches all the posts of a specified community feed name
+        /// Feed names are unique, that's why it is input for this operation
+        /// </summary>
+        /// <param name="feedInput"></param>
+        /// <returns></returns>
         public IFeedEntity? FetchAllPosts(IFeedModel feedInput)
         {
             // Establish connection assigns connection string
