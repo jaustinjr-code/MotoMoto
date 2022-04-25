@@ -11,5 +11,22 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [Route("GetMessage")]
+        public IActionResult GetPosts()
+        {
+            try
+            {
+                // TODO
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
