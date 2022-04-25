@@ -26,7 +26,7 @@ namespace TheNewPanelists.MotoMoto.Models
 
         public override string ToString()
         {
-            return responseMessage + " " + isComplete;
+            return responseMessage + " Completion Status: " + (isComplete ? "Complete" : "Incomplete");
         }
     }
 }
