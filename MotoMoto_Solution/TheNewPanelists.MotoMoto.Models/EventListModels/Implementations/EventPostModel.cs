@@ -13,6 +13,9 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? contentType { get; set; }
         public string? postUser { get; set; }
         public string? postDescription { get; set; }
+        public string? postLocation { get; set; }
+        public string? postDate { get; set; }
+        public IEnumerable<string>? registeredUsers { get; set; }
         public DateTime submitUTC { get; set; }
         public IEnumerable<byte[]>? imageList { get; set; }
 
