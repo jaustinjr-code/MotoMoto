@@ -17,5 +17,20 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         
         // Single argument constructor
         public EventListService(EventPostContentDataAccess eventPostContentDataAccess){ _eventPostContentDAO = eventPostContentDataAccess; }
+
+        // Function to FetchAllEventPosts 
+        public ISet<EventDetailsModel> FetchAllEventPosts(EventDetailsModel eventDetails)
+        {
+            var eventDetailsEntities = _eventPostContentDAO.FetchAllPosts();
+
+            var events = eventDetailsEntities!.Select(evnt => new EventDetailsModel()
+            {
+                eventID = eventDetails!.eventID,
+                eventLocation = eventDetails!.eventLocation,
+                eventTime = eventDetails!.eventTime,
+                eventDate = eventDetails!.eventDate
+            }).ToHashSet();
+            return events;
+        }
     }
 }
