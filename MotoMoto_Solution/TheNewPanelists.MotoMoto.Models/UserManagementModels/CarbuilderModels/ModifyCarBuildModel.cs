@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto
 {
     public class ModifyCarBuildModel
     {
-        public string? partName { get; set; }   //Name of the part
+        public string? partNumber { get; set; }   //Name of the part
         public string? type { get; set; }   //Whether the part is OEM or Aftermarket
 
     }

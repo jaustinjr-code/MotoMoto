@@ -52,7 +52,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool SaveCarModificationsManager(ModifyCarBuildModel modifiedCarBuild)
         {
-            if (modifiedCarBuild.partName!.Length == 0 || modifiedCarBuild.partName!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
             {
                 return false;
             }
