@@ -9,11 +9,16 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    internal class EventPostContentDataAccess : IContentDataAccess
+    public class EventPostContentDataAccess : IContentDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
+        // Create declare connection string to AWS RDS data store
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-        //"server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";//write config so this only appears once
+        //"server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;"; write config so this only appears once
+
+        // Default and single argument constructor
+        public EventPostContentDataAccess(){}
+        public EventPostContentDataAccess(string connectionString){_connectionString = connectionString;}
 
         public bool EstablishMariaDBConnection()
         {
