@@ -24,12 +24,16 @@ namespace TheNewPanelists.MotoMoto.Models
             postID = id;
         }
 
-        public EventPostModel(int id, string title, string type, string username, DateTime utc)
+        public EventPostModel(int id, string title, string type, string username, string description, string location, string date, string[] users, DateTime utc)
         {
             postID = id;
             postTitle = title;
             contentType = type;
             postUser = username;
+            postDescription = description;
+            postLocation = location;
+            postDate = date;
+            registeredUsers = users;
             submitUTC = utc;
         }
     }
