@@ -12,7 +12,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     internal class EventPostContentDataAccess : IContentDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";//write config so this only appears once
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        //"server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";//write config so this only appears once
 
         public bool EstablishMariaDBConnection()
         {
@@ -29,9 +30,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
+        // Used to fetch all of the posts within the data store
         public IEnumerable<IPostEntity>? FetchAllPosts(IFeedModel feedInput)
         {
-            throw new NotImplementedException();
+            // IFeedModel is used for SqlGenerator input
+            // IEnumerable should assigned to postList in IFeedModel
+            IEnumerable<IPostEntity> postList = new List<IPostEntity>();
+            return postList;
         }
 
         public IFeedEntity? GetPost(IFeedModel postInput)
