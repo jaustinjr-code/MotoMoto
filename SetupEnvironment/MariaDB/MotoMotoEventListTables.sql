@@ -17,7 +17,8 @@ CREATE TABLE EventDetails (
     eventTime VARCHAR(75) NOT NULL, -- Have to store in UTC Time
     eventDate VARCHAR(75) NOT NULL,
     registeredUsers VARCHAR(75) NOT NULL, -- Should I be storing username? 
-    CONSTRAINT EventDetails_PK PRIMARY (eventID),
+    postID INT UNSIGNED NOT NULL,
+    CONSTRAINT EventDetails_PK PRIMARY KEY (eventID),
     CONSTRAINT Post_FK FOREIGN KEY (postID) REFERENCES Post (postID)
 );
 
