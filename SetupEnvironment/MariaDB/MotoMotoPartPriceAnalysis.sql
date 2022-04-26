@@ -13,6 +13,6 @@ CREATE TABLE FormerPartPrices (
 	productId INT NOT NULL,
 	lastRecordedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	productPrice DOUBLE NOT NULL,
-	CONSTRAINT formerPrice_Pk PRIMARY KEY (productId, lastRecordedDate),
-	CONSTRAINT productId_Fk FOREIGN KEY (productId) REFERENCES VehicleParts (productId)
+	CONSTRAINT formerPrice_Pk PRIMARY KEY(productId, lastRecordedDate),
+	CONSTRAINT productId_Fk FOREIGN KEY (productId) REFERENCES VehicleParts(productId)
 );

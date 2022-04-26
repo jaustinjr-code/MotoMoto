@@ -6,5 +6,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartPriceAnalysisDataAccessIntegrationTest
     {
+        private bool _result;
     }
 }

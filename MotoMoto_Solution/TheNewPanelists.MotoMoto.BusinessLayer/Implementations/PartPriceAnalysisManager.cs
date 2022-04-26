@@ -26,6 +26,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     {
         private readonly PartPriceAnalysisService? _partPriceAnalysisService;
 
+        public PartPriceAnalysisManager()
+        {
+            _partPriceAnalysisService = new PartPriceAnalysisService();
+        }
         public PartPriceAnalysisManager(PartPriceAnalysisService partPriceAnalysisService)
         {
             _partPriceAnalysisService = partPriceAnalysisService;

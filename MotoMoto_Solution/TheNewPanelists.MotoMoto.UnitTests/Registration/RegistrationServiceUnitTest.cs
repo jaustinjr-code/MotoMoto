@@ -6,6 +6,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class RegistrationServiceUnitTest
     {
+        /*
         private bool result;
 
         [Fact]
@@ -21,5 +22,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             result = registrationService.SendEmailConfirmationRequest(testEmail, testRegistrationId);
             Assert.True(result, "Send Email Test Failure.");
         }
+        */
     }
 }

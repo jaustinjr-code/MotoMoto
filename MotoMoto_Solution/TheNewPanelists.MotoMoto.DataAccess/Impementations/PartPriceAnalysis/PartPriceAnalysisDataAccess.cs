@@ -98,7 +98,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "SELECT * FROM VehicleParts v WHERE v.productName LIKE %@v1%";
+                command.CommandText = "SELECT * FROM VehicleParts v WHERE v.productName LIKE '%@v1%'";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", listModel.partCategory);
 
