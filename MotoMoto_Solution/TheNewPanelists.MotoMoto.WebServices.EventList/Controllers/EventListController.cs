@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class EventListController : Controller
@@ -12,13 +14,16 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
             return View();
         }
 
+        // Web API call to fetch the EventPostModel and display it in the Frontend
         [HttpGet]
-        [Route("GetMessage")]
-        public IActionResult GetPosts()
+        [Route("GetEvents")]
+        public IActionResult FetchAllPosts()
         {
             try
             {
-                // TODO
+                // Make a call to EventPostModel
+
+                // Return the fetched EventPostModel
                 return BadRequest();
             }
             catch (Exception ex)
