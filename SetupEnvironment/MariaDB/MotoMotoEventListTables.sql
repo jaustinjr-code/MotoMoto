@@ -3,20 +3,25 @@ CREATE TABLE Post (
     postUsername VARCHAR(25) NOT NULL,
     feedName VARCHAR(25) NOT NULL UNIQUE,
     postTitle VARCHAR(100) NOT NULL,
-
-    -- Added for Event List
-    postLocation VARCHAR(75) NOT NULL,
-    postTime VARCHAR(75) NOT NULL, -- Have to store in UTC Time
-    postDate VARCHAR(75) NOT NULL,
-    registerers VARCHAR(75) NOT NULL, -- Should I be storing username? 
-    --Should I create another table just for people who registered for an event
-
     -- imageID INT UNSIGNED NOT NULL,
     submitUTC TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT Post_PK PRIMARY KEY (postID, postTitle),
     -- CONSTRAINT Image_FK FOREIGN KEY (imageID) REFERENCES Image (imageID),
     CONSTRAINT Profile_Post_FK FOREIGN KEY (postUsername) REFERENCES Profile (username),
     CONSTRAINT Feed_FK FOREIGN KEY (feedName) REFERENCES Feed (feedName)
+);
+
+CREATE TABLE EventDetails (
+    -- Added for Event List
+    eventID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    eventLocation VARCHAR(75) NOT NULL,
+    eventTime VARCHAR(75) NOT NULL, -- Have to store in UTC Time
+    eventDate VARCHAR(75) NOT NULL,
+    registeredUsers VARCHAR(75) NOT NULL, -- Should I be storing username? 
+    --Should I create another table just for people who registered for an event
+
+    CONSTRAINT EventDetails_PK PRIMARY (eventID),
+    CONSTRAINT Post_FK FOREIGN KEY (postID) REFERENCES Post (postID)
 );
 
 -- If I need a separate table for people who registered for an Event
