@@ -25,7 +25,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
         [HttpGet]
         [Route("GetEvents")]
-        public IActionResult FetchAllPosts()
+        public IActionResult FetchAllEventPosts(int evntID)
         {
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
@@ -34,15 +34,15 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
 
             try
             {
-                // Make a call to 
-
-                // Return the fetched EventPostModel
-                return BadRequest();
+                // Make a call to the Event List Manager
+                ISet<EventDetailsModel> fetchedAllEvents = eventListManager.FetchAllEventDetails(evntID);
+                // Return the fetched EventDetails Model
+                return Ok(fetchedAllEvents);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return BadRequest(ex.Message);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
