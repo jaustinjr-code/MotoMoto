@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EventListModels\Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="CommunityBoardModels\Properties\launchSettings.json">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>

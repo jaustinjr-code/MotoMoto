@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using VueJsToNetCore.ViewModel;
+using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.Login
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : Controller
