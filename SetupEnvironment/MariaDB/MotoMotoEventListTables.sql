@@ -12,14 +12,11 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE EventDetails (
-    -- Added for Event List
     eventID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
     eventLocation VARCHAR(75) NOT NULL,
     eventTime VARCHAR(75) NOT NULL, -- Have to store in UTC Time
     eventDate VARCHAR(75) NOT NULL,
     registeredUsers VARCHAR(75) NOT NULL, -- Should I be storing username? 
-    --Should I create another table just for people who registered for an event
-
     CONSTRAINT EventDetails_PK PRIMARY (eventID),
     CONSTRAINT Post_FK FOREIGN KEY (postID) REFERENCES Post (postID)
 );
