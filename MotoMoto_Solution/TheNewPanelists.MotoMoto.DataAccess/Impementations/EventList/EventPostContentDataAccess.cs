@@ -38,7 +38,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         // Used to fetch all of the posts within the data store
         public ISet<EventDetailsModel>? FetchAllPosts()
         {
-            MySqlCommand command = new MySqlCommand();
+            EstablishMariaDBConnection();
+            string selectAllQuery = "SELECT * FROM EventDetails";
+            MySqlCommand command = new MySqlCommand(selectAllQuery, mySqlConnection);
             MySqlDataReader myReader = command.ExecuteReader();
             ISet<EventDetailsModel> eventsList = new HashSet<EventDetailsModel>();
             while (myReader.Read())
