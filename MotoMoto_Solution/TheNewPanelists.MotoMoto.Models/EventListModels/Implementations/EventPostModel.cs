@@ -13,9 +13,6 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? contentType { get; set; }
         public string? postUser { get; set; }
         public string? postDescription { get; set; }
-        public string? postLocation { get; set; }
-        public string? postDate { get; set; }
-        public IEnumerable<string>? registeredUsers { get; set; }
         public DateTime submitUTC { get; set; }
         public IEnumerable<byte[]>? imageList { get; set; }
 
@@ -24,16 +21,13 @@ namespace TheNewPanelists.MotoMoto.Models
             postID = id;
         }
 
-        public EventPostModel(int id, string title, string type, string username, string description, string location, string date, string[] users, DateTime utc)
+        public EventPostModel(int id, string title, string type, string username, string description, DateTime utc)
         {
             postID = id;
             postTitle = title;
             contentType = type;
             postUser = username;
             postDescription = description;
-            postLocation = location;
-            postDate = date;
-            registeredUsers = users;
             submitUTC = utc;
         }
     }
