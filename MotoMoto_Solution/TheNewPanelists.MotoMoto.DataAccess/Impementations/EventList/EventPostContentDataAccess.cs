@@ -9,7 +9,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class EventPostContentDataAccess : IContentDataAccess
+    public class EventPostContentDataAccess : IDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         // Create declare connection string to AWS RDS data store
@@ -36,12 +36,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         }
 
         // Used to fetch all of the posts within the data store
-        public IEnumerable<IPostEntity>? FetchAllPosts(IFeedModel feedInput)
+        public ISet<EventDetailsModel>? FetchAllPosts()
         {
-            // IFeedModel is used for SqlGenerator input
-            // IEnumerable should assigned to postList in IFeedModel
-            IEnumerable<IPostEntity> postList = new List<IPostEntity>();
-            return postList;
+            MySqlCommand command = new MySqlCommand();
+            MySqlDataReader myReader = command.ExecuteReader();
+            ISet<EventDetailsModel> eventsList = new HashSet<EventDetailsModel>();
+            while (myReader.Read())
+            {
+                EventDetailsModel eventDetails = new EventDetailsModel();
+                eventDetails.eventID = myReader.GetInt32("eventID");
+                eventDetails.eventLocation = myReader.GetString("eventLocation");
+                eventDetails.eventTime = myReader.GetString("eventTime");
+                eventDetails.eventDate = myReader.GetString("eventDate");
+                eventsList.Add(eventDetails);
+            }
+            myReader.Close();
+            mySqlConnection!.Close();
+            return eventsList;
         }
 
         public IFeedEntity? GetPost(IFeedModel postInput)
