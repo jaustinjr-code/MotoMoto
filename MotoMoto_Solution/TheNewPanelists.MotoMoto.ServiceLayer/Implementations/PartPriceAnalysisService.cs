@@ -32,7 +32,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             // the spectrum of the category array. Array's may not 100% be extensible but provide an area
             // where query information can be used in the DAO. 
             partListModel.categorySelect = partListModel.categories[partListModel.categoryId];
-
             return _partPriceAnalysisDAO!.RetrieveAllCategorialPartInformationDataAccess(partListModel);
         }
         /// <summary>

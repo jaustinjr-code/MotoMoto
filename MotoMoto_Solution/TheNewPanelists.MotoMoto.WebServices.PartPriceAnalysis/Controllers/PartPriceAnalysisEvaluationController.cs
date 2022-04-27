@@ -8,8 +8,10 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.Controllers
 {
     [Route("[controller]")]
+    [ApiController]
     public class PartPriceAnalysisEvaluationController : Controller
     {
+        [HttpGet]
         public async Task<PartComparisonModel> RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();
@@ -32,6 +34,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.Controllers
 
             return partComparisonModel;
         }
+        [HttpPost]
         public async Task<PartModel> EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();

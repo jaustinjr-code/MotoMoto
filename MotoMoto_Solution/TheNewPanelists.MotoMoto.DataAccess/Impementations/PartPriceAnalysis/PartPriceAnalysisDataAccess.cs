@@ -9,34 +9,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     public class PartPriceAnalysisDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
-        private string _connectionString = "";
-        private enum _categories
-        {
-            alternator,
-            brakePads,
-            brakeRotor,
-            cylinderHead,
-            engineBlock,
-            exhaustManifold,
-            muffler,
-            oilFilter,
-            radiator,
-            sparkPlug,
-            timingBelt,
-            timingChain,
-            turbo,
-            waterPump
-        }
-        public PartPriceAnalysisDataAccess()
-        {
-            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
-            if (settings != null)
-            {
-                foreach (ConnectionStringSettings cs in settings)
-                    _connectionString = cs.ConnectionString;
-            } 
-        }
+        public PartPriceAnalysisDataAccess(){}
         public PartPriceAnalysisDataAccess(string connectionString)
         {
             _connectionString = connectionString;
@@ -89,7 +64,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         {
             if (!EstablishMariaDBConnection())
             {
-                throw new NullReferenceException();
+                return listModel;
             }
             using (var command = new MySqlCommand())
             {
@@ -104,16 +79,22 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.Parameters.AddRange(parameters);
 
+                IEnumerable<IPartEntity> _partList = new List<IPartEntity>();
+
                 MySqlDataReader myReader = command.ExecuteReader();
                 while (myReader.Read())
                 {
-                    PartModel partModel = new PartModel()
-                    {
-                        partID = myReader.GetInt32("productId")
-                    };
-                    RetrievePartInformation(partModel);
-                    listModel.partList.Add(partModel);
+                    int partID = myReader.GetInt32("productId");
+                    string partName = myReader.GetString("productName");
+                    string rating = myReader.GetString("rating");
+                    int ratingCount = myReader.GetInt32("ratingCount");
+                    double productPrice = myReader.GetDouble("productPrice");
+                    string productURL = myReader.GetString("productURL");
+
+                    IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
+                    ((List<IPartEntity>)_partList).Add(partEntity);
                 }
+                listModel.partList = _partList;
                 myReader.Close();
                 mySqlConnection!.Close();
                 return listModel;
@@ -175,7 +156,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         {
             if (!EstablishMariaDBConnection())
             {
-                throw new NullReferenceException();
+                return partModel;
             }
             using (var command = new MySqlCommand())
             {
@@ -190,13 +171,16 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                PartPrice _partPrice = new PartPrice();
+                IEnumerable<IPartPriceHistory> _partHistory = new List<IPartPriceHistory>();
                 while (myReader.Read())
                 {
-                    _partPrice.productId = myReader.GetInt32("productId");
-                    _partPrice.productPrice = myReader.GetDouble("productPrice");
-                    _partPrice.priceSetDate = myReader.GetDateTime("lastRecordedDate");
-                    partModel.partPrices!.Add(_partPrice);
+                    int productId= myReader.GetInt32("productId");
+                    double productPrice = myReader.GetDouble("productPrice");
+                    DateTime priceSetDate = myReader.GetDateTime("lastRecordedDate");
+
+                    IPartPriceHistory partHistory = new DataStorePartHistory(productId, priceSetDate, productPrice);
+                    ((List<IPartPriceHistory>)_partHistory).Add(partHistory);
+                    partModel.partPrices = _partHistory;
                 }
                 myReader.Close();
                 mySqlConnection!.Close();

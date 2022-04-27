@@ -1,6 +1,8 @@
-﻿namespace TheNewPanelists.MotoMoto.Models
+﻿using TheNewPanelists.MotoMoto.DataStoreEntities;
+
+namespace TheNewPanelists.MotoMoto.Models
 {
-    public class PartModel : IPart
+    public class PartModel
     {
         public int partID { get; set; }
         public string? partName { get; set; }
@@ -8,6 +10,6 @@
         public int ratingCount { get; set; }
         public string? productURL { get; set; }
         public double currentPrice { get; set; }
-        public List<PartPrice>? partPrices = new List<PartPrice>();
+        public IEnumerable<IPartPriceHistory>? partPrices = new List<IPartPriceHistory>();
     }
 }

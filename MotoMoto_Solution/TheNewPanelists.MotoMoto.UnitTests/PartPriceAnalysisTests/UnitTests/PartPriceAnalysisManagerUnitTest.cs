@@ -10,17 +10,17 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         private readonly PartPriceAnalysisManager _partpriceAnalysisManager = new PartPriceAnalysisManager();
         
         [Fact]
-        public void IsInvalidEnumValueWithValidOperation_WithNoRealValueCategorialEntity_ReturnFalse()
+        public void IsInvalidIntWithInvalidOperation_WithNonExistentCategory_ReturnFalse()
         {
             var testPartPriceModel = new PartListModel
             {
-                categorySelect = "invalidOperation"
+                categoryId = -1,
             };
             testPartPriceModel = _partpriceAnalysisManager!.RetrieveSpecifiedCategorialParts(testPartPriceModel);
             Assert.False(testPartPriceModel.returnValueNoRealCategory, "The Specified value is existent under the enum 'PartCategories'!");
         }
         [Fact]
-        public void IsInvalidComparisonModelWithInvalidNumberOfModelsPresent_ReturnFalse()
+        public void IsInvalidComparisonModelWith_InvalidNumberOfModelsPresent_ReturnFalse()
         {
             var testComparisonModel = new PartComparisonModel();
             testComparisonModel = _partpriceAnalysisManager.CompareVehicleParts(testComparisonModel);
