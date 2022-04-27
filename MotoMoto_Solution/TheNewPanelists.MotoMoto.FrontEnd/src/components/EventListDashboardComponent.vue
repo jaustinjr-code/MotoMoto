@@ -5,6 +5,18 @@
     </div>
 </template>
 
+<script>
+
+export default {
+    mounted: function() {
+
+    },
+    data: {
+        events: null,
+    }
+}
+</script>
+
 
 <style>
 

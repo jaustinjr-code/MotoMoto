@@ -3,10 +3,10 @@
     <div class="row">
         <div class="Filters">
             <h1>Filters</h1>
-                <input type="checkbox" value="animal" v-model="selected">Upvotes
-                <input type="checkbox" value="fruit" v-model="selected">Car Type
-                <input type="checkbox" value="clothes" v-model="selected">Newest
-                <input type="checkbox" value="clothes" v-model="selected">Oldest
+                <input type="checkbox" value="upvotes" v-model="selected">Upvotes
+                <input type="checkbox" value="carType" v-model="selected">Car Type
+                <input type="checkbox" value="newest" v-model="selected">Newest
+                <input type="checkbox" value="oldest" v-model="selected">Oldest
         </div>
     </div>
 </template>
