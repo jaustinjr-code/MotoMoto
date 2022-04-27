@@ -19,7 +19,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             return NoContent();
         }
 
-        public async Task<ISet<AccountModel>> GetUserAccounts(string username, CancellationToken token)
+        public async Task<ISet<AccountModel>> GetUserAccounts(string username, CancellationToken token = default(CancellationToken))
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
@@ -30,7 +30,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             return retrieveAllAccounts;
         }
 
-        public IActionResult RetrieveAllUsers(DataStoreUser user, CancellationToken token)
+        public IActionResult RetrieveAllUsers(DataStoreUser user, CancellationToken token = default(CancellationToken))
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
@@ -45,7 +45,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
         }
-        public IActionResult DeleteAccount(string _username, string _password, CancellationToken token)
+        public IActionResult DeleteAccount(string _username, string _password, CancellationToken token = default(CancellationToken))
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);

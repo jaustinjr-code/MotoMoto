@@ -18,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.Controllers
             return NoContent();
         }
 
-        public async Task<PartListModel> RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token)
+        public async Task<PartListModel> RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();
             PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
@@ -31,6 +31,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.Controllers
             await Task.Delay(10_000, token);
 
             return partListModel;
+        }
+        public async Task<PartComparisonModel> RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token=default(CancellationToken))
+        {
+            throw new NotImplementedException();
         }
     }
 }
