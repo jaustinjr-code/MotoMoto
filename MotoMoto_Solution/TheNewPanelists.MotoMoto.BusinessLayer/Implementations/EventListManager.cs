@@ -16,6 +16,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         // Single argument constructor
         public EventListManager(EventListService eventListService){_eventListService = eventListService;}
 
+        // Function that will be used to FetchAllEventDetails from the datastore
         public ISet<EventDetailsModel> FetchAllEventDetails(int evntID)
         {
             var eventDetailsModel = new EventDetailsModel()
