@@ -58,15 +58,5 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             mySqlConnection!.Close();
             return eventsList;
         }
-
-        public IFeedEntity? GetPost(IFeedModel postInput)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SqlGenerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
