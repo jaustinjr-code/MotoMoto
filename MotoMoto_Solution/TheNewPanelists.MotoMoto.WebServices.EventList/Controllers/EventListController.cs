@@ -7,8 +7,8 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
 {
-    [EnableCors("CorsPolicy")]
-    [Route("api/[controller]")]
+    //[EnableCors("CorsPolicy")]
+    [Route("[controller]")]
     [ApiController]
     public class EventListController : Controller
     {
@@ -16,14 +16,14 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         private readonly EventPostContentDataAccess _eventPostContentDataAccess = new EventPostContentDataAccess();
 
         // Used to display the Index view of the project
-        [HttpOptions]
+        //[HttpOptions]
         public IActionResult Index()
         {
             return View(); // Display the view
         }
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
-        [HttpGet]
+        //[HttpGet]
         [Route("GetEvents")]
         public IActionResult FetchAllEventPosts()
         {
