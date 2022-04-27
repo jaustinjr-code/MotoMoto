@@ -14,7 +14,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             var testPartPriceModel = new PartListModel
             {
-                partCategory = "invalidOperation"
+                categorySelect = "invalidOperation"
             };
             testPartPriceModel = _partpriceAnalysisManager!.RetrieveSpecifiedCategorialParts(testPartPriceModel);
             Assert.False(testPartPriceModel.returnValueNoRealCategory, "The Specified value is existent under the enum 'PartCategories'!");

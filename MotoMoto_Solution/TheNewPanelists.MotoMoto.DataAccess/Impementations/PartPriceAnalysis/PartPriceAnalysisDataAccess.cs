@@ -100,7 +100,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 command.CommandText = "SELECT * FROM VehicleParts v WHERE v.productName LIKE '%@v1%'";
                 var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", listModel.partCategory);
+                parameters[0] = new MySqlParameter("@v1", listModel.categorySelect);
 
                 command.Parameters.AddRange(parameters);
 

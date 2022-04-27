@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.Models
     public class PartListModel
     {
         public int categoryId { get; set; }
-        public string[] categories = { "Alternator", "Brake Pads", "Brake Rotor", "Cylinder Head", "Engine Block",
+        public readonly string[] categories = { "Alternator", "Brake Pads", "Brake Rotor", "Cylinder Head", "Engine Block",
                                        "Exhaust Manifold", "Muffler", "Oil Filter", "Radiator", "Spark Plug", 
                                        "Timing Belt", "Timing Chain", "Turbo", "Water Pump" };
         public string? categorySelect { get; set; }
