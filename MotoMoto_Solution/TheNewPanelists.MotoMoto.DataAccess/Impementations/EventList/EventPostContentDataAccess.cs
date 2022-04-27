@@ -14,7 +14,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         MySqlConnection? mySqlConnection { get; set; }
         // Create declare connection string to AWS RDS data store
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-        //"server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;"; write config so this only appears once
+
+        // Connection string for localhost
+        //private string _connectionString = "server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";
 
         // Default and single argument constructor
         public EventPostContentDataAccess(){}
@@ -22,9 +24,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         public bool EstablishMariaDBConnection()
         {
+            mySqlConnection = new MySqlConnection(_connectionString);
             try
             {
-                mySqlConnection = new MySqlConnection(_connectionString);
                 mySqlConnection.Open();
                 return true;
             }
