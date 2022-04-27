@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis", "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj", "{50AF1CCB-3C6C-43AE-9FCA-E42FE15A1219}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50AF1CCB-3C6C-43AE-9FCA-E42FE15A1219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50AF1CCB-3C6C-43AE-9FCA-E42FE15A1219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50AF1CCB-3C6C-43AE-9FCA-E42FE15A1219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50AF1CCB-3C6C-43AE-9FCA-E42FE15A1219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
