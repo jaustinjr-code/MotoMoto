@@ -27,6 +27,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     _connectionString = cs.ConnectionString;
             }
         }
+
         public UserManagementDataAccess(string connectionString)
         {
             ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;

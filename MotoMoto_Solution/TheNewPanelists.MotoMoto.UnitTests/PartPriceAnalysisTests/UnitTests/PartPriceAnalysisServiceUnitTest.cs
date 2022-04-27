@@ -8,5 +8,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartPriceAnalysisServiceUnitTest
     {
+        private bool result;
+
+
     }
 }
