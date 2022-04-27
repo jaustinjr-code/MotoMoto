@@ -70,13 +70,14 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// </summary>
         /// <param name="inputModel"></param>
         /// <returns></returns>
-        public bool IsContentRequestValid(IContentModel inputModel)
+        public (bool, IResponseModel) IsContentRequestValid(IContentModel inputModel)
         {
             if (!IsNullOrEmptyRequest((IFeedModel)inputModel))
             {
-                return IsContentResponseValid(ProcessRequest((IFeedModel)inputModel));
+                return (true, ProcessRequest((IFeedModel)inputModel));
+                // return (IsContentResponseValid(ProcessRequest((IFeedModel)inputModel)), null);
             }
-            return false;
+            return (false, null);
         }
 
         /// <summary>
