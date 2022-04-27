@@ -3,25 +3,6 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
-    public enum PartCategories
-    {
-        // each value is used to represent the parts that will be available on motomotoca.com
-        // all values are subject to expand or decrease based on the extensibility of this project
-        alternator,
-        brakePads,
-        brakeRotor,
-        cylinderHead,
-        engineBlock,
-        exhaustManifold,
-        muffler,
-        oilFilter,
-        radiator,
-        sparkPlug,
-        timingBelt,
-        timingChain,
-        turbo,
-        waterPump
-    }
     public class PartPriceAnalysisManager
     {
         private readonly PartPriceAnalysisService? _partPriceAnalysisService;
@@ -65,7 +46,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns></returns>
         public PartListModel RetrieveSpecifiedCategorialParts(PartListModel partListModel)
         {
-            if (Enum.IsDefined(typeof(PartCategories), partListModel!.partCategory!))
+            if (partListModel.categoryId < partListModel.categories.Length)
             {
                 return _partPriceAnalysisService!.RetrievSpecifiedCategorialParts(partListModel);
             }

@@ -9,19 +9,16 @@ using Microsoft.AspNetCore.Cors;
 namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class UserManagementController : ControllerBase
     { 
         private readonly UserManagementDataAccess _userManagementDataAccess = new UserManagementDataAccess();
         private readonly LogService _logService = new LogService();
 
-        [HttpOptions]
         public IActionResult PreFlightRoute()
         {
             return NoContent();
         }
 
-        [HttpGet]
         public async Task<ISet<AccountModel>> GetUserAccounts(string username, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
@@ -33,7 +30,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             return retrieveAllAccounts;
         }
 
-        [HttpPost]
         public IActionResult RetrieveAllUsers(DataStoreUser user, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
@@ -49,7 +45,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
         }
-        [HttpDelete]
         public IActionResult DeleteAccount(string _username, string _password, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
@@ -72,28 +67,3 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
         }
     }
 }
-
-
-/*
- [HttpDelete]
-        public IActionResult DeleteAccount(string _username, string _password)
-        {
-            UserManagementService service = new UserManagementService(_userManagementDataAccess);
-            UserManagementManager manager = new UserManagementManager(service);
-
-            try
-            {
-                var deleteAccountModel = new DeleteAccountModel()
-                {
-                    username = _username,
-                    verifiedPassword = _password
-                };
-                bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
-                return Ok();
-            }
-            catch
-            {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
- */
