@@ -21,8 +21,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         // Function to FetchAllEventPosts 
         public ISet<EventDetailsModel> FetchAllEventPosts(EventDetailsModel eventDetails)
         {
+            // Use the DAO object to retrieve all rows from the EventDetails table and store it in a HashSet
             var eventDetailsEntities = _eventPostContentDAO.FetchAllPosts();
 
+            // Selects each row from the retrieved HashSet and stores it 
             var events = eventDetailsEntities!.Select(evnt => new EventDetailsModel()
             {
                 eventID = eventDetails!.eventID,
@@ -30,7 +32,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 eventTime = eventDetails!.eventTime,
                 eventDate = eventDetails!.eventDate
             }).ToHashSet();
-            return events;
+            return events; // Returns the retrieved data back to the manager
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         [HttpOptions]
         public IActionResult Index()
         {
-            return View();
+            return View(); // Display the view
         }
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
