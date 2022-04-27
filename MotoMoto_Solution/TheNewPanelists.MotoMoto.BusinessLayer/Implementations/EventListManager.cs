@@ -17,16 +17,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public EventListManager(EventListService eventListService){_eventListService = eventListService;}
 
         // Function that will be used to FetchAllEventDetails from the datastore using the EventListService object
-        public ISet<EventDetailsModel> FetchAllEventDetails(int evntID)
+        public ISet<EventDetailsModel> FetchAllEventDetails()
         {
             // EventDetailsModel which will be used to store the fetched results from the database
-            var eventDetailsModel = new EventDetailsModel()
-            {
-                eventID = evntID,
-                eventLocation = "",
-                eventTime = "",
-                eventDate = ""
-            };
+            var eventDetailsModel = new EventDetailsModel(){};
             return _eventListService.FetchAllEventPosts(eventDetailsModel);
         }
     }
