@@ -28,6 +28,7 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj" />
+    <ProjectReference Include="../TheNewPanelists.MotoMoto.WebServices/TheNewPanelists.MotoMoto.WebServices.PartFlagging/TheNewPanelists.MotoMoto.WebServices.PartFlagging.csproj" />
   </ItemGroup>
 
 </Project>

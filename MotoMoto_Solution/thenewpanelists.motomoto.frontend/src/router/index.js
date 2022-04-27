@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import DirectMessage from '../views/DirectMessageView.vue'
 import Login from '../views/LoginView.vue'
 import CommunityDashboard from '../views/CommunityView.vue'
+import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
+import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 
 
 const routes = [
@@ -20,6 +22,16 @@ const routes = [
     path: '/CommunityDashboard',
     name: 'CommunityDashboard',
     component: CommunityDashboard
+  },
+  {
+    path: '/PartFlaggingBuilder',
+    name: 'PartFlaggingCarBuilder',
+    component: PartFlaggingBuilder
+  },
+  {
+    path: '/PartFlaggingPost',
+    name: 'PartFlaggingPost',
+    component: PartFlaggingPost
   }
 
 ]
