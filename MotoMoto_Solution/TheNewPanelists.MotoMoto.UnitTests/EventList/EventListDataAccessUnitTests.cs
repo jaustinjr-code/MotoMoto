@@ -10,6 +10,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class EventListDataAccessUnitTests
     {
+        // Test to determine if the DAO is able to connect to the cloud data store (AWS RDS)
         [Fact]
         public void IsEventPostContentDBConnectionEstablished()
         {

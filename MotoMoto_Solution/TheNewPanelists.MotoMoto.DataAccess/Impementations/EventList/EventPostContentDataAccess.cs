@@ -13,7 +13,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         // Create declare connection string to AWS RDS data store
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         // Connection string for localhost
         //private string _connectionString = "server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";
