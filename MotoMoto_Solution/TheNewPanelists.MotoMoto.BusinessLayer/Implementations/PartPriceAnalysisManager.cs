@@ -50,8 +50,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         }
         /// <summary>
-        /// EvaluateVehiclePart allows for users to evaluate a specified vehicle part and determine the price point of the 
-        /// actual part. 
+        /// 
         /// </summary>
         /// <param name="partModel"></param>
         /// <returns></returns>
@@ -60,8 +59,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _partPriceAnalysisService!.RetrieveSpecifiedPartHistory(partModel);
         }
         /// <summary>
-        /// This functionality is used to fetch information from the datastore allowing users to see specified parts in the category of
-        /// their choice.
+        /// 
         /// </summary>
         /// <param name="partListModel"></param>
         /// <returns></returns>

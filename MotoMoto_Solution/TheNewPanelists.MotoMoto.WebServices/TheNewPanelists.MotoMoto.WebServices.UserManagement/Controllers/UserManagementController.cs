@@ -20,6 +20,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
         {
             return NoContent();
         }
+
+        [HttpGet]
         public async Task<ISet<AccountModel>> GetUserAccounts(string username, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
@@ -30,6 +32,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                
             return retrieveAllAccounts;
         }
+
+        [HttpPost]
         public IActionResult RetrieveAllUsers(DataStoreUser user, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
@@ -45,21 +49,51 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
         }
-        public async Task<bool> DeleteAccount(string _username, string _password, CancellationToken token)
+        [HttpDelete]
+        public IActionResult DeleteAccount(string _username, string _password, CancellationToken token)
         {
             UserManagementService service = new UserManagementService(_userManagementDataAccess);
             UserManagementManager manager = new UserManagementManager(service);
 
-            var deleteAccountModel = new DeleteAccountModel()
+            try
             {
-                username = _username,
-                verifiedPassword = _password
-            };
-            bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
-            await Task.Delay(10_000, token);
-            return result;
+                var deleteAccountModel = new DeleteAccountModel()
+                {
+                    username = _username,
+                    verifiedPassword = _password
+                };
+                bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
+                return Ok();
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
 
 
+/*
+ [HttpDelete]
+        public IActionResult DeleteAccount(string _username, string _password)
+        {
+            UserManagementService service = new UserManagementService(_userManagementDataAccess);
+            UserManagementManager manager = new UserManagementManager(service);
+
+            try
+            {
+                var deleteAccountModel = new DeleteAccountModel()
+                {
+                    username = _username,
+                    verifiedPassword = _password
+                };
+                bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
+                return Ok();
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+ */
