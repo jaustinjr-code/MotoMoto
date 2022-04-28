@@ -27,7 +27,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Registration", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj", "{C3865BBA-5C68-4EFC-B771-C73DE25F1DB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations\TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations.csproj", "{90259192-0923-4C3F-B659-8CD2100EA3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations\TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations.csproj", "{90259192-0923-4C3F-B659-8CD2100EA3E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.EventList", "TheNewPanelists.MotoMoto.WebServices.EventList\TheNewPanelists.MotoMoto.WebServices.EventList.csproj", "{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16} = {B21BEF11-10C3-4880-8983-E7FF3C8AEB16}
+		{013F2F48-5928-4779-96F9-A381827F3986} = {013F2F48-5928-4779-96F9-A381827F3986}
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6} = {CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369} = {44619BBF-92B4-4614-8AFE-1F8E3ED95369}
+		{180185C9-4FD0-44A8-BE9D-03592092DF79} = {180185C9-4FD0-44A8-BE9D-03592092DF79}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +92,10 @@ Global
 		{90259192-0923-4C3F-B659-8CD2100EA3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90259192-0923-4C3F-B659-8CD2100EA3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90259192-0923-4C3F-B659-8CD2100EA3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +107,7 @@ Global
 		{6DA32067-8AF6-4353-960B-53C668BA5322} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{C3865BBA-5C68-4EFC-B771-C73DE25F1DB7} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{90259192-0923-4C3F-B659-8CD2100EA3E7} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
