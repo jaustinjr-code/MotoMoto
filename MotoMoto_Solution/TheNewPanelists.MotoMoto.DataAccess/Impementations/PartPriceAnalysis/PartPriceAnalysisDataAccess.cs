@@ -82,22 +82,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 IEnumerable<IPartEntity> _partList = new List<IPartEntity>();
 
-                MySqlDataReader myReader = command.ExecuteReader();
-                while (myReader.Read())
+                using (MySqlDataReader myReader = command.ExecuteReader())
                 {
-                    int partID = myReader.GetInt32("productId");
-                    string partName = myReader.GetString("productName");
-                    string rating = myReader.GetString("rating");
-                    int ratingCount = myReader.GetInt32("ratingCount");
-                    double productPrice = myReader.GetDouble("productPrice");
-                    string productURL = myReader.GetString("productURL");
+                    while (myReader.Read())
+                    {
+                        int partID = myReader.GetInt32("productId");
+                        string partName = myReader.GetString("productName");
+                        string rating = myReader.GetString("rating");
+                        int ratingCount = myReader.GetInt32("ratingCount");
+                        double productPrice = myReader.GetDouble("productPrice");
+                        string productURL = myReader.GetString("productURL");
 
-                    IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
-                    ((List<IPartEntity>)_partList).Add(partEntity);
-                }
+                        IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
+                        ((List<IPartEntity>)_partList).Add(partEntity);
+                    }
+                    myReader.Close();
+                    mySqlConnection!.Close();
+                };
                 listModel.partList = _partList;
-                myReader.Close();
-                mySqlConnection!.Close();
                 return listModel;
             }
         }
@@ -114,7 +116,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         {
             if (!EstablishMariaDBConnection())
             {
-                throw new NullReferenceException();
+                return part;
             }
             using (var command = new MySqlCommand())
             {
@@ -123,28 +125,31 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "SELECT * FROM VehicleParts v WHERE v.partId = @v1;";
+                command.CommandText = "SELECT * FROM VehicleParts WHERE productId = @v1;";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", part.partID);
 
                 command.Parameters.AddRange(parameters);
-
-                MySqlDataReader myReader = command.ExecuteReader();
-                PartPrice _partPrice = new PartPrice();
-                while (myReader.Read())
+                PartModel _partModel = new PartModel();
+                using (MySqlDataReader myReader = command.ExecuteReader())
                 {
-                    part.partID = myReader.GetInt32("productId");
-                    part.partName = myReader.GetString("productName");
-                    part.rating = myReader.GetString("rating");
-                    part.ratingCount = myReader.GetInt32("ratingCount");
-                    part.productURL = myReader.GetString("productURL");
-                    part.currentPrice = myReader.GetDouble("productPrice");
-                }
-                myReader.Close();
-                mySqlConnection!.Close();
-                return part;
+
+                    while (myReader.Read())
+                    {
+                        _partModel.partID = myReader.GetInt32("productId");
+                        _partModel.partName = myReader.GetString("productName");
+                        _partModel.rating = myReader.GetString("rating");
+                        _partModel.ratingCount = myReader.GetInt32("ratingCount");
+                        _partModel.productURL = myReader.GetString("productURL");
+                        _partModel.currentPrice = myReader.GetDouble("productPrice");
+                    }
+                    myReader.Close();
+                    mySqlConnection!.Close();
+                    return _partModel;
+                };
             }
         }
+
         /// <summary>
         /// RetrievSpecifiedPartPriceHistory is used to verify the part price history
         /// of specified items shown on our webpage. This information is soley used
@@ -166,7 +171,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "SELECT * FROM FormerPartPrices f WHERE f.productId = @v1";
+                command.CommandText = "SELECT * FROM FormerPartPrices WHERE productId = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", partModel.partID);
                 command.Parameters.AddRange(parameters);
@@ -187,21 +192,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 mySqlConnection!.Close();
                 return partModel;
             }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="partComparisonModel"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public PartComparisonModel RetrieveMultipleProductsToCompare(PartComparisonModel partComparisonModel)
-        {
-            foreach (PartModel part in partComparisonModel!.comparisonParts!)
-            {
-                RetrievePartInformation(part);
-                RetrieveSpecifiedPartPriceHistory(part);
-            }
-            return partComparisonModel;
         }
     }
 }

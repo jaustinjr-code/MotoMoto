@@ -198,7 +198,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandType = CommandType.Text;
 
                 command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email, salt)" +
-                                      $"VALUES (@v0, '@v1', '@v2', '@v3', '@v4', @v5, salt)";
+                                      $"VALUES (@v0, '@v1', '@v2', '@v3', '@v4', @v5)";
                 var parameters = new MySqlParameter[6];
                 parameters[0] = new MySqlParameter("@v0", userAccount!.userId);
                 parameters[1] = new MySqlParameter("@v1", userAccount!.userType);

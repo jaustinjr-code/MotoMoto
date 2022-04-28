@@ -1,4 +1,6 @@
-﻿using TheNewPanelists.MotoMoto.DataAccess;
+﻿using System;
+using System.Collections.Generic;
+using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -45,6 +47,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             return _partPriceAnalysisDAO!.RetrieveSpecifiedPartPriceHistory(partModel);
         }
+
+        public PartModel RetrieveSpecifiedPartInformation(PartModel partModel)
+        {
+            return _partPriceAnalysisDAO!.RetrievePartInformation(partModel);
+        }
         /// <summary>
         /// Used to compare two same categorial vehicle part prices and their history of price changes
         /// We use this model to ensure that prices have changed over time and that we can display the 
@@ -54,7 +61,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns></returns>
         public PartComparisonModel RetrieveSpecifiedComparisonPartPriceHistory(PartComparisonModel partComparisonModel)
         {
-            partComparisonModel = _partPriceAnalysisDAO!.RetrieveMultipleProductsToCompare(partComparisonModel);
             ComparePrices(partComparisonModel);
             return partComparisonModel;
         }
@@ -65,9 +71,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="partComparisonModel"></param>
         private void ComparePrices(PartComparisonModel partComparisonModel)
         {
-            double min = double.PositiveInfinity;
-            double max = double.NegativeInfinity;
-            foreach (PartModel part in partComparisonModel!.comparisonParts!)
+            double min = -1;
+            double max = -1;
+            IEnumerable<double> _partComparisons = new List<double>();
+            foreach (PartModel part in partComparisonModel.comparisonParts!)
+            {
                 if (part.currentPrice > max && part.currentPrice > min)
                 {
                     max = part.currentPrice;
@@ -76,8 +84,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 {
                     min = part.currentPrice;
                 }
+            }
             double temp = max - min;
-            partComparisonModel!.currentPriceDifference!.Add(temp);
+            ((List<double>)_partComparisons).Add(Math.Abs(temp));
+            partComparisonModel.currentPriceDifference = _partComparisons;
         }
     }
 }

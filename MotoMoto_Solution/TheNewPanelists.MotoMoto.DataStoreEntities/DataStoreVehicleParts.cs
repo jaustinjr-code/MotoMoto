@@ -15,6 +15,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? productURL { get; set; }
         public double currentPrice { get; set; }
 
+        public DataStoreVehicleParts() { }
         public DataStoreVehicleParts(int _partID, string _partName, string _rating, int _ratingCount, string _proURL, double _currentPrice)
         {
             partID = _partID;
