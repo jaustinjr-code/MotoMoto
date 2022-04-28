@@ -1,0 +1,8 @@
+User->Frontend: Clicks button to add a flag to a part
+Frontend->Application Layer: CreateFlag(partNum: String, carMake: String, carModel: String, carYear: String): IActionResult
+Application Layer->Business Layer: HandleFlagCreation(partNum: String, carMake: String, carModel: String, carYear: String): bool
+Business Layer->Business Layer: CreateFlagModel(partNum: String, carMake: String, carModel: String, carYear: String): FlagModel
+Business Layer->Business Layer: IsValidFlag(flag: FlagModel): bool
+
+Business Layer-->Application Layer: false
+Application Layer-->Frontend: Object containing operation failure message
