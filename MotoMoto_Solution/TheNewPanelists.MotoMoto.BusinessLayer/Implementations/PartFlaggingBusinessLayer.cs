@@ -10,16 +10,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public class PartFlaggingBusinessLayer
     {
-        
-        public PartFlaggingBusinessLayer()
-        {
-            
-        }
-
-        public PartFlaggingBusinessLayer(string filepath)
-        {
-            
-        }
 
         /// <summary>
         /// Checks that all parameters are not null, and calls the flag creation method in
@@ -95,6 +85,18 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 return null;
             }
+        }
+
+        public bool HandleFlagCountDecrement(string partNumber, string carMake, string carModel, string carYear)
+        {
+            bool result = false;
+            FlagModel flag = createFlagModel(partNumber, carMake, carModel, carYear);
+            if (isValidFlag(flag))
+            {
+                PartFlaggingService partFlaggingService = new PartFlaggingService();
+                result = partFlaggingService.CallDecrementFlagCount(flag);
+            }
+            return result;
         }
     }
 }

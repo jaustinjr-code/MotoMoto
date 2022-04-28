@@ -19,8 +19,12 @@
         <h2>Parts List</h2>
         <div class='parts-single-selection'>
             <ul class='post-list' id='parts-list'>
-                <li value='0'>Compatible Part</li>
-                <li value='1'>Incompatible Part</li>
+                <div class='parts-list-single-entry'>
+                    <li class='parts-list-item' value='0'>Compatible Part</li><button v-on:click='flagNewPart(0)'>Flag Part</button>
+                </div>
+                <div class='parts-list-single-entry'>
+                    <li class='parts-list-item' value='1'>Incompatible Part</li><button v-on:click='flagNewPart(1)'>Flag Part</button>
+                </div>
             </ul>
         </div>
 
@@ -30,13 +34,21 @@
             <h2>Compatibility</h2>
             <p v-if='incompatibleParts.length == 0'>All parts are labeled 'Compatible' With the selected car based on user flags :)</p>
             <p v-else>It appears the following parts are labeled 'Non-Recommended' with the selected car based on user flags: </p>
-            <button class='part-flag-buttons' v-for="(partName) in incompatibleParts" :key='partName'>
-                {{ partName }}
-            </button>
+            <div  v-for="(part, index) in incompatibleParts" :key='part'>
+                <button v-on:click="SelectFlag(index)" class='part-flag-buttons'>
+                    {{ part['partName'] }}
+                </button>
+                <div v-if='openPart == index'>
+                    <h3> Review Flag </h3>
+                    <button v-on:click="Upvote(index)">
+                        Upvote
+                    </button>
+                    <button v-on:click="Downvote(index)" v-for="(partName, index) in incompatibleParts" :key='partName'>
+                        Downvote
+                    </button>
+                </div>
+            </div>
     </div>
-    <div id='rate-flag'>
-        <b-modal></b-modal>
-    </div> 
 </div>
 </template>
 <script>
@@ -48,7 +60,8 @@ export default {
     data()
     {
         return {
-        incompatibleParts: []
+        incompatibleParts: [],
+        openPart: null
         }
     },
     methods: {
@@ -74,27 +87,23 @@ export default {
                     let isIncompatible = res.data.isPossibleIncompatiblility;
                     if (isIncompatible)
                     {
-                        newIncompatibleParts.push(partName);
+                        newIncompatibleParts.push({'partName': partName, 'partNum': partNum});
                     }
                 })
             }
             this.incompatibleParts = newIncompatibleParts
         },
 
-        flagPart: async function(index) {
-            let carMakeElement = document.getElementById('car-make-select')
-            let carMake = carMakeElement.options[carMakeElement.selectedIndex].value
+        flagNewPart: async function(partNum) {
+            let carMakeElement = document.getElementById('car-make')
+            let carMake = carMakeElement.dataset.value
 
-            let carModelElement = document.getElementById('car-model-select')
-            let carModel = carModelElement.options[carModelElement.selectedIndex].value
+            let carModelElement = document.getElementById('car-model')
+            let carModel = carModelElement.dataset.value
 
-            let carYearElement = document.getElementById('car-year-select')
-            let carYear = carYearElement.options[carYearElement.selectedIndex].value
+            let carYearElement = document.getElementById('car-year')
+            let carYear = carYearElement.dataset.value
 
-            let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
-            let partNum = partSelections[index].options[partSelections[index].selectedIndex].value
-
-            
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
                     partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
@@ -102,6 +111,68 @@ export default {
                 }).then((res) => {
                 console.log(res.data)
             })
+        },
+
+        flagPart: async function(index) {
+            let carMakeElement = document.getElementById('car-make')
+            let carMake = carMakeElement.dataset.value
+
+            let carModelElement = document.getElementById('car-model')
+            let carModel = carModelElement.dataset.value
+
+            let carYearElement = document.getElementById('car-year')
+            let carYear = carYearElement.dataset.value
+
+            let partNum = this.incompatibleParts[index]['partNum']
+
+            console.log(partNum, carMake, carModel, carYear)
+            await instance.post('PartFlagging/CreateFlag', null, {
+                params: {
+                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    }
+                }).then((res) => {
+                console.log(res.data)
+            })
+        },
+
+        decrementFlagCount: async function(index) {
+            let carMakeElement = document.getElementById('car-make')
+            let carMake = carMakeElement.dataset.value
+
+            let carModelElement = document.getElementById('car-model')
+            let carModel = carModelElement.dataset.value
+
+            let carYearElement = document.getElementById('car-year')
+            let carYear = carYearElement.dataset.value
+
+            let partNum = this.incompatibleParts[index]['partNum']
+
+            console.log(partNum, carMake, carModel, carYear)
+            await instance.post('PartFlagging/DecrementFlagCount', null, {
+                params: {
+                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    }
+                }).then((res) => {
+                console.log(res.data)
+            })
+        },
+
+        SelectFlag: function(index) {
+            this.openPart = index
+        },
+
+        UnSelectFlag: function() {
+            this.openPart = null
+        },
+
+        Upvote: async function(index){
+            this.flagPart(index)
+            this.UnSelectFlag()
+        },
+
+        Downvote: async function(index) {
+            this.decrementFlagCount(index)
+            this.UnSelectFlag()
         }
     },
     mounted() {   
@@ -131,4 +202,10 @@ export default {
 label {
     margin-right: 5px;
 }
+
+
+.parts-list-item {
+    display: inline-block
+}
+
 </style>

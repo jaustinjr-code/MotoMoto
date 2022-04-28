@@ -52,7 +52,8 @@
     </div>
 </template>
 <script>
-import { createElementBlock, defineComponent } from "vue";
+import { nextTick, createElementBlock, defineComponent } from "vue";
+
 import axios from 'axios';
 import {instance} from '../router/PartFlaggingConnection'
 
@@ -69,10 +70,13 @@ export default {
         addPart: function(param) {
             this.currentPartCount += 1
             this.partInputs.push(this.currentPartCount)
+            this.checkCompatibility()
         },
 
-        removePart: function(index) {
+        removePart: async function(index) {
             this.partInputs.splice(index,1)
+            await nextTick();
+            this.checkCompatibility()
         },
 
         checkCompatibility: async function() {
@@ -87,6 +91,7 @@ export default {
             let carYear = carYearElement.options[carYearElement.selectedIndex].value
 
             let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
+            console.log(partSelections)
             for (var partSelectionsIt = 0; partSelectionsIt < partSelections.length; partSelectionsIt++) {
                 let selectedElement = partSelections[partSelectionsIt].options[partSelections[partSelectionsIt].selectedIndex]
                 let partNum = selectedElement.value
@@ -98,6 +103,7 @@ export default {
                     if (isIncompatible)
                     {
                         newIncompatibleParts.push(partName);
+                        console.log('push')
                     }
                 })
             }

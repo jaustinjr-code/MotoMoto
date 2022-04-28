@@ -21,5 +21,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             return partFlaggingDataAccess.getFlagCount(flag);
         }
+
+        public bool CallDecrementFlagCount(FlagModel flag)
+        {
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+            return partFlaggingDataAccess.DecrementOrRemove(flag);
+        }
     }
 }

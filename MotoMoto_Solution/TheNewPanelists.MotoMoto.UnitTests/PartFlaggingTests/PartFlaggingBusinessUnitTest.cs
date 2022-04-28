@@ -1,6 +1,7 @@
 using Xunit;
 using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataAccess;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
@@ -172,6 +173,50 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             Assert.Null(partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void HandleValidFlagCountDecrement(int count)
+        {
+            const string testName = "HandleValidFlagCountDecrement";
+            PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+
+            string partNumber = testName;
+            string carMake = testName;
+            string carModel = testName;
+            string carYear = "2022";
+
+            FlagModel testFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            
+            partFlaggingDataAccess.deleteFlag(testFlag);
+            for (int countIt = 0; countIt < count; ++countIt)
+            {
+                partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+            }
+
+            Assert.True(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
+        }
+
+        [Fact]
+        public void HandleInvalidFlagCountDecrement()
+        {
+            const string testName = "HandleInvalidFlagCountDecrement";
+            PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+
+            string partNumber = testName;
+            string carMake = testName;
+            string carModel = testName;
+            string carYear = "2022";
+
+            FlagModel testFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            
+            partFlaggingDataAccess.deleteFlag(testFlag);
+
+            Assert.False(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
         }
     }
 }

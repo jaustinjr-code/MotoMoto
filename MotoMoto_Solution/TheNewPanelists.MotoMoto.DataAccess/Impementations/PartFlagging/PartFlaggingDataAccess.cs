@@ -86,6 +86,73 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return returnVal;
         }
 
+        public bool DecrementOrRemove(FlagModel flag)
+        {
+            const int ZERO = 0;
+            const int ONE = 1;
+
+            bool returnVal = false;
+            string dml = "";
+            
+            //Use flag count to determine if flag count should be decremented, removed, or if flag count is zero and does
+            int currentCount = getFlagCount(flag);
+            if (currentCount == ZERO)
+            {
+                return false;
+            }
+            else if (currentCount == 1) 
+            {
+                return deleteFlag(flag);
+            }
+            else if (currentCount > ONE)
+            {
+                dml = @$"
+                UPDATE PartFlags
+                SET count = {currentCount - ONE}
+                WHERE part_number = @PartNumber 
+                AND car_make = @CarMake
+                AND car_model = @CarModel
+                AND car_year = @CarYear
+                "; 
+            }
+
+
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            try
+            {
+                connection.Open();
+                //Add parameters to the dml statement with built in functions to avoid sql injection
+                MySqlCommand cmd = new MySqlCommand(dml, connection);
+                cmd.Parameters.Add("@PartNumber", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@CarMake", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@CarModel", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@CarYear", MySqlDbType.VarChar);
+
+                cmd.Parameters["@PartNumber"].Value = flag.PartNumber;
+                cmd.Parameters["@CarMake"].Value = flag.CarMake;
+                cmd.Parameters["@CarModel"].Value = flag.CarModel;
+                cmd.Parameters["@CarYear"].Value = flag.CarYear;
+
+
+                int numEffected = cmd.ExecuteNonQuery();
+                
+                //Table has only been updated if the number of rows effected is a postive integer
+                if (numEffected > ZERO)
+                {
+                    returnVal = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return returnVal;
+        }
+
         public bool deleteFlag(FlagModel flag)
         {
             const int ZERO = 0;

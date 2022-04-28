@@ -88,6 +88,44 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool result = partFlaggingDataAccess.deleteFlag(testFlag);
             Assert.True(result);
         }
-        
+
+        [Theory]
+        [InlineDataAttribute("GreaterThanOne", 2)]
+        [InlineDataAttribute("EqualToOne", 1)]
+        [InlineDataAttribute("Zero", 0)]
+        public void DecrementOrRemoveTests(string testName, int numCreations) 
+        {
+            bool result = false;
+            
+            FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
+            
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+
+            bool creationSuccessful = true;
+            for (int flagCreateIt = 0; flagCreateIt < numCreations; ++flagCreateIt)
+            {
+                creationSuccessful = creationSuccessful && partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+            }
+
+            if (creationSuccessful)
+            {
+                int prevCount = partFlaggingDataAccess.getFlagCount(testFlag);
+                result = partFlaggingDataAccess.DecrementOrRemove(testFlag);
+                int afterCount = partFlaggingDataAccess.getFlagCount(testFlag);
+
+                if (prevCount == 0)
+                {
+                    Assert.False(result);
+                }
+                else
+                {
+                    Assert.True(result && prevCount == afterCount + 1);
+                }
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
     }
 }
