@@ -42,17 +42,12 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return false;
             }
 
-            if (savedCarBuild.country!.Length == 0 || savedCarBuild.country!.Length > 20)// Make sure user input is not null and is less than 20 characters
-            {
-                return false;
-            }
-
             return _carBuildService.SaveCarType(savedCarBuild);         // Save information to CarTypeModel
         }
 
         public bool SaveCarModificationsManager(ModifyCarBuildModel modifiedCarBuild)
         {
-            if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            if (modifiedCarBuild.partName!.Length == 0 || modifiedCarBuild.partName!.Length > 30)   // Make sure user input is not null and is less than 30 characters
             {
                 return false;
             }
