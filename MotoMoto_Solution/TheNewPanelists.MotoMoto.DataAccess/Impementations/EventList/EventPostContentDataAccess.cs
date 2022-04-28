@@ -48,7 +48,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             EstablishMariaDBConnection();
 
             // Query that will be executed to retrieve all EventDetails from the EventDetails table
-            string selectAllQuery = "SELECT * FROM EventDetails"; // Security issue - subject to SQL injection
+            string selectAllQuery = "SELECT * FROM EventDetails"; 
 
             // Using the desired query and open SQL connection, initialize an instance of MySqlCommand 
             MySqlCommand command = new MySqlCommand(selectAllQuery, mySqlConnection);
