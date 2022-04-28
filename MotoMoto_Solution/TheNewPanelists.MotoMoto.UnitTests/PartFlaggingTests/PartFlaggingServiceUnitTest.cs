@@ -15,7 +15,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingService partFlaggingService = new PartFlaggingService();
 
-            bool result = partFlaggingService.callFlagCreation(testFlag);
+            bool result = partFlaggingService.CallFlagCreation(testFlag);
             Assert.True(result);
         }
 
@@ -26,7 +26,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingService partFlaggingService = new PartFlaggingService();
 
-            bool result = partFlaggingService.callFlagCreation(testFlag);
+            bool result = partFlaggingService.CallFlagCreation(testFlag);
             Assert.False(result);
         }
 
@@ -39,7 +39,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingService partFlaggingService = new PartFlaggingService();
             
             //Create flag to ensure that the flag exists
-            partFlaggingService.callFlagCreation(testFlag);
+            partFlaggingService.CallFlagCreation(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
             int result = partFlaggingService.CallGetFlagCount(testFlag);
@@ -57,7 +57,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
             int result = partFlaggingService.CallGetFlagCount(testFlag);
@@ -74,7 +74,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
             bool result = partFlaggingService.CallDecrementFlagCount(testFlag);
@@ -83,24 +83,24 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
         [Theory]
         [InlineData("CallExistingFlagCount", 1)]
-        [InlineData("CallExistingFlagCount", 1)]
+        [InlineData("CallExistingFlagCount", 2)]
         public void CallExistingFlagCount(string testName, int minFlagCount)
         {
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
             
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
 
             for (int flagCountIt = 0; flagCountIt < minFlagCount; ++flagCountIt)
             {
-                partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+                partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             PartFlaggingService partFlaggingService = new PartFlaggingService();
 
-            int prevCount = partFlaggingDataAccess.getFlagCount(testFlag);
+            int prevCount = partFlaggingDataAccess.GetFlagCount(testFlag);
             partFlaggingService.CallDecrementFlagCount(testFlag);
-            int afterCount = partFlaggingDataAccess.getFlagCount(testFlag);
+            int afterCount = partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.True(prevCount == afterCount + 1);
         }

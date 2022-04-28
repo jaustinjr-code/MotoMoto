@@ -14,7 +14,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            int result = partFlaggingDataAccess.getFlagCount(testFlag);
+            int result = partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, 0);
         }
 
@@ -26,7 +26,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            int result = partFlaggingDataAccess.getFlagCount(testFlag);
+            int result = partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, 100);
         }
 
@@ -38,10 +38,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            bool result = partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+            bool result = partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             
             //Remove flag from the table when unit test is completed, so that upon running again the flag no longer exists
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
 
             Assert.True(result);
         }
@@ -55,9 +55,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            int previousCount = partFlaggingDataAccess.getFlagCount(testFlag);
-            bool result = partFlaggingDataAccess.createOrIncrementFlag(testFlag);
-            int subsequentCount = partFlaggingDataAccess.getFlagCount(testFlag);
+            int previousCount = partFlaggingDataAccess.GetFlagCount(testFlag);
+            bool result = partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            int subsequentCount = partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.Equal(subsequentCount, previousCount + ONE);
         }
@@ -71,7 +71,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            bool result = partFlaggingDataAccess.deleteFlag(testFlag);
+            bool result = partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.False(result);
         }
 
@@ -84,8 +84,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            partFlaggingDataAccess.createOrIncrementFlag(testFlag);
-            bool result = partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            bool result = partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.True(result);
         }
 
@@ -104,14 +104,14 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool creationSuccessful = true;
             for (int flagCreateIt = 0; flagCreateIt < numCreations; ++flagCreateIt)
             {
-                creationSuccessful = creationSuccessful && partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+                creationSuccessful = creationSuccessful && partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             if (creationSuccessful)
             {
-                int prevCount = partFlaggingDataAccess.getFlagCount(testFlag);
+                int prevCount = partFlaggingDataAccess.GetFlagCount(testFlag);
                 result = partFlaggingDataAccess.DecrementOrRemove(testFlag);
-                int afterCount = partFlaggingDataAccess.getFlagCount(testFlag);
+                int afterCount = partFlaggingDataAccess.GetFlagCount(testFlag);
 
                 if (prevCount == 0)
                 {

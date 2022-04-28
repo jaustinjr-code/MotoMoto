@@ -10,16 +10,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class PartFlaggingService
     {
-        public bool callFlagCreation(FlagModel flag)
+        public bool CallFlagCreation(FlagModel flag)
         {
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            return partFlaggingDataAccess.createOrIncrementFlag(flag);
+            return partFlaggingDataAccess.CreateOrIncrementFlag(flag);
         }
 
         public int CallGetFlagCount(FlagModel flag)
         {
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            return partFlaggingDataAccess.getFlagCount(flag);
+            return partFlaggingDataAccess.GetFlagCount(flag);
         }
 
         public bool CallDecrementFlagCount(FlagModel flag)

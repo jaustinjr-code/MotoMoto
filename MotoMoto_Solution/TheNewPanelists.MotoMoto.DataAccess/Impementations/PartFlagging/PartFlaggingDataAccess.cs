@@ -20,7 +20,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to construct or update a row in the PartFlag database table</param>
         ///
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the new flag</returns>
-        public bool createOrIncrementFlag(FlagModel flag)
+        public bool CreateOrIncrementFlag(FlagModel flag)
         {
             const int ZERO = 0;
             const int ONE = 1;
@@ -29,7 +29,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string dml = "";
             
             //Use flag count to determine if incoming flag needs to create a new row or update an existing row
-            int currentCount = getFlagCount(flag);
+            int currentCount = GetFlagCount(flag);
             if (currentCount == ZERO)
             {
                 dml = @$"
@@ -95,14 +95,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string dml = "";
             
             //Use flag count to determine if flag count should be decremented, removed, or if flag count is zero and does
-            int currentCount = getFlagCount(flag);
+            int currentCount = GetFlagCount(flag);
             if (currentCount == ZERO)
             {
                 return false;
             }
             else if (currentCount == 1) 
             {
-                return deleteFlag(flag);
+                return DeleteFlag(flag);
             }
             else if (currentCount > ONE)
             {
@@ -153,7 +153,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return returnVal;
         }
 
-        public bool deleteFlag(FlagModel flag)
+        public bool DeleteFlag(FlagModel flag)
         {
             const int ZERO = 0;
             
@@ -167,7 +167,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             "; 
 
             //Check that flag exists before trying to delete it
-            int currentCount = getFlagCount(flag);
+            int currentCount = GetFlagCount(flag);
             if (currentCount > ZERO)
             {
                  MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -214,7 +214,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to query a row from the database table PartFlag</param>
         ///
         /// <returns>Count of times a particular flag has been cited.</returns>
-        public int getFlagCount(FlagModel flag) 
+        public int GetFlagCount(FlagModel flag) 
         {
             int count = 0;
             string query = @$"

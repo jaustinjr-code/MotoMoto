@@ -16,30 +16,30 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// the service layer to create a new part flag.
         /// </summary>
         ///
-        /// <param name="partNumber">The number associated with the incompatible part</param>
+        /// <param name="partNum">The number associated with the incompatible part</param>
         /// <param name="carMake">The name of the maker of the car that the part is incompatible with</param>
         /// <param name="carModel">The name of the model of the car that the part is incompatible with</param>
         /// <param name="carYear">The year of the model of the car that the part is incompatible with</param>
         ///
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the new flag</returns>
-        public bool handleFlagCreation(string partNumber, string carMake, string carModel, string carYear) 
+        public bool HandleFlagCreation(string partNum, string carMake, string carModel, string carYear) 
         {
             bool result = false;
-            FlagModel flag = createFlagModel(partNumber, carMake, carModel, carYear);
-            if (isValidFlag(flag))
+            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
+            if (IsValidFlag(flag))
             {
                 PartFlaggingService partFlaggingService = new PartFlaggingService();
-                result = partFlaggingService.callFlagCreation(flag);
+                result = partFlaggingService.CallFlagCreation(flag);
             }
             return result;
         }
 
-        public FlagModel createFlagModel(string partNumber, string carMake, string carModel, string carYear)
+        public FlagModel CreateFlagModel(string partNum, string carMake, string carModel, string carYear)
         {
-            return new FlagModel(partNumber, carMake, carModel, carYear);
+            return new FlagModel(partNum, carMake, carModel, carYear);
         }
 
-        public bool isValidFlag(FlagModel flag)
+        public bool IsValidFlag(FlagModel flag)
         {
             bool result = false;
             bool nullValidation =   flag.PartNumber is not null && 
@@ -64,11 +64,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return result;
         }
 
-        public bool? HandleGetFlagCompatibility(string partNumber, string carMake, string carModel, string carYear)
+        public bool? HandleGetFlagCompatibility(string partNum, string carMake, string carModel, string carYear)
         {
             const int FLAG_COMPATIBILITY_THRESHOLD = 100;
-            FlagModel flag = createFlagModel(partNumber, carMake, carModel, carYear);
-            if (isValidFlag(flag))
+            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
+            if (IsValidFlag(flag))
             {
                 PartFlaggingService partFlaggingService = new PartFlaggingService();
                 int flagCount = partFlaggingService.CallGetFlagCount(flag);
@@ -87,11 +87,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
         }
 
-        public bool HandleFlagCountDecrement(string partNumber, string carMake, string carModel, string carYear)
+        public bool HandleFlagCountDecrement(string partNum, string carMake, string carModel, string carYear)
         {
             bool result = false;
-            FlagModel flag = createFlagModel(partNumber, carMake, carModel, carYear);
-            if (isValidFlag(flag))
+            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
+            if (IsValidFlag(flag))
             {
                 PartFlaggingService partFlaggingService = new PartFlaggingService();
                 result = partFlaggingService.CallDecrementFlagCount(flag);

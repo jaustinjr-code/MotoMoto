@@ -7,6 +7,7 @@
                 <label>Select Base Vehicle Make</label>
                 <select id='car-make-select' @change='checkCompatibility()'>
                     <option value='honda'>Honda</option>
+                    <option value='toyota'>Toyota</option>
                 </select>
             </div>
 
@@ -14,6 +15,7 @@
                 <label>Select Base Vehicle Model</label>
                 <select id='car-model-select' @change='checkCompatibility()'> 
                     <option value='civic'>Civic</option>
+                    <option value='toyota'>Camry</option>
                 </select>
             </div>
 
@@ -26,14 +28,14 @@
 
         <div id='builder__part-section' class='builder-section'>
             <h2>Parts Selection</h2>
-            <button v-on:click="addPart()">Add A Part</button>
+            <button class='flagging-builder-button' v-on:click="addPart()">Add A Part</button>
             <div class='builder__single-part-selection' v-for="(inputId, index) in partInputs" :key='inputId'>
                 <select class='builder__single-part-selection-selector' @change='checkCompatibility()'>
                     <option value='0'>Compatible Part</option>
                     <option value='1'>Incompatible Part</option>
                 </select>
-                <button v-on:click='removePart(index)'>Remove Part</button>
-                <button v-on:click='flagPart(index)'>Flag Part</button>
+                <button class='flagging-builder-button' v-on:click='removePart(index)'>Remove Part</button>
+                <button class='flagging-builder-button' v-on:click='flagPart(index)'>Flag Part</button>
             </div>
             
         </div>
@@ -91,19 +93,18 @@ export default {
             let carYear = carYearElement.options[carYearElement.selectedIndex].value
 
             let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
-            console.log(partSelections)
+            
             for (var partSelectionsIt = 0; partSelectionsIt < partSelections.length; partSelectionsIt++) {
                 let selectedElement = partSelections[partSelectionsIt].options[partSelections[partSelectionsIt].selectedIndex]
                 let partNum = selectedElement.value
                 let partName = selectedElement.innerHTML;
 
-                let params = {partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear};
+                let params = {partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear};
                 await instance.get('PartFlagging/IsPossibleIncompatibility', {params}).then((res) => {
                     let isIncompatible = res.data.isPossibleIncompatiblility;
                     if (isIncompatible)
                     {
                         newIncompatibleParts.push(partName);
-                        console.log('push')
                     }
                 })
             }
@@ -126,7 +127,7 @@ export default {
             
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
-                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
                     }
                 }).then((res) => {
                 console.log(res.data)
@@ -157,7 +158,7 @@ export default {
 .builder__single-part-selection {
     margin-bottom: 10px;
 }
-button{
+.flagging-builder-button{
     align-content: right;
 }
 </style>

@@ -9,10 +9,10 @@ public class PartFlaggingController : ControllerBase
 {
 
     [HttpPost("CreateFlag")]
-    public IActionResult CreateFlag(string partNumber, string carMake, string carModel, string carYear) 
+    public IActionResult CreateFlag(string partNum, string carMake, string carModel, string carYear) 
     {
         PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-        bool result = partFlaggingBusinessLayer.handleFlagCreation(partNumber, carMake, carModel, carYear);
+        bool result = partFlaggingBusinessLayer.HandleFlagCreation(partNum, carMake, carModel, carYear);
         if (result)
         {
             Dictionary<string, string> response = new Dictionary<string, string>
@@ -32,10 +32,10 @@ public class PartFlaggingController : ControllerBase
     }
 
     [HttpPost("DecrementFlagCount")]
-    public IActionResult DecrementFlagCount(string partNumber, string carMake, string carModel, string carYear) 
+    public IActionResult DecrementFlagCount(string partNum, string carMake, string carModel, string carYear) 
     {
         PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-        bool result = partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear);
+        bool result = partFlaggingBusinessLayer.HandleFlagCountDecrement(partNum, carMake, carModel, carYear);
         if (result)
         {
             Dictionary<string, string> response = new Dictionary<string, string>
@@ -55,10 +55,10 @@ public class PartFlaggingController : ControllerBase
     }
     
     [HttpGet("IsPossibleIncompatibility")]
-    public IActionResult IsPossibleIncompatibility(string partNumber, string carMake, string carModel, string carYear)
+    public IActionResult IsPossibleIncompatibility(string partNum, string carMake, string carModel, string carYear)
     {
         PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-        bool? result = partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNumber, carMake, carModel, carYear);
+        bool? result = partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNum, carMake, carModel, carYear);
         if (result is not null)
         {
             if (result == true)

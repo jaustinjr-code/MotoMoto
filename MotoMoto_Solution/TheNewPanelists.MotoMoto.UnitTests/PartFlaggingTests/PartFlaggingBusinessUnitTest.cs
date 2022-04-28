@@ -17,7 +17,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
 
             bool result = newFlag.PartNumber == "1" &&
                           newFlag.CarMake == "toyota" &&
@@ -37,7 +37,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
 
             bool result = newFlag.PartNumber is null &&
                           newFlag.CarMake is null &&
@@ -57,7 +57,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
 
             bool result = newFlag.PartNumber == "1" &&
                           newFlag.CarMake == "toyota" &&
@@ -77,7 +77,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
 
             bool result = newFlag.PartNumber is null &&
                           newFlag.CarMake is null &&
@@ -97,8 +97,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
-            bool result = partFlaggingBusinessLayer.isValidFlag(newFlag);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
+            bool result = partFlaggingBusinessLayer.IsValidFlag(newFlag);
             Assert.True(result);
         }
 
@@ -111,9 +111,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carYear = "";
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
 
-            bool result = partFlaggingBusinessLayer.isValidFlag(newFlag);
+            bool result = partFlaggingBusinessLayer.IsValidFlag(newFlag);
             Assert.False(result);
         }
 
@@ -126,8 +126,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
             
-            FlagModel newFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
-            bool result = partFlaggingBusinessLayer.isValidFlag(newFlag);
+            FlagModel newFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
+            bool result = partFlaggingBusinessLayer.IsValidFlag(newFlag);
             Assert.False(result);
         }
 
@@ -140,7 +140,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carYearParameter = "2005";
 
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-            Assert.True(partFlaggingBusinessLayer.handleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
+            Assert.True(partFlaggingBusinessLayer.HandleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
         }
 
         public void HandleInvalidFlagCreation()
@@ -151,7 +151,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carYearParameter = "";
             
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-            Assert.True(partFlaggingBusinessLayer.handleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
+            Assert.True(partFlaggingBusinessLayer.HandleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
         }
 
         [Theory]
@@ -189,12 +189,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = testName;
             string carYear = "2022";
 
-            FlagModel testFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel testFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
             
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
             for (int countIt = 0; countIt < count; ++countIt)
             {
-                partFlaggingDataAccess.createOrIncrementFlag(testFlag);
+                partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             Assert.True(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
@@ -212,9 +212,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = testName;
             string carYear = "2022";
 
-            FlagModel testFlag = partFlaggingBusinessLayer.createFlagModel(partNumber, carMake, carModel, carYear);
+            FlagModel testFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
             
-            partFlaggingDataAccess.deleteFlag(testFlag);
+            partFlaggingDataAccess.DeleteFlag(testFlag);
 
             Assert.False(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
         }

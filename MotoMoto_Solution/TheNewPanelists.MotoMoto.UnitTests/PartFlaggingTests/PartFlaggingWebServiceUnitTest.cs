@@ -79,7 +79,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             //Ensure flag exists
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             PartFlaggingBusinessLayer partFlaggingBusiness = new PartFlaggingBusinessLayer();
-            partFlaggingDataAccess.createOrIncrementFlag(partFlaggingBusiness.createFlagModel(partNum, carMake, carModel, carYear));
+            partFlaggingDataAccess.CreateOrIncrementFlag(partFlaggingBusiness.CreateFlagModel(partNum, carMake, carModel, carYear));
             
             PartFlaggingController controller = new PartFlaggingController();
 

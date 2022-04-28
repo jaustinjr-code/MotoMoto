@@ -5,13 +5,13 @@
     <div id='build-car-section' class='post__build-section'>
         <h2>Car Details</h2>
         <div class='car-single-selection'>
-            <label>Car Make:</label><span id='car-make' data-value='honda'>Honda</span>
+            <label class='flagging-post-label'>Car Make:</label><span id='car-make' data-value='honda'>Honda</span>
         </div>
         <div class='car-single-selection'>
-            <label>Car Model:</label><span id='car-model' data-value='civic'>Civic</span>
+            <label class='flagging-post-label'>Car Model:</label><span id='car-model' data-value='civic'>Civic</span>
         </div>
         <div class='car-single-selection'>
-            <label>Car Year:</label><span id='car-year' data-value='2022'>2022</span>
+            <label class='flagging-post-label'>Car Year:</label><span id='car-year' data-value='2022'>2022</span>
         </div>
     </div>
 
@@ -82,7 +82,7 @@ export default {
                 let partNum = currentPart.value
                 let partName = currentPart.innerHTML
 
-                let params = {partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear};
+                let params = {partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear};
                 await instance.get('PartFlagging/IsPossibleIncompatibility', {params}).then((res) => {
                     let isIncompatible = res.data.isPossibleIncompatiblility;
                     if (isIncompatible)
@@ -106,7 +106,7 @@ export default {
 
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
-                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
                     }
                 }).then((res) => {
                 console.log(res.data)
@@ -125,10 +125,9 @@ export default {
 
             let partNum = this.incompatibleParts[index]['partNum']
 
-            console.log(partNum, carMake, carModel, carYear)
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
-                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
                     }
                 }).then((res) => {
                 console.log(res.data)
@@ -147,10 +146,9 @@ export default {
 
             let partNum = this.incompatibleParts[index]['partNum']
 
-            console.log(partNum, carMake, carModel, carYear)
             await instance.post('PartFlagging/DecrementFlagCount', null, {
                 params: {
-                    partNumber: partNum, carMake: carMake, carModel: carModel, carYear: carYear
+                    partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
                     }
                 }).then((res) => {
                 console.log(res.data)
@@ -199,7 +197,7 @@ export default {
     background-color: transparent;
     border: 1px solid black;
 }
-label {
+.flagging-post-label {
     margin-right: 5px;
 }
 
