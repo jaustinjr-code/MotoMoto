@@ -1,0 +1,11 @@
+Frontend->Application Layer:IsPossibleIncompatibility(partNumber: String, carMake: String, carModel: String, carYear: String): IActionResult
+Application Layer->Business Layer:HandleGetFlagCount(partNumber: String, carMake: String, carModel: String, carYear: String): bool?
+Business Layer->Business Layer: CreateFlagModel(partNumber: String, carMake: String, carModel: String, carYear: String): bool
+Business Layer->Service Layer: CallGetFlagCount(FlagModel flag): int
+Service Layer->Data Access Layer: getFlagCount(flag: Flag): int
+Service Layer<--Data Access Layer: Count of times this flag has been reported
+Business Layer<--Service Layer: Count of times this flag has been reported.
+Business Layer->Business Layer: IsCompatible(flagCount: int)
+Application Layer<-Business Layer: True if flag count is over 100, False Otherwise
+Frontend<-Application Layer: Response Code 200 and boolean representing part compatibility
+Frontend->Frontend: Compatibile or Incompatible Message

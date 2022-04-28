@@ -145,11 +145,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (partName, type)" +     // Do not pass carID 
+                command.CommandText = $"INSERT INTO USER (partNumber, type)" +     // Do not pass carID 
                                       $"VALUES (@v0, @v1)";
                 var parameters = new MySqlParameter[1];
                 //parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[1] = new MySqlParameter("@v1", modifiedCar!.partName);
+                parameters[1] = new MySqlParameter("@v1", modifiedCar!.partNumber);
                 parameters[2] = new MySqlParameter("@v2", modifiedCar!.type);
 
                 command.Parameters.AddRange(parameters);
