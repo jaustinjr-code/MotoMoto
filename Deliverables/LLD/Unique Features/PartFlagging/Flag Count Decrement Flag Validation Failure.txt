@@ -1,7 +1,0 @@
-User->Frontend: Clicks downvote flag rating button
-Frontend->Application Layer: DecrementFlagCount(partNumber: string, carMake: string, carModel: string, carYear: string): IActionResult
-Application Layer->Business Layer: HandleFlagCountDecrement(partNumber: string, carMake: string, carModel: string, carYear: string): bool
-Business Layer->Business Layer: CreateFlagModel(partNumber: string, carMake: string, carModel: string, carYear: string): FlagModel
-Business Layer->Business Layer: ValidateFlagModel(flag: FlagModele): bool
-Business Layer-->Application Layer: false
-Application Layer-->Frontend: Console log of failed operation

@@ -5,7 +5,7 @@ Business Layer->Business Layer: CreateFlagModel(partNum: string, carMake: string
 Business Layer->Business Layer: IsValidFlag(flag: FlagModel): bool
 Business Layer->Service Layer: CallDecrementFlagCount(flag: Flag): bool
 Service Layer->Data Access Layer: DecrementOrRemoveFlag(flag: Flag): bool
-Service Layer<--Data Access Layer: true
-Business Layer<--Service Layer: true
-Application Layer<--Business Layer: true
-Frontend<--Application Layer: update flagged parts list if necessary
+Service Layer<--Data Access Layer: false
+Business Layer<--Service Layer: false
+Application Layer<--Business Layer: false
+Frontend<--Application Layer: Error Message
