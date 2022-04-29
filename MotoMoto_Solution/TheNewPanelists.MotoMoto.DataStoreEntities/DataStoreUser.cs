@@ -8,10 +8,10 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
     public class DataStoreUser : IBaseUser
     {
-        public string? _userType { get; set; }
-        public string? _username { get; set; }
-        public string? _password { get; set; }
-        public string? _email { get; set; }
-        public string? _salt { get; set; }
+        public string? userType { get; set; }
+        public string? username { get; set; }
+        public string? password { get; set; }
+        public string? email { get; set; }
+        public string? salt { get; set; }
     }
 }
