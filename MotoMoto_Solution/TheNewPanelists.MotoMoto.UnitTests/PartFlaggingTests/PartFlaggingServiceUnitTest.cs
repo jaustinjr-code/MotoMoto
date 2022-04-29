@@ -7,6 +7,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartFlaggingServiceUnitTest
     {
+        /// <summary>
+        /// Uses service layer to create a valid flag.
+        /// Test is successful if flag creation is successful.
+        /// </summary>  
         [Fact]
         public void CallValidFlagCreation()
         {
@@ -19,6 +23,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Uses service layer to create an invalid flag.
+        /// Test is successful if flag creation is not successful.
+        /// </summary>  
         [Fact]
         public void CallInvalidFlagCreation()
         {
@@ -30,6 +38,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(result);
         }
 
+        /// <summary>
+        /// Uses service layer to call the get flag count function for an existing flag and attain its result.
+        /// Test is successful if count is greater than 0 because the flag exists
+        /// </summary>  
         [Fact]
         public void CallGetExistingFlagCount()
         {
@@ -47,6 +59,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
         }
 
+        /// <summary>
+        /// Uses service layer to call the get flag count function for a nonexisting flag and attain its result.
+        /// Test is successful if count is equal to 0 because the flag does not exist
+        /// </summary>  
         [Fact]
         public void CallGetNonExistingFlagCount()
         {
@@ -64,6 +80,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result == ZERO);
         }
 
+        /// <summary>
+        /// Uses service layer to call the decrement flag count function in the 
+        /// data access layer.
+        /// Test passes if the result is false because the flag does not exist
+        /// and cannot be decremented.
+        /// </summary>  
         [Fact]
         public void CallDecrementNonExistingFlagCount()
         {
@@ -81,10 +103,17 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(result);
         }
 
+        /// <summary>
+        /// Uses service layer to call the decrement flag count function in the 
+        /// data access layer for flags with count greater than one and count
+        /// equal to one. These two cases are tested because these scenarios have
+        /// different logic.
+        /// Test is sucessful if the after count is one less than the count before decrement
+        /// </summary>  
         [Theory]
-        [InlineData("CallExistingFlagCount", 1)]
-        [InlineData("CallExistingFlagCount", 2)]
-        public void CallExistingFlagCount(string testName, int minFlagCount)
+        [InlineData("CallDecrementExistingFlagCount", 1)]
+        [InlineData("CallDecrementExistingFlagCount", 2)]
+        public void CallDecrementExistingFlagCount(string testName, int minFlagCount)
         {
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
             
