@@ -86,16 +86,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return returnVal;
         }
 
-
-        /// <summary>
-        /// Updates the part flag table to reflect the decrementing of the flag.
-        /// If the flag count is greater than 1, decrement the flag count, if the flag count is 1, remove the flag,
-        /// if the flag count is 0 do nothing.
-        /// </summary>
-        ///
-        /// <param name="flag">Flag model containing the necessary data to find the flag to decrement</param>
-        ///
-        /// <returns>Boolean value representing if the flag database was successfully updated to reflect the flag decrement</returns>
         public bool DecrementOrRemove(FlagModel flag)
         {
             const int ZERO = 0;
@@ -163,14 +153,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return returnVal;
         }
 
-
-        /// <summary>
-        /// Removes all counts of a flag from the part flagging database if it exists
-        /// </summary>
-        ///
-        /// <param name="flag">Flag model containing the necessary data to find the flag to decrement</param>
-        ///
-        /// <returns>True if the flag was found and removed, false otherwise</returns>
         public bool DeleteFlag(FlagModel flag)
         {
             const int ZERO = 0;
