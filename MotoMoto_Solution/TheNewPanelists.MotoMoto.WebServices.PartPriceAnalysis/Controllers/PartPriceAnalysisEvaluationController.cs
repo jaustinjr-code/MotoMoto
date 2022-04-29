@@ -13,7 +13,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         [HttpGet("compareParts")]
-        public async Task<ActionResult<PartComparisonModel>> RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
+        public IActionResult RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
             PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
@@ -40,7 +40,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                 partComparisonModel.comparisonParts = _compParts;
 
                 partComparisonModel = partManager.CompareVehicleParts(partComparisonModel);
-                await Task.Delay(1_000, token);
+                //await Task.Delay(1_000, token);
 
                 return Ok(partComparisonModel);
             } 
@@ -52,7 +52,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         }
 
         [HttpGet("Evaluate")]
-        public async Task<ActionResult<PartModel>> EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
+        public IActionResult EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();
             PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
@@ -63,7 +63,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                 {
                     partID = _partId
                 };
-                await Task.Delay(1_000, token);
+                //await Task.Delay(1_000, token);
                 partModel = partManager.EvaluateVehiclePart(partModel);
 
                 return Ok(partModel);

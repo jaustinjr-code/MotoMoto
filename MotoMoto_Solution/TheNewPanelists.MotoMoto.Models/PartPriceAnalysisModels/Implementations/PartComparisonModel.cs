@@ -8,11 +8,13 @@
 
         public PartComparisonModel ReturnNullableStatementForPartPriceAnalysis() 
         {
-            switch (comparisonParts?.ToList().Count)
+            switch (((List<PartModel>)comparisonParts!).Count)
             {
                 case 0:
                     returnCaseBool = false;
                     return this;
+                default:
+                    break;
             }
             return this;
         }

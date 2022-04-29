@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         [HttpGet]
-        public async Task<ActionResult<PartListModel>> RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
+        public IActionResult RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();
             PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
@@ -24,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                     categoryId = _categoryID
                 };
                 partListModel = partManager.RetrieveSpecifiedCategorialParts(partListModel);
-                await Task.Delay(0_001, token);
+                //await Task.Delay(0_001, token);
 
                 return Ok(partListModel);
             }

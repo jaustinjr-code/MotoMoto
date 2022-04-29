@@ -1,20 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis;
+﻿using TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis;
+using Xunit;
+using TheNewPanelists.MotoMoto.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartPriceAnalysisAPIUnitTest
     {
-        private readonly PartPriceAnalysisEvaluationController _evaluationController;
+        private readonly PartPriceAnalysisEvaluationController _evaluationController = new PartPriceAnalysisEvaluationController();
+        private readonly PartPriceAnalysisRetrievalController _retrievalController = new PartPriceAnalysisRetrievalController();
 
-        public PartPriceAnalysisAPIUnitTest()
+        public void PartPriceAnalysisCategorialRetrieval_ValidCategory_ReturnTrue()
         {
-            _evaluationController = new PartPriceAnalysisEvaluationController();
+            int categoryID = 1;
+            
+            var actionResult = _retrievalController.RetrieveCategorialVehicleParts(categoryID);
+
+            var okResult = (OkObjectResult)actionResult.Result;
+            var actionPartList = okResult.Value as PartListModel;
+
+            bool assertValue = false;
+            if (actionPartList!.categoryId == categoryID && actionPartList!.categorySelect != null)
+            {
+                assertValue = true;
+            }
+            Assert.True(assertValue);
         }
     }
 }
