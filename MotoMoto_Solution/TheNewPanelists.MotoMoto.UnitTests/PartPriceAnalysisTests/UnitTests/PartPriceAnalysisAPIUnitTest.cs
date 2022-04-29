@@ -16,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             
             var actionResult = _retrievalController.RetrieveCategorialVehicleParts(categoryID);
 
-            var okResult = (OkObjectResult)actionResult.Result;
+            var okResult = (OkObjectResult)actionResult;
             var actionPartList = okResult.Value as PartListModel;
 
             bool assertValue = false;

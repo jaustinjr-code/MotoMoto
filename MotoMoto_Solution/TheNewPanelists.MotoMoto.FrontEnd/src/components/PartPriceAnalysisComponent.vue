@@ -20,14 +20,26 @@
                 <option value='13'>Water Pump</option>
             </select>
             <div>
-                <ul>
-                    <li v-for="part in parts" :key=part>
-                        {{part['partName']}}     {{part['rating']}}
-                    </li>
-                </ul>
+                <table>
+                    <thead>
+                        <tr class="titles">
+                            <td>Part Name</td>
+                            <td>Part Rating</td>
+                            <td>Rating Count</td>
+                            <td>Current Price</td>
+                            <td>Product Link</td>
+                        </tr>
+                        <tr class="PartListings" v-for="part in parts" :key=part>
+                            <td class="partName">{{part['partName']}}</td>
+                            <td class="partRati">{{part['rating']}}</td>
+                            <td class="ratCount">{{part['ratingCount']}}</td>
+                            <td class="curPrice">${{part['currentPrice']}}.00</td>
+                            <td><a class="proURL" :href="part['productURL']">Link</a></td>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -68,4 +80,23 @@ export default {
 
 <style>
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+.titles {
+  overflow: auto;
+  max-width: 100%;
+  background:
+    linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+    linear-gradient(to right, rgba(255,255,255,0), white 70%) 0 100%,
+    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-position: 0 0, 100%, 0 0, 100%;
+  background-attachment: local, local, scroll, scroll;
+}
 </style>
+

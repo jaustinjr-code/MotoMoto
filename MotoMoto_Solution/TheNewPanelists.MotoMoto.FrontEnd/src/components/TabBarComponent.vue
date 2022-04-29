@@ -81,7 +81,8 @@ nav.contact .contact{
 }
 
 p {
-	font-size:22px;
+	display:inline;
+	font-size:14px;
 	font-weight:bold;
 	color:#7d9098;
 }

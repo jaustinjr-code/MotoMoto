@@ -8,6 +8,7 @@ import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/Parts',
+    name: 'PartPriceAnalysis',
+    component: PartPriceAnalysis
   }
 ]
 
