@@ -1,39 +1,59 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
+using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.BusinessLayer;
+using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
 
 namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 {
+    [EnableCors("CorsPolicy")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class CarBuilderController : ControllerBase
     {
+        private readonly CarBuildDataAccess _carBuildDataAccess = new CarBuildDataAccess();
 
-        private static readonly string[] Summaries = new[]
+        //private readonly ILogger<CarBuilderController> _logger;
+
+        //public CarBuilderController(ILogger<CarBuilderController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
+        [HttpGet("cartype")]
+        public IActionResult GetCarTypes()
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
 
-        private readonly ILogger<CarBuilderController> _logger;
-
-        public CarBuilderController(ILogger<CarBuilderController> logger)
-        {
-            _logger = logger;
+            try
+            {
+                IList<CarTypeModel> retrieveAllCarTypes = manager.RetrieveAllCarTypes();
+                return Ok(retrieveAllCarTypes);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        [HttpGet("carbuild")]
+        public IActionResult GetModifiedCarBuilds()
+        {
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
 
-
-        //[HttpGet]
-        //[Route("GetCarType")]
-        //public IActionResult GetCarType()
-        //{
-        //    try
-        //    {CarBuilderBLayer directMessageBusinessLayer = new DirectMessageBusinessLayer();
-        //        return Ok(directMessageBusinessLayer.GetMessages(sender, receiver));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+            try
+            {
+                IList<ModifyCarBuildModel> retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds();
+                return Ok(retrieveAllModifiedCars);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
