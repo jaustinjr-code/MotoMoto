@@ -10,7 +10,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
     public class PartPriceAnalysisRetrievalController : Controller
     {
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
-        private readonly LogService _logService = new LogService();
 
         [HttpGet]
         public async Task<ActionResult<PartListModel>> RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))

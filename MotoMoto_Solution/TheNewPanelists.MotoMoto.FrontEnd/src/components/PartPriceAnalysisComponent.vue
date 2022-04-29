@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {instance} from '../router/partPriceAnalysisConnection'
+import {instance} from '../router/PartPriceAnalysisConnection'
 export default {
     data()
     //data attributes in classes

@@ -15,22 +15,30 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Da
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheNewPanelists.MotoMoto.WebServices", "TheNewPanelists.MotoMoto.WebServices", "{B97E2D09-07AD-457D-9935-51872B7A69F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{295C0A77-AC72-4890-9F92-EE0C79168E8C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.UnitTests", "TheNewPanelists.MotoMoto.UnitTests\TheNewPanelists.MotoMoto.UnitTests.csproj", "{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Registration", "TheNewPanelists.MotoMoto.WebServices.Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj", "{85CB37EE-9F9A-46D1-A830-1E778E892A43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.DirectMessage", "TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj", "{EBC1E9D2-56F5-40EF-B936-486011B95C37}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.CarBuilder", "..\WebServices\CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj", "{6DA32067-8AF6-4353-960B-53C668BA5322}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9E43324-A2E1-401E-AA4C-EB11769D4E51}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.EventList", "TheNewPanelists.MotoMoto.WebServices.EventList\TheNewPanelists.MotoMoto.WebServices.EventList.csproj", "{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16} = {B21BEF11-10C3-4880-8983-E7FF3C8AEB16}
+		{013F2F48-5928-4779-96F9-A381827F3986} = {013F2F48-5928-4779-96F9-A381827F3986}
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6} = {CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369} = {44619BBF-92B4-4614-8AFE-1F8E3ED95369}
+		{180185C9-4FD0-44A8-BE9D-03592092DF79} = {180185C9-4FD0-44A8-BE9D-03592092DF79}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis", "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj", "{A9B77930-46D9-4306-B8CC-7724552B2B6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations", "TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations\TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.csproj", "{1A697F31-A8C4-4298-B624-138E0443387E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Login", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj", "{1B465270-9CE3-4A61-B305-1C84B3874765}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis", "TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj", "{B4EE41FE-F50F-4A88-A8F9-3DBD1B0BBBC1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.PartFlagging", "TheNewPanelists.MotoMoto.WebServices.PartFlagging\TheNewPanelists.MotoMoto.WebServices.PartFlagging.csproj", "{2F4C6139-FA5E-4FB7-8C2F-5BC741F7E347}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,39 +66,52 @@ Global
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44619BBF-92B4-4614-8AFE-1F8E3ED95369}.Release|Any CPU.Build.0 = Release|Any CPU
-		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{295C0A77-AC72-4890-9F92-EE0C79168E8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AD60471-8521-4BEF-BFAF-F4DD1AD2F7E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85CB37EE-9F9A-46D1-A830-1E778E892A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC1E9D2-56F5-40EF-B936-486011B95C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC1E9D2-56F5-40EF-B936-486011B95C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC1E9D2-56F5-40EF-B936-486011B95C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC1E9D2-56F5-40EF-B936-486011B95C37}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DA32067-8AF6-4353-960B-53C668BA5322}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9B77930-46D9-4306-B8CC-7724552B2B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9B77930-46D9-4306-B8CC-7724552B2B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9B77930-46D9-4306-B8CC-7724552B2B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9B77930-46D9-4306-B8CC-7724552B2B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A697F31-A8C4-4298-B624-138E0443387E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A697F31-A8C4-4298-B624-138E0443387E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A697F31-A8C4-4298-B624-138E0443387E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A697F31-A8C4-4298-B624-138E0443387E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B465270-9CE3-4A61-B305-1C84B3874765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B465270-9CE3-4A61-B305-1C84B3874765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B465270-9CE3-4A61-B305-1C84B3874765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B465270-9CE3-4A61-B305-1C84B3874765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EE41FE-F50F-4A88-A8F9-3DBD1B0BBBC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EE41FE-F50F-4A88-A8F9-3DBD1B0BBBC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EE41FE-F50F-4A88-A8F9-3DBD1B0BBBC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EE41FE-F50F-4A88-A8F9-3DBD1B0BBBC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4C6139-FA5E-4FB7-8C2F-5BC741F7E347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4C6139-FA5E-4FB7-8C2F-5BC741F7E347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4C6139-FA5E-4FB7-8C2F-5BC741F7E347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4C6139-FA5E-4FB7-8C2F-5BC741F7E347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{295C0A77-AC72-4890-9F92-EE0C79168E8C} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{CDF9AAEC-A0AA-40EA-95A2-3048481A8E20} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{85CB37EE-9F9A-46D1-A830-1E778E892A43} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{EBC1E9D2-56F5-40EF-B936-486011B95C37} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{6DA32067-8AF6-4353-960B-53C668BA5322} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{1A697F31-A8C4-4298-B624-138E0443387E} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
+		{1B465270-9CE3-4A61-B305-1C84B3874765} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}

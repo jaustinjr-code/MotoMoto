@@ -25,7 +25,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 return false;
             }
-            if (deleteAccountUser.verifiedPassword!.Length == 0 || deleteAccountUser.verifiedPassword!.Length > 24)
+            if (deleteAccountUser.verifiedPassword!.Length == 0 || deleteAccountUser.verifiedPassword.Length > 24)
             {
                 return false;
             }
