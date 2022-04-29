@@ -1,4 +1,4 @@
-namespace TheNewPanelists.MotoMoto.WebServices.PersonalRecommendations
+namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations
 {
     public class WeatherForecast
     {
