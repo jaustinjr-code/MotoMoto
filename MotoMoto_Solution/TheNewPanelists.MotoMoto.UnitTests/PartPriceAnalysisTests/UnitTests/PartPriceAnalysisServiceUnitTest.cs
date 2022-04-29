@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartPriceAnalysisServiceUnitTest
-    {
-        private bool result;
-
-        //can test nullables
+    { 
     }
 }

@@ -133,7 +133,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 PartModel _partModel = new PartModel();
                 using (MySqlDataReader myReader = command.ExecuteReader())
                 {
-
                     while (myReader.Read())
                     {
                         _partModel.partID = myReader.GetInt32("productId");
@@ -191,6 +190,53 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 myReader.Close();
                 mySqlConnection!.Close();
                 return partModel;
+            }
+        }
+
+        public bool UpdatePartPrice(PartModel partModel)
+        {
+            if (!EstablishMariaDBConnection())
+            {
+                return false;
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "UPDATE VehicleParts SET productPrice = @v1 WHERE productId = @v2";
+                var parameters = new MySqlParameter[2];
+                parameters[0] = new MySqlParameter("@v1", partModel.newPrice);
+                parameters[1] = new MySqlParameter("@v2", partModel.partID);
+
+                command.Parameters.AddRange(parameters);
+                return ExecuteQuery(command);
+            }
+        }
+        private bool AddPriceToPriceHistory(PartModel partModel)
+        {
+            DateTime currentDate = DateTime.Now;
+            if (!EstablishMariaDBConnection())
+            {
+                return false;
+            }
+            using (var command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "INSTER INTO FormerPartPrices (productId, lastRecordedDate, productPrice) VALUES (@v1, @v2, @v3);";
+                var parameters = new MySqlParameter[3];
+                parameters[0] = new MySqlParameter("@v1", partModel.partID);
+                parameters[1] = new MySqlParameter("@v2", currentDate);
+                parameters[2] = new MySqlParameter("@v3", partModel.currentPrice);
+
+                command.Parameters.AddRange(parameters);
+                return ExecuteQuery(command);
             }
         }
     }
