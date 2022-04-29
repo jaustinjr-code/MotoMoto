@@ -39,6 +39,8 @@ const routes = [
     path: '/PartFlaggingPost',
     name: 'PartFlaggingPost',
     component: PartFlaggingPost
+  },
+  {
     path: '/EventList',
     name: 'EventList',
     component: EventList
