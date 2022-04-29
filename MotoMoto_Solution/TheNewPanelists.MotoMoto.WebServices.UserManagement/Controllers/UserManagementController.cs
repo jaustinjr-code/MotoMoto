@@ -1,17 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TheNewPanelists.MotoMoto.BusinessLayer;
+using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
-using TheNewPanelists.MotoMoto.ServiceLayer;
-using TheNewPanelists.MotoMoto.BusinessLayer;
-using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
 {
-    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
-    [ApiController]
     public class UserManagementController : ControllerBase
-    { 
+    {
         private readonly UserManagementDataAccess _userManagementDataAccess = new UserManagementDataAccess();
         [HttpOptions]
         public IActionResult PreFlightRoute()
@@ -30,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
                 ISet<AccountModel> retrieveAllAccounts = manager.RetrieveAllUsers(username);
                 return Ok(retrieveAllAccounts);
             }
-            catch 
+            catch
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
@@ -56,8 +53,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.UserManagement.Controllers
             {
                 var deleteAccountModel = new DeleteAccountModel()
                 {
-                    Username = _username,
-                    VerifiedPassword = _password
+                    username = _username,
+                    verifiedPassword = _password
                 };
                 bool result = manager.PerminateDeleteAccountManager(deleteAccountModel);
                 return Ok();

@@ -10,10 +10,17 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class RegistrationService : IUserManagementService
     {
-        private readonly RegistrationDataAccess _registrationDAO;        
+        private readonly RegistrationDataAccess _registrationDAO;  
+        private readonly UserManagementDataAccess _userManagementDAO;
         public RegistrationService()
         {
+            _userManagementDAO = new UserManagementDataAccess();
             _registrationDAO = new RegistrationDataAccess();
+        }
+        public RegistrationService(UserManagementDataAccess userManagementDAO)
+        {
+            _registrationDAO = new RegistrationDataAccess();
+            _userManagementDAO = userManagementDAO;
         }
 
         public string AccountRegistrationRequest(RegistrationRequestModel registrationRequest)
