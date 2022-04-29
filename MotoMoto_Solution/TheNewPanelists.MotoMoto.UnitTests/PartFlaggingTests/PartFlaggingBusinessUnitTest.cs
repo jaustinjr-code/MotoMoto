@@ -7,6 +7,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartFlaggingBusinessUnitTest
     {
+
+        /// <summary>
+        /// Creates flag entity with all primary key attributes
+        /// Test is successful if all attributes are lower case strings when retrieved.
+        /// </summary>  
         [Fact]
         public void CreateFlagWithCompleteData()
         {
@@ -27,6 +32,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Creates flag entity with all primary key attributes being empty strings
+        /// Test is successful if all attributes are null when retrieved because empty strings are invalid.
+        /// </summary> 
         [Fact]
         public void CreateFlagWithIncompleteData()
         {
@@ -47,6 +56,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Creates flag entity with all primary key attributes, but with whitespace on either side.
+        /// Test is successful if all attributes have extra whitespace removed when retrieved.
+        /// </summary> 
         [Fact]
         public void CreateFlagWithExtraWhitespace()
         {
@@ -67,6 +80,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Creates flag entity with all primary key attributes being multiple strings with only whitespace.
+        /// Test is successful if all attributes are null when retrieved because there is no actual data.
+        /// </summary> 
         [Fact]
         public void CreateFlagWithOnlyWhitespace()
         {
@@ -87,6 +104,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Checks if valid flag is computed to be valid.
+        /// Test is successful if the flag validation is true.
+        /// </summary> 
         [Fact]
         public void ValidateFlagWithValidData()
         {
@@ -102,6 +123,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(result);
         }
 
+        /// <summary>
+        /// Checks if flag with null data is computed to be invalid.
+        /// Test is successful if the flag validation is false.
+        /// </summary> 
         [Fact]
         public void ValidateFlagWithNullData()
         {
@@ -117,6 +142,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(result);
         }
 
+        /// <summary>
+        /// Checks if flag with invalid data is computed to be invalid.
+        /// Test is successful if the flag validation is false.
+        /// </summary> 
         public void ValidateFlagWithInvalidDate()
         {
             string partNumber = "1";
@@ -131,6 +160,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(result);
         }
 
+        /// <summary>
+        /// Uses the business layer to call flag creation for a valid flag.
+        /// Test is successful if the creation function returns true because it has received a true
+        /// result from the service layer.
+        /// </summary> 
         [Fact]
         public void HandleValidFlagCreation()
         {
@@ -143,6 +177,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(partFlaggingBusinessLayer.HandleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
         }
 
+        /// <summary>
+        /// Uses the business layer to call flag creation for an invalid flag.
+        /// Test is successful if the creation function returns false because it returns false
+        /// after flag validation.
+        /// </summary>
         public void HandleInvalidFlagCreation()
         {
             string partNumberParameter = "";
@@ -154,6 +193,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(partFlaggingBusinessLayer.HandleFlagCreation(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
         }
 
+        /// <summary>
+        /// Uses the business layer to check flag compatibility.
+        /// Test passes for both true and false results, because both would dictate
+        /// a successful retrieval of flag count from the database. Only null values 
+        /// fail the test, because null indicates a failed operation.
+        /// </summary>
         [Theory]
         [InlineData("1", "Nissan", "Altima", "2005")]
         [InlineData("1", "TestMake", "TestModel", "1955")]
@@ -163,6 +208,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.NotNull(partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter));
         }
 
+        /// <summary>
+        /// Uses the business layer to check flag compatibility for a flag with empty attributes.
+        /// Test is successful if the operation returns null because the operation never goes through
+        /// after validating the flag.
+        /// </summary>
         [Fact]
         public void HandleInvalidFlagCountRetrieval()
         {
@@ -175,6 +225,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.Null(partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNumberParameter, carMakeParameter, carModelParameter, carYearParameter)); 
         }
 
+        /// <summary>
+        /// Tests decrementing existing flags of count equal to and greater than one.
+        /// Test is successful if the function returns true meaning it has received a true result
+        /// from the service layer.
+        /// </summary>
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -200,6 +255,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
         }
 
+        /// <summary>
+        /// Tests decrementing a nonexisting flag.
+        /// Test is successful if the function returns false meaning it has not decremented
+        /// any flags because the flag does not exist.
+        /// </summary>
         [Fact]
         public void HandleInvalidFlagCountDecrement()
         {
