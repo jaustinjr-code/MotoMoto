@@ -3,6 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/accountdelete">Account Deletion</router-link>
+    <router-link to="/communityboard">Community Board</router-link>
   </nav>
   <router-view/>
 </template>
