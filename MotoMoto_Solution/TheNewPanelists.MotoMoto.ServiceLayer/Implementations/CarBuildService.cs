@@ -14,9 +14,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     {
         private readonly CarBuildDataAccess _carBuildDAO;
 
-        public CarBuildService(CarBuildDataAccess carBuildDataAccess)
+        public CarBuildService()
         {
-            _carBuildDAO = new CarBuildDataAccess();                
+            _carBuildDAO = new CarBuildDataAccess();
         }
 
         public bool SaveCarType(CarTypeModel carType)

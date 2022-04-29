@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.ServiceLayer;
-using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
@@ -20,10 +19,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool SaveCarTypeManager(CarTypeModel savedCarBuild)
         {
-            if (savedCarBuild.year == null)
-            {
-                return false;
-            }
             if (!Regex.Match(savedCarBuild.year, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
             {
                 int input = Int32.Parse(savedCarBuild.year);            // Parse the user input string into integers called input
@@ -61,16 +56,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return false;
             }
             return _carBuildService.SaveModifiedCarBuild(modifiedCarBuild);
-        }
-
-        public IList<CarTypeModel> RetrieveAllCarTypes()
-        {
-            return _carBuildService.FetchCarType();
-        }
-
-        public IList<ModifyCarBuildModel> RetrieveAllModifiedCarBuilds()
-        {
-            return _carBuildService.FetchModifiedCarBuild();
         }
     }
 }

@@ -15,14 +15,34 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool DeleteProfileManager(DeleteAccountModel deleteAccountModel)
         {
-            if (deleteAccountModel.UserId < 0)
+            if (deleteAccountModel.userId < 0)
                 return false;
             return _profileManagementService!.DeleteAccountProfile(deleteAccountModel);
         }
 
         public bool CreateAccountManager()
         {
-            return (_profileManagementService!.CreateAccountProfile());
+            return _profileManagementService!.CreateExistingAccountProfiles();
+        }
+        public bool UpdateProfileUsername()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileImage()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileDescription()
+        {
+            throw new NotImplementedException();
+        }
+        public ProfileModel RetrieveSpecifiedUserProfile()
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateProfileStatus()
+        {
+            throw new NotImplementedException();
         }
     }
 }

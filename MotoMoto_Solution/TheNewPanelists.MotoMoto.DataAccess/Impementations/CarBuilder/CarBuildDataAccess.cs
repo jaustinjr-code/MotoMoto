@@ -16,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         private MySqlConnection? mySqlConnection { get; set; }
 
         // Connection string
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;"; //write config so this only appears once
+        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;"; //write config so this only appears once
 
         // CarBuildDataAccess constructors
         public CarBuildDataAccess() { }
@@ -67,7 +67,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarTypes";
+                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarType'";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -106,7 +106,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT partName, type FROM OEMAndAfterMarketParts";
+                string getSenderUserIdQuery = "SELECT partName, type FROM OEMAndAfterMarketParts'";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
