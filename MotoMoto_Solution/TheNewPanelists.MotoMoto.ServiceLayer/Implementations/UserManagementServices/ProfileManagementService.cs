@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -20,15 +21,15 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// </summary>
         /// <param name="userAccount"></param>
         /// <returns></returns>
-        public ISet<ProfileModel> RetrieveAllProfiles(ProfileModel userAccount)
+        public ISet<ProfileModel> RetrieveAllProfiles(ProfileModel userProfile)
         {
             var accountEntities = _profileManagementDAO!.GetAllProfiles();
 
             var userAccounts = accountEntities.Select(acct => new ProfileModel()
             {
-                Username = userAccount!.Username,
-                Status = userAccount!.Status,
-                EventAccount = userAccount!.EventAccount,
+                username = userProfile!.username,
+                status = userProfile!.status,
+                eventAccount = userProfile!.eventAccount,
             }).ToHashSet();
             return userAccounts;
         }
@@ -41,71 +42,33 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUserProfile = new DeleteAccountModel()
             {
-                Username = deletedProfile!.Username,
-                VerifiedPassword = deletedProfile!.VerifiedPassword
+                username = deletedProfile!.username,
+                verifiedPassword = deletedProfile!.verifiedPassword
             };
-            return _profileManagementDAO!.DeleteProfileEntity(dataStoreUserProfile);
+            return _profileManagementDAO!.DeleteProfile(dataStoreUserProfile);
         }
 
-        public bool CreateAccountProfile()
+        public bool CreateExistingAccountProfiles()
         {
             return _profileManagementDAO!.InsertNewProfileEntity();
         }
-
-            /*
-            private bool accountRecoveryFlag = false;
-            private string? _operation { get; set; }
-            private readonly UserManagementDataAccess? _userManagementDataAccess;
-            private DataStoreUserProfile? _userProfile { get; set; }
-
-            public ProfileManagementService() { }
-
-            public ProfileManagementService(string operation, DataStoreUserProfile userProfile)
-            {
-                _operation = operation;
-                _userProfile = userProfile;
-                _userManagementDataAccess = new UserManagementDataAccess();
-            }
-            public bool SqlGenerator()
-            {
-                throw new NotImplementedException();
-            }
-
-            public ProfileEntity FindProfileOperation()
-            {
-                ProfileEntity retrievalAccount;
-                using (var command = new SqlCommand())
-                {
-                    command.CommandText = $"SELECT * FROM PROFILE P WHERE P.USERNAME = @v1";
-                    var parameters = new SqlParameter[1];
-                    parameters[0] = new SqlParameter("@v1", _userProfile!._username);
-
-                    command.Parameters.AddRange(parameters);
-                }
-                return retrievalAccount;
-            }
-
-            public bool CreateProfileOperation()
-            {
-                using (var command = new SqlCommand())
-                {
-                    command.CommandText = @"INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
-                                            EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
-                    _userManagementDataAccess = new UserManagementDataAccess(command.CommandText);
-                    if (!_userManagementDataAccess.SelectAccountOperation())
-                        throw new NullReferenceException(nameof(command));
-                    return true;    
-                }
-            }
-            */
-            public bool DeleteProfileOperation()
+        public bool UpdateProfileDescription(ProfileModel profileModel)
         {
-            throw new NotImplementedException();
+            return _profileManagementDAO!.UpdateProfileDescription(profileModel);
         }
 
-        public bool UpdateProfileOptionsOperation(string operation, string newValue)
+        public ProfileModel RetrieveSpecifiedUserProfile(ProfileModel userProfile)
         {
-            throw new NotImplementedException();
+            return _profileManagementDAO!.RetrieveSpecifiedProfileEntity(userProfile);
+        }
+
+        public bool UpdateUserProfileUsername(ProfileModel profileModel)
+        {
+            var _dataStoreUserAccount = new AccountModel
+            {
+                username = profileModel.username
+            };
+            return _profileManagementDAO!.UpdateProfileUsername(_dataStoreUserAccount);
         }
     }
 }
