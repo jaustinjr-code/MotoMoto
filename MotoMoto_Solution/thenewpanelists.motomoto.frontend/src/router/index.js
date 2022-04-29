@@ -4,6 +4,8 @@ import DirectMessage from '../views/DirectMessageView.vue'
 import Login from '../views/LoginView.vue'
 import CommunityDashboard from '../views/CommunityView.vue'
 import EventList from '../views/EventListView.vue'
+import Registration from '../views/RegistrationView.vue'
+import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: '/EventList',
     name: 'EventList',
     component: EventList
+  },
+  {
+    path: '/Registration',
+    name: 'Registration',
+    component: Registration
+  },
+  {
+    path: '/PersonalizedRecommendations',
+    name: 'PersonalizedRecommendations',
+    component: PersonalizedRecommendations
   }
 ]
 
