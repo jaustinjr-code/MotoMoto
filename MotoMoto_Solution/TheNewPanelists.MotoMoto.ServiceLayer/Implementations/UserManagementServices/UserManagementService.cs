@@ -23,8 +23,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
             var userAccounts = accountEntities.Select(acct => new AccountModel()
             {
-                AccountType = userAccount!.AccountType,
-                Username = userAccount!.Username
+                accountType = userAccount!.accountType,
+                username = userAccount!.username
             }).ToHashSet();
             return userAccounts;
         }
@@ -32,10 +32,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new DataStoreUser()
             {
-                _userType = createdUser!._userType,
-                _username = createdUser!._username,
-                _password = createdUser!._password,
-                _email = createdUser!._email
+                userType = createdUser!.userType,
+                username = createdUser!.username,
+                password = createdUser!.password,
+                email = createdUser!.email
             };
             return _userManagementDAO.InsertNewDataStoreAccountEntity(dataStoreUser);
         }
@@ -43,8 +43,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new DeleteAccountModel()
             {
-                Username = deletedAccount!.Username,
-                VerifiedPassword = deletedAccount!.VerifiedPassword
+                username = deletedAccount!.username,
+                verifiedPassword = deletedAccount!.verifiedPassword
             };
             return _userManagementDAO.PerminateDeleteAccountEntity(dataStoreUser);
         }
@@ -53,8 +53,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var dataStoreUser = new DeleteAccountModel()
             {
-                Username = deletedAccount!.Username,
-                VerifiedPassword = deletedAccount!.VerifiedPassword
+                username = deletedAccount!.username,
+                verifiedPassword = deletedAccount!.verifiedPassword
             };
             return _userManagementDAO.KeepDeleteAccountEntity(dataStoreUser);
         }

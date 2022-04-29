@@ -54,10 +54,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 DataStoreUser newUserAccount = new DataStoreUser();
                 string userName = GenerateUniqueName(emailConfirmationRequest.RegistrationID!);
 
-                newUserAccount._userType = "Registered";
-                newUserAccount._username = userName;
-                newUserAccount._email = entry.Email;
-                newUserAccount._password = entry.Password;
+                newUserAccount.userType = "Registered";
+                newUserAccount.username = userName;
+                newUserAccount.email = entry.Email;
+                newUserAccount.password = entry.Password;
 
                 UserManagementService userManagementService = new UserManagementService(new UserManagementDataAccess());
 

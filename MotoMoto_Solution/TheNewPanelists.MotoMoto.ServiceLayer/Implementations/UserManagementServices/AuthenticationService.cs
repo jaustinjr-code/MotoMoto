@@ -59,7 +59,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
                 mail.From = new MailAddress(email, "MotoMoto");
-                mail.To.Add(dataStoreUser!._email!);
+                mail.To.Add(dataStoreUser!.email!);
                 mail.Subject = "One-Time Password";
 
                 mail.Body = @$"
