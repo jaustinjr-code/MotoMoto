@@ -1,40 +1,67 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import AccountDeletionView from '../views/AccountDeletionView.vue'
-import LoggedOutView from '../views/LoggedOutView.vue'
-import LoginView from '../views/LoginView.vue'
-import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
+import HomeView from '../views/HomeView.vue'
+import DirectMessage from '../views/DirectMessageView.vue'
+import Login from '../views/LoginView.vue'
+import CommunityDashboard from '../views/CommunityView.vue'
+import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
+import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
+import EventList from '../views/EventListView.vue'
+import Registration from '../views/RegistrationView.vue'
+import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import PartPriceAnalysisView from '../views/PartPriceAnalysisView.vue'
 
 const routes = [
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
+    path:'/',
+    name: 'HomeView',
+    component: HomeView
   },
   {
-    path: '/accountdelete',
-    name: 'accountdelete',
-    component: AccountDeletionView
+    path:'/Login',
+    name: 'Login',
+    component: Login
   },
   {
-    path: '/',
-    name: 'homedefault',
-    component: LoggedOutView
+    path: '/DM',
+    name: 'DirectMessage',
+    component: DirectMessage
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: '/CommunityDashboard',
+    name: 'CommunityDashboard',
+    component: CommunityDashboard
   },
   {
-    path: '/parts',
-    name: 'partpriceanalysis',
-    component: PartPriceAnalysis
+    path: '/PartFlaggingBuilder',
+    name: 'PartFlaggingCarBuilder',
+    component: PartFlaggingBuilder
   },
+  {
+    path: '/PartFlaggingPost',
+    name: 'PartFlaggingPost',
+    component: PartFlaggingPost
+  },
+  {
+    path: '/EventList',
+    name: 'EventList',
+    component: EventList
+  },
+  {
+    path: '/Registration',
+    name: 'Registration',
+    component: Registration
+  },
+  {
+    path: '/PersonalizedRecommendations',
+    name: 'PersonalizedRecommendations',
+    component: PersonalizedRecommendations
+  },
+  {
+    path: '/Parts',
+    name: 'Parts',
+    component: PartPriceAnalysisView
+  }
+
 ]
 
 const router = createRouter({

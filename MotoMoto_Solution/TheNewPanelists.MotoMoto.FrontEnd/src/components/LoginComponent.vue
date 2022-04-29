@@ -23,12 +23,21 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
+<<<<<<< HEAD
 //import {instance} from '../router/directMessageConnection'
+=======
+import {instance} from '../router/directMessageConnection'
+
+>>>>>>> main
 export default defineComponent({
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
   data()
   {
       return{
@@ -37,6 +46,10 @@ export default defineComponent({
           loginSuccessful:false
       }
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
   methods: {
         login(){
             let params = {username: this.username, password: this.password};
@@ -55,7 +68,14 @@ export default defineComponent({
         loginClick() {
             this.login();
         }
+<<<<<<< HEAD
   }
+=======
+
+  }
+
+
+>>>>>>> main
 })
 </script>
 
@@ -65,6 +85,7 @@ export default defineComponent({
 {
     top:0px;
     position:fixed;
+<<<<<<< HEAD
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -73,6 +94,21 @@ h1{
     padding-top: 1%;
     padding-bottom: 10%;
     text-align: center;
+=======
+    background: rgb(102,153,204);
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    
+
+
+    
+}
+
+h1{
+    padding-top: 5%;
+    padding-bottom: 10%;
+>>>>>>> main
     font-family: "Copperplate", "Papyrus";
 }
 .login
@@ -86,22 +122,42 @@ h1{
     
     
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 .password
 {
     padding-bottom: 20px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 .loginButton
 {
     padding-bottom: 20px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 button.submit
 {
     float:left;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 button.signUp
 {
     float:right;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 button
 {
     border-radius: 5px;
@@ -111,15 +167,29 @@ button
     margin: 30px 0 10px 0;
     text-decoration: none;
     text-align: center;
+<<<<<<< HEAD
 }
+=======
+
+}
+
+>>>>>>> main
 input
 {
     border-radius: 5px;
     text-decoration: none;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 p
 {
     
     display: inline-block;
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> main

@@ -8,10 +8,18 @@ export default {
   name: 'LoginView',
   components: 
   {
+<<<<<<< HEAD
       LoginComponent 
+=======
+    LoginComponent
+>>>>>>> main
   }
 }
 </script>
 
 <style>
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 </style>

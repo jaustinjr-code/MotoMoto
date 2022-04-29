@@ -6,6 +6,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
     [Route("[controller]")]
     public class CarBuilderController : ControllerBase
     {
+
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"

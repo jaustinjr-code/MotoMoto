@@ -17,7 +17,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         private string? _connectionString { get; set; }
         //write config so this only appears once
 
-        public UserManagementDataAccess() 
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;"; //write config so this only appears once
+
+        public UserManagementDataAccess() {}
+        public UserManagementDataAccess(string connectionString) 
         {
             ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -27,10 +27,15 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataStoreEntities\TheNewPanelists.MotoMoto.DataStoreEntities.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.Models\TheNewPanelists.MotoMoto.Models.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj" />
+<<<<<<< HEAD
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.Registration\TheNewPanelists.MotoMoto.WebServices.Registration.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj" />
+=======
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj" />
+>>>>>>> main
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj" />
+    <ProjectReference Include="../TheNewPanelists.MotoMoto.WebServices/TheNewPanelists.MotoMoto.WebServices.PartFlagging/TheNewPanelists.MotoMoto.WebServices.PartFlagging.csproj" />
   </ItemGroup>
 
 </Project>
