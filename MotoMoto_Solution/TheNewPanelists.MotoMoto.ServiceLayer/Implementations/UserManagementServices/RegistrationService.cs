@@ -10,10 +10,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class RegistrationService : IUserManagementService
     {
-        private readonly RegistrationDataAccess _registrationDAO;        
-        public RegistrationService()
-        {
+        private readonly RegistrationDataAccess _registrationDAO;
+        private readonly UserManagementDataAccess _userManagementDAO;
+        public RegistrationService(UserManagementDataAccess UserManagementDAO) 
+        { 
             _registrationDAO = new RegistrationDataAccess();
+            _userManagementDAO = UserManagementDAO;
         }
 
         public string AccountRegistrationRequest(RegistrationRequestModel registrationRequest)
@@ -59,7 +61,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 newUserAccount.email = entry.Email;
                 newUserAccount.password = entry.Password;
 
-                UserManagementService userManagementService = new UserManagementService(new UserManagementDataAccess());
+                UserManagementService userManagementService = new UserManagementService(_userManagementDAO);
 
                 if (userManagementService.CreateAccount(newUserAccount))
                     return String.Format("Registration complete!\n\n Username = {0}", userName);

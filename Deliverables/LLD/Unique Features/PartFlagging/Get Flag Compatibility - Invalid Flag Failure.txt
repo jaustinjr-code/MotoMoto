@@ -1,7 +1,0 @@
-Frontend->Application Layer:IsPossibleIncompatibility(partNum: String, carMake: String, carModel: String, carYear: String): IActionResult
-Application Layer->Business Layer:HandleGetFlagCompatibility(partNum: String, carMake: String, carModel: String, carYear: String): bool?
-Business Layer->Business Layer: CreateFlagModel(partNum: String, carMake: String, carModel: String, carYear: String): bool
-Business Layer->Business Layer: IsValidFlag(flag: Flag): bool
-
-Business Layer-->Application Layer: null to represent operation has not been completed
-Application Layer-->Frontend: Object containing error message

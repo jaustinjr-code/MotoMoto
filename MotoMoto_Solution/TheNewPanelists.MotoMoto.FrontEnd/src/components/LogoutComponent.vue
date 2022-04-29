@@ -4,10 +4,6 @@
 
 <script>
 import { useCookies } from "vue3-cookies";
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 export default {
     setup() {
         const { cookies } = useCookies();

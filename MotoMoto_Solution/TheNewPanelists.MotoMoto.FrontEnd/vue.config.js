@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
     module.exports = {
         configureWebpack: {
@@ -8,9 +7,3 @@
         }  
     }
 }
-=======
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  transpileDependencies: true
-})
->>>>>>> main
