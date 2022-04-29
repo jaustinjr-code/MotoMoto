@@ -22,18 +22,6 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
                 case > 50:
                     partName = partName!.Substring(0, 50);
                     break;
-                case > 40:
-                    partName = partName!.Substring(0, 40);
-                    break;
-                case > 30:
-                    partName = partName!.Substring(0, 30);
-                    break;
-                case > 20:
-                    partName = partName!.Substring(0, 20);
-                    break;
-                case > 10:
-                    partName = partName!.Substring(0, 10);
-                    break;
                 default:
                     break;
             }
