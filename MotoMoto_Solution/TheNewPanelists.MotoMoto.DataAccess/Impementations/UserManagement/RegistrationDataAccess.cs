@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? _mySqlConnection { get; set; }
 
-        private string _connectionString = "server=localhost;user=dev_moto;database=dev_UM;port=3306;password=motomoto;";
+        private string _connectionString = "server=localhost;user=root;database=dev_UM;port=3306;password=12345;";
         
         public RegistrationDataAccess() { } 
         

@@ -1,8 +1,13 @@
 import http from "./Http-coman"
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="Welcome to MotoMoto!"/>
+    <button @click = "goToLogin"> Login </button>
+    <LoginComponent/>
+    <button @click = "goToEventList"> Event List </button>
+    <EventListDashboardComponent/>
+    <button @click = "goToRegistration"> Register </button>
+    <RegistrationComponent/>
   </div>
 </template>
 
@@ -14,6 +19,17 @@ export default {
   name: 'HomeView',
   components: {
     HelloWorld
+  },
+  methods:{
+    goToLogin(){
+      this.$router.push('/Login');
+    },
+    goToEventList(){
+      this.$router.push('/EventList');
+    }, 
+    goToRegistration(){
+      this.$router.push('/Registration')
+    }
   }
 }
 </script>

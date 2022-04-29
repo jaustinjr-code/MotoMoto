@@ -27,9 +27,14 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 make = carType!.make,
                 model = carType!.model,
                 year = carType!.year,
-                country = carType!.country
+                //country = carType!.country
             };
             return _carBuildDAO.InsertNewDataStoreCarTypeEntity(carTypeModel);
+        }
+
+        public List<CarTypeModel> FetchCarType()
+        {
+            return _carBuildDAO.GetCarType();
         }
 
         public bool SaveModifiedCarBuild(ModifyCarBuildModel modifiedCar)
@@ -40,6 +45,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 type = modifiedCar!.type
             };
             return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
+        }
+
+        public List<ModifyCarBuildModel> FetchModifiedCarBuild()
+        {
+            return _carBuildDAO.GetModifiedCarBuild();
         }
 
         public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
@@ -53,16 +63,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(dataStoreCarBuilds);
         }
 
-        public bool SaveCarModifications(DataStoreCarModifications carModifications) 
-        {
-            var dataStoreCarModifications = new DataStoreCarModifications()
-            {
-                carModificationID = carModifications.carModificationID,
-                carBuildID = carModifications.carBuildID,
-                partID = carModifications.partID
-            };
-            return _carBuildDAO.InsertNewDataStoreCarModificationsEntity(dataStoreCarModifications);
-        }
+        //public bool SaveCarModifications(DataStoreCarModifications carModifications) 
+        //{
+        //    var dataStoreCarModifications = new DataStoreCarModifications()
+        //    {
+        //        carModificationID = carModifications.carModificationID,
+        //        carBuildID = carModifications.carBuildID,
+        //        partID = carModifications.partID
+        //    };
+        //    return _carBuildDAO.InsertNewDataStoreCarModificationsEntity(dataStoreCarModifications);
+        //}
 
         //public bool SaveOEMAndAfterMarketParts(DataStoreOEMAndAfterMarketParts carParts)
         //{

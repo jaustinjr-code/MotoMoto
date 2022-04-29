@@ -5,11 +5,18 @@ import Login from '../views/LoginView.vue'
 import CommunityDashboard from '../views/CommunityView.vue'
 import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
-
+import EventList from '../views/EventListView.vue'
+import Registration from '../views/RegistrationView.vue'
+import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 
 const routes = [
   {
     path:'/',
+    name: 'HomeView',
+    component: HomeView
+  },
+  {
+    path:'/Login',
     name: 'Login',
     component: Login
   },
@@ -32,8 +39,20 @@ const routes = [
     path: '/PartFlaggingPost',
     name: 'PartFlaggingPost',
     component: PartFlaggingPost
+    path: '/EventList',
+    name: 'EventList',
+    component: EventList
+  },
+  {
+    path: '/Registration',
+    name: 'Registration',
+    component: Registration
+  },
+  {
+    path: '/PersonalizedRecommendations',
+    name: 'PersonalizedRecommendations',
+    component: PersonalizedRecommendations
   }
-
 ]
 
 const router = createRouter({

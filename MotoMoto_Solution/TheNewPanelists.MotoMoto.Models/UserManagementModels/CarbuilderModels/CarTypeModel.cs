@@ -11,6 +11,6 @@ namespace TheNewPanelists.MotoMoto
         public string? make { get; set; }       //Car make
         public string? model { get; set; }      //Car model
         public string? year { get; set; }       //Car year
-        public string? country { get; set; }    //Car country of origin
+        // public string? country { get; set; }    //Car country of origin
     }
 }

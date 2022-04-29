@@ -42,11 +42,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return false;
             }
 
-            if (savedCarBuild.country!.Length == 0 || savedCarBuild.country!.Length > 20)// Make sure user input is not null and is less than 20 characters
-            {
-                return false;
-            }
-
             return _carBuildService.SaveCarType(savedCarBuild);         // Save information to CarTypeModel
         }
 
