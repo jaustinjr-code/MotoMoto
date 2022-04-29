@@ -10,10 +10,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartFlaggingWebServiceUnitTest
     {
-        /// <summary>
-        /// Tests creation of valid flag using the function exposed to the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function has a success message.
-        /// </summary>
         [Fact]
         public void CreateValidFlag()
         {
@@ -45,10 +41,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(comparison);
         }
 
-        /// <summary>
-        /// Tests creation of invalid flag using the function exposed to the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function has a failure message.
-        /// </summary>
         [Fact]
         public void CreateInvalidFlag()
         {
@@ -74,10 +66,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(comparison);
         }
 
-        /// <summary>
-        /// Tests decrement of valid flag using the function exposed to the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function has a success message.
-        /// </summary>
         [Fact]
         public void DecrementValidFlag()
         {
@@ -116,10 +104,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(comparison);
         }
 
-        /// <summary>
-        /// Tests decrement of invalid flag using the function exposed to the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function has an error message.
-        /// </summary>
         [Fact]
         public void DecrementInvalidFlag()
         {
@@ -145,12 +129,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(comparison);
         }
 
-        /// <summary>
-        /// Tests retrieval of valid part compatibility based on flag information using the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function has the boolean value representing compatibility.
-        /// </summary>
         [Fact]
-        public void GetCompatibilityValidFlag()
+        public void GetValidFlag()
         {
             string partNum = "1";
             string carMake = "Honda";
@@ -176,11 +156,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(operationSuccess);
         }
 
-        /// <summary>
-        /// Tests retrieval of invalid part compatibility based on flag information using the PartFlagging WebAPI.
-        /// Test is successful if the resulting object from the function is of the type BadRequest meaning the request failed
-        /// due to the flag being invalid.
-        /// </summary>
         [Fact]
         public void GetInvalidFlag()
         {

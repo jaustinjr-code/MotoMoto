@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer
+namespace TheNewPanelists.MotoMoto.UnitTests
 {
-    public class PartPriceAnalysisService
+    public class PartPriceAnalysisDataAccessUnitTest
     {
     }
 }

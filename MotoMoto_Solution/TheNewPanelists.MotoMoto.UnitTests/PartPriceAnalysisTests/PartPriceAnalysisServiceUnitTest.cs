@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartPriceAnalysisServiceUnitTest
-    { 
+    {
     }
 }
