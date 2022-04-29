@@ -8,11 +8,11 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class LogModel
     {
-        public int? LogId { get; set; }
-        public string? LevelName { get; set; }
-        public string? CategoryName { get; set; }
+        public int? _logId { get; set; }
+        public string? _levelName { get; set; }
+        public string? _categoryName { get; set; }
         public string? _dateTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-        public string? UserID { get; set; }
-        public string? Description { get; set; }
+        public string? _userID { get; set; }
+        public string? _description { get; set; }
     }
 }

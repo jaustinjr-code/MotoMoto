@@ -8,8 +8,8 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class DeleteAccountModel
     {
-        public int UserId { get; set; }
-        public string? Username { get; set; }
-        public string? VerifiedPassword { get; set; }
+        public int userId { get; set; }
+        public string? username { get; set; }
+        public string? verifiedPassword { get; set; }
     }
 }

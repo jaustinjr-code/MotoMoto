@@ -8,7 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class ReturnAuthenticationModel
     {
-        public AuthenticationModel? _authenticationModel { get; set; }
+        public AuthenticationModel? authenticationModel { get; set; }
         public bool flag = false;
         public void IsBooleanReturned(bool isFalse)
         {
