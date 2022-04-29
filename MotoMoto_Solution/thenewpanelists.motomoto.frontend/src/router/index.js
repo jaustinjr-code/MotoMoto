@@ -8,6 +8,8 @@ import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import UserProfile from '../views/UserProfileView.vue'
+import EditPreferences from '../views/EditPreferencesView'
 
 const routes = [
   {
@@ -54,6 +56,16 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/UserProfile',
+    name: 'UserProfile',
+    component: UserProfile
+  },
+  {
+    path: '/EditPreferences',
+    name: 'EditPreferences',
+    component: EditPreferences
   }
 ]
 

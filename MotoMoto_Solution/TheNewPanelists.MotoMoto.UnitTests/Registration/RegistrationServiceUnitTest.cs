@@ -15,8 +15,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             var testEmail = "motomoto1ca@gmail.com";
             var testRegistrationId = 542356;
 
-            UserManagementDataAccess _userManagementDAO = new UserManagementDataAccess();
-            RegistrationService registrationService = new RegistrationService(_userManagementDAO);
+            RegistrationService registrationService = new RegistrationService();
 
             result = registrationService.SendEmailConfirmationRequest(testEmail, testRegistrationId);
             Assert.True(result, "Send Email Test Failure.");

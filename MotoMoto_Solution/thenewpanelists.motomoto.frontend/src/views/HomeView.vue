@@ -8,6 +8,8 @@ import http from "./Http-coman"
     <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
     <RegistrationComponent/>
+    <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
+    <RegistrationComponent/>
   </div>
 </template>
 
@@ -29,6 +31,9 @@ export default {
     }, 
     goToRegistration(){
       this.$router.push('/Registration')
+    },
+    goToPersonalizedRecommendations(){
+      this.$router.push('/PersonalizedRecommendations')
     }
   }
 }
