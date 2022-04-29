@@ -3,6 +3,7 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Configuration;
 using TheNewPanelists.MotoMoto.Models;
 using System.Data;
+using System;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
@@ -94,6 +95,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         string productURL = myReader.GetString("productURL");
 
                         IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
+                        partEntity.ShrinkPartName();
                         ((List<IPartEntity>)_partList).Add(partEntity);
                     }
                     myReader.Close();
@@ -141,6 +143,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         _partModel.ratingCount = myReader.GetInt32("ratingCount");
                         _partModel.productURL = myReader.GetString("productURL");
                         _partModel.currentPrice = myReader.GetDouble("productPrice");
+
+                        _partModel.partName = _partModel.partName.Substring(0, 45);
                     }
                     myReader.Close();
                     mySqlConnection!.Close();

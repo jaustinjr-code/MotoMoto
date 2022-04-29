@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Cors;
 namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
 {
     [Route("[controller]")]
-    [EnableCors("CorsPolicy")]
     public class PartPriceAnalysisEvaluationController : Controller
     {
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
-        [HttpGet("CompareParts")]
+        [HttpGet("compareParts")]
         public async Task<ActionResult<PartComparisonModel>> RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
@@ -49,8 +48,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
+
         }
-        [HttpGet("EvaluateParts")]
+
+        [HttpGet("Evaluate")]
         public async Task<ActionResult<PartModel>> EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
             PartPriceAnalysisService partService = new PartPriceAnalysisService();
