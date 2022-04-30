@@ -58,7 +58,9 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
 
         }
         /// <summary>
-        /// 
+        /// EvaluateSpecifiedVehicle part allows a user to extract information on a specified part listed 
+        /// on the parts board. This API allows users to retrieve a specified part and view more information
+        /// on the history of a product.
         /// </summary>
         /// <param name="_partId"></param>
         /// <param name="token"></param>

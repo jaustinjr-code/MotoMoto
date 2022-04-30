@@ -1,8 +1,9 @@
 <template>
+<body>
     <div id='part-list'>
         <h1>Vehicle Parts</h1>
         <div id='part_selection-list' class="part-selection">
-            <label>Select Part Category: </label>
+            <label>Select Part Category:   </label>
             <select id='part-category-select' @change="GetCategoryID()">
                 <option value='N'>None</option>
                 <option value='0'>Alternator</option>
@@ -23,13 +24,15 @@
                 <table>
                     <thead>
                         <tr class="titles">
+                            <td><input type="submit" value="Compare"></td>
                             <td>Part Name</td>
                             <td>Part Rating</td>
                             <td>Rating Count</td>
                             <td>Current Price</td>
                             <td>Product Link</td>
                         </tr>
-                        <tr class="PartListings" v-for="part in parts" :key=part>
+                        <tr class="PartListings" v-for="part in paginatedData()" :key=part>
+                            <td class="checkBox"><input type="checkbox"></td>
                             <td class="partName">{{part['partName']}}</td>
                             <td class="partRati">{{part['rating']}}</td>
                             <td class="ratCount">{{part['ratingCount']}}</td>
@@ -38,9 +41,12 @@
                         </tr>
                     </thead>
                 </table>
+                <button @click="prevPage()">Previous</button>
+                <button @click="nextPage()">Next</button>
             </div>
         </div>
     </div>
+    </body>
 </template>
 
 <script>
@@ -50,9 +56,21 @@ export default {
     //data attributes in classes
     {
         return {
+            pageNumber: 0,
             categoryID: 0,
             categoryName: '',
             parts: []
+        }
+    },
+    props:{
+        parts:{
+        type:Array,
+        required:true
+        },
+        size:{
+        type:Number,
+        required:false,
+        default: 10
         }
     },
     methods: {
@@ -74,11 +92,30 @@ export default {
             console.log(this.categoryID)  
             this.RetrievePartInformation()
         },
+        nextPage() {
+            this.pageNumber++;
+        },
+        prevPage() {
+            this.pageNumber--;
+        },
+        pageCount() {
+            let l = this.parts.length,
+                s = this.size;
+            return Math.ceil(l/s);
+        },
+        paginatedData() {
+            const start = this.pageNumber * this.size,
+            end = start + this.size;
+            return this.parts.slice(start, end);
+        }
     },
 }
 </script>
 
 <style>
+body {
+    padding-bottom: 20px;
+}
 
 table {
     margin-left: auto;

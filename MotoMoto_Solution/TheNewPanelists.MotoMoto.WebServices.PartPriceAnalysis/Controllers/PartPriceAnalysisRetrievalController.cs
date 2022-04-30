@@ -32,7 +32,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-            
         }
     }
 }
