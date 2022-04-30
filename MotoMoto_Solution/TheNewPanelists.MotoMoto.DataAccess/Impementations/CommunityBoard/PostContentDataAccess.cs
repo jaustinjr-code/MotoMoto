@@ -73,8 +73,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 string postDescription = reader.GetString("postDescription");
                 // Add images in the Service Layer
                 IPostEntity post = new DataStorePost(postId, postTitle, postUsername, postDescription);
+                reader.Close();
                 return post;
             }
+            reader.Close();
             throw new Exception("No post found");
         }
 

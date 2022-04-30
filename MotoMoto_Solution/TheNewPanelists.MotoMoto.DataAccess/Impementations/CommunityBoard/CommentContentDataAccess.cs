@@ -77,8 +77,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     IContentEntity comment = new DataStoreComment(commentId, postId, commentUsername, commentDescription);
                     ((List<IContentEntity>)commentList).Add(comment);
                 }
+                reader.Close();
                 return commentList;
             }
+            reader.Close();
             throw new Exception("No comment found");
         }
 

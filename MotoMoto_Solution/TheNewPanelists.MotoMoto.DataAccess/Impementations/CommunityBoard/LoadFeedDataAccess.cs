@@ -105,8 +105,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     //Console.WriteLine(post.postId + " " + post.postTitle);
                 }
                 //Console.WriteLine(postList.Count());
+                reader.Close();
                 return postList;
             }
+            reader.Close();
             throw new Exception("No records");
         }
 
@@ -200,7 +202,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 {
                     command.Transaction.Rollback();
                     // Trigger Logging Service
-                    e.ToString();
+                    // e.ToString();
+                    // Console.WriteLine(e.Message);
                     throw e;
                 }
             }
