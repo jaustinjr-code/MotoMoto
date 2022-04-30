@@ -3,10 +3,8 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public interface IFetchContentService
+    public interface IFetchContentService : IResponseService
     {
         IContentModel contentToFetch { get; set; }
-        IResponseModel BuildResponse(IContentEntity resultContent);
-        IResponseModel BuildDefaultResponse();
     }
 }
