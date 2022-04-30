@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class LoadFeedDataAccess : IContentDataAccess
+    public class LoadFeedDataAccess : IDataAccess
     {
         private MySqlConnection? _mySqlConnection;
         private string? _connectionString;
@@ -98,7 +98,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     string postDescription = reader.GetString("postDescription");
                     // Requires MySqlDataReader on Images table
                     //IEnumerable<byte[]> imageList = reader.GetByte("imageList");
-                    IPostEntity post = new DataStorePost(postId, postTitle, postUsername, postDescription, null);
+                    IPostEntity post = new DataStorePost(postId, postTitle, postUsername, postDescription);
                     // Append from IEnumerable does not work so must use a List object casting for Add
                     ((List<IPostEntity>)postList).Add(post);
                     //Console.WriteLine(post);
@@ -124,37 +124,37 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// </summary>
         /// <param name="postInput"></param>
         /// <returns></returns>
-        public IPostEntity? FetchPost(IPostModel postInput)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
+        // public IPostEntity? FetchPost(IPostModel postInput)
+        // {
+        //     if (!EstablishMariaDBConnection())
+        //     {
+        //         throw new NullReferenceException();
+        //     }
 
-            // The post ID will be visible on the client side so using this info is okay
-            string commandText = "SELECT * FROM Post WHERE postID = @postID;";
-            using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
-            {
-                command.Parameters.AddWithValue("@postID", postInput.postID);
-                try
-                {
-                    // _mySqlConnection must not be null when beginning the transaction
-                    // Beginning the transaction will improve finding bugs in data integrity
-                    _mySqlConnection!.BeginTransaction();
-                    IPostEntity result = ((List<IPostEntity>)RefineData(command.ExecuteReader())).ElementAt(0);
-                    _mySqlConnection.Close();
-                    //Console.WriteLine(result);
-                    return result;
-                }
-                catch (Exception e)
-                {
-                    e.ToString();
-                }
-            }
+        //     // The post ID will be visible on the client side so using this info is okay
+        //     string commandText = "SELECT * FROM Post WHERE postID = @postID;";
+        //     using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
+        //     {
+        //         command.Parameters.AddWithValue("@postID", postInput.postID);
+        //         try
+        //         {
+        //             // _mySqlConnection must not be null when beginning the transaction
+        //             // Beginning the transaction will improve finding bugs in data integrity
+        //             _mySqlConnection!.BeginTransaction();
+        //             IPostEntity result = ((List<IPostEntity>)RefineData(command.ExecuteReader())).ElementAt(0);
+        //             _mySqlConnection.Close();
+        //             //Console.WriteLine(result);
+        //             return result;
+        //         }
+        //         catch (Exception e)
+        //         {
+        //             e.ToString();
+        //         }
+        //     }
 
-            IPostEntity? entity = null;
-            return entity;
-        }
+        //     IPostEntity? entity = null;
+        //     return entity;
+        // }
 
         /// <summary>
         /// Fetches all the posts of a specified community feed name
