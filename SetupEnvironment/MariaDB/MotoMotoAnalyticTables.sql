@@ -56,7 +56,6 @@ CREATE TABLE UpvotePostAnalytics (
     CONSTRAINT Profile_UpvotePostA_FK FOREIGN KEY (upvoteUsername) REFERENCES Profile (username)
 );
 CREATE TABLE UpvoteCommentAnalytics (
-    -- postAnalyticID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
     commentID INT UNSIGNED NOT NULL,
     upvoteUsername VARCHAR(25) NOT NULL,
     isUpvote TINYINT(1) NOT NULL DEFAULT 1,
