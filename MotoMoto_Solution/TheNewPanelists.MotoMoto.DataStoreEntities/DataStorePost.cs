@@ -1,5 +1,6 @@
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
+    // Consider including a IEnumerable<IPostEntity> for comments
     public class DataStorePost : IPostEntity
     {
         public string type { get; } = "post";
@@ -9,6 +10,15 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? postUsername { get; }
         public string? postDescription { get; }
         public IEnumerable<byte[]>? imageList { get; set; }
+        public IEnumerable<byte[]>? commentList { get; set; }
+
+        public DataStorePost(int id, string title, string username, string? description)
+        {
+            postId = id;
+            postTitle = title;
+            postUsername = username;
+            postDescription = description;
+        }
 
         public DataStorePost(int id, string title, string username, string? description, IEnumerable<byte[]>? images)
         {
