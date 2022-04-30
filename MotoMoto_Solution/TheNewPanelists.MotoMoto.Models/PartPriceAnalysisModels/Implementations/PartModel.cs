@@ -11,7 +11,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? productURL { get; set; }
         public double currentPrice { get; set; }
         public double newPrice { get; set; }
-        public IEnumerable<IPartPriceHistory>? partPrices = new List<IPartPriceHistory>();
+        public IEnumerable<IPartPriceHistory>? historicalPrices { get; set; }
 
         public PartModel ParseVehiclePartEntityToVehiclePartModel(IPartEntity part)
         {

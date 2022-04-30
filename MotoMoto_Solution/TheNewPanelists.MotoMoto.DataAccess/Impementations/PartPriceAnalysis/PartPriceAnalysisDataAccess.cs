@@ -187,7 +187,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                     IPartPriceHistory partHistory = new DataStorePartHistory(productId, priceSetDate, productPrice);
                     ((List<IPartPriceHistory>)_partHistory).Add(partHistory);
-                    partModel.partPrices = _partHistory;
+                    partModel.historicalPrices = _partHistory;
                 }
                 myReader.Close();
                 mySqlConnection!.Close();
