@@ -8,9 +8,23 @@ export default {
     data()
     {
         return {
-            part: [],
-            partHistory: [],
+            part = []
         }
+    },
+    methods: {
+        RetrievePartInformation: async function()
+        {
+            this.part = []
+            let params = {_partID: this.partID}
+            await instance.get('PartPriceAnalysisEvaluation/Evaluate', {params}).then((res) =>{
+                this.part = res.data;
+            })
+        }
+        
     }
 }
 </script>
+
+<style>
+
+</style>

@@ -13,7 +13,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         /// <summary>
-        /// 
+        /// Retrieves information on vehicle comparisons using part ID's to track the infromation of each part comparing 
+        /// their prices over the past 6 months. We will be tracking each ID based off of return calls(checkbox) from the front end
         /// </summary>
         /// <param name="_partIdOne"></param>
         /// <param name="_partIdTwo"></param>

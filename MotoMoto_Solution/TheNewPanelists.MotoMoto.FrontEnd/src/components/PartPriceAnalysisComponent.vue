@@ -4,7 +4,7 @@
         <h1>Vehicle Parts</h1>
         <div id='part_selection-list' class="part-selection">
             <label>Select Part Category:   </label>
-            <select id='part-category-select' @change="GetCategoryID()">
+            <select id='part-category-select' @change="getCategoryID()">
                 <option value='N'>None</option>
                 <option value='0'>Alternator</option>
                 <option value='1'>Brake Pads</option>
@@ -51,7 +51,9 @@
 
 <script>
 import {instance} from '../router/PartPriceAnalysisConnection'
+
 export default {
+
     data()
     //data attributes in classes
     {
@@ -59,7 +61,8 @@ export default {
             pageNumber: 0,
             categoryID: 0,
             categoryName: '',
-            parts: []
+            parts: [],
+            comparedParts: []
         }
     },
     props:{
@@ -74,7 +77,7 @@ export default {
         }
     },
     methods: {
-        RetrievePartInformation: async function()
+        retrievePartInformation: async function()
         {
             this.parts = []
             let params = {_categoryID: this.categoryID};
@@ -84,30 +87,31 @@ export default {
                 console.log(this.parts)
             })
         },
-        GetCategoryID: function()
+        getCategoryID: function()
         {
             let selector = document.getElementById('part-category-select')
             let partNum = selector.options[selector.selectedIndex].value
             this.categoryID = parseInt(partNum)
             console.log(this.categoryID)  
-            this.RetrievePartInformation()
+            this.retrievePartInformation()
         },
-        nextPage() {
+        nextPage: function() {
             this.pageNumber++;
         },
-        prevPage() {
+        prevPage: function() {
             this.pageNumber--;
         },
-        pageCount() {
+        pageCount: function() {
             let l = this.parts.length,
                 s = this.size;
             return Math.ceil(l/s);
         },
-        paginatedData() {
+        paginatedData: function() {
             const start = this.pageNumber * this.size,
             end = start + this.size;
             return this.parts.slice(start, end);
-        }
+        },
+        
     },
 }
 </script>

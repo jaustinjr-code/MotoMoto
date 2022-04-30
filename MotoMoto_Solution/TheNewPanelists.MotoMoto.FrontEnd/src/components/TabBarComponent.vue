@@ -12,7 +12,9 @@
 </template>
 
 <script>
-
+export default {
+	name: 'TabBarComponent'
+}
 </script>
 <style>
 
