@@ -6,7 +6,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public int postId { get; set; }
         public string? contentTitle { get; set; }
         public string interactUsername { get; set; }
-        public UpvoteCommentModel(int cid, int pid, string title, string username)
+        public UpvoteCommentModel(int cid, int pid, string? title, string username)
         {
             contentId = cid;
             postId = pid;

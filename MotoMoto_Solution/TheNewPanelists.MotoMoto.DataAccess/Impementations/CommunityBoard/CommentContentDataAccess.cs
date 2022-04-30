@@ -177,12 +177,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
-            string commandText = "INSERT UpvotePostAnalytics (commentID, postID, username) VALUES(@commentID, @postID, @username) ON DUPLICATE KEY UPDATE isUpvote = 1 + -1 * isUpvote;";
+            string commandText = "INSERT UpvoteCommentAnalytics (commentID, postID, upvoteUsername) VALUES(@commentID, @postID, @upvoteUsername) ON DUPLICATE KEY UPDATE isUpvote = 1 + -1 * isUpvote;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 command.Parameters.AddWithValue("@commentID", ((UpvoteCommentModel)interactionInput).contentId);
                 command.Parameters.AddWithValue("@postID", ((UpvoteCommentModel)interactionInput).postId);
-                command.Parameters.AddWithValue("@username", ((UpvoteCommentModel)interactionInput).interactUsername);
+                command.Parameters.AddWithValue("@upvoteUsername", ((UpvoteCommentModel)interactionInput).interactUsername);
 
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try

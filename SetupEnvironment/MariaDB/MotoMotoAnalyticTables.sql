@@ -37,14 +37,15 @@ CREATE TABLE FeedAnalytics (
     CONSTRAINT FeedAnalytics_PK PRIMARY KEY (feedAnalyticID),
     CONSTRAINT Feed_FeedA_FK FOREIGN KEY (feedID) REFERENCES Feed (feedID)
 );
-CREATE TABLE CommentAnalytics (
-    commentAnalyticID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+CREATE TABLE UpvoteCommentAnalytics (
     commentID INT UNSIGNED NOT NULL,
+    postID INT UNSIGNED NOT NULL,
     upvoteUsername VARCHAR(25) NOT NULL,
-    deleteFlag TINYINT(1) NOT NULL DEFAULT 0,
-    CONSTRAINT CommentAnalytics_PK PRIMARY KEY (commentAnalyticID),
-    CONSTRAINT Comment_CommentA_FK FOREIGN KEY (commentID) REFERENCES Comment (commentID),
-    CONSTRAINT Profile_UpvotePostA_FK FOREIGN KEY (upvoteUsername) REFERENCES Profile (username)
+    isUpvote TINYINT(1) NOT NULL DEFAULT 1,
+    CONSTRAINT UpvoteCommentAnalytics_PK PRIMARY KEY (commentID, postID, upvoteUsername),
+    CONSTRAINT Comment_UpvoteCommentA_FK FOREIGN KEY (commentID) REFERENCES Comment (commentID),
+    CONSTRAINT Post_UpvoteCommentA_FK FOREIGN KEY (postID) REFERENCES Comment (postID),
+    CONSTRAINT Profile_UpvoteCommentA_FK FOREIGN KEY (upvoteUsername) REFERENCES Profile (username)
 );
 CREATE TABLE UpvotePostAnalytics (
     postID INT UNSIGNED NOT NULL,
@@ -52,7 +53,7 @@ CREATE TABLE UpvotePostAnalytics (
     upvoteUsername VARCHAR(25) NOT NULL,
     isUpvote TINYINT(1) NOT NULL DEFAULT 1,
     CONSTRAINT UpvotePostAnalytics_PK PRIMARY KEY (postID, upvoteUsername),
-    CONSTRAINT Post_FK FOREIGN KEY (postID, postTitle) REFERENCES Post (postID, postTitle),
+    CONSTRAINT Post_UpvotePostA_FK FOREIGN KEY (postID, postTitle) REFERENCES Post (postID, postTitle),
     CONSTRAINT Profile_UpvotePostA_FK FOREIGN KEY (upvoteUsername) REFERENCES Profile (username)
 );
 CREATE TABLE UpvoteCommentAnalytics (
