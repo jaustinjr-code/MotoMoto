@@ -12,6 +12,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
     {
         private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_partIdOne"></param>
+        /// <param name="_partIdTwo"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpGet("compareParts")]
         public IActionResult RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
         {
@@ -50,7 +57,12 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
             }
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_partId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpGet("Evaluate")]
         public IActionResult EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
