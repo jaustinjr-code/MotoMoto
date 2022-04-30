@@ -57,10 +57,11 @@ CREATE TABLE UpvotePostAnalytics (
 );
 CREATE TABLE UpvoteCommentAnalytics (
     commentID INT UNSIGNED NOT NULL,
+    postID INT UNSIGNED NOT NULL,
     upvoteUsername VARCHAR(25) NOT NULL,
     isUpvote TINYINT(1) NOT NULL DEFAULT 1,
     CONSTRAINT UpvoteCommentAnalytics_PK PRIMARY KEY (commentID, upvoteUsername),
-    CONSTRAINT Comment_UpvoteCommentA_FK FOREIGN KEY (commentID, commentTitle) REFERENCES Comment (commentID, commentTitle),
+    CONSTRAINT Comment_UpvoteCommentA_FK FOREIGN KEY (commentID, postID) REFERENCES Comment (commentID, postID),
     CONSTRAINT Profile_UpvoteCommentA_FK FOREIGN KEY (upvoteUsername) REFERENCES Profile (username)
 );
 INSERT UpvotePostAnalytics (postID, postTitle, upvoteUsername)

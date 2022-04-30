@@ -49,7 +49,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
-        // TODO: refine comment result set
         private IEnumerable<IContentEntity> RefineData(MySqlDataReader reader)
         {
             if (reader.HasRows)
@@ -58,6 +57,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 while (reader.Read())
                 {
                     int commentId = reader.GetInt32("commentID");
+                    // All comments retrieved should have the same postID but it's best to make sure
                     int postId = reader.GetInt32("postID");
                     string commentUsername = reader.GetString("commentUsername");
                     string commentDescription = reader.GetString("commentDescription");
@@ -111,6 +111,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
+            // Maybe use ASC if you want latest comments to start at bottom 
             string commandText = "SELECT * FROM Comment WHERE postID = @postID ORDER BY submitUTC DESC;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
@@ -140,11 +141,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
-            string commandText = "INSERT UpvotePostAnalytics (commentID, username) VALUES(@commentID, @username) ON DUPLICATE KEY UPDATE isUpvote = 1 + -1 * isUpvote;";
+            string commandText = "INSERT UpvotePostAnalytics (commentID, postID, username) VALUES(@commentID, @postID, @username) ON DUPLICATE KEY UPDATE isUpvote = 1 + -1 * isUpvote;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
-                command.Parameters.AddWithValue("@commentID", ((UpvotePostModel)interactionInput).contentId);
-                command.Parameters.AddWithValue("@username", ((UpvotePostModel)interactionInput).interactUsername);
+                command.Parameters.AddWithValue("@commentID", ((UpvoteCommentModel)interactionInput).contentId);
+                command.Parameters.AddWithValue("@postID", ((UpvoteCommentModel)interactionInput).postId);
+                command.Parameters.AddWithValue("@username", ((UpvoteCommentModel)interactionInput).interactUsername);
 
                 MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
                 try
