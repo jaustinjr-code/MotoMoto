@@ -27,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public IResponseModel LoadFeed()
         {
             // Takes the result from the DAL and builds a response model based on it
-            IContentDataAccess contentDataAccess = new LoadFeedDataAccess();
+            IDataAccess contentDataAccess = new LoadFeedDataAccess();
             IFeedEntity? result = ((LoadFeedDataAccess)contentDataAccess).FetchAllPosts((IFeedModel)contentToFetch);
             if (result != null)
                 return BuildResponse(result);
