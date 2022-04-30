@@ -21,22 +21,57 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
         }
 
         [Fact]
-        public void IsLoadFeedDBConnectionEstablished()
+        public void IsLoadFeedDBConnectionEstablished_ReturnTrue()
         {
             // Arrange
-            IContentDataAccess feedDataAccess = new LoadFeedDataAccess();
+            IDataAccess feedDataAccess = new LoadFeedDataAccess();
             // Act
             bool result = feedDataAccess.EstablishMariaDBConnection();
             // Assert
             Assert.True(result);
         }
 
+        [Fact]
+        public void IsPostContentDBConnectionEstablished_ReturnTrue()
+        {
+            // Arrange
+            IDataAccess postDataAccess = new PostContentDataAccess();
+            // Act
+            bool result = postDataAccess.EstablishMariaDBConnection();
+            // Assert
+            Assert.True(result);
+        }
+
+        // [Fact]
+        // public void IsPuttingPost_ReturnTrue()
+        // {
+        //     // Arrange
+        //     IPostModel model = new FeedPostModel("First", "test", "testuser", "This is my first post!");
+        //     IDataAccess postDataAccess = new PostContentDataAccess();
+        //     // Act
+        //     bool result = ((PostContentDataAccess)postDataAccess).PutPost(model);
+        //     // Assert
+        //     Assert.True(result);
+        // }
+
+        // [Fact]
+        // public void IsPuttingUpvotePost_ReturnTrue()
+        // {
+        //     // Given
+        //     IInteractionModel model = new UpvotePostModel(2, "First", "testuser");
+        //     IDataAccess postDataAccess = new PostContentDataAccess();
+        //     // When
+        //     bool result = ((PostContentDataAccess)postDataAccess).PutUpvotePost(model);
+        //     // Then
+        //     Assert.True(result);
+        // }
+
         // Not a useful test as it uses mock data
         //[Fact]
         //public void IsLoadFeedFetchingAllPosts()
         //{
         //    // Given
-        //IContentDataAccess feedDataAccess = new LoadFeedDataAccess();
+        //IDataAccess feedDataAccess = new LoadFeedDataAccess();
         //IFeedModel model = new CommunityFeedModel();
         //model.feedName = "test";
         //    // When
@@ -51,7 +86,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
         //public void IsLoadFeedFetchingPost()
         //{
         //// Given
-        //IContentDataAccess postDataAccess = new LoadFeedDataAccess();
+        //IDataAccess postDataAccess = new LoadFeedDataAccess();
         //IPostModel model = new FeedPostModel(1);
         //// When
         //IPostEntity? entity = ((LoadFeedDataAccess)postDataAccess).FetchPost(model);
