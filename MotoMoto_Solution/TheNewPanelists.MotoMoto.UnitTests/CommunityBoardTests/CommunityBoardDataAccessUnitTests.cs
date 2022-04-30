@@ -42,67 +42,67 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
             Assert.True(result);
         }
 
-        [Fact]
-        public void IsPuttingPost_ReturnTrue()
-        {
-            // Arrange
-            IPostModel model = new FeedPostModel("Third", "test", "testuser", "This is my third post!");
-            IDataAccess postDataAccess = new PostContentDataAccess();
-            // Act
-            bool result = ((PostContentDataAccess)postDataAccess).PutPost(model);
-            // Assert
-            Assert.True(result);
-        }
+        //[Fact]
+        //public void IsPuttingPost_ReturnTrue()
+        //{
+        //// Arrange
+        //IPostModel model = new FeedPostModel("Third", "test", "testuser", "This is my third post!");
+        //IDataAccess postDataAccess = new PostContentDataAccess();
+        //// Act
+        //bool result = ((PostContentDataAccess)postDataAccess).PutPost(model);
+        //// Assert
+        //Assert.True(result);
+        //}
 
-        [Fact]
-        public void IsPuttingUpvotePost_ReturnTrue()
-        {
-            // Given
-            IInteractionModel model = new UpvotePostModel(4, "Third", "testuser");
-            IDataAccess postDataAccess = new PostContentDataAccess();
-            // When
-            bool result = ((PostContentDataAccess)postDataAccess).PutUpvotePost(model);
-            // Then
-            Assert.True(result);
-        }
+        //[Fact]
+        //public void IsPuttingUpvotePost_ReturnTrue()
+        //{
+        //// Given
+        //IInteractionModel model = new UpvotePostModel(4, "Third", "testuser");
+        //IDataAccess postDataAccess = new PostContentDataAccess();
+        //// When
+        //bool result = ((PostContentDataAccess)postDataAccess).PutUpvotePost(model);
+        //// Then
+        //Assert.True(result);
+        //}
 
-        [Fact]
-        public void IsPuttingComment_ReturnTrue()
-        {
-            // Arrange
-            IPostModel model = new CommentPostModel(1, null, "testuser", "This is my fourth comment!");
-            IDataAccess commentDataAccess = new CommentContentDataAccess();
-            // Act
-            bool result = ((CommentContentDataAccess)commentDataAccess).PutCommentPost(model);
-            // Assert
-            Assert.True(result);
-        }
+        //[Fact]
+        //public void IsPuttingComment_ReturnTrue()
+        //{
+        //// Arrange
+        //IPostModel model = new CommentPostModel(1, null, "testuser", "This is my fourth comment!");
+        //IDataAccess commentDataAccess = new CommentContentDataAccess();
+        //// Act
+        //bool result = ((CommentContentDataAccess)commentDataAccess).PutCommentPost(model);
+        //// Assert
+        //Assert.True(result);
+        //}
 
-        [Fact]
-        public void IsPuttingUpvoteComment_ReturnTrue()
-        {
-            // Given
-            IInteractionModel model = new UpvoteCommentModel(1, 1, null, "testuser");
-            IDataAccess commentDataAccess = new CommentContentDataAccess();
-            // When
-            bool result = ((CommentContentDataAccess)commentDataAccess).PutUpvoteComment(model);
-            // Then
-            Assert.True(result);
-        }
+        //[Fact]
+        //public void IsPuttingUpvoteComment_ReturnTrue()
+        //{
+        //// Given
+        //IInteractionModel model = new UpvoteCommentModel(1, 1, null, "testuser");
+        //IDataAccess commentDataAccess = new CommentContentDataAccess();
+        //// When
+        //bool result = ((CommentContentDataAccess)commentDataAccess).PutUpvoteComment(model);
+        //// Then
+        //Assert.True(result);
+        //}
 
         // Not a useful test as it uses mock data
         //[Fact]
         //public void IsLoadFeedFetchingAllPosts()
         //{
-        //    // Given
+        //// Given
         //IDataAccess feedDataAccess = new LoadFeedDataAccess();
         //IFeedModel model = new CommunityFeedModel();
         //model.feedName = "test";
-        //    // When
+        //// When
         //IFeedEntity? entity = ((LoadFeedDataAccess)feedDataAccess).FetchAllPosts(model);
-        //    // Then
+        //// Then
         ////Assert.Throws(((LoadFeedDataAccess)feedDataAccess).FetchAllPosts(model));
-        // // Not Null fails a successful query with no recent posts so the IFeedEntity will be null
+        //// Not Null fails a successful query with no recent posts so the IFeedEntity will be null
         //Assert.NotNull(entity);
         //}
 
