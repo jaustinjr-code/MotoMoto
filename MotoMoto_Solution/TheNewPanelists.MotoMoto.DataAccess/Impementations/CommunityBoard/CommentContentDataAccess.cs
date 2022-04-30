@@ -10,11 +10,19 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         MySqlConnection? _mySqlConnection;
         string? _connectionString;
 
+        /// <summary>
+        /// Default Empty Constructor
+        /// </summary>
         public CommentContentDataAccess() { }
 
-
+        // NOTE: Recommended to use abstract base class instead of this method
+        /// <summary>
+        /// Establishes the MariaDB connection for cleaner code
+        /// </summary>
+        /// <returns>Boolean</returns>
         public bool EstablishMariaDBConnection()
         {
+            // Does not work
             ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["MotoMotoDevDBConnection"];
             if (settings != null)
             {
@@ -49,6 +57,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
+        /// <summary>
+        /// Refines the retrieved by the MySqlDataReader
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns>IEnumerable<IContentEntity></returns>
         private IEnumerable<IContentEntity> RefineData(MySqlDataReader reader)
         {
             if (reader.HasRows)
@@ -69,6 +82,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             throw new Exception("No comment found");
         }
 
+        /// <summary>
+        /// Puts a new comment into the database
+        /// Treats a comment as another post, but with different requirements
+        /// </summary>
+        /// <param name="postInput"></param>
+        /// <returns>Boolean</returns>
         public bool PutCommentPost(IPostModel postInput)
         {
             if (!EstablishMariaDBConnection())
@@ -85,7 +104,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddWithValue("@commentUsername", postInput.postUser);
                 command.Parameters.AddWithValue("@commentDescription", postInput.postDescription);
 
-                // You repeat this a few times, maybe put in it's own function?
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
@@ -104,6 +122,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
+        /// <summary>
+        /// Fetches comments for the specific post according to the IPostModel
+        /// This operation may be compounded with the fetch post details operation
+        /// therefore the return type is an IEnumerable that would be contained in another class
+        /// </summary>
+        /// <param name="postInput"></param>
+        /// <returns>IEnumerable<IContentEntity></returns>
         public IEnumerable<IContentEntity> FetchComments(IPostModel postInput)
         {
             if (!EstablishMariaDBConnection())
@@ -111,7 +136,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
-            // Maybe use ASC if you want latest comments to start at bottom 
+            // Use ASC if you want latest comments to start at bottom of comment section
             string commandText = "SELECT * FROM Comment WHERE postID = @postID ORDER BY submitUTC DESC;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
@@ -123,7 +148,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     IEnumerable<IContentEntity> result = (List<IContentEntity>)RefineData(command.ExecuteReader()); // Might want to refine data here
                     command.Transaction.Commit();
                     _mySqlConnection.Close();
-                    // Exception for when result is null?
+
                     return result;
                 }
                 catch (Exception e)
@@ -134,6 +159,17 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
+        // NOTE: This can be put in an Interface or in an Abstract class
+        /// <summary>
+        /// Enum is used for the results of an upvote operation to avoid magic numbers
+        /// </summary>
+        enum UpvoteResult { NO_UPVOTE, NEW_UPVOTE, CHANGED_UVPOTE }
+
+        /// <summary>
+        /// Puts an upvote for the specific comment according to the IInteractionModel
+        /// </summary>
+        /// <param name="interactionInput"></param>
+        /// <returns>Boolean</returns>
         public bool PutUpvoteComment(IInteractionModel interactionInput)
         {
             if (!EstablishMariaDBConnection())
@@ -154,11 +190,15 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     int result = command.ExecuteNonQuery();
                     command.Transaction.Commit();
                     _mySqlConnection.Close();
-                    // Should use ENUM instead of numbers
-                    if (result == 1 || result == 2)
+
+                    // MariaDB will return 1 for new records and 2 for updates records
+                    // Anything else is wrong for this operation
+                    if (result == (int)UpvoteResult.NEW_UPVOTE || result == (int)UpvoteResult.CHANGED_UVPOTE)
                         return true;
-                    else
+                    else if (result == (int)UpvoteResult.NO_UPVOTE)
                         throw new Exception("No upvote made");
+                    else
+                        return false;
                 }
                 catch (Exception e)
                 {

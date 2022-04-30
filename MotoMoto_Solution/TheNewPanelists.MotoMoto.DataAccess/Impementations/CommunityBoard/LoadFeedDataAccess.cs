@@ -22,7 +22,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <summary>
         /// Establishes the MariaDB connection for cleaner code
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Boolean</returns>
         public bool EstablishMariaDBConnection()
         {
             // I try to use the ConfigurationManager to avoid hardcoding the connection
@@ -77,7 +77,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// Refines the data retrieved by the MySqlDataReader
         /// </summary>
         /// <param name="reader"></param>
-        /// <returns></returns>
+        /// <returns>IEnumerable<IPostEntity></returns>
         public IEnumerable<IPostEntity> RefineData(MySqlDataReader reader)
         {
             // I opted of using a for-loop with FieldCount b/c I know what I want from the record
@@ -161,7 +161,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// Feed names are unique, that's why it is input for this operation
         /// </summary>
         /// <param name="feedInput"></param>
-        /// <returns></returns>
+        /// <returns>IFeedEntity</returns>
         public IFeedEntity? FetchAllPosts(IFeedModel feedInput)
         {
             // Establish connection assigns connection string
