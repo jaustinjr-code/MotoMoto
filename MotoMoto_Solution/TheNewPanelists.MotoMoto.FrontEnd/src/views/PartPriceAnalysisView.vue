@@ -9,8 +9,7 @@ import PartPriceAnalysisComponent from '../components/PartPriceAnalysisComponent
 import TabBarComponent from '../components/TabBarComponent.vue'
 export default {
     name: 'PartPriceAnalysisView',
-    components:
-    {
+    components: {
         PartPriceAnalysisComponent
     },
     methods:

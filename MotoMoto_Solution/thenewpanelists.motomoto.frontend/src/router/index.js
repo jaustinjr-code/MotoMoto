@@ -9,6 +9,7 @@ import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
+import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/Parts',
     name: 'PartPriceAnalysis',
     component: PartPriceAnalysis
+  },
+  {
+    path: '/PartDetails/:id',
+    name: 'PartPriceDetails',
+    component: PartPriceDetails
   }
 ]
 

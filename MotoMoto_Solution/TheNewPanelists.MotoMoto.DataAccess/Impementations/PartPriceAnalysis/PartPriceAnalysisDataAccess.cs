@@ -143,8 +143,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         _partModel.ratingCount = myReader.GetInt32("ratingCount");
                         _partModel.productURL = myReader.GetString("productURL");
                         _partModel.currentPrice = myReader.GetDouble("productPrice");
-
-                        _partModel.partName = _partModel.partName.Substring(0, 45);
                     }
                     myReader.Close();
                     mySqlConnection!.Close();

@@ -1,7 +1,8 @@
 <template>
 <body>
     <div id='part-list'>
-        <h1>Vehicle Parts</h1>
+        <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto Vehicle Parts</h1></router-link>
+        <TabBarComponent/>
         <div id='part_selection-list' class="part-selection">
             <label>Select Part Category:   </label>
             <select id='part-category-select' @change="getCategoryID()">
@@ -31,13 +32,18 @@
                             <td>Current Price</td>
                             <td>Product Link</td>
                         </tr>
-                        <tr class="PartListings" v-for="part in paginatedData()" :key=part>
+                        <tr class="PartListings" v-for="(part) in paginatedData()" :key=part>
                             <td class="checkBox"><input type="checkbox"></td>
-                            <td class="partName">{{part['partName']}}</td>
-                            <td class="partRati">{{part['rating']}}</td>
-                            <td class="ratCount">{{part['ratingCount']}}</td>
-                            <td class="curPrice">${{part['currentPrice']}}.00</td>
-                            <td><a class="proURL" :href="part['productURL']">Link</a></td>
+
+                            <td class="partName">
+                            <router-link class="productDescr" :to="{name: 'PartPriceDetails', params: {id: part.partID}}">
+                                {{part.partName}}
+                            </router-link>
+                            </td>
+                            <td class="partRati">{{part.rating}}</td>
+                            <td class="ratCount">{{part.ratingCount}}</td>
+                            <td class="curPrice">${{part.currentPrice}}.00</td>
+                            <td><a class="proURL" :href="part.productURL">Link</a></td>
                         </tr>
                     </thead>
                 </table>
@@ -50,6 +56,7 @@
 </template>
 
 <script>
+import TabBarComponent from '../components/TabBarComponent.vue'
 import {instance} from '../router/PartPriceAnalysisConnection'
 
 export default {
@@ -65,7 +72,10 @@ export default {
             comparedParts: []
         }
     },
-    props:{
+    components: {
+        TabBarComponent
+    },
+    props: {
         parts:{
         type:Array,
         required:true
@@ -77,9 +87,9 @@ export default {
         }
     },
     methods: {
-        retrievePartInformation: async function()
-        {
+        retrievePartInformation: async function() {
             this.parts = []
+            this.pageNumber = 0
             let params = {_categoryID: this.categoryID};
             await instance.get('PartPriceAnalysisRetrieval', {params}).then((res) => {
                 this.parts = res.data["partList"]
@@ -87,19 +97,31 @@ export default {
                 console.log(this.parts)
             })
         },
-        getCategoryID: function()
-        {
+        getCategoryID: function(part) {
             let selector = document.getElementById('part-category-select')
             let partNum = selector.options[selector.selectedIndex].value
             this.categoryID = parseInt(partNum)
             console.log(this.categoryID)  
             this.retrievePartInformation()
         },
+        goToProduct: function()
+        {
+            this.$router.push({name: 'PartPriceDetails', params: {id : part.partID}})
+            //this.$router.push({name: 'parts/partID', params: { partID: part['partID']}})
+        },
         nextPage: function() {
-            this.pageNumber++;
+            if (this.pageNumber < this.pageCount()-1)
+            {
+                this.pageNumber++;
+                console.log(this.pageNumber);
+            }
         },
         prevPage: function() {
-            this.pageNumber--;
+            if (this.pageNumber > 0)
+            {
+                this.pageNumber--;
+                console.log(this.pageNumber);
+            }
         },
         pageCount: function() {
             let l = this.parts.length,
