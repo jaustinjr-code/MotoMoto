@@ -10,7 +10,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? postUsername { get; }
         public string? postDescription { get; }
         public IEnumerable<byte[]>? imageList { get; set; }
-        public IEnumerable<byte[]>? commentList { get; set; }
+        public IEnumerable<IPostEntity>? commentList { get; set; }
 
         public DataStorePost(int id, string title, string username, string? description)
         {
