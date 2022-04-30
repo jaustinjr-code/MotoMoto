@@ -86,11 +86,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddWithValue("@commentDescription", postInput.postDescription);
 
                 // You repeat this a few times, maybe put in it's own function?
-                MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
                     int result = command.ExecuteNonQuery();
-                    transaction.Commit();
+                    command.Transaction.Commit();
                     _mySqlConnection.Close();
                     if (result == 1)
                         return true;
@@ -98,7 +98,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
+                    command.Transaction.Rollback();
                     throw e;
                 }
             }
@@ -117,18 +117,18 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 command.Parameters.AddWithValue("@postID", ((CommentPostModel)postInput).postID);
 
-                MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
                     IEnumerable<IContentEntity> result = (List<IContentEntity>)RefineData(command.ExecuteReader()); // Might want to refine data here
-                    transaction.Commit();
+                    command.Transaction.Commit();
                     _mySqlConnection.Close();
                     // Exception for when result is null?
                     return result;
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
+                    command.Transaction.Rollback();
                     throw e;
                 }
             }
@@ -148,11 +148,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddWithValue("@postID", ((UpvoteCommentModel)interactionInput).postId);
                 command.Parameters.AddWithValue("@username", ((UpvoteCommentModel)interactionInput).interactUsername);
 
-                MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
                     int result = command.ExecuteNonQuery();
-                    transaction.Commit();
+                    command.Transaction.Commit();
                     _mySqlConnection.Close();
                     // Should use ENUM instead of numbers
                     if (result == 1 || result == 2)
@@ -162,7 +162,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
+                    command.Transaction.Rollback();
                     throw e;
                 }
             }

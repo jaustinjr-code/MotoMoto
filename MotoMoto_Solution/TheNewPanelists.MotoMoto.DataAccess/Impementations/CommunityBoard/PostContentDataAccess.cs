@@ -60,6 +60,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 string postTitle = reader.GetString("postTitle");
                 string postUsername = reader.GetString("postUsername");
                 string postDescription = reader.GetString("postDescription");
+                // Add in images when you can finally store them
                 IPostEntity post = new DataStorePost(postId, postTitle, postUsername, postDescription);
                 return post;
             }
@@ -78,28 +79,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 // Request Model is the simplest model for this specific operation
+                // _mySqlConnection must not be null when beginning the transaction
+                // Beginning the transaction will improve finding bugs in data integrity
                 command.Parameters.AddWithValue("@postID", (int)((FetchPostDetailsRequestModel)postInput).input);
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
-                    // _mySqlConnection must not be null when beginning the transaction
-                    // Beginning the transaction will improve finding bugs in data integrity
-                    _mySqlConnection!.BeginTransaction();
                     IPostEntity result = ((IPostEntity)RefineData(command.ExecuteReader()));
+                    command.Transaction.Commit();
                     _mySqlConnection.Close();
                     //Console.WriteLine(result);
                     return result;
                 }
                 catch (Exception e)
                 {
-                    // Use logger here but how?
-                    e.ToString();
+                    command.Transaction.Rollback();
                     throw new Exception("No post fetched: Error Message: " + e.Message);
                 }
             }
-
-            // Don't need this if Exception is thrown
-            //IPostEntity? entity = null;
-            //return entity;
         }
         public bool PutPost(IPostModel postInput)
         {
@@ -108,40 +105,30 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
-            // string commandText = "INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u EXCEPT SELECT p.userId, p.username FROM PROFILE p;";
+            // TODO: Insert Images when storing them works
             string commandText = "INSERT INTO Post (postUsername, feedName, postTitle, postDescription) VALUES (@postUsername, @feedName, @postTitle, @postDescription);";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 command.Parameters.AddWithValue("@postUsername", postInput.postUser);
-                command.Parameters.AddWithValue("@feedName", postInput.contentType); // Is contentType the feedName?
+                command.Parameters.AddWithValue("@feedName", postInput.contentType); // The contentType is the feedName
                 command.Parameters.AddWithValue("@postTitle", postInput.postTitle);
                 command.Parameters.AddWithValue("@postDescription", postInput.postDescription);
 
-                //command.Parameters.Add("@username", MySqlDbType.VarChar);
-                //command.Parameters.Add("@feedName", MySqlDbType.VarChar); // Is contentType the feedName?
-                //command.Parameters.Add("@postTitle", MySqlDbType.VarChar);
-                //command.Parameters.Add("@postDescription", MySqlDbType.VarChar);
-
-                //command.Parameters["@username"].Value = postInput.postUser;
-                //command.Parameters["@feedName"].Value = postInput.contentType;
-                //command.Parameters["@postTitle"].Value = postInput.postTitle;
-                //command.Parameters["@postDescription"].Value = postInput.postDescription;
-                //Console.WriteLine(command.CommandText);
-
+                // Debug
                 // Prints out the commandText
-                string query = command.CommandText;
-                foreach (MySqlParameter p in command.Parameters)
-                {
-                    query = query.Replace(p.ParameterName, p.Value.ToString());
-                }
-                Console.WriteLine(query);
+                //string query = command.CommandText;
+                //foreach (MySqlParameter p in command.Parameters)
+                //{
+                //query = query.Replace(p.ParameterName, p.Value.ToString());
+                //}
+                //Console.WriteLine(query);
 
-                MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
                     int result = command.ExecuteNonQuery();
-                    transaction.Commit();
-                    // _mySqlConnection.Close();
+                    command.Transaction.Commit();
+                    _mySqlConnection.Close();
                     if (result == 1)
                     {
                         return true;
@@ -150,13 +137,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
-                    // return false;
+                    command.Transaction.Rollback();
                     throw e; // Handle in Service layer
-                }
-                finally
-                {
-                    _mySqlConnection!.Close();
                 }
             }
         }
@@ -167,9 +149,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 throw new NullReferenceException();
             }
-            //INSERT PostAnalytics (Upvote_User)
-            //VALUES(upvoteUsername) ON DUPLICATE KEY
-            //UPDATE Delete_Flag = 1;
+
             string commandText = "INSERT UpvotePostAnalytics (postID, postTitle, upvoteUsername) VALUES(@postID, @postTitle, @upvoteUsername) ON DUPLICATE KEY UPDATE isUpvote = 1 + -1 * isUpvote;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
@@ -177,12 +157,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddWithValue("@postTitle", ((UpvotePostModel)interactionInput).contentTitle);
                 command.Parameters.AddWithValue("@upvoteUsername", ((UpvotePostModel)interactionInput).interactUsername);
 
-                MySqlTransaction transaction = _mySqlConnection!.BeginTransaction();
+                command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
                     int result = command.ExecuteNonQuery();
-                    transaction.Commit();
-                    // _mySqlConnection.Close();
+                    command.Transaction.Commit();
+                    _mySqlConnection.Close(); // No finally block because return is in try block
                     if (result == 1 || result == 2)
                         return true;
                     else if (result == 0)
@@ -192,28 +172,15 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
-                    Console.WriteLine(e.HelpLink);
+                    command.Transaction.Rollback();
+                    //Console.WriteLine(e.HelpLink);
                     throw e;
-                }
-                finally
-                {
-                    _mySqlConnection.Close();
                 }
             }
         }
 
-        // Can be used to fetch all posts with same title
-        // public IEnumerable<IPostEntity>? FetchAllPosts(IFeedModel feedInput)
-        // {
-        //     // IFeedModel is used for SqlGenerator input
-        //     // IEnumerable should assigned to postList in IFeedModel
-        //     IEnumerable<IPostEntity> postList = new List<IPostEntity>();
-        //     return null;
-        // }
-        // Get Upvotes
-        // Get Comments
-        // Get Images
-        // Get Content
+        // Get Upvotes - Implement in different class
+        // Get Comments - In CommentContentDataAccess
+        // Get Images - Doesn't work yet
     }
 }
