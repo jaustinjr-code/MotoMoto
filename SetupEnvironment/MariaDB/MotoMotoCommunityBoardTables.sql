@@ -1,10 +1,12 @@
 CREATE TABLE Comment (
     commentID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    postID INT UNSIGNED NOT NULL,
     commentUsername VARCHAR(25) NOT NULL,
     commentDescription VARCHAR(1000) NOT NULL,
     submitUTC TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT Comment_PK PRIMARY KEY (commentID),
-    CONSTRAINT Profile_Comment_FK FOREIGN KEY (commentUsername) REFERENCES Profile (username)
+    CONSTRAINT Comment_PK PRIMARY KEY (commentID, postID),
+    CONSTRAINT Profile_Comment_FK FOREIGN KEY (commentUsername) REFERENCES Profile (username),
+    CONSTRAINT Post_Comment_FK FOREIGN KEY (postID) REFERENCES Post (postID)
 );
 CREATE TABLE Post (
     postID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
@@ -17,7 +19,7 @@ CREATE TABLE Post (
     CONSTRAINT Post_PK PRIMARY KEY (postID, postTitle),
     -- CONSTRAINT Image_FK FOREIGN KEY (imageID) REFERENCES Image (imageID),
     CONSTRAINT Profile_Post_FK FOREIGN KEY (postUsername) REFERENCES Profile (username),
-    CONSTRAINT Feed_FK FOREIGN KEY (feedName) REFERENCES Feed (feedName)
+    CONSTRAINT Feed_Post_FK FOREIGN KEY (feedName) REFERENCES Feed (feedName)
 );
 CREATE TABLE Image (
     postID INT UNSIGNED NOT NULL,
