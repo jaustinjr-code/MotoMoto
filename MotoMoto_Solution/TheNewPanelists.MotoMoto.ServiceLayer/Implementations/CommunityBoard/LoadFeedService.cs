@@ -2,6 +2,7 @@ using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Collections.Generic;
+using System;
 //using System.Diagnostics;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
@@ -28,9 +29,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             // Takes the result from the DAL and builds a response model based on it
             IDataAccess contentDataAccess = new LoadFeedDataAccess();
-            IFeedEntity? result = ((LoadFeedDataAccess)contentDataAccess).FetchAllPosts((IFeedModel)contentToFetch);
-            if (result != null)
-                return BuildResponse(result);
+            try
+            {
+                IFeedEntity? result = ((LoadFeedDataAccess)contentDataAccess).FetchAllPosts((IFeedModel)contentToFetch);
+                if (result != null)
+                    return BuildResponse(result);
+            }
+            catch (Exception e)
+            {
+                e.ToString(); // Use Logger for this
+            }
             // What if the result is supposed to be null?
             // How do you distinguish the results?
             return BuildDefaultResponse();

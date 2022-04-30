@@ -186,6 +186,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     command.Transaction = _mySqlConnection!.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     IEnumerable<IPostEntity> result = RefineData(command.ExecuteReader());
+                    command.Transaction.Commit();
                     _mySqlConnection.Close();
 
                     // Defining the DataStoreCommunityFeed is unrelated to the SqlCommand so it is
@@ -197,33 +198,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception e)
                 {
+                    command.Transaction.Rollback();
                     // Trigger Logging Service
                     e.ToString();
+                    throw e;
                 }
             }
-            // This should return null if no posts were found, but an alternative is
-            // to continue to query the next posts in recency upon the user's request
-            return null;
-
-            // Connect to MariaDB
-            // Assumes valid connection string
-            // Temporary connection disposed after query completion
-            //using (MySqlConnection connection = new MySqlConnection(_connectionString))
-            //_mySqlConnection = new MySqlConnection(_connectionString);
-
-            // Check for an already open connection
-            // NOTE: Most likely don't need this if contained within this using block
-
-
-
-
-
-
-            // IFeedModel is used for SqlGenerator input
-            // Use FetchPost to return each post individually and add into postList
-            // IEnumerable should assigned to postList in IFeedModel
-            //IEnumerable<IPostEntity> postList = new List<IPostEntity>();
-            //return null;
         }
     }
 }
