@@ -42,7 +42,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
 
                 partOne = partManager.EvaluateVehiclePart(partOne);
                 partTwo = partManager.EvaluateVehiclePart(partTwo);
-
+                if (partOne.returnValue == false || partTwo.returnValue == false)
+                {
+                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
+                }
                 ((List<PartModel>)_compParts).Add(partOne);
                 ((List<PartModel>)_compParts).Add(partTwo);
                 partComparisonModel.comparisonParts = _compParts;
@@ -80,7 +83,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                 };
                 //await Task.Delay(1_000, token);
                 partModel = partManager.EvaluateVehiclePart(partModel);
-
+                if (partModel.returnValue == false)
+                {
+                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
+                }
                 return Ok(partModel);
             }
             catch

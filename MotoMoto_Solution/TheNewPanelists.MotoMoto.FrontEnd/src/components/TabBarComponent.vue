@@ -1,6 +1,7 @@
 <template>
 <div>
 	<body>
+		  <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
 		<nav v-bind:class="active" v-on:click.prevent>
 			<router-link to="/carbuilder"><a class="carbuilder" v-on:click="makeActive('carbuilder')">Car Builder</a></router-link>
 			<router-link to="/parts"><a class="projects" v-on:click="makeActive('projects')">Vehicle Parts</a></router-link>

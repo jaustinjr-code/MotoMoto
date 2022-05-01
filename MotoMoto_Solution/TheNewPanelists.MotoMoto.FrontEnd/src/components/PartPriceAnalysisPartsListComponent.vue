@@ -1,9 +1,9 @@
 <template>
 <body>
     <div id='part-list'>
-        <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto Vehicle Parts</h1></router-link>
         <TabBarComponent/>
         <div id='part_selection-list' class="part-selection">
+            <h4 class="title">Parts List</h4> 
             <label class='selectString'>Select Part Category:</label>
             <select id='part-category-select' @change="getCategoryID()">
                 <option value='N'>None</option>
@@ -25,7 +25,7 @@
                 <table>
                     <thead>
                         <tr class="titles">
-                            <td><input class='submitButton' type='submit' value="Compare"></td>
+                            <td>Comparison Selection</td>
                             <td>Part Name</td>
                             <td>Part Rating</td>
                             <td>Rating Count</td>
@@ -33,8 +33,9 @@
                             <td>Product Link</td>
                         </tr>
                         <tr class="PartListings" v-for="(part) in paginatedData()" :key=part>
-                            <td class="checkBox"><input type="checkbox" value="{{part}}"></td>
-
+                            <td class="checkBox">
+                                <input type="checkbox" name="parts" v-model="checkedParts" :value="part.partID" @change="logProductsSelected(checkedParts)">
+                            </td>
                             <td class="partName">
                             <router-link class="productDescr" :to="{name: 'PartPriceDetails', params: {id: part.partID}}">
                                 {{part.partName}}
@@ -43,10 +44,14 @@
                             <td class="partRati">{{part.rating}}</td>
                             <td class="ratCount">{{part.ratingCount}}</td>
                             <td class="curPrice">${{part.currentPrice}}.00</td>
-                            <td><a class="proURL" :href="part.productURL">Link</a></td>
+                            <td><a class="proURL" :href="part.productURL">Buy Now</a></td>
                         </tr>
+                        <!-- <div class="buttonSubmit">
+                            <input class='submitButton' type='submit' v-on:click="goToComparison">
+                        </div> -->
                     </thead>
                 </table>
+                
                 <div class="pageButtons">
                     <button class="buttonLeft" @click="prevPage()">Prev</button>
                     <button class="buttonRight" @click="nextPage()">Next</button>
@@ -54,7 +59,6 @@
                         <p>{{displayPageNumber()}} of {{pageCount()}}</p>
                     </footer>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -62,7 +66,7 @@
 </template>
 
 <script>
-import TabBarComponent from '../components/TabBarComponent.vue'
+import TabBarComponent from './TabBarComponent.vue'
 import {instance} from '../router/PartPriceAnalysisConnection'
 
 export default {
@@ -76,7 +80,8 @@ export default {
             categoryID: 0,
             categoryName: '',
             parts: [],
-            comparedParts: []
+            checkedParts: [],
+            returnComparison: []
         }
     },
     components: {
@@ -104,6 +109,12 @@ export default {
                 console.log(this.parts)
             })
         },
+        logProductsSelected: function() {
+            console.log(this.checkedParts)
+            if(this.checkedParts.length == 2) {
+                this.$router.push({name: 'PartComparison', params: {id1: this.checkedParts[0], id2: this.checkedParts[1]}})
+            }
+        },
         getCategoryID: function(part) {
             let selector = document.getElementById('part-category-select')
             let partNum = selector.options[selector.selectedIndex].value
@@ -111,8 +122,11 @@ export default {
             console.log(this.categoryID)  
             this.retrievePartInformation()
         },
-        goToProduct: function()
-        {
+        logStuff: function() {
+            console.log(this.checkedParts)
+            this.returnComparison = this.checkedParts
+        },
+        goToProduct: function() {
             this.$router.push({name: 'PartPriceDetails', params: {id : part.partID}})
             //this.$router.push({name: 'parts/partID', params: { partID: part['partID']}})
         },
@@ -197,6 +211,10 @@ table {
     padding: 2px 12px;
     background-color: rgb(9, 189, 144);
     text-decoration: white;
+}
+.buttonSubmit {
+    text-align: left;
+    padding-left: 50px;
 }
 </style>
 

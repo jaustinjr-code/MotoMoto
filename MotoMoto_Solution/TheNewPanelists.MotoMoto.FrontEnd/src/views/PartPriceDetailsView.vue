@@ -1,9 +1,8 @@
 <template>
 <div>
-    <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
     <TabBarComponent/>
     <h5 class="partTitle">Part Details</h5>
-    <table class="partDetails">
+    <table class="partDetails" align="center">
         <thead>
             <tr class="partTitle">
                 <div class="nameNprice">
@@ -45,7 +44,6 @@
                     <td class="partRating">Rating: {{part.rating}}</td>
                     <td class="partratingCount">Number of Reviews: {{part.ratingCount}}</td>
                 </div>
-                
             </tr>
         </thead>
     </table>
@@ -187,22 +185,7 @@ a.proURL {
   text-decoration: none;
   display: inline-block;
 }
-div.nameNprice {
-    padding: 40px;
 
-}
-li.partName {
-    font: 20px;
-}
-div.rating li {
-    display: inline;
-}
-li.partRating {
-    padding-right: 20px;
-}
-li.partratingCount {
-    padding-left: 20px;
-}
 h2.partHistoryTitle {
     font: 20px;
 }
@@ -241,5 +224,8 @@ div.priceTrendGraph {
 .partTrendGraph {
     border: 1px solid #000000;
 }
+.partDetails {
+    margin-left: auto;
+    margin-right: auto;   
+}
 </style>
-

@@ -79,7 +79,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             {
                 if (part.currentPrice > max && part.currentPrice > min)
                 {
-                    max = part.currentPrice;
+                    switch(max)
+                    {
+                        case -1:
+                            max = part.currentPrice;
+                            min = max;
+                            break;
+                        default:
+                            max = part.currentPrice;
+                            break;
+                    }
                 }
                 else
                 {

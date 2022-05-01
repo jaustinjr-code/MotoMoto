@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import PartPriceAnalysisComponent from '../components/PartPriceAnalysisComponent.vue'
+import PartPriceAnalysisComponent from '../components/PartPriceAnalysisPartsListComponent.vue'
 
 export default {
     name: 'PartPriceAnalysisView',

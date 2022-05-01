@@ -24,7 +24,10 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                     categoryId = _categoryID
                 };
                 partListModel = partManager.RetrieveSpecifiedCategorialParts(partListModel);
-                //await Task.Delay(0_001, token);
+                if (partListModel.returnValueNoRealCategory == false)
+                {
+                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
+                }
 
                 return Ok(partListModel);
             }
