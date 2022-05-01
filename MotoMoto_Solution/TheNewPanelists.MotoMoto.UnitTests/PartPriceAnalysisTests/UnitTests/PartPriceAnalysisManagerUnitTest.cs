@@ -73,7 +73,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         [Theory]
         [InlineData(1)]
         [InlineData(100)]
-        [InlineData(1000)]
+        [InlineData(300)]
         public void IsValidPartID_ExistingPart_ReturnTrue(int _partID)
         {
             var testPart = new PartModel()

@@ -3,12 +3,19 @@
     <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
     <TabBarComponent/>
     <h5 class="partTitle">Part Details</h5>
-    <ul>
-        <li class="partName">{{part.partName}}</li>
-        <li class="partPrice">Current Price Point: ${{part.currentPrice}}.00</li>
-    </ul>
+    <table class="partDetails">
+        <thead>
+            <tr class="partTitle">
+                <div class="nameNprice">
+                    <td>{{part.partName}}</td>
+                    <td>Current Price Point: ${{part.currentPrice}}.00</td>
+                </div>
+            </tr>
+        </thead>
+    </table>
+    <a class="proURL" :href="part.productURL">Link to Product</a>
     <div class="priceTrendGraph">
-        <h2>Part History Past 6 Months</h2>
+        <h5 class="partHistoryTitle">Part History Past 6 Months</h5>
         <canvas id="partTrendGraph" width="585" height="450"></canvas>
     </div>
     <div class="partPriceHistory">
@@ -31,6 +38,17 @@
             </table>
         </ul>
     </div>
+    <table class="ratingDetails">
+        <thead>
+            <tr class="ratingTitle">
+                <div class="rating">
+                    <td class="partRating">Rating: {{part.rating}}</td>
+                    <td class="partratingCount">Number of Reviews: {{part.ratingCount}}</td>
+                </div>
+                
+            </tr>
+        </thead>
+    </table>
 </div>
 </template>
 
@@ -161,14 +179,38 @@ export default {
 </script>
 
 <style>
+a.proURL {
+  background-color: #000000;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+div.nameNprice {
+    padding: 40px;
+
+}
+li.partName {
+    font: 20px;
+}
+div.rating li {
+    display: inline;
+}
+li.partRating {
+    padding-right: 20px;
+}
+li.partratingCount {
+    padding-left: 20px;
+}
+h2.partHistoryTitle {
+    font: 20px;
+}
 .partTitle {
     padding-top: 10px;
     padding-bottom: 10px;
     font: 15px;
     color: black;
-}
-li {
-    align-items: inherit;
 }
 .css-chart {
     border-bottom: 1px solid;
@@ -179,7 +221,9 @@ li {
     position: relative;
     width: var(--widget-size);
 }
-
+div.priceTrendGraph {
+    padding-top: 20px;
+}
 .line-chart {
     list-style: none;
     margin: 0;
@@ -194,7 +238,7 @@ li {
     position: absolute;
     width: 12px;
 }
-.testCanvas {
+.partTrendGraph {
     border: 1px solid #000000;
 }
 </style>

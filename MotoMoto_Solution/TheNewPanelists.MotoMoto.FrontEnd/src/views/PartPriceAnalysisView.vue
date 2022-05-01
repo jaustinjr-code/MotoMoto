@@ -6,7 +6,7 @@
 
 <script>
 import PartPriceAnalysisComponent from '../components/PartPriceAnalysisComponent.vue'
-import TabBarComponent from '../components/TabBarComponent.vue'
+
 export default {
     name: 'PartPriceAnalysisView',
     components: {

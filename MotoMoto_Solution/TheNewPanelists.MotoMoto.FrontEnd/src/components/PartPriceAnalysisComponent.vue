@@ -33,7 +33,7 @@
                             <td>Product Link</td>
                         </tr>
                         <tr class="PartListings" v-for="(part) in paginatedData()" :key=part>
-                            <td class="checkBox"><input type="checkbox"></td>
+                            <td class="checkBox"><input type="checkbox" value="{{part}}"></td>
 
                             <td class="partName">
                             <router-link class="productDescr" :to="{name: 'PartPriceDetails', params: {id: part.partID}}">

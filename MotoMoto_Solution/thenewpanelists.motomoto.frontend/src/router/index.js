@@ -10,6 +10,7 @@ import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
+import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: '/PartDetails/:id',
     name: 'PartPriceDetails',
     component: PartPriceDetails
+  },
+  {
+    path: '/PartComaprison/PartOne/:id1/PartTwo/:id2',
+    name: 'PartComparison',
+    component: PartComparison
   }
 ]
 
