@@ -13,6 +13,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public double newPrice { get; set; }
         public IEnumerable<IPartPriceHistory>? historicalPrices { get; set; }
 
+        // This function is used as an overloaded constructor to parse data for retrival
         public PartModel ParseVehiclePartEntityToVehiclePartModel(IPartEntity part)
         {
             partID = part.partID;

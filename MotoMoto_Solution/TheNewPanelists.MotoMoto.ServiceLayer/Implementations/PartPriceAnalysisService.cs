@@ -30,9 +30,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns></returns>
         public PartListModel RetrievSpecifiedCategorialParts(PartListModel partListModel)
         {
-            // Category initialized after we validate in the manager that the category does exist within
-            // the spectrum of the category array. Array's may not 100% be extensible but provide an area
-            // where query information can be used in the DAO. 
             partListModel.categorySelect = partListModel.categories[partListModel.categoryId];
             return _partPriceAnalysisDAO!.RetrieveAllCategorialPartInformationDataAccess(partListModel);
         }
