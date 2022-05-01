@@ -9,13 +9,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
     [Route("[controller]")]
     public class PartPriceAnalysisRetrievalController : Controller
     {
-        private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
+        private readonly IPartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         [HttpGet]
         public IActionResult RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
         {
-            PartPriceAnalysisService partService = new PartPriceAnalysisService();
-            PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
+            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             try
             {

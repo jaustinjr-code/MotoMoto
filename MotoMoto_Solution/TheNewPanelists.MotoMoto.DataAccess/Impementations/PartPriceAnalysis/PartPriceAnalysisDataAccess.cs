@@ -7,7 +7,7 @@ using System;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class PartPriceAnalysisDataAccess
+    public class PartPriceAnalysisDataAccess : IPartPriceAnalysisDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
@@ -179,6 +179,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 MySqlDataReader myReader = command.ExecuteReader();
                 IEnumerable<IPartPriceHistory> _partHistory = new List<IPartPriceHistory>();
+                IEnumerable<double> _partPrices = new List<double>();
+                IEnumerable<DateTime> _partDates = new List<DateTime>();
                 while (myReader.Read())
                 {
                     int productId= myReader.GetInt32("productId");
@@ -186,7 +188,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     DateTime priceSetDate = myReader.GetDateTime("lastRecordedDate");
 
                     IPartPriceHistory partHistory = new DataStorePartHistory(productId, priceSetDate, productPrice);
+                    ((List<double>)_partPrices).Add(productPrice);
+                    ((List<DateTime>)_partDates).Add(priceSetDate);
                     ((List<IPartPriceHistory>)_partHistory).Add(partHistory);
+                    partModel.historicalDate = _partDates;
+                    partModel.histroicalListingPrice = _partPrices;
                     partModel.historicalPrices = _partHistory;
                 }
                 myReader.Close();

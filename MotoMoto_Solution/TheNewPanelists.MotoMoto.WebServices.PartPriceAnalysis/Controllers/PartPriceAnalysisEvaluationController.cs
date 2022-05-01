@@ -10,7 +10,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
     [Route("[controller]")]
     public class PartPriceAnalysisEvaluationController : Controller
     {
-        private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
+        private readonly IPartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         /// <summary>
         /// Retrieves information on vehicle comparisons using part ID's to track the infromation of each part comparing 
@@ -23,8 +23,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         [HttpGet("compareParts")]
         public IActionResult RetrieveComparisonVehicleParts(int _partIdOne, int _partIdTwo, CancellationToken token = default(CancellationToken))
         {
-            PartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
-            PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
+            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             IEnumerable<PartModel> _compParts = new List<PartModel>();
             var partComparisonModel = new PartComparisonModel();

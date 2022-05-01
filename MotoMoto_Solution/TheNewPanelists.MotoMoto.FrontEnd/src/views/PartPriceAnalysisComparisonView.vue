@@ -28,15 +28,26 @@
     </table>
     <h6 class="priceDiff" v-for="price in parts.currentPriceDifference" :key=price>Current Price Difference: ${{price}}.00</h6>
     <h5>Part Price Comparison Over Time</h5>
-    <!-- <table>
+    <table>
         <thead>
-            <tr class="titles" v-for="(part) in comparisonParts" :key=part>
-                <tr class="history" v-for="history in part.historicalPrices" :key=history>
-                    <td>{{history.dateTime.slice(0,10)}}</td>
-                </tr>
+            <tr>
+                <td>Part Name</td>
+                <td class="titles" v-for="(date) in partDates" :key=date>{{date.slice(0,10)}}</td>
             </tr>
         </thead>
-    </table> -->
+        <thead>
+            <tr>
+                <td>{{partNameOne.slice(0,35)}}</td>
+                <td class="titles" v-for="(partP1) in partHistory1" :key=partP1>${{partP1}}</td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <td>{{partNameTwo.slice(0,35)}}</td>
+                <td class="titles" v-for="(partP2) in partHistory2" :key=partP2>${{partP2}}</td>
+            </tr>
+        </thead>
+    </table>
 </div>
     
 </template>
@@ -54,7 +65,11 @@ export default {
             partIDTwo: 0,
             curPriceDiff: 0,
             comparisonParts: [],
-            partPrices: [],
+            partDates: [],
+            partNameOne: "",
+            partNameTwo: "",
+            partHistory1: [],
+            partHistory2: [],
         }
     },
     components: {
@@ -74,22 +89,19 @@ export default {
             await instance.get('PartPriceAnalysisEvaluation/compareParts', {params}).then((res) =>{
                 this.parts = res.data;
                 this.comparisonParts = res.data['comparisonParts'];
+                this.assignPartNames();
+                this.assignPartHistoryDate();
             })
         },
-        mergePartHistoryForDisplay: function() {
-            displayDict = {}
-            for (let i = 0; i < this.comparisonParts.historicalPrices.length; i++) {
-                if ((this.comparisonParts.historicalPrices[i].dateTime in displayDict) === false) {
-                    displayDict[this.comparisonParts.historicalPrices] = [];
-                }
-            }
-            // for (let i = 0; i < this.comparisonParts.historicalPrices.length; i++) {
-            //     for (let j = 0; j < displayDict.length; j++) {
-            //         if (this.comparisonParts.historicalPrices[i].dateTime === displayDict)
-            //     } 
-            // }
-            // return (displayDict);
+        assignPartNames: function() {
+            this.partNameOne= this.comparisonParts[0].partName
+            this.partNameTwo= this.comparisonParts[1].partName
         },
+        assignPartHistoryDate: function() {
+            this.partDates = this.comparisonParts[0].historicalDate
+            this.partHistory1 = this.comparisonParts[0].histroicalListingPrice
+            this.partHistory2 = this.comparisonParts[1].histroicalListingPrice
+        }
     },
 }
 </script>

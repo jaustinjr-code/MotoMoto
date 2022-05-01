@@ -3,15 +3,15 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
-    public class PartPriceAnalysisManager
+    public class PartPriceAnalysisManager : IPartPriceAnalysisManager
     {
-        private readonly PartPriceAnalysisService? _partPriceAnalysisService;
+        private readonly IPartPriceAnalysisService? _partPriceAnalysisService;
         // Default constructor only used for unit testing //
         public PartPriceAnalysisManager()
         {
             _partPriceAnalysisService = new PartPriceAnalysisService();
         }
-        public PartPriceAnalysisManager(PartPriceAnalysisService partPriceAnalysisService)
+        public PartPriceAnalysisManager(IPartPriceAnalysisService partPriceAnalysisService)
         {
             _partPriceAnalysisService = partPriceAnalysisService;
         }

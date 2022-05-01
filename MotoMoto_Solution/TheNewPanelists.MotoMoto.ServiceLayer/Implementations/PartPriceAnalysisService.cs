@@ -5,9 +5,9 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public class PartPriceAnalysisService
+    public class PartPriceAnalysisService: IPartPriceAnalysisService
     {
-        private readonly PartPriceAnalysisDataAccess? _partPriceAnalysisDAO;
+        private readonly IPartPriceAnalysisDataAccess? _partPriceAnalysisDAO;
         /// <summary>
         /// Default constructor and only used for unit/integration testing
         /// This functionality is wasteful in resources so it is not good to
@@ -17,7 +17,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
         }
-        public PartPriceAnalysisService(PartPriceAnalysisDataAccess partPriceAnalysisDAO)
+        public PartPriceAnalysisService(IPartPriceAnalysisDataAccess partPriceAnalysisDAO)
         {
             _partPriceAnalysisDAO = partPriceAnalysisDAO;
         }
