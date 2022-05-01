@@ -233,7 +233,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void HandleValidFlagCountDecrement(int count)
+        public async void HandleValidFlagCountDecrement(int count)
         {
             const string testName = "HandleValidFlagCountDecrement";
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
@@ -246,10 +246,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
             
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
             for (int countIt = 0; countIt < count; ++countIt)
             {
-                partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+                await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             Assert.True(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
@@ -261,7 +261,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// any flags because the flag does not exist.
         /// </summary>
         [Fact]
-        public void HandleInvalidFlagCountDecrement()
+        public async void HandleInvalidFlagCountDecrement()
         {
             const string testName = "HandleInvalidFlagCountDecrement";
             PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
@@ -274,7 +274,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = partFlaggingBusinessLayer.CreateFlagModel(partNumber, carMake, carModel, carYear);
             
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             Assert.False(partFlaggingBusinessLayer.HandleFlagCountDecrement(partNumber, carMake, carModel, carYear));
         }

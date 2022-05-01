@@ -64,7 +64,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test is successful if count is equal to 0 because the flag does not exist
         /// </summary>  
         [Fact]
-        public void CallGetNonExistingFlagCount()
+        public async void CallGetNonExistingFlagCount()
         {
             const int ZERO = 0;
             FlagModel testFlag = new FlagModel("10", "10", "10", "10");
@@ -73,7 +73,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
             int result = partFlaggingService.CallGetFlagCount(testFlag);
@@ -87,7 +87,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// and cannot be decremented.
         /// </summary>  
         [Fact]
-        public void CallDecrementNonExistingFlagCount()
+        public async void CallDecrementNonExistingFlagCount()
         {
             const string testName = "CallDecrementNonExistingFlagCount";
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
@@ -96,7 +96,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
             bool result = partFlaggingService.CallDecrementFlagCount(testFlag);
@@ -113,23 +113,23 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         [Theory]
         [InlineData("CallDecrementExistingFlagCount", 1)]
         [InlineData("CallDecrementExistingFlagCount", 2)]
-        public void CallDecrementExistingFlagCount(string testName, int minFlagCount)
+        public async void CallDecrementExistingFlagCount(string testName, int minFlagCount)
         {
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
             
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             for (int flagCountIt = 0; flagCountIt < minFlagCount; ++flagCountIt)
             {
-                partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+                await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             PartFlaggingService partFlaggingService = new PartFlaggingService();
 
-            int prevCount = partFlaggingDataAccess.GetFlagCount(testFlag);
+            int prevCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
             partFlaggingService.CallDecrementFlagCount(testFlag);
-            int afterCount = partFlaggingDataAccess.GetFlagCount(testFlag);
+            int afterCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.True(prevCount == afterCount + 1);
         }

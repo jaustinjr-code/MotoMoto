@@ -4,8 +4,8 @@ Application Layer->Business Layer: HandleFlagCreation(partNum: String, carMake: 
 Business Layer->Business Layer: CreateFlagModel(partNum: String, carMake: String, carModel: String, carYear: String): FlagModel
 Business Layer->Business Layer: IsValidFlag(flag: FlagModel): bool
 Business Layer->Service Layer: CallFlagCreation(flag: FlagModel): bool
-Service Layer->Data Access Layer: CreateOrIncrementFlag(flag: FlagModel): bool
-Data Access Layer->RDS: ExecuteNonQuery(): int
+Service Layer->Data Access Layer: CreateOrIncrementFlag(flag: FlagModel): Task<bool>
+Data Access Layer->RDS: ExecuteNonQueryAsync(): Task<int>
 
 RDS-->Data Access Layer:Number of Rows Affected
 Data Access Layer-->Service Layer:true

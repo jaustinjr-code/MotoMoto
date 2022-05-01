@@ -21,7 +21,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public bool CallFlagCreation(FlagModel flag)
         {
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            return partFlaggingDataAccess.CreateOrIncrementFlag(flag);
+            return partFlaggingDataAccess.CreateOrIncrementFlag(flag).Result;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public int CallGetFlagCount(FlagModel flag)
         {
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            return partFlaggingDataAccess.GetFlagCount(flag);
+            return partFlaggingDataAccess.GetFlagCount(flag).Result;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public bool CallDecrementFlagCount(FlagModel flag)
         {
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            return partFlaggingDataAccess.DecrementOrRemove(flag);
+            return partFlaggingDataAccess.DecrementOrRemove(flag).Result;
         }
     }
 }
