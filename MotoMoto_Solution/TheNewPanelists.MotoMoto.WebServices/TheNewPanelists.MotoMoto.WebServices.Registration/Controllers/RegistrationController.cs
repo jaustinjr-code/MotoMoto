@@ -4,34 +4,55 @@ using TheNewPanelists.MotoMoto.ServiceLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.Registration.Controllers
 {
-    [Route("/Api")]
+    [Route("Api/[controller]")]
     [ApiController]
     public class RegistrationController : Controller
     {
+        [HttpOptions]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("/Register")]
+        [HttpPost("Register")]
         public IActionResult RegisterAccount(string email, string password)
         {
             RegistrationRequestModel model = new RegistrationRequestModel()
             {
                 Email = email,
-                Password = password
+                Password = password,
+                status = false,
+                message = "N/A"
             };
+           
+            RegistrationService registrationService = new RegistrationService();
+            registrationService.AccountRegistrationRequest(ref model);
+            
+            if(model.status)
+                return Ok(model);
+            else
+                return BadRequest(model);
+        }
 
-            try
+        [HttpPost("Confirmation")]
+        public IActionResult ConfirmEmail(string email, int registrationId)
+        {
+            RegistrationRequestModel model = new RegistrationRequestModel()
             {
-                RegistrationService registrationService = new RegistrationService();
-                return Ok(registrationService.AccountRegistrationRequest(model));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
+                Email = email,
+                RegistrationId = registrationId,
+                Password = "N/A",
+                status = false,
+                message = "N/A"
+            };
+           
+            RegistrationService registrationService = new RegistrationService();
+            registrationService.EmailConfirmation(ref model);
+            
+            if(model.status)
+                return Ok(model);
+            else
+                return BadRequest(model);
         }
     }
 }

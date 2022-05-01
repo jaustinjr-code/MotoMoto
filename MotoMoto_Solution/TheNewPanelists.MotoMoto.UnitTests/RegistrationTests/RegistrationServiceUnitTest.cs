@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
@@ -16,8 +16,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             var testRegistrationId = 542356;
 
             RegistrationService registrationService = new RegistrationService();
+            RegistrationRequestModel model = new RegistrationRequestModel () {
+                Email = testEmail,
+                RegistrationId = testRegistrationId
+            };
 
-            result = registrationService.SendEmailConfirmationRequest(testEmail, testRegistrationId);
+            result = registrationService.SendEmailConfirmationRequest(model);
             Assert.True(result, "Send Email Test Failure.");
         }
     }
