@@ -103,12 +103,33 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>(bool, IResponseModel)</returns>
         public (bool, IResponseModel) IsContentRequestValid(IContentModel inputModel)
         {
-            if (!IsNullOrEmptyRequest(inputModel) && IsValidRequestForm((IPostModel)inputModel))
+            bool valid = false;
+            IResponseModel result;
+            try
             {
-                return (true, ProcessRequest((IPostModel)inputModel));
+                if (!IsNullOrEmptyRequest(inputModel) && IsValidRequestForm((IPostModel)inputModel))
+                {
+                    valid = true;
+                    result = ProcessRequest((IPostModel)inputModel);
+
+                    // ExceptionResponseModel is a valid response but there's no check for it to change valid back to false
+                    if (result.isComplete == false && result.isSuccess == false)
+                        valid = false;
+                }
+                else
+                {
+                    result = new ExceptionResponseModel("Invalid Request");
+                }
             }
+            catch (Exception e)
+            {
+                valid = false;
+                result = new ExceptionResponseModel(e.Message);
+            }
+            // return (valid, ProcessRequest((IPostModel)inputModel));
+            return (valid, result);
             //return (false, null);
-            throw new InvalidDataException("Invalid Request");
+            // throw new InvalidDataException("Invalid Request");
         }
 
         /// <summary>
