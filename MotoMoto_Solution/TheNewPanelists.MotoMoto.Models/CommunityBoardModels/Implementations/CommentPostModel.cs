@@ -10,6 +10,9 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? postDescription { get; set; }
         public IEnumerable<byte[]>? imageList { get; set; } // Do not use
 
+        // Need default constructor for model binding
+        public CommentPostModel() { }
+
         // The required data store attributes are here
         public CommentPostModel(int postid, string username, string description)
         {

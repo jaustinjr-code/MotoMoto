@@ -11,6 +11,8 @@ namespace TheNewPanelists.MotoMoto.Models
         //public DateTime submitUTC { get; set; }
         public IEnumerable<byte[]>? imageList { get; set; }
 
+        // Need default constructor for model binding
+        public FeedPostModel() { }
         public FeedPostModel(string title, string type, string username, string description)
         {
             postTitle = title;
