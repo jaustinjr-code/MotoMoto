@@ -34,11 +34,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     return BuildResponse(result);
                 return BuildDefaultResponse();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return BuildExceptionResponse(e.Message);
+                // Log the Exception
+                return BuildExceptionResponse("Incomplete Operation");
             }
-            //throw new Exception();
         }
 
         /// <summary>
