@@ -6,5 +6,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     {
         //IRequestModel
         bool IsNullOrEmptyRequest(object? input);
+        (bool, IResponseModel?) IsContentRequestValid(IContentModel inputModel);
     }
 }
