@@ -11,6 +11,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? postDescription { get; }
         public IEnumerable<byte[]>? imageList { get; set; }
         public IEnumerable<IPostEntity>? commentList { get; set; }
+        public int? upvoteCount { get; set; } // Set ? or as zero
 
         public DataStorePost(int id, string title, string username, string? description)
         {
