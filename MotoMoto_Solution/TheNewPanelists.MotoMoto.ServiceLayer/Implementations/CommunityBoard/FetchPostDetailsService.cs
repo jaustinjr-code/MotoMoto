@@ -50,10 +50,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     return BuildResponse(post);
                 return BuildDefaultResponse();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // Log the exception
-                return BuildExceptionResponse(e.Message);
+                return BuildExceptionResponse("Incomplete Operation");
             }
         }
 
