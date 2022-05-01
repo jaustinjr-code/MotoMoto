@@ -11,7 +11,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test passes if count is 0.
         /// </summary>
         [Fact]
-        public void GetCountOfNonexistentFlag()
+        public async void GetCountOfNonexistentFlag()
         {
             const string TEST_ID = "0";
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
@@ -19,9 +19,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
             //Manually delete flag in case it exists
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            int result = partFlaggingDataAccess.GetFlagCount(testFlag);
+            int result = await partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, 0);
         }
 
@@ -32,7 +32,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// IMPORTANT: Do not modify flag with part_number: 1, carMake: 1, carModel: 1, carYear: 1
         /// </summary>
         [Fact]
-        public void GetCountOfExistingFlag()
+        public async void GetCountOfExistingFlag()
         {
             const int DATBASE_COUNT = 100;
             const string TEST_ID = "1";
@@ -41,7 +41,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
-            int result = partFlaggingDataAccess.GetFlagCount(testFlag);
+            int result = await partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, DATBASE_COUNT);
         }
 
@@ -50,7 +50,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test passes if the create or increment function modifies the database.
         /// </summary>    
         [Fact]
-        public void CreateNonexistentFlag()
+        public async void CreateNonexistentFlag()
         {
             const string TEST_ID = "2";
 
@@ -59,9 +59,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
             //Remove flag from the table when unit test is completed, so that upon running again the flag no longer exists
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            bool result = partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            var result = await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             
             Assert.True(result);
         }
@@ -71,7 +71,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test passes if the create or increment function modifies the database.
         /// </summary>    
         [Fact]
-        public void IncrementExistingFlag()
+        public async void IncrementExistingFlag()
         {
             const int ONE = 1;
             const string TEST_ID = "3";
@@ -81,11 +81,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
             //Ensure part flag exists
-            partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
 
-            int previousCount = partFlaggingDataAccess.GetFlagCount(testFlag);
-            bool result = partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
-            int subsequentCount = partFlaggingDataAccess.GetFlagCount(testFlag);
+            int previousCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
+            var result =  await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            int subsequentCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.Equal(subsequentCount, previousCount + ONE);
         }
@@ -95,7 +95,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test passes if delete function returns false because the table is not modified.
         /// </summary>    
         [Fact]
-        public void DeleteNonExistentFlag()
+        public async void DeleteNonExistentFlag()
         {
             const string TEST_ID = "4";
 
@@ -104,9 +104,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Manually delete flag to ensure that the flag does not exist in database before testing
-            partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            bool result = partFlaggingDataAccess.DeleteFlag(testFlag);
+            bool result = await partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.False(result);
         }
 
@@ -115,7 +115,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test passes if delete function returns true because the table is modified.
         /// </summary>    
         [Fact]
-        public void DeleteExistingFlag()
+        public async void DeleteExistingFlag()
         {
             const string TEST_ID = "5";
 
@@ -124,9 +124,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
             //Manually Create Flag so that it is ensured to exist before deleting
-            partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
 
-            bool result = partFlaggingDataAccess.DeleteFlag(testFlag);
+            bool result = await partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.True(result);
         }
 
@@ -137,7 +137,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         [InlineDataAttribute("GreaterThanOne", 2)]
         [InlineDataAttribute("EqualToOne", 1)]
         [InlineDataAttribute("Zero", 0)]
-        public void DecrementOrRemoveTests(string testName, int numCreations) 
+        public async void DecrementOrRemoveTests(string testName, int numCreations) 
         {
             bool result = false;
             
@@ -148,14 +148,14 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool creationSuccessful = true;
             for (int flagCreateIt = 0; flagCreateIt < numCreations; ++flagCreateIt)
             {
-                creationSuccessful = creationSuccessful && partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+                creationSuccessful = creationSuccessful && await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             if (creationSuccessful)
             {
-                int prevCount = partFlaggingDataAccess.GetFlagCount(testFlag);
-                result = partFlaggingDataAccess.DecrementOrRemove(testFlag);
-                int afterCount = partFlaggingDataAccess.GetFlagCount(testFlag);
+                int prevCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
+                result = await partFlaggingDataAccess.DecrementOrRemove(testFlag);
+                int afterCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
 
                 if (prevCount == 0)
                 {

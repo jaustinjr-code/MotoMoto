@@ -79,7 +79,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Test is successful if the resulting object from the function has a success message.
         /// </summary>
         [Fact]
-        public void DecrementValidFlag()
+        public async void DecrementValidFlag()
         {
             const string testName = "DecrementValidFlag";
 
@@ -91,7 +91,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             //Ensure flag exists
             PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             PartFlaggingBusinessLayer partFlaggingBusiness = new PartFlaggingBusinessLayer();
-            partFlaggingDataAccess.CreateOrIncrementFlag(partFlaggingBusiness.CreateFlagModel(partNum, carMake, carModel, carYear));
+            await partFlaggingDataAccess.CreateOrIncrementFlag(partFlaggingBusiness.CreateFlagModel(partNum, carMake, carModel, carYear));
             
             PartFlaggingController controller = new PartFlaggingController();
 
