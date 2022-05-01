@@ -4,7 +4,8 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
     {
         int postId { get; }
         string postTitle { get; }
-        DataStoreUserProfile? postUser { get; }
+        //DataStoreUserProfile postUser { get; }
+        string postUsername { get; }
         string? postDescription { get; }
         IEnumerable<byte[]>? imageList { get; set; }
     }

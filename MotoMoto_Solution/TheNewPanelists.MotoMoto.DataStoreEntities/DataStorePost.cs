@@ -6,8 +6,8 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string type { get; } = "post";
         public int postId { get; }
         public string postTitle { get; }
-        public DataStoreUserProfile? postUser { get; }
-        public string? postUsername { get; }
+        //public DataStoreUserProfile? postUser { get; }
+        public string postUsername { get; }
         public string? postDescription { get; }
         public IEnumerable<byte[]>? imageList { get; set; }
         public IEnumerable<IPostEntity>? commentList { get; set; }
@@ -29,14 +29,14 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
             imageList = images;
         }
 
-        public DataStorePost(int id, string title, DataStoreUserProfile user, string? description, IEnumerable<byte[]>? images)
-        {
-            postId = id;
-            postTitle = title;
-            postUser = user;
-            postDescription = description;
-            imageList = images;
-        }
+        //public DataStorePost(int id, string title, DataStoreUserProfile user, string? description, IEnumerable<byte[]>? images)
+        //{
+        //postId = id;
+        //postTitle = title;
+        //postUser = user;
+        //postDescription = description;
+        //imageList = images;
+        //}
 
         public override string ToString()
         {
