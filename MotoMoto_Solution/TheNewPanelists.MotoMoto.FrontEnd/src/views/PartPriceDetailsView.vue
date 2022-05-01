@@ -5,10 +5,31 @@
     <h5 class="partTitle">Part Details</h5>
     <ul>
         <li class="partName">{{part.partName}}</li>
-        <li class="partPrice">{{part.currentPrice}}</li>
+        <li class="partPrice">Current Price Point: ${{part.currentPrice}}.00</li>
     </ul>
-    <div>
-        <canvas class="testCanvas" id="partTrendGraph" width="585" height="450"></canvas>
+    <div class="priceTrendGraph">
+        <h2>Part History Past 6 Months</h2>
+        <canvas id="partTrendGraph" width="585" height="450"></canvas>
+    </div>
+    <div class="partPriceHistory">
+        <ul>
+            <table>
+                <thead>
+                    <tr class="titles">
+                        <td>Index</td>
+                        <td>Date</td>
+                        <td>Price Point</td>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="values" v-for="(partHist, Index) in partHistory" :key=partHist>
+                        <td>{{Index}}</td>
+                        <td>{{partHist.dateTime.slice(0,10)}}</td>
+                        <td>${{partHist.productPrice}}.00</td>
+                    </tr>
+                </thead>
+            </table>
+        </ul>
     </div>
 </div>
 </template>
@@ -51,7 +72,7 @@ export default {
         },
         setPartPricesOverTime: function() {
             for (let i = 0; i < this.partHistory.length; i++) {
-                this.partDates.push(this.partHistory[i].dateTime)
+                this.partDates.push(this.partHistory[i].dateTime.toDateString)
                 this.partPricesOverTime.push(this.partHistory[i].productPrice)
             }
             const d = new Date();
@@ -101,8 +122,8 @@ export default {
             context.stroke();  
       
             context.beginPath();  
-            context.moveTo(graphLef, (graphHei) / 4 * 3 + graphTop );  
-            context.lineTo(graphRight, (graphHei) / 4 * 3 + graphTop );  
+            context.moveTo(graphLef, (graphHei) / 4 * 3 + graphTop);  
+            context.lineTo(graphRight, (graphHei) / 4 * 3 + graphTop);  
 
             context.fillText(largest / 4, graphRight + 15, (graphHei) / 4 * 3 + graphTop);  
             context.stroke();    
@@ -127,7 +148,7 @@ export default {
             context.lineJoin = "round";  
             context.strokeStyle = "black";  
         
-            context.moveTo(graphLef, (graphHei - dataArr[0] / largest * graphHei ) + graphTop);  
+            context.moveTo(graphLef, (graphHei - dataArr[0] / largest * graphHei) + graphTop);  
             context.fillText( "1", 15, graphBot + 25);  
             for(var i = 1; i < arrayLen; i++){  
                 context.lineTo( graphRight / arrayLen * i + graphLef, (graphHei - dataArr[i] / largest * graphHei) + graphTop);  
