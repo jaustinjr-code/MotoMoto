@@ -30,7 +30,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             IDataAccess postDataAccess = new PostContentDataAccess();
             IResponseService fetchCommentService = new FetchCommentsService(contentToFetch);
-            // IResponseService fetchUpvotesService = new FetchUpvotesService(contentToFetch);
+            IResponseService fetchUpvotesService = new FetchUpvotesService(contentToFetch);
             // Image Service is the last thing to retrieve for post details
 
             // FetchCommentsService is a helper class for this occasion
@@ -38,8 +38,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             try
             {
                 IPostEntity post = ((PostContentDataAccess)postDataAccess).FetchPost(contentToFetch);
+                ((DataStorePost)post).upvoteCount = (int)((FetchUpvotesService)fetchUpvotesService).FetchPostUpvotes().output!;
                 //Console.WriteLine(post);
-                // TODO: Include result from upvote service
 
                 // Fetch the comments associated to the specified post id and assign it to the post entity
                 IResponseModel commentResponse = ((FetchCommentsService)fetchCommentService).FetchComments();
@@ -50,10 +50,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     return BuildResponse(post);
                 return BuildDefaultResponse();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Log the exception
-                return BuildExceptionResponse("Incomplete Operation");
+                return BuildExceptionResponse(e.Message);
             }
         }
 
@@ -69,16 +69,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             bool complete = true;
             bool success = true;
             IResponseModel response = new FeedPostResponseModel((DataStorePost)result, message, complete, success);
-            // May throw an exception, catch in Business Layer
-            // if (((DataStorePost)result).commentList != null && ((List<IPostEntity>)((DataStorePost)result).commentList!).Count > 0)
-            // if (result != null)
-            // {
-            // response = new FeedPostResponseModel((IEnumerable<IPostEntity>)((DataStorePost)result).commentList!, message, complete, success);
-            // }
-            // else
-            // {
-            //     response = new FeedPostResponseModel(message, complete, success);
-            // }
+
             return response;
         }
 

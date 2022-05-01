@@ -15,7 +15,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="content"></param>
         public FetchUpvotesService(IRequestModel content)
         {
-            contentToFetch = content;
+            contentToFetch = (FetchPostDetailsRequestModel)content;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             IDataAccess upvoteDataAccess = new UpvoteAnalyticDataAccess();
             try
             {
-                int result = ((UpvoteAnalyticDataAccess)upvoteDataAccess).FetchPostUpvoteTotal(contentToFetch);
+                int result = ((UpvoteAnalyticDataAccess)upvoteDataAccess).FetchPostUpvoteTotal((FetchPostDetailsRequestModel)contentToFetch);
                 if (result >= 0)
                     return BuildResponse(result);
                 return BuildDefaultResponse();

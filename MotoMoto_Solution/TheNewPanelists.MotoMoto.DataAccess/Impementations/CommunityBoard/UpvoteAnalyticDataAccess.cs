@@ -66,7 +66,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
-                    int result = command.ExecuteReader().GetInt32("total");
+                    int result = 0;
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        result = reader.GetInt32("total");
+                        reader.Close();
+                    }
                     command.Transaction.Commit();
                     _mySqlConnection.Close();
                     return result;
@@ -93,7 +99,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
-                    int result = command.ExecuteReader().GetInt32("total");
+                    int result = 0;
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        result = reader.GetInt32("total");
+                        reader.Close();
+                    }
                     command.Transaction.Commit();
                     _mySqlConnection.Close();
                     return result;
