@@ -5,6 +5,9 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
+    /// <summary>
+    /// Contains unit testing for part flagging service layer.
+    /// </summary>
     public class PartFlaggingServiceUnitTest
     {
         /// <summary>

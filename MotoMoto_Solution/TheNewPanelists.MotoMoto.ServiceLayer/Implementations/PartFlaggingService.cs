@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataAccess;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
+    /// <summary>
+    /// Boundary between business logic for application and external services required
+    /// </summary>
     public class PartFlaggingService : IPartFlaggingService
     {
 

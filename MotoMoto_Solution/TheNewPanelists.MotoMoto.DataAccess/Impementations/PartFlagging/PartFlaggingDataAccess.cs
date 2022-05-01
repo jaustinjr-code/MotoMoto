@@ -1,16 +1,19 @@
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
+    /// <summary>
+    /// Contains functionality that retrieves or modifies infomation stored in external databases
+    /// pertaining to part flags.
+    /// </summary>
     public class PartFlaggingDataAccess : IPartFlaggingDataAccess
     {
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        /// <summary>
+        /// String used for connecting the MotoMoto application to its external database
+        /// </summary>
+        private readonly string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         /// <summary>
         /// Updates the PartFlag table to reflect the incoming Flag.

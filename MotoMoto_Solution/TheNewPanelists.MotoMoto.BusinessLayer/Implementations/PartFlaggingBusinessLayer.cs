@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 
+/// <summary>
+/// Encapsulates business logic for part flagging functionality.
+/// </summary>
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public class PartFlaggingBusinessLayer : IPartFlaggingBusinessLayer
@@ -69,6 +68,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>FlagModel entity which represents a single part flag</returns>
         public bool IsValidFlag(FlagModel flag)
         {
+            const int FIRST_CAR_YEAR = 1800;
+            const int FUTURE_CAR_BUFFER = 5;
+
             bool result = false;
             bool nullValidation =   flag.PartNumber is not null && 
                                     flag.CarMake is not null &&
@@ -81,7 +83,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 int year;
                 if (Int32.TryParse(flag.CarYear, out year))
                 {
-                    if (year > 1800 && year < DateTime.Now.Year + 5)
+                    if (year >= FIRST_CAR_YEAR && year < DateTime.Now.Year + FUTURE_CAR_BUFFER)
                     {
                         yearValidation = true;
                     }
