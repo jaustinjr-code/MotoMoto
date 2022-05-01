@@ -43,13 +43,20 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             }
             Assert.True(_test);
         }
-        [Fact]
-        public void PartPriceAnalysisServiceRetrievePartHistory_ReturnValidHistory_ReturnTrue()
+        /// <summary>
+        /// Retrieves part history with historical data with valid historical return values
+        /// This function should retrieve a object with historical data on a part which in return
+        /// is true.
+        /// </summary>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void PartPriceAnalysisServiceRetrievePartHistory_ReturnValidHistory_ReturnTrue(int _partID)
         {
             _test = false;
             var testModel = new PartModel()
             {
-                partID = 1,
+                partID = _partID,
                 partName = "test",
             };
             testModel = _partPriceAnalysisService.RetrieveSpecifiedPartHistory(testModel);
@@ -60,14 +67,21 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             }
             Assert.True(_test, "List for the partID 1 Should Exist!!");
         }
-        [Fact]
-        public void PartPriceAnalysisServiceRetrieveRealComparisonValue_ReturnTrue()
+        /// <summary>
+        /// Checks a comparison value to see if both items are available within the DS and
+        /// returns on part comparison. Since both PID 1 and 2 exist, this should return true
+        /// </summary>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void PartPriceAnalysisServiceRetrieveRealComparisonValue_ReturnTrue(int _partID)
         {
             _test = false;
             IEnumerable<PartModel> testComps = new List<PartModel>();
             var testModel = new PartModel()
             {
-                partID = 1,
+                partID = _partID,
                 partName = "test",
             };
             var testModel2 = new PartModel()
@@ -88,13 +102,23 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             }
             Assert.True(_test, "No Comparison was Made!! Faulure in comparison price history");
         }
-        [Fact]
-        public void PartPriceAnalysisServicePartHistoryRetrieval_InvalidPart_ReturnFalse()
+        /// <summary>
+        /// This function tests the fail cases on when partID's get past the manager layer and 
+        /// are able to configure if there is any data retrieved. Since we are not creating any
+        /// objects here it should return false
+        /// </summary>
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        [InlineData(-3)]
+        [InlineData(99999999)]
+        [InlineData(-9999999)]
+        public void PartPriceAnalysisServicePartHistoryRetrieval_InvalidPart_ReturnFalse(int partId)
         {
             _test = false;
             var testModel = new PartModel()
             {
-                partID = -1,
+                partID = partId,
                 partName = "test",
             };
             testModel = _partPriceAnalysisService.RetrieveSpecifiedPartInformation(testModel);
@@ -104,13 +128,23 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             }
             Assert.False(_test, "There should be nothing returned since partID is invalid");
         }
-        [Fact]
-        public void PartPriceAnalysisServiceRetrievePartHistory_ReturnNoValidPartORHistory_ReturnFalse()
+        /// <summary>
+        /// Since there exists no part with the partID equivalent to 1 we are testing to see if any 
+        /// historical data is returned in the list of historical items. There should be no initialization
+        /// which causes this case to fail.
+        /// </summary>
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        [InlineData(-3)]
+        [InlineData(99999999)]
+        [InlineData(-9999999)]
+        public void PartPriceAnalysisServiceRetrievePartHistory_ReturnNoValidPartORHistory_ReturnFalse(int _partID)
         {
             _test = true;
             var testModel = new PartModel()
             {
-                partID = -1,
+                partID = _partID,
                 partName = "test",
             };
             testModel = _partPriceAnalysisService.RetrieveSpecifiedPartHistory(testModel);
