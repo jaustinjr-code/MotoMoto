@@ -6,17 +6,20 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public class FetchCommentsService : IFetchContentService
+    // This class is used in accordance with the Fetch Post Details Service
+    // Although public, the return data is not useful if not applied to a Feed Post Response Model
+    // The model is created in the Fetch Post Details Service
+    public class FetchCommentsService : IResponseService
     {
-        public IContentModel contentToFetch { get; set; }
+        public IRequestModel contentToFetch { get; set; }
 
         /// <summary>
         /// Overloaded Constructor, instantiates the IContentModel
         /// </summary>
         /// <param name="content"></param>
-        public FetchCommentsService(IContentModel content)
+        public FetchCommentsService(IRequestModel content)
         {
-            contentToFetch = (IPostModel)content;
+            contentToFetch = (FetchPostDetailsRequestModel)content;
         }
 
         /// <summary>
@@ -30,14 +33,15 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             IDataAccess commentDataAccess = new CommentContentDataAccess();
             try
             {
-                IEnumerable<IPostEntity> commentList = (List<IPostEntity>)((CommentContentDataAccess)commentDataAccess).FetchComments((IPostModel)contentToFetch);
-                if (((List<IPostEntity>)commentList).Count > 0)
+                IEnumerable<DataStoreComment> commentList = (List<DataStoreComment>)((CommentContentDataAccess)commentDataAccess).FetchComments(contentToFetch);
+
+                if (((List<DataStoreComment>)commentList).Count > 0)
                     return BuildResponse(commentList);
                 return BuildDefaultResponse();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return BuildExceptionResponse(e.Message);
+                return BuildExceptionResponse("Incomplete Operation");
             }
         }
 
@@ -48,11 +52,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns>IResponseModel</returns>
         public IResponseModel BuildResponse(object result)
         {
-            string message = ((List<IPostEntity>)result).Count + " Comments Retrieved";
+            string message = ((List<DataStoreComment>)result).Count + " Comments Retrieved";
             bool complete = true;
             bool success = true;
-            IResponseModel response = new CommentPostResponseModel(message, complete, success);
-            ((CommentPostResponseModel)response).output = (IEnumerable<IPostEntity>)result;
+            IResponseModel response = new CommentPostResponseModel((IEnumerable<DataStoreComment>)result, message, complete, success);
+            //((CommentPostResponseModel)response).output = (IEnumerable<IPostEntity>)result;
             return response;
         }
 
