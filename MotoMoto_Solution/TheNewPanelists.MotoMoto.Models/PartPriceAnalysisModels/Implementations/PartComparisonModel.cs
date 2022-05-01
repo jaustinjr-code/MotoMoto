@@ -16,7 +16,19 @@
                 default:
                     break;
             }
+            if (returnCaseBool == true) 
+            {
+                ValidateProductID();
+            }
             return this;
+        }
+        public void ValidateProductID()
+        {
+            foreach (PartModel part in ((List<PartModel>)comparisonParts!))
+            {
+                if (part.partID < 0 || part.partName == "" || part.currentPrice <= 0)
+                    returnCaseBool=false;
+            }
         }
     }
 }

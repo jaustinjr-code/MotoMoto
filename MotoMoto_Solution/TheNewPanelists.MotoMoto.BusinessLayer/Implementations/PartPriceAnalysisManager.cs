@@ -39,6 +39,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public PartModel EvaluateVehiclePart(PartModel partModel)
         {
             partModel = _partPriceAnalysisService!.RetrieveSpecifiedPartInformation(partModel);
+            if (partModel.ReturnValueInvalidation().returnValue == false)
+            {
+                return partModel;
+            }
             return _partPriceAnalysisService!.RetrieveSpecifiedPartHistory(partModel);
         }
         /// <summary>

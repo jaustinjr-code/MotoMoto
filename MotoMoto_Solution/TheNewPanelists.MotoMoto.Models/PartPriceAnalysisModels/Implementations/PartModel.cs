@@ -11,6 +11,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? productURL { get; set; }
         public double currentPrice { get; set; }
         public double newPrice { get; set; }
+        public bool returnValue = true;
         public IEnumerable<IPartPriceHistory>? historicalPrices { get; set; }
 
         // This function is used as an overloaded constructor to parse data for retrival
@@ -22,6 +23,15 @@ namespace TheNewPanelists.MotoMoto.Models
             ratingCount = part.ratingCount;
             productURL = part.productURL;
             currentPrice = part.currentPrice;
+            return this;
+        }
+        public PartModel ReturnValueInvalidation()
+        {
+            if (partID < 0 || partName == null)
+            {
+                returnValue = false;
+                return this;
+            }
             return this;
         }
     }
