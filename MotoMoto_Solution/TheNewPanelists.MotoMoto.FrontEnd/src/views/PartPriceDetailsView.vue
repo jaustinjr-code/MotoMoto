@@ -63,12 +63,12 @@ export default {
         //tabular function << not sure if we are able to use the js library for graphs >>
         drawGraph: function() {
             var dataArr = this.partPricesOverTime
-            var canvas = document.getElementById( "partTrendGraph" );  
-            var context = canvas.getContext( "2d" );  
+            var canvas = document.getElementById("partTrendGraph");  
+            var context = canvas.getContext("2d");  
         
-            var GRAPH_TOP = 25;  
-            var GRAPH_BOTTOM = 375;  
-            var GRAPH_LEFT = 25;  
+            var graphTop = 25;  
+            var graphBot = 375;  
+            var graphLef = 25;  
             var graphRight = 475;  
         
             var graphHei = 350;  
@@ -78,7 +78,7 @@ export default {
         
             var largest = 0;  
             for( var i = 0; i < arrayLen; i++ ){  
-                if( dataArr[i] > largest ){  
+                if( dataArr[i] > largest){  
                     largest = dataArr[i];  
                 }  
             }  
@@ -87,54 +87,54 @@ export default {
             context.font = "16px Arial";  
         
             context.beginPath();  
-            context.moveTo( GRAPH_LEFT, GRAPH_BOTTOM );  
-            context.lineTo( graphRight, GRAPH_BOTTOM );  
-            context.lineTo( graphRight, GRAPH_TOP );  
+            context.moveTo(graphLef, graphBot);  
+            context.lineTo(graphRight, graphBot);  
+            context.lineTo(graphRight, graphTop);  
             context.stroke();  
             
             context.beginPath();  
             context.strokeStyle = "#BBB";  
-            context.moveTo( GRAPH_LEFT, GRAPH_TOP );  
-            context.lineTo( graphRight, GRAPH_TOP );  
+            context.moveTo(graphLef, graphTop);  
+            context.lineTo(graphRight, graphTop);  
 
-            context.fillText( largest, graphRight + 15, GRAPH_TOP);  
+            context.fillText(largest, graphRight + 15, graphTop);  
             context.stroke();  
       
             context.beginPath();  
-            context.moveTo( GRAPH_LEFT, (graphHei) / 4 * 3 + GRAPH_TOP );  
-            context.lineTo( graphRight, (graphHei) / 4 * 3 + GRAPH_TOP );  
+            context.moveTo(graphLef, (graphHei) / 4 * 3 + graphTop );  
+            context.lineTo(graphRight, (graphHei) / 4 * 3 + graphTop );  
 
-            context.fillText( largest / 4, graphRight + 15, (graphHei) / 4 * 3 + GRAPH_TOP);  
+            context.fillText(largest / 4, graphRight + 15, (graphHei) / 4 * 3 + graphTop);  
             context.stroke();    
             context.beginPath();  
             
-            context.moveTo( GRAPH_LEFT, (graphHei) / 2 + GRAPH_TOP );  
-            context.lineTo( graphRight, (graphHei) / 2 + GRAPH_TOP );  
+            context.moveTo(graphLef, (graphHei) / 2 + graphTop );  
+            context.lineTo(graphRight, (graphHei) / 2 + graphTop );  
 
-            context.fillText( largest / 2, graphRight + 15, (graphHei) / 2 + GRAPH_TOP);  
+            context.fillText(largest / 2, graphRight + 15, (graphHei) / 2 + graphTop);  
             context.stroke();  
         
             context.beginPath();  
-            context.moveTo( GRAPH_LEFT, (graphHei) / 4 + GRAPH_TOP );  
-            context.lineTo( graphRight, (graphHei) / 4 + GRAPH_TOP );   
-            context.fillText( largest / 4 * 3, graphRight + 15, (graphHei) / 4 + GRAPH_TOP);  
+            context.moveTo(graphLef, (graphHei) / 4 + graphTop);  
+            context.lineTo(graphRight, (graphHei) / 4 + graphTop );   
+            context.fillText(largest / 4 * 3, graphRight + 15, (graphHei) / 4 + graphTop);  
             context.stroke();  
         
-            context.fillText( "Months", graphRight / 2.2, GRAPH_BOTTOM + 50);  
-            context.fillText( "Cost", graphRight + 70, graphHei / 1.8);  
+            context.fillText("Months", graphRight / 2.2, graphBot + 50);  
+            context.fillText("Cost", graphRight + 70, graphHei / 1.8);  
         
             context.beginPath();  
             context.lineJoin = "round";  
             context.strokeStyle = "black";  
         
-            context.moveTo( GRAPH_LEFT, (graphHei - dataArr[0] / largest * graphHei) + GRAPH_TOP );  
-            context.fillText( "1", 15, GRAPH_BOTTOM + 25);  
-            for( var i = 1; i < arrayLen; i++ ){  
-                context.lineTo( graphRight / arrayLen * i + GRAPH_LEFT, (graphHei - dataArr[i] / largest * graphHei) + GRAPH_TOP );  
-                context.fillText( ( i + 1 ), graphRight / arrayLen * i, GRAPH_BOTTOM + 25);  
+            context.moveTo(graphLef, (graphHei - dataArr[0] / largest * graphHei ) + graphTop);  
+            context.fillText( "1", 15, graphBot + 25);  
+            for(var i = 1; i < arrayLen; i++){  
+                context.lineTo( graphRight / arrayLen * i + graphLef, (graphHei - dataArr[i] / largest * graphHei) + graphTop);  
+                context.fillText((i + 1), graphRight / arrayLen * i, graphBot + 25);  
             }  
             context.stroke();  
-        }   
+        },
     },
 }
 </script>
