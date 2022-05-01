@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
-    public class PartPriceAnalysisAPIUnitTest
+    public class PartPriceAnalysisWebServiceUnitTest
     {
         private readonly PartPriceAnalysisEvaluationController _evaluationController = new PartPriceAnalysisEvaluationController();
         private readonly PartPriceAnalysisRetrievalController _retrievalController = new PartPriceAnalysisRetrievalController();
@@ -27,25 +27,6 @@ namespace TheNewPanelists.MotoMoto.UnitTests
                 assertValue = true;
             }
             Assert.True(assertValue);
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(-5)]
-        [InlineData(99999)]
-        public void PartPriceAnalysisCategorialRetrieval_InvalidCategory_ReturnFalse(int categoryID)
-        {
-            var actionResult = _retrievalController.RetrieveCategorialVehicleParts(categoryID);
-
-            var okResult = (OkObjectResult)actionResult;
-            var okResultPartListModel = okResult.Value as PartListModel;
-
-            bool assertValue = false;
-            if (okResultPartListModel!.categoryId == categoryID && okResultPartListModel!.categorySelect != null)
-            {
-                assertValue = true;
-            }
-            Assert.False(assertValue);
         }
         [Theory]
         [InlineData(1,2)]
