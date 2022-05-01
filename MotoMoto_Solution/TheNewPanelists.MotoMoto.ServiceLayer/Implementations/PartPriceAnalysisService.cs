@@ -58,11 +58,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns></returns>
         public PartComparisonModel RetrieveSpecifiedComparisonPartPriceHistory(PartComparisonModel partComparisonModel)
         {
-            ComparePrices(partComparisonModel);
             foreach (PartModel part in ((List<PartModel>)partComparisonModel.comparisonParts!))
             {
                 RetrieveSpecifiedPartInformation(part);
             }
+            ComparePrices(partComparisonModel);
             return partComparisonModel;
         }
         /// <summary>
