@@ -5,11 +5,12 @@ namespace TheNewPanelists.MotoMoto.Models
         public int contentId { get; set; }
         public string? contentTitle { get; set; }
         public string interactUsername { get; set; }
-        public UpvotePostModel(int id, string title, string username)
+
+        public UpvotePostModel(int contentId, string contentTitle, string interactUsername)
         {
-            contentId = id;
-            contentTitle = title;
-            interactUsername = username;
+            this.contentId = contentId;
+            this.contentTitle = contentTitle;
+            this.interactUsername = interactUsername;
         }
     }
 }
