@@ -33,19 +33,23 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// we will update the information of partname, price, and productURL to determine real pricepoints
         /// of our object
         /// </summary>
-        [Fact]
-        public void IsValidComparisonModel_ExistingParts_ReturnTrue()
+        [Theory]
+        [InlineData(1,2)]
+        [InlineData(100,101)]
+        [InlineData(200, 199)]
+        [InlineData(10, 25)]
+        public void IsValidComparisonModel_ExistingParts_ReturnTrue(int _partID, int _partID2)
         {
             var partOne = new PartModel()
             {
-                partID = 1,
+                partID = _partID,
                 partName = "testPart",
                 currentPrice = 10.00,
                 productURL = "localhost:8080"
             };
             var partTwo = new PartModel()
             {
-                partID = 2,
+                partID = _partID2,
                 partName = "testPart",
                 currentPrice = 20.00,
                 productURL = "localhost:8080"
@@ -66,12 +70,15 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// Functionality checks for partID's existence and retrieves information based on the part. Since 
         /// we know no price is going to cost $0.00 we can check to see if there is a part that exists with ID#1
         /// </summary>
-        [Fact]
-        public void IsValidPartID_ExistingPart_ReturnTrue()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(100)]
+        [InlineData(1000)]
+        public void IsValidPartID_ExistingPart_ReturnTrue(int _partID)
         {
             var testPart = new PartModel()
             {
-                partID = 1
+                partID = _partID
             };
             testPart = _partpriceAnalysisManager.EvaluateVehiclePart(testPart);
             bool retrievalValue = false;
@@ -86,8 +93,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// This should return false since we have no information for the index -1 and also index -1 throws
         /// an our of bounds exception which should be handled in our business layer.
         /// </summary>
-        [Fact]
-        public void IsInvalidIntCategory_WithNonExistentCategory_ReturnFalse()
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        [InlineData(9999999)]
+        [InlineData(-999999)]
+        public void IsInvalidIntCategory_WithNonExistentCategory_ReturnFalse(int _catId)
         {
             var testPartPriceModel = new PartListModel
             {
