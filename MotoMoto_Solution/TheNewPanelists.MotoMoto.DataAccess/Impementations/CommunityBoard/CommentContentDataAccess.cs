@@ -129,9 +129,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// This operation may be compounded with the fetch post details operation
         /// therefore the return type is an IEnumerable that would be contained in another class
         /// </summary>
-        /// <param name="postInput"></param>
+        /// <param name="requestInput"></param>
         /// <returns>IEnumerable<IContentEntity></returns>
-        public IEnumerable<IContentEntity> FetchComments(IPostModel postInput)
+        public IEnumerable<IContentEntity> FetchComments(IRequestModel requestInput)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -142,7 +142,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string commandText = "SELECT * FROM Comment WHERE postID = @postID ORDER BY submitUTC DESC;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
-                command.Parameters.AddWithValue("@postID", ((CommentPostModel)postInput).postID);
+                command.Parameters.AddWithValue("@postID", (int)((FetchPostDetailsRequestModel)requestInput).input);
 
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try

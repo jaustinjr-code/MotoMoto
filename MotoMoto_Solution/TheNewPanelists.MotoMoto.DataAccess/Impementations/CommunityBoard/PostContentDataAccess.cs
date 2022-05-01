@@ -86,7 +86,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// </summary>
         /// <param name="postInput"></param>
         /// <returns>IPostEntity</returns>
-        public IPostEntity? FetchPost(IRequestModel postInput)
+        public IPostEntity FetchPost(IRequestModel postInput)
         {
             if (!EstablishMariaDBConnection())
             {
