@@ -18,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// Else it should be passed to IsNullOrEmptyModel method
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
+        /// <returns>Boolean</returns>
         public bool IsNullOrEmptyRequest(object? input)
         {
             if (input == null) return true;
@@ -51,7 +51,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// Else false
         /// </summary>
         /// <param name="inputModel"></param>
-        /// <returns></returns>
+        /// <returns>Boolean</returns>
         public bool IsNullOrEmptyModel(IContentModel inputModel)
         {
             // Don't need to check if model is null because system gives warning
@@ -69,7 +69,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// Else return false for invalid request
         /// </summary>
         /// <param name="inputModel"></param>
-        /// <returns></returns>
+        /// <returns>(bool, IResponseModel?)</returns>
         public (bool, IResponseModel?) IsContentRequestValid(IContentModel inputModel)
         {
             if (!IsNullOrEmptyRequest((IFeedModel)inputModel))
@@ -86,7 +86,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// Else the response must be valid
         /// </summary>
         /// <param name="outputModel"></param>
-        /// <returns></returns>
+        /// <returns>Boolean</returns>
         private bool IsContentResponseValid(IResponseModel outputModel)
         {
             // Check contents of IResponseModel for valid content
@@ -106,7 +106,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// Private because this should only run if the request is valid
         /// </summary>
         /// <param name="inputModel"></param>
-        /// <returns></returns>
+        /// <returns>IResponseModel</returns>
         private IResponseModel ProcessRequest(IFeedModel inputModel)
         {
             // The inputModel may have a string containing "feed"
