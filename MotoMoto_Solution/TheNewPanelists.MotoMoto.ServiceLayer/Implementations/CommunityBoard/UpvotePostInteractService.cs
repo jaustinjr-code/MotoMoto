@@ -33,9 +33,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     return BuildResponse(result);
                 return BuildDefaultResponse();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return BuildExceptionResponse(e.Message);
+                // Log the exception
+                return BuildExceptionResponse("Incomplete Operation");
             }
         }
 
