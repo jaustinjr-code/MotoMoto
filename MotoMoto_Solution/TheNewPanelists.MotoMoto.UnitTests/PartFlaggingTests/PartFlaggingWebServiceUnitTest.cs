@@ -8,6 +8,9 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
+    /// <summary>
+    /// Contains unit testing for the part flagging web services api
+    /// </summary>
     public class PartFlaggingWebServiceUnitTest
     {
 

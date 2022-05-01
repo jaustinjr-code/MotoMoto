@@ -4,11 +4,14 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
+    /// <summary>
+    /// Contains unit testing for part flagging data access layer.
+    /// </summary>
     public class PartFlaggingDataAccessUnitTest
     {
 
         /// <summary>
-        /// Entity containing business logic for part flagging functionality
+        /// Entity containing data store access for part flagging functionality
         /// </summary>
         private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
 

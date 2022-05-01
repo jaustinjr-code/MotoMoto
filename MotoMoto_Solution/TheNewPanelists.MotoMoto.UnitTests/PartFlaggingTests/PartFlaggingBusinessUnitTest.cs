@@ -5,6 +5,9 @@ using TheNewPanelists.MotoMoto.DataAccess;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
+    /// <summary>
+    /// Unit tests for the part flagging business layer
+    /// </summary>
     public class PartFlaggingBusinessUnitTest
     {
         /// <summary>
@@ -13,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         private readonly IPartFlaggingBusinessLayer __partFlaggingBusinessLayer;
 
         /// <summary>
-        /// Entity containing business logic for part flagging functionality
+        /// Entity containing data access for part flagging functionality
         /// </summary>
         private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
 
