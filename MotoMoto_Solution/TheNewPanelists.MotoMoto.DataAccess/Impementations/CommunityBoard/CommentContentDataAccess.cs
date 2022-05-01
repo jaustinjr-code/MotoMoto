@@ -61,12 +61,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// Refines the retrieved by the MySqlDataReader
         /// </summary>
         /// <param name="reader"></param>
-        /// <returns>IEnumerable<IContentEntity></returns>
-        private IEnumerable<IContentEntity> RefineData(MySqlDataReader reader)
+        /// <returns>IEnumerable<DataStoreComment></returns>
+        private IEnumerable<DataStoreComment> RefineData(MySqlDataReader reader)
         {
             if (reader.HasRows)
             {
-                IEnumerable<IContentEntity> commentList = new List<IContentEntity>();
+                IEnumerable<DataStoreComment> commentList = new List<DataStoreComment>();
                 while (reader.Read())
                 {
                     int commentId = reader.GetInt32("commentID");
@@ -74,8 +74,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     int postId = reader.GetInt32("postID");
                     string commentUsername = reader.GetString("commentUsername");
                     string commentDescription = reader.GetString("commentDescription");
-                    IContentEntity comment = new DataStoreComment(commentId, postId, commentUsername, commentDescription);
-                    ((List<IContentEntity>)commentList).Add(comment);
+                    DataStoreComment comment = new DataStoreComment(commentId, postId, commentUsername, commentDescription);
+                    ((List<DataStoreComment>)commentList).Add(comment);
                 }
                 reader.Close();
                 return commentList;
@@ -119,7 +119,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 catch (Exception e)
                 {
                     command.Transaction.Rollback();
-                    throw e;
+                    throw new Exception("No comment submitted: Error Message: " + e.Message);
                 }
             }
         }
@@ -130,8 +130,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// therefore the return type is an IEnumerable that would be contained in another class
         /// </summary>
         /// <param name="requestInput"></param>
-        /// <returns>IEnumerable<IContentEntity></returns>
-        public IEnumerable<IContentEntity> FetchComments(IRequestModel requestInput)
+        /// <returns>IEnumerable<DataStoreComment></returns>
+        public IEnumerable<DataStoreComment> FetchComments(IRequestModel requestInput)
         {
             if (!EstablishMariaDBConnection())
             {
@@ -147,7 +147,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Transaction = _mySqlConnection!.BeginTransaction();
                 try
                 {
-                    IEnumerable<IContentEntity> result = (List<IContentEntity>)RefineData(command.ExecuteReader()); // Might want to refine data here
+                    IEnumerable<DataStoreComment> result = (List<DataStoreComment>)RefineData(command.ExecuteReader()); // Might want to refine data here
                     command.Transaction.Commit();
                     _mySqlConnection.Close();
 
@@ -156,7 +156,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 catch (Exception e)
                 {
                     command.Transaction.Rollback();
-                    throw e;
+                    throw new Exception("No comment fetched: Error Message: " + e.Message);
                 }
             }
         }

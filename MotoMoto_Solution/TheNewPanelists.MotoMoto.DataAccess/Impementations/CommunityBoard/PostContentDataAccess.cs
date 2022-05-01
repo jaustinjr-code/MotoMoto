@@ -67,6 +67,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             // There should be only one post found
             if (reader.HasRows)
             {
+                reader.Read();
                 int postId = reader.GetInt32("postId");
                 string postTitle = reader.GetString("postTitle");
                 string postUsername = reader.GetString("postUsername");
