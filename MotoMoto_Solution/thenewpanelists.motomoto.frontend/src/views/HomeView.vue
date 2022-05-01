@@ -10,6 +10,8 @@ import http from "./Http-coman"
     <RegistrationComponent/>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
     <RegistrationComponent/>
+    <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
+    <button @click="goToPartFlaggingPost">Part Flagging Post</button>
   </div>
 </template>
 
@@ -34,6 +36,12 @@ export default {
     },
     goToPersonalizedRecommendations(){
       this.$router.push('/PersonalizedRecommendations')
+    },
+    goToPartFlaggingBuilder(){
+      this.$router.push('/PartFlaggingBuilder')
+    },
+    goToPartFlaggingPost(){
+      this.$router.push('/PartFlaggingPost')
     }
   }
 }
