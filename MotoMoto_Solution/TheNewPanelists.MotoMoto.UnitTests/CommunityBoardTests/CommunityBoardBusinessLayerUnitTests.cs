@@ -155,7 +155,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CommunityBoardTests
             IRequestModel input = new FetchPostDetailsRequestModel(0);
             IContentManager manager = new PostDetailsManager();
             // When
-            Exception result = Assert.Throws<InvalidDataException>(() => ((PostDetailsManager)manager).IsRequestValid(input));
+            (bool valid, IResponseModel result) = ((PostDetailsManager)manager).IsRequestValid(input);
+            // Exception result = Assert.Throws<InvalidDataException>(() => ((PostDetailsManager)manager).IsRequestValid(input));
             // Then
             Assert.NotNull(result);
         }

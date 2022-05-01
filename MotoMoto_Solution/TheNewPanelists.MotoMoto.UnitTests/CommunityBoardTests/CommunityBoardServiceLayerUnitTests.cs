@@ -59,4 +59,76 @@ public class CommunityBoardServiceLayerUnitTests
         // Assert
         Assert.NotNull(result);
     }
+
+    [Fact]
+    public void IsResponseModelBuilt_FetchUpvotePost_NotNull()
+    {
+        // Arrange
+        IRequestModel post = new FetchPostDetailsRequestModel(1);
+        IResponseService service = new FetchUpvotesService(post);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchPostUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void IsDefaultResponseModelBuilt_FetchUpvotePost_NotNull()
+    {
+        // Arrange
+        IRequestModel post = new FetchPostDetailsRequestModel(0); // Invalid Input
+        IResponseService service = new FetchUpvotesService(post);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchPostUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void IsExceptionResponseModelBuilt_FetchUpvotePost_NotNull()
+    {
+        // Arrange
+        IRequestModel post = new FetchPostDetailsRequestModel(20); // Assumes Post id 20 doesn't exist
+        IResponseService service = new FetchUpvotesService(post);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchPostUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void IsResponseModelBuilt_FetchUpvoteComment_NotNull()
+    {
+        // Arrange
+        IRequestModel comment = new FetchPostDetailsRequestModel(1);
+        IResponseService service = new FetchUpvotesService(comment);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchCommentUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void IsDefaultResponseModelBuilt_FetchUpvoteComment_NotNull()
+    {
+        // Arrange
+        IRequestModel comment = new FetchPostDetailsRequestModel(0); // Invalid Input
+        IResponseService service = new FetchUpvotesService(comment);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchCommentUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void IsExceptionResponseModelBuilt_FetchUpvoteComment_NotNull()
+    {
+        // Arrange
+        IRequestModel comment = new FetchPostDetailsRequestModel(20); // Assumes Post id 20 doesn't exist
+        IResponseService service = new FetchUpvotesService(comment);
+        // Act
+        IResponseModel result = ((FetchUpvotesService)service).FetchCommentUpvotes();
+        // Assert
+        Assert.NotNull(result);
+    }
 }
