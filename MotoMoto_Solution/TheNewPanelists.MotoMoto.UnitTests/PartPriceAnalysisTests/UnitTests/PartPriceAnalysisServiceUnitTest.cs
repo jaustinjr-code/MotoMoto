@@ -27,13 +27,16 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         /// data => Data type should return a IEnum list of historical data from the past 6 months
         /// </summary>
         /// <returns></returns>
-        [Fact]
-        public void PartPriceAnalysisServicePartHistoryRetrieval_ValidPart_ReturnTrue()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(10)]
+        [InlineData(100)]
+        public void PartPriceAnalysisServicePartHistoryRetrieval_ValidPart_ReturnTrue(int _testID)
         {
             _test = false;
             var testModel = new PartModel()
             {
-                partID = 1,
+                partID = _testID,
                 partName = "test",
             };
             testModel = _partPriceAnalysisService.RetrieveSpecifiedPartInformation(testModel);
