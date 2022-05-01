@@ -6,6 +6,20 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class PartFlaggingDataAccessUnitTest
     {
+
+        /// <summary>
+        /// Entity containing business logic for part flagging functionality
+        /// </summary>
+        private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
+
+        /// <summary>
+        /// Default constructor. Initializes data acesss entity for part flagging
+        /// </summary>
+        public PartFlaggingDataAccessUnitTest()
+        {
+            __partFlaggingDataAccess = new PartFlaggingDataAccess();
+        }
+
         /// <summary>
         /// Uses data access layer to get count of nonexistent flag.
         /// Test passes if count is 0.
@@ -16,12 +30,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             const string TEST_ID = "0";
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
 
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-
             //Manually delete flag in case it exists
-            await partFlaggingDataAccess.DeleteFlag(testFlag);
+            await __partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            int result = await partFlaggingDataAccess.GetFlagCount(testFlag);
+            int result = await __partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, 0);
         }
 
@@ -39,9 +51,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
 
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-
-            int result = await partFlaggingDataAccess.GetFlagCount(testFlag);
+            int result = await __partFlaggingDataAccess.GetFlagCount(testFlag);
             Assert.Equal(result, DATBASE_COUNT);
         }
 
@@ -56,12 +66,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
 
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-
             //Remove flag from the table when unit test is completed, so that upon running again the flag no longer exists
-            await partFlaggingDataAccess.DeleteFlag(testFlag);
+            await __partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            var result = await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            var result = await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             
             Assert.True(result);
         }
@@ -78,14 +86,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
 
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-
             //Ensure part flag exists
-            await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
 
-            int previousCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
-            var result =  await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
-            int subsequentCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
+            int previousCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
+            var result =  await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            int subsequentCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.Equal(subsequentCount, previousCount + ONE);
         }
@@ -100,13 +106,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             const string TEST_ID = "4";
 
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
-
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Manually delete flag to ensure that the flag does not exist in database before testing
-            await partFlaggingDataAccess.DeleteFlag(testFlag);
+            await __partFlaggingDataAccess.DeleteFlag(testFlag);
 
-            bool result = await partFlaggingDataAccess.DeleteFlag(testFlag);
+            bool result = await __partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.False(result);
         }
 
@@ -121,12 +125,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 
             FlagModel testFlag = new FlagModel(TEST_ID, TEST_ID, TEST_ID, TEST_ID);
 
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-
             //Manually Create Flag so that it is ensured to exist before deleting
-            await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+            await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
 
-            bool result = await partFlaggingDataAccess.DeleteFlag(testFlag);
+            bool result = await __partFlaggingDataAccess.DeleteFlag(testFlag);
             Assert.True(result);
         }
 
@@ -142,20 +144,18 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool result = false;
             
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
-            
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
 
             bool creationSuccessful = true;
             for (int flagCreateIt = 0; flagCreateIt < numCreations; ++flagCreateIt)
             {
-                creationSuccessful = creationSuccessful && await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+                creationSuccessful = creationSuccessful && await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
             if (creationSuccessful)
             {
-                int prevCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
-                result = await partFlaggingDataAccess.DecrementOrRemove(testFlag);
-                int afterCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
+                int prevCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
+                result = await __partFlaggingDataAccess.DecrementOrRemove(testFlag);
+                int afterCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
 
                 if (prevCount == 0)
                 {
