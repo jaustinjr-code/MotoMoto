@@ -8,7 +8,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class PartFlaggingDataAccess
+    public class PartFlaggingDataAccess : IPartFlaggingDataAccess
     {
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
