@@ -109,7 +109,7 @@ export default {
                 });
         },
         ExpandPost(req) {
-            console.log(req);
+            //console.log(req);
             this.$router.push({name: 'postdetails', params: { id: req }});
             // this.$router.push({path: '/postdetails/' + req});
         },

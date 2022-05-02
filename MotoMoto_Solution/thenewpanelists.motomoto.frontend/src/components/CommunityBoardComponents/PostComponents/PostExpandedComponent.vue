@@ -6,17 +6,25 @@
         </div>
         <ul id="post-content">
             <p>{{this.postDescription}}</p>
+            <br>
             <button @click="UpvotePostButton(this.postId, this.postTitle)">Upvote</button>
             <p>{{this.upvoteCount}} Upvotes</p>
         </ul>
-        <ul id="comment-section">
-            <div v-for="comment in commentList" :key="comment.commentId" >
-                <li>{{ comment.commentUsername }}</li>
-                <li>{{ comment.commentDescription }}</li>
+        <table id="comment-section">
+            <tr>
+                <th>User</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            <tr v-for="comment in commentList" :key="comment.commentId" >
+                <td>{{ comment.commentUsername }}</td>
+                <td>{{ comment.commentDescription }}</td>
                 <!-- commentUsername defaults to existing user right now -->
                 <button @click="UpvoteCommentButton(comment.commentId, comment.postId)">Upvote</button>
-            </div>
-        </ul>
+            </tr>
+        </table>
+        <br>
+        <br>
         <form @submit="Validate">
             <textarea id="commentInput" cols="100" rows="10" placeholder="Input Comment Here"></textarea>
             <br>
@@ -120,7 +128,7 @@ export default {
                 postId: parseInt(pid),
                 interactUsername: 'ran'
             });
-            console.log(params);
+            //console.log(params);
             instanceSubmit.post('/SubmitUpvoteComment/SubmitUpvoteComment', params, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -174,14 +182,6 @@ export default {
 </script>
 
 <style>
-/* div#title-div {
-    position: relative;
-}
-
-div#comment-div {
-    position: relative;
-}
- */
 ul#title-section h1 {
     display: inline;
     text-align:right;
@@ -196,13 +196,4 @@ ul#title-section h2 {
     margin-left: 150px;
 }
 
-ul#comment-section li {
-    display: inline;
-}
-
-ul#comment-section {
-    border:1px solid #000;
-    border-color: black;
-    position: relative;
-}
 </style>
