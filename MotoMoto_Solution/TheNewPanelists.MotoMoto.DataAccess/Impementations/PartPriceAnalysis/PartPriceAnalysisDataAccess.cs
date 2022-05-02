@@ -238,12 +238,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// </summary>
         /// <param name="partModel"></param>
         /// <returns></returns>
-        public bool UpdatePartPrice(PartModel partModel)
+        public PartModel UpdatePartPrice(PartModel partModel)
         {
             AddPriceToPriceHistory(partModel);
             if (!EstablishMariaDBConnection())
             {
-                return false;
+                return partModel.ReturnInvalidDSConnection();
             }
             try
             {
@@ -260,7 +260,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     parameters[1] = new MySqlParameter("@v2", partModel.partID);
 
                     command.Parameters.AddRange(parameters);
-                    return ExecuteQuery(command);
+                    ExecuteQuery(command);
+                    return partModel;
                 }
             }
             catch(Exception ex)
