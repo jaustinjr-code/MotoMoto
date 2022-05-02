@@ -45,6 +45,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.SubmitContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj", "{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj", "{25589E01-EA61-4769-AB69-95EFA82575C5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16} = {B21BEF11-10C3-4880-8983-E7FF3C8AEB16}
+		{013F2F48-5928-4779-96F9-A381827F3986} = {013F2F48-5928-4779-96F9-A381827F3986}
+		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6} = {CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}
+		{44619BBF-92B4-4614-8AFE-1F8E3ED95369} = {44619BBF-92B4-4614-8AFE-1F8E3ED95369}
+		{180185C9-4FD0-44A8-BE9D-03592092DF79} = {180185C9-4FD0-44A8-BE9D-03592092DF79}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
