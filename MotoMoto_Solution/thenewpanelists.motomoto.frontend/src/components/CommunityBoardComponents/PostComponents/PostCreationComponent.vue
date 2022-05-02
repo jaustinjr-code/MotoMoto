@@ -1,18 +1,20 @@
 <template>
-    <h1>Creating a Post in {{this.feedName}}</h1>
-    <form @submit="Validate">
-            <input id="title" type="text" placeholder="Title" required />
-            <br>
-            <textarea id="description" placeholder="Description" rows="5" cols="80" required ></textarea>
-            <br>
-            <input id="images" type="file" name="filename" multiple disabled />
-            <br>
-            <button>Submit</button>
-    </form>
-    <ul id="button-selection">
-        <button>Upload Car Build</button>
-        <button @click="DiscardPost()">Discard</button>
-    </ul>
+    <div>
+        <h1>Creating a Post in {{this.feedName}}</h1>
+        <form @submit="Validate">
+                <input id="title" type="text" placeholder="Title" required />
+                <br>
+                <textarea id="description" placeholder="Description" rows="5" cols="80" required ></textarea>
+                <br>
+                <input id="images" type="file" name="filename" multiple disabled />
+                <br>
+                <button>Submit</button>
+        </form>
+        <ul id="button-selection">
+            <button>Upload Car Build</button>
+            <button @click="DiscardPost()">Discard</button>
+        </ul>
+    </div>
 </template>
 
 <script>
