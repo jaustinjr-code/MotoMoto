@@ -41,4 +41,17 @@ INSERT INTO Post
 VALUES (null, 'testuser', 'test', 'test', 'test', NULL);
 -- Image dummy data
 INSERT INTO Image
-VALUES (1, NULL, '/Desktop/');
+VALUES (1, NULL, '/Desktop/');-- INSERT INTO Image
+-- VALUES (1, NULL, '/Desktop/');
+INSERT INTO Feed (feedName)
+VALUES ('Lowrider'),
+    ('Supercar'),
+    ('European'),
+    ('American Muscle'),
+    ('Exotic'),
+    ('Japanese'),
+    ('Is That a Supra?!'),
+    ('Economy'),
+    ('Electric'),
+    ('Sleeper'),
+    ('Truck');
