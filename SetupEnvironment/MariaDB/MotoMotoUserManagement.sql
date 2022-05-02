@@ -60,8 +60,8 @@ CREATE TABLE EventAccount (
 );
 
 CREATE TABLE Registration (
-    registrationId INT NOT NULL AUTO_INCREMENT,
-    email VARCHAR(20) NOT NULL,
+    registrationId INT NOT NULL AUTO_INCREMENT,ah
+    email VARCHAR(35) NOT NULL,
     password VARCHAR(20) NOT NULL,
     expiration DATETIME NOT NULL,
     validated BOOL NOT NULL DEFAULT FALSE,

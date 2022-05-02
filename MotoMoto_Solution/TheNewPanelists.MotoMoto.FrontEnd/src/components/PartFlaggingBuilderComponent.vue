@@ -1,4 +1,5 @@
 <template>
+    <!-- Container for part flagging builder component -->
     <div id='part-flagging__builder'>
         <h1>Car Builder</h1>
         <div id='builder__car-section' class='builder-section'>
@@ -11,6 +12,7 @@
                 </select>
             </div>
 
+            <!-- Section for selecting which car is the base of the build -->
             <div>
                 <label>Select Base Vehicle Model</label>
                 <select id='car-model-select' @change='checkCompatibility()'> 
@@ -26,6 +28,7 @@
             </div>
         </div>
 
+        <!-- Section for selecting parts to put in vehicle build -->
         <div id='builder__part-section' class='builder-section'>
             <h2>Parts Selection</h2>
             <button class='flagging-builder-button' v-on:click="addPart()">Add A Part</button>
@@ -35,11 +38,12 @@
                     <option value='1'>Incompatible Part</option>
                 </select>
                 <button class='flagging-builder-button' v-on:click='removePart(index)'>Remove Part</button>
-                <button class='flagging-builder-button' v-on:click='flagPart(index)'>Flag Part</button>
+                <button class='flagging-builder-button' v-on:click='flagPart($event.currentTarget, index)'>Flag Part</button>
             </div>
             
         </div>
 
+        <!-- Section for displaying part compatible and non-recommended flags. -->
         <div id='builder__flag-display' class='builder-section'>
             <h2>Compatibility</h2>
             <p v-if='incompatibleParts.length == 0'>All parts are labeled 'Compatible' With the selected car based on user flags :)</p>
@@ -54,7 +58,7 @@
     </div>
 </template>
 <script>
-import { nextTick, createElementBlock, defineComponent } from "vue";
+import { nextTick } from "vue";
 
 import axios from 'axios';
 import {instance} from '../router/PartFlaggingConnection'
@@ -63,24 +67,32 @@ export default {
     data()
     {
         return {
+        // The number of parts that have been added to the build, serves as unique key to idenitfy part
         currentPartCount: 1,
+
+        // List of part keys, used for generating part elements in DOM
         partInputs: [1],
+
+        //List of parts that are flagged as non-recommended
         incompatibleParts: []
         }
     },
     methods: {
-        addPart: function(param) {
+        // Adds a part to the build
+        addPart: function() {
             this.currentPartCount += 1
             this.partInputs.push(this.currentPartCount)
             this.checkCompatibility()
         },
 
+        // Removes a part from the build
         removePart: async function(index) {
             this.partInputs.splice(index,1)
             await nextTick();
             this.checkCompatibility()
         },
 
+        //Checks for incompatible parts in the build
         checkCompatibility: async function() {
             let newIncompatibleParts = []
             let carMakeElement = document.getElementById('car-make-select')
@@ -94,6 +106,7 @@ export default {
 
             let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
             
+            //Loop through parts, retrieve compatibility from WebAPI, and update incompatible parts list
             for (var partSelectionsIt = 0; partSelectionsIt < partSelections.length; partSelectionsIt++) {
                 let selectedElement = partSelections[partSelectionsIt].options[partSelections[partSelectionsIt].selectedIndex]
                 let partNum = selectedElement.value
@@ -111,7 +124,10 @@ export default {
             this.incompatibleParts = newIncompatibleParts
         },
 
-        flagPart: async function(index) {
+        //Increments the count for selected flag in the flagging database
+        flagPart: async function(caller, index) {
+            this.tempDisableButton(caller)
+
             let carMakeElement = document.getElementById('car-make-select')
             let carMake = carMakeElement.options[carMakeElement.selectedIndex].value
 
@@ -124,7 +140,6 @@ export default {
             let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
             let partNum = partSelections[index].options[partSelections[index].selectedIndex].value
 
-            
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
                     partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
@@ -132,8 +147,23 @@ export default {
                 }).then((res) => {
                 console.log(res.data)
             })
+        },
+
+        //Disables a button 
+        tempDisableButton: async function(caller) {
+            let sleepTimeMs = 5000
+
+            caller.disabled = true;
+            await this.sleep(sleepTimeMs)
+            caller.disabled = false;
+        },
+
+        sleep: function(timeMs) {
+            return new Promise(resolve => setTimeout(resolve, timeMs));
         }
+        
     },
+    //Initializes year selector for car selection
     mounted() {
         let yearSelector = document.getElementById('car-year-select')
         for (let yearIterator = 2025; yearIterator >= 1800; --yearIterator)

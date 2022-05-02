@@ -3,8 +3,8 @@ Application Layer->Business Layer:HandleGetFlagCompatibility(partNum: String, ca
 Business Layer->Business Layer: CreateFlagModel(partNum: String, carMake: String, carModel: String, carYear: String): bool
 Business Layer->Business Layer: IsValidFlag(flag: Flag): bool
 Business Layer->Service Layer: CallGetFlagCount(FlagModel flag): int
-Service Layer->Data Access Layer: GetFlagCount(flag: FlagModel): int
-Data Access Layer->RDS: ExecuteReader()
+Service Layer->Data Access Layer: GetFlagCount(flag: FlagModel): Task<int>
+Data Access Layer->RDS: ExecuteReaderAsync(): Task<DbDataReader>
 
 
 RDS-->Data Access Layer: Reader containing flag count for given flag

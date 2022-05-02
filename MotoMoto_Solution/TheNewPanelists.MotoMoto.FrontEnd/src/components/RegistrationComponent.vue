@@ -53,26 +53,17 @@ export default defineComponent({
       return{
           email: '',
           password: '',
-          RegistrationSuccessful:false
       }
   },
 
   methods: {
-        Registration(){
-            let params = {email: this.email, password: this.password};
-            instance.get('/Api/Register', {params}).then((response)=>{
-                console.log(`Server replied with: ${response.data}`);
-                if(response.data == true)
-                {
-                    console.log("inside the method");
-                    this.$router.push({path: '/Login'});
-                }
-                else
-                {
-                    this.$router.push({path: '/RegistrationView'});
-                }
+        Registration: async function(){
+            await instance.post('/Registration/Register', null, {params: {email: this.email, password: this.password}}).then((response)=>{
+                console.log(`Server replied with: ${response.data}`),
+                this.$router.push({path: '/Login'});
             }).catch((e)=>{
-            console.log(e);
+                console.log(e);
+                this.$router.push({path: '/Registration'});
             });
         },
         RegisterClick() {

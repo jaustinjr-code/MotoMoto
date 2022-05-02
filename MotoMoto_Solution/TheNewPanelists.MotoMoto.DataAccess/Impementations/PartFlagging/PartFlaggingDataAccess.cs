@@ -1,16 +1,19 @@
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class PartFlaggingDataAccess
+    /// <summary>
+    /// Contains functionality that retrieves or modifies infomation stored in external databases
+    /// pertaining to part flags.
+    /// </summary>
+    public class PartFlaggingDataAccess : IPartFlaggingDataAccess
     {
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        /// <summary>
+        /// String used for connecting the MotoMoto application to its external database
+        /// </summary>
+        private readonly string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         /// <summary>
         /// Updates the PartFlag table to reflect the incoming Flag.
@@ -20,7 +23,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to construct or update a row in the PartFlag database table</param>
         ///
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the new flag</returns>
-        public bool CreateOrIncrementFlag(FlagModel flag)
+        public async Task<bool> CreateOrIncrementFlag(FlagModel flag)
         {
             const int ZERO = 0;
             const int ONE = 1;
@@ -29,7 +32,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string dml = "";
             
             //Use flag count to determine if incoming flag needs to create a new row or update an existing row
-            int currentCount = GetFlagCount(flag);
+            int currentCount = await GetFlagCount(flag);
             if (currentCount == ZERO)
             {
                 dml = @$"
@@ -67,7 +70,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 cmd.Parameters["@CarYear"].Value = flag.CarYear;
 
 
-                int numEffected = cmd.ExecuteNonQuery();
+                
+                int numEffected = await cmd.ExecuteNonQueryAsync();
                 
                 //Table has only been updated if the number of rows effected is a postive integer
                 if (numEffected > ZERO)
@@ -96,7 +100,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to find the flag to decrement</param>
         ///
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the flag decrement</returns>
-        public bool DecrementOrRemove(FlagModel flag)
+        public async Task<bool> DecrementOrRemove(FlagModel flag)
         {
             const int ZERO = 0;
             const int ONE = 1;
@@ -105,14 +109,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string dml = "";
             
             //Use flag count to determine if flag count should be decremented, removed, or if flag count is zero and does
-            int currentCount = GetFlagCount(flag);
+            int currentCount = await GetFlagCount(flag);
             if (currentCount == ZERO)
             {
                 return false;
             }
             else if (currentCount == 1) 
             {
-                return DeleteFlag(flag);
+                return await DeleteFlag(flag);
             }
             else if (currentCount > ONE)
             {
@@ -144,7 +148,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 cmd.Parameters["@CarYear"].Value = flag.CarYear;
 
 
-                int numEffected = cmd.ExecuteNonQuery();
+                int numEffected = await cmd.ExecuteNonQueryAsync();
                 
                 //Table has only been updated if the number of rows effected is a postive integer
                 if (numEffected > ZERO)
@@ -171,7 +175,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to find the flag to decrement</param>
         ///
         /// <returns>True if the flag was found and removed, false otherwise</returns>
-        public bool DeleteFlag(FlagModel flag)
+        public async Task<bool> DeleteFlag(FlagModel flag)
         {
             const int ZERO = 0;
             
@@ -185,7 +189,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             "; 
 
             //Check that flag exists before trying to delete it
-            int currentCount = GetFlagCount(flag);
+            int currentCount = await GetFlagCount(flag);
             if (currentCount > ZERO)
             {
                  MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -205,7 +209,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     cmd.Parameters["@CarYear"].Value = flag.CarYear;
 
                     //Table has only been updated if the number of rows effected from dml is a postive integer
-                    int numEffected = cmd.ExecuteNonQuery();
+                    int numEffected = await cmd.ExecuteNonQueryAsync();
                     if (numEffected > ZERO)
                     {
                         returnVal = true;
@@ -232,7 +236,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <param name="flag">Flag model containing the necessary data to query a row from the database table PartFlag</param>
         ///
         /// <returns>Count of times a particular flag has been cited.</returns>
-        public int GetFlagCount(FlagModel flag) 
+        public async Task<int> GetFlagCount(FlagModel flag) 
         {
             int count = 0;
             string query = @$"
@@ -260,7 +264,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 cmd.Parameters["@CarModel"].Value = flag.CarModel;
                 cmd.Parameters["@CarYear"].Value = flag.CarYear;
 
-                MySqlDataReader reader = cmd.ExecuteReader();
+                var reader = await cmd.ExecuteReaderAsync();
                 
                 //Only update count to a value other than zero if a row has been retrieved in the query.
                 if (reader.HasRows)
