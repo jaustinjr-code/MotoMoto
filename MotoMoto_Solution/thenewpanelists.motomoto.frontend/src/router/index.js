@@ -10,6 +10,9 @@ import Registration from '../views/RegistrationView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
+import UserProfile from '../views/UserProfileView.vue'
+import EditPreferences from '../views/EditPreferencesView'
+
 
 const routes = [
   {
@@ -66,6 +69,16 @@ const routes = [
     path: '/PartComaprison/PartOne/:id1/PartTwo/:id2',
     name: 'PartComparison',
     component: PartComparison
+  },
+  {
+    path: '/UserProfile',
+    name: 'UserProfile',
+    component: UserProfile
+  },
+  {
+    path: '/EditPreferences',
+    name: 'EditPreferences',
+    component: EditPreferences
   }
 ]
 

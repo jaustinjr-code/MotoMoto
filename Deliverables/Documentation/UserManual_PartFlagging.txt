@@ -1,0 +1,27 @@
+How to use Part Flagging Within The MotoMoto Application:
+
+I. Part Flagging Car Builder
+ A. Creating A Part Flag
+  1. Locate the "Car Selection" section of the page.
+  2. Select the car make, model, and year you would like to flag a part for.
+  3. Locate the "Parts Selection" section of the page.
+  4. Add the part that you would like to flag to the build.
+  5. Click the 'Flag Part' button next to the part.
+
+II. Part Flagging Post
+ A. Creating A Part Flag
+  1. Locate the "Parts Selection" section of the page.
+  2. Click the "Flag Part" button next to the part you would like to flag for the given car.
+
+ B. Reviewing A Part Flag
+  a. Upvoting A Flag
+   1. Locate the "Compatibility" section of the page
+   2. Click the name of the part you would like to upvote.
+   3. Locate the "Review Flag" section of the page
+   4. Click the "Upvote" button
+  
+  b. Downvoting A Flag
+   1. Locate the "Compatibility" section of the page
+   2. Click the name of the part you would like to upvote.
+   3. Locate the "Review Flag" section of the page
+   4. Click the "Downvote" button

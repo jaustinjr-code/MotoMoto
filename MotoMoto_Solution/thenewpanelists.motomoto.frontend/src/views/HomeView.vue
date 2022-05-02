@@ -9,7 +9,9 @@ import http from "./Http-coman"
     <button @click = "goToRegistration"> Register </button>
     <RegistrationComponent/>
     <button @click = "goToParts"> Parts </button>
-
+    <RegistrationComponent/>
+    <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
+    <button @click="goToPartFlaggingPost">Part Flagging Post</button>
   </div>
 </template>
 
@@ -28,12 +30,18 @@ export default {
     },
     goToEventList(){
       this.$router.push('/EventList');
-    }, 
+    },
     goToRegistration(){
       this.$router.push('/Registration')
     },
     goToParts(){
       this.$router.push('/parts')
+    },
+    goToPartFlaggingBuilder(){
+      this.$router.push('/PartFlaggingBuilder')
+    },
+    goToPartFlaggingPost(){
+      this.$router.push('/PartFlaggingPost')
     }
   }
 }

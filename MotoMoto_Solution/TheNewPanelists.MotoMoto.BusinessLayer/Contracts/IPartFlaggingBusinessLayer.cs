@@ -1,28 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
-using TheNewPanelists.MotoMoto.ServiceLayer;
 
-/// <summary>
-/// Encapsulates business logic for part flagging functionality.
-/// </summary>
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
-    public class PartFlaggingBusinessLayer : IPartFlaggingBusinessLayer
+    public interface IPartFlaggingBusinessLayer
     {
-        /// <summary>
-        /// Part Flagging service entity, contains functinality of service layer
-        /// </summary>
-        private readonly IPartFlaggingService __partFlaggingService;
-
-        /// <summary>
-        /// Default constructor, initializes service layer entity for part flagging
-        /// </summary>
-        public PartFlaggingBusinessLayer()
-        {
-            __partFlaggingService = new PartFlaggingService();
-        }
-
-        /// <summary>
+       /// <summary>
         /// Encapsulates flag information into entity, checks that flag entity is valid, and passes entity to
         /// service layer to handle creating the flag in the database.
         /// </summary>
@@ -33,16 +20,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <param name="carYear">The year of the model of the car that the part is incompatible with</param>
         ///
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the new flag</returns>
-        public bool HandleFlagCreation(string partNum, string carMake, string carModel, string carYear) 
-        {
-            bool result = false;
-            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
-            if (IsValidFlag(flag))
-            {
-                result = __partFlaggingService.CallFlagCreation(flag);
-            }
-            return result;
-        }
+        public bool HandleFlagCreation(string partNum, string carMake, string carModel, string carYear);
 
         /// <summary>
         /// Uses part flagging information to generate an entity which encapsulates that part flagging information.
@@ -66,33 +44,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <param name="flag">Flag entity containing information related to a single part flag</param>
         ///
         /// <returns>FlagModel entity which represents a single part flag</returns>
-        public bool IsValidFlag(FlagModel flag)
-        {
-            const int FIRST_CAR_YEAR = 1800;
-            const int FUTURE_CAR_BUFFER = 5;
-
-            bool result = false;
-            bool nullValidation =   flag.PartNumber is not null && 
-                                    flag.CarMake is not null &&
-                                    flag.CarModel is not null &&
-                                    flag.CarYear is not null;
-
-            bool yearValidation = false;
-            if (nullValidation)
-            {
-                int year;
-                if (Int32.TryParse(flag.CarYear, out year))
-                {
-                    if (year >= FIRST_CAR_YEAR && year < DateTime.Now.Year + FUTURE_CAR_BUFFER)
-                    {
-                        yearValidation = true;
-                    }
-                };
-            }
-
-            result = nullValidation && yearValidation;
-            return result;
-        }
+        public bool IsValidFlag(FlagModel flag);
 
         /// <summary>
         /// Uses part flagging information to generate an entity which encapsulates that part flagging information,
@@ -109,27 +61,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// True if the number of part flags makes the part and vehicle combination incompatible, false if the
         /// number of part flags makes the part and vehicle combination compatible, null if the operation failed.
         /// </returns>
-        public bool? HandleGetFlagCompatibility(string partNum, string carMake, string carModel, string carYear)
-        {
-            const int FLAG_COMPATIBILITY_THRESHOLD = 100;
-            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
-            if (IsValidFlag(flag))
-            {
-                int flagCount = __partFlaggingService.CallGetFlagCount(flag);
-                if (flagCount >= FLAG_COMPATIBILITY_THRESHOLD)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public bool? HandleGetFlagCompatibility(string partNum, string carMake, string carModel, string carYear);
 
         /// <summary>
         /// Encapsulates flag information into entity, checks that flag entity is valid, and if valid 
@@ -143,15 +75,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <param name="carYear">The year of the model of the car that the part is incompatible with</param>
         ///
         /// <returns>True if decrement operation is successful, false otherwise</returns>
-        public bool HandleFlagCountDecrement(string partNum, string carMake, string carModel, string carYear)
-        {
-            bool result = false;
-            FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
-            if (IsValidFlag(flag))
-            {
-                result = __partFlaggingService.CallDecrementFlagCount(flag);
-            }
-            return result;
-        }
+        public bool HandleFlagCountDecrement(string partNum, string carMake, string carModel, string carYear);
     }
 }
