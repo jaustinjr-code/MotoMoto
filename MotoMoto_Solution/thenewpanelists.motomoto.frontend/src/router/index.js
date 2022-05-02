@@ -7,7 +7,6 @@ import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
-import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
@@ -52,11 +51,6 @@ const routes = [
     path: '/Registration',
     name: 'Registration',
     component: Registration
-  },
-  {
-    path: '/PersonalizedRecommendations',
-    name: 'PersonalizedRecommendations',
-    component: PersonalizedRecommendations
   },
   {
     path: '/Parts',

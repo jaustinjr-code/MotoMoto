@@ -161,7 +161,7 @@ export default {
         
             context.moveTo(graphLef, (graphHei - dataArr[0] / largest * graphHei) + graphTop);  
             context.fillText("1", 15, graphBot + 25);  
-            for(var i = 1; i < arrayLen; i++){  
+            for(var i = 1; i < arrayLen; i++) {  
                 context.lineTo( graphRight / arrayLen * i + graphLef, (graphHei - dataArr[i] / largest * graphHei) + graphTop);  
                 context.fillText((i + 1), graphRight / arrayLen * i, graphBot + 25);  
             }  

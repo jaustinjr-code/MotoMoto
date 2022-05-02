@@ -44,11 +44,8 @@
                             <td class="partRati">{{part.rating}}</td>
                             <td class="ratCount">{{part.ratingCount}}</td>
                             <td class="curPrice">${{part.currentPrice}}.00</td>
-                            <td><a class="proURL" :href="part.productURL">Buy Now</a></td>
+                            <td><a class="proURL" :href="part.productURL">Link</a></td>
                         </tr>
-                        <!-- <div class="buttonSubmit">
-                            <input class='submitButton' type='submit' v-on:click="goToComparison">
-                        </div> -->
                     </thead>
                 </table>
                 
