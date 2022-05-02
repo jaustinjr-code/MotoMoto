@@ -209,5 +209,9 @@ table {
     text-align: left;
     padding-left: 50px;
 }
+
+table {
+    border-collapse:collapse;
+}
 </style>
 
