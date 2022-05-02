@@ -103,11 +103,9 @@ export default {
             await instance.get('PartPriceAnalysisRetrieval', {params}).then((res) => {
                 this.parts = res.data["partList"]
                 this.categoryName = res.data["categoryName"]
-                console.log(this.parts)
             })
         },
         logProductsSelected: function() {
-            console.log(this.checkedParts)
             if(this.checkedParts.length == 2) {
                 this.$router.push({name: 'PartComparison', params: {id1: this.checkedParts[0], id2: this.checkedParts[1]}})
             }
@@ -115,12 +113,10 @@ export default {
         getCategoryID: function(part) {
             let selector = document.getElementById('part-category-select')
             let partNum = selector.options[selector.selectedIndex].value
-            this.categoryID = parseInt(partNum)
-            console.log(this.categoryID)  
+            this.categoryID = parseInt(partNum) 
             this.retrievePartInformation()
         },
         logStuff: function() {
-            console.log(this.checkedParts)
             this.returnComparison = this.checkedParts
         },
         goToProduct: function() {
