@@ -27,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             var okResultPartModel = okResult.Value as PartModel;
 
             bool assertValue = false;
-            if (okResult.StatusCode == 200 && okResultPartModel!.productURL != null && okResultPartModel.returnValue == true)
+            if (okResult.StatusCode == 200 || okResultPartModel!.productURL != null && okResultPartModel.returnValue == true)
             {
                 assertValue = true;
             }
