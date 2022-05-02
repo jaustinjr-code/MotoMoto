@@ -20,15 +20,15 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool SaveCarTypeManager(CarTypeModel savedCarBuild)
         {
-            if (!Regex.Match(savedCarBuild.year, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
+            if (!Regex.Match(savedCarBuild.year!, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
             {
-                int input = Int32.Parse(savedCarBuild.year);            // Parse the user input string into integers called input
+                int input = Int32.Parse(savedCarBuild.year!);            // Parse the user input string into integers called input
                 if (input < 1950 || input > 2022)                       // Make sure the integer is equal to or between 1950 & 2022
                 {
                     return false;                                       // If out of range, return false
                 }
-            } 
-            else 
+            }
+            else
             {
                 return false;                                           // If user input is anything that is not four integers, return false
             }
