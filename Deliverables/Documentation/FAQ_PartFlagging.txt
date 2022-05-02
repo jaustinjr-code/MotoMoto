@@ -1,0 +1,23 @@
+Frequently Asked Questions For Part Flagging:
+
+Q: Why are there separate Part Flagging Car Builder and Part Flagging Car Post 
+   pages from the regular Car Builder and Part Flagging Car Post pages?
+A: Neither Car Builder or Car Post have been built yet, so in order to show frontend
+   functionality for part flagging, temporary static pages for these features had to be built.
+
+Q: Can I remove a flag from a car build?
+A: No, flags cannot be removed by users; however, their impact may be lessened by downvoting
+   the part flag in the Part Flagging Car Post page.
+
+Q: Can I create a part flag for a part that does not exist in the part list.
+A. No, because if the part does not exist in the part list for a particular car,
+   then flagging it would have no effect.
+
+Q. Do my reviews for a part flag actually affect the application?
+A. Yes they do! Reviewing a part flag is just as impactful as creating one.
+   It is based on a combination of part flags and part flag reviews that the
+   "Compatible" and "Non-Recommended" labels are assigned to a part for a build.
+
+Q. How many part flags does it take for a part to get the label of "Non-Recommended"?
+A. 100
+

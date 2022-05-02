@@ -1,0 +1,13 @@
+User->Frontend: Clicks downvote flag rating button
+Frontend->Application Layer: DecrementFlagCount(partNum: string, carMake: string, carModel: string, carYear: string): IActionResult
+Application Layer->Business Layer: HandleFlagCountDecrement(partNum: string, carMake: string, carModel: string, carYear: string): bool
+Business Layer->Business Layer: CreateFlagModel(partNum: string, carMake: string, carModel: string, carYear: string): FlagModel
+Business Layer->Business Layer: IsValidFlag(flag: FlagModel): bool
+Business Layer->Service Layer: CallDecrementFlagCount(flag: Flag): bool
+Service Layer->Data Access Layer: DecrementOrRemoveFlag(flag: Flag): Task<bool>
+Data Access Layer->RDS: ExecuteNonQueryAsync(): Task<int>
+RDS-->Data Access Layer: Positive number of rows effected
+Service Layer<--Data Access Layer: true
+Business Layer<--Service Layer: true
+Application Layer<--Business Layer: true
+Frontend<--Application Layer: update flagged parts list if necessary

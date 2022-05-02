@@ -1,33 +1,59 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
+using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.BusinessLayer;
+using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
 
 namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 {
+    [EnableCors("CorsPolicy")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class CarBuilderController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly CarBuildDataAccess _carBuildDataAccess = new CarBuildDataAccess();
 
-        private readonly ILogger<CarBuilderController> _logger;
+        //private readonly ILogger<CarBuilderController> _logger;
 
-        public CarBuilderController(ILogger<CarBuilderController> logger)
+        //public CarBuilderController(ILogger<CarBuilderController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
+        [HttpGet("cartype")]
+        public IActionResult GetCarTypes()
         {
-            _logger = logger;
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
+
+            try
+            {
+                IList<CarTypeModel> retrieveAllCarTypes = manager.RetrieveAllCarTypes();
+                return Ok(retrieveAllCarTypes);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("carbuild")]
+        public IActionResult GetModifiedCarBuilds()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
+
+            try
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                IList<ModifyCarBuildModel> retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds();
+                return Ok(retrieveAllModifiedCars);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

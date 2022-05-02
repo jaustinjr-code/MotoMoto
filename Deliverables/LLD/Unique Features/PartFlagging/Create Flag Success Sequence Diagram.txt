@@ -1,0 +1,14 @@
+User->Frontend: Clicks button to add a flag to a part
+Frontend->Application Layer: CreateFlag(partNum: String, carMake: String, carModel: String, carYear: String): IActionResult
+Application Layer->Business Layer: HandleFlagCreation(partNum: String, carMake: String, carModel: String, carYear: String): bool
+Business Layer->Business Layer: CreateFlagModel(partNum: String, carMake: String, carModel: String, carYear: String): FlagModel
+Business Layer->Business Layer: IsValidFlag(flag: FlagModel): bool
+Business Layer->Service Layer: CallFlagCreation(flag: FlagModel): bool
+Service Layer->Data Access Layer: CreateOrIncrementFlag(flag: FlagModel): Task<bool>
+Data Access Layer->RDS: ExecuteNonQueryAsync(): Task<int>
+
+RDS-->Data Access Layer:Number of Rows Affected
+Data Access Layer-->Service Layer:true
+Service Layer-->Business Layer: true
+Business Layer-->Application Layer: true
+Application Layer-->Frontend: Object containing success message

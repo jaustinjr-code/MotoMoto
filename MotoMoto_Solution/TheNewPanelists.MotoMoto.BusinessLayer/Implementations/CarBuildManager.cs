@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
@@ -42,11 +43,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return false;
             }
 
-            if (savedCarBuild.country!.Length == 0 || savedCarBuild.country!.Length > 20)// Make sure user input is not null and is less than 20 characters
-            {
-                return false;
-            }
-
             return _carBuildService.SaveCarType(savedCarBuild);         // Save information to CarTypeModel
         }
 
@@ -61,6 +57,16 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return false;
             }
             return _carBuildService.SaveModifiedCarBuild(modifiedCarBuild);
+        }
+
+        public IList<CarTypeModel> RetrieveAllCarTypes()
+        {
+            return _carBuildService.FetchCarType();
+        }
+
+        public IList<ModifyCarBuildModel> RetrieveAllModifiedCarBuilds()
+        {
+            return _carBuildService.FetchModifiedCarBuild();
         }
     }
 }
