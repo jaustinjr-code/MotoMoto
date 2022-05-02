@@ -122,5 +122,20 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             testComparisonModel = _partpriceAnalysisManager.CompareVehicleParts(testComparisonModel);
             Assert.False(testComparisonModel.returnCaseBool, "The Specified comparison model cannot be compared due to no objects under the influence of being compared");
         }
+        [Theory]
+        [InlineData(-1, 100.00)]
+        [InlineData(-100, 50.00)]
+        [InlineData(10, -9999999.999)]
+        [InlineData(20, -88.99)]
+        public void IsInvalidInsertNewPriceWith_InalidPartIDAndBooleanPrice_ReturnFalse(int _partNumber, double _newPrice)
+        {
+            var _testPartModel = new PartModel()
+            {
+                partID = _partNumber,
+                newPrice = _newPrice
+            };
+            _testPartModel = _partpriceAnalysisManager.UpdatePartPriceAndAddHistoryManager(_testPartModel);
+            Assert.False(_testPartModel.returnValue, "Update Failed Check Manager to see why data didn't go through");
+        }
     }
 }

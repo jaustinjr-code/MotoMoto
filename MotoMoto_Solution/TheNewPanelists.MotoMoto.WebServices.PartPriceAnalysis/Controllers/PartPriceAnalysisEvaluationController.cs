@@ -94,29 +94,5 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-        public IActionResult UpdateSpecifiedPartPrice(int _partID, double _newPrice)
-        {
-            IPartPriceAnalysisService partService = new PartPriceAnalysisService();
-            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
-
-            try
-            {
-                var updatePartModel = new PartModel()
-                {
-                    partID = _partID,
-                    newPrice = _newPrice,
-                };
-                updatePartModel = partManager.UpdatePartPriceAndAddHistoryManager(updatePartModel);
-                if (updatePartModel.returnValue == false)
-                {
-                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
-                }
-                return Ok();
-            }
-            catch
-            {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
     }
 }

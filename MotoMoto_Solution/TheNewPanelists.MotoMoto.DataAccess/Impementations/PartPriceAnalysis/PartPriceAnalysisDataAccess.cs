@@ -297,11 +297,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     command.Connection = mySqlConnection!;
                     command.CommandType = CommandType.Text;
 
-                    command.CommandText = "INSTERT INTO FormerPartPrices (productId, lastRecordedDate, productPrice) VALUES (@v1, @v2, @v3);";
-                    var parameters = new MySqlParameter[3];
+                    command.CommandText = "INSTERT INTO FormerPartPrices (productId productPrice) VALUES (@v1, @v2);";
+                    var parameters = new MySqlParameter[2];
                     parameters[0] = new MySqlParameter("@v1", partModel.partID);
-                    parameters[1] = new MySqlParameter("@v2", currentDate);
-                    parameters[2] = new MySqlParameter("@v3", partModel.currentPrice);
+                    parameters[2] = new MySqlParameter("@v2", partModel.currentPrice);
 
                     command.Parameters.AddRange(parameters);
                     return ExecuteQuery(command);

@@ -25,6 +25,11 @@ namespace TheNewPanelists.MotoMoto.Models
             currentPrice = part.currentPrice;
             return this;
         }
+        /// <summary>
+        /// Returns invalid when partID is not within
+        /// the given range or wen the partname is non existent
+        /// </summary>
+        /// <returns></returns>
         public PartModel ReturnValueInvalidation()
         {
             if (partID < 0 || partName == null)
@@ -34,13 +39,28 @@ namespace TheNewPanelists.MotoMoto.Models
             }
             return this;
         }
+        /// <summary>
+        /// Function updates invalid part prices when
+        /// new prices are equivalent to zero
+        /// </summary>
+        /// <returns></returns>
         public PartModel ReturnInvalidPriceUpdate()
         {
-            if (currentPrice == newPrice || newPrice <= 0)
+            if (partID < 0 || currentPrice == newPrice || newPrice <= 0)
             {
                 returnValue = false;
                 return this;
             }
+            return this;
+        }
+        /// <summary>
+        /// Function returns false during an invalid data
+        /// store connection 
+        /// </summary>
+        /// <returns></returns>
+        public PartModel ReturnInvalidDSConnection()
+        {
+            returnValue = false;
             return this;
         }
     }

@@ -66,7 +66,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns></returns>
         public PartModel UpdatePartPriceAndAddHistoryManager(PartModel partModel)
         {
-            if (partModel.currentPrice == partModel.newPrice || partModel.newPrice < 0)
+            if (partModel.currentPrice == partModel.newPrice || partModel.newPrice < 0 || partModel.partID < 0)
             {
                 return partModel.ReturnInvalidPriceUpdate();
             }
