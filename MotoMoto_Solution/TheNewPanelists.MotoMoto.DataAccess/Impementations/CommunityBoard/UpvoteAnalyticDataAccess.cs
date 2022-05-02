@@ -58,8 +58,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
+            // Coalesce will help default any null records to zero
             // The post ID will be visible on the client side so using this info is okay
-            string commandText = "SELECT SUM(isUpvote) as total FROM UpvoteCommentAnalytics WHERE commentID = @commentID;";
+            string commandText = "SELECT COALESCE(SUM(isUpvote), 0) as total FROM UpvoteCommentAnalytics WHERE commentID = @commentID;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 command.Parameters.AddWithValue("@commentID", (int)((UpvoteCommentModel)content).contentId);
@@ -92,7 +93,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 throw new NullReferenceException();
             }
 
-            string commandText = "SELECT SUM(isUpvote) as total FROM UpvotePostAnalytics WHERE postID = @postID;";
+            // Coalesce will help default any null records to zero
+            string commandText = "SELECT COALESCE(SUM(isUpvote), 0) as total FROM UpvotePostAnalytics WHERE postID = @postID;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 command.Parameters.AddWithValue("@postID", (int)((FetchPostDetailsRequestModel)content).input);
