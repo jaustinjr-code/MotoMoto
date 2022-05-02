@@ -18,9 +18,9 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
         }
 
         // Web API call to fetch the selected event location from the data store and display it in the Frontend
-        //[HttpGet]
+        [HttpGet]
         [Route("GetEventLocation")]
-        public IActionResult FetchEventLocation()
+        public IActionResult FetchEventLocation(int eventID) // Pass in int eventID or EventDetailsModel eventID?
         {
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
@@ -30,7 +30,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
             try
             {
                 // Make a call to the Event List Manager
-                ISet<EventDetailsModel> fetchedEventLocation = meetingPointDirectionsManager.FetchEventLocation(); // ONLY FETCHING 1 ROW -> SET NOT NEEDED?
+                ISet<EventDetailsModel> fetchedEventLocation = meetingPointDirectionsManager.FetchEventLocation(eventID); // ONLY FETCHING 1 ROW -> SET NOT NEEDED?
                 // Return the fetched EventDetails Model
                 return Ok(fetchedEventLocation);
             }

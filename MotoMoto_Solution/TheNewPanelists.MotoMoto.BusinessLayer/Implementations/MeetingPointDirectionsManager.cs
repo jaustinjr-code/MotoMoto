@@ -17,9 +17,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public MeetingPointDirectionsManager(MeetingPointDirectionsService meetingPointDirectionsService) { _meetingPointDirectionsService = meetingPointDirectionsService; }
 
         // Function that will be used to Fetch event location from the datastore
-        public ISet<EventDetailsModel> FetchEventLocation()
+        public ISet<EventDetailsModel> FetchEventLocation(int eventID)
         {
-            return _meetingPointDirectionsService.FetchEventLocation();
+            return _meetingPointDirectionsService.FetchEventLocation(eventID);
         }
     }
 }

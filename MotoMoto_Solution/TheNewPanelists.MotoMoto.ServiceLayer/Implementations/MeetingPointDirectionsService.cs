@@ -20,19 +20,19 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public MeetingPointDirectionsService(MeetingPointDirectionsDataAccess meetingPointDirectionsDataAccess) { _meetingPointDirectionsDAO = meetingPointDirectionsDataAccess; }
 
         // Function to FetchAllEventPosts 
-        public ISet<EventDetailsModel> FetchEventLocation()
+        public ISet<EventDetailsModel> FetchEventLocation(int eventID)
         {
             // Use the DAO object to retrieve the event location
-            var eventDetailsEntities = _meetingPointDirectionsDAO.FetchEventLocation();
+            var eventDetailsEntities = _meetingPointDirectionsDAO.FetchEventLocation(eventID);
 
             // Selects each row from the retrieved HashSet and stores it 
             var location = eventDetailsEntities!.Select(loc => new EventDetailsModel()
             {
-                streetAddress = loc!.streetAddress,
-                city = loc!.city,
-                state = loc!.state,
-                country = loc!.country,
-                zipCode = loc!.zipCode
+                eventStreetAddress = loc!.eventStreetAddress,
+                eventCity = loc!.eventCity,
+                eventState = loc!.eventState,
+                eventCountry = loc!.eventCountry,
+                eventZipCode = loc!.eventZipCode
             }).ToHashSet();
             return location; // Returns the retrieved data back to the manager
         }

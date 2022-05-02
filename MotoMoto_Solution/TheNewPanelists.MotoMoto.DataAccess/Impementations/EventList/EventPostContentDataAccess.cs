@@ -9,7 +9,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class EventPostContentDataAccess : IDataAccess
+    public class EventPostContentDataAccess //: IDataAccess
     {
         // MySqlConnection property which will be used to establish a connection to our data store
         MySqlConnection? mySqlConnection { get; set; }
@@ -68,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 // Read the value from each column and store it in the eventDetails object
                 eventDetails.eventID = myReader.GetInt32("eventID");
-                eventDetails.eventLocation = myReader.GetString("eventLocation");
+                eventDetails.eventCity = myReader.GetString("eventCity");
                 eventDetails.eventTime = myReader.GetString("eventTime");
                 eventDetails.eventDate = myReader.GetString("eventDate");
 

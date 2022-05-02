@@ -28,7 +28,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             var events = eventDetailsEntities!.Select(evnt => new EventDetailsModel()
             {
                 eventID = evnt!.eventID,
-                eventLocation = evnt!.eventLocation,
+                eventCity = evnt!.eventCity,
                 eventTime = evnt!.eventTime,
                 eventDate = evnt!.eventDate
             }).ToHashSet();
