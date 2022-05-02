@@ -1,7 +1,7 @@
 <template>
     <div>
         <TabBarComponent/>
-        <PostCreationComponent/>
+        <PostCreationComponent :feedName='feedName'/>
     </div>
 </template>
 
@@ -14,5 +14,8 @@ export default {
         PostCreationComponent,
         TabBarComponent
     },
+    props: {
+        feedName: String
+    }
 }
 </script>

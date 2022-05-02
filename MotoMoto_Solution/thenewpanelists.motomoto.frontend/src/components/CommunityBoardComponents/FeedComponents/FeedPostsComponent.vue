@@ -95,6 +95,7 @@ export default {
         ExpandPost(req) {
             console.log(req);
             this.$router.push({name: 'postdetails', params: { id: req }});
+            // this.$router.push({path: '/postdetails/' + req});
         },
         CreatePost() {
             this.$router.push({name: 'createpost', params: { feedName: this.feedName }});

@@ -1,7 +1,7 @@
 <template>
     <div>
         <TabBarComponent/>
-        <PostExpandedComponent />
+        <PostExpandedComponent :id='id' />
     </div>
 </template>
 
@@ -9,10 +9,13 @@
 import PostExpandedComponent from '../../components/CommunityBoardComponents/PostComponents/PostExpandedComponent.vue'
 import TabBarComponent from '../../components/TabBarComponent.vue'
 
-export default ({
+export default {
     components: { 
         PostExpandedComponent,
         TabBarComponent
     },
-})
+    props: {
+        id: String
+    },
+}
 </script>

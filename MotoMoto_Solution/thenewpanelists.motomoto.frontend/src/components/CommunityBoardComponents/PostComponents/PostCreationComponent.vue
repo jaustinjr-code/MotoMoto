@@ -86,7 +86,7 @@ export default {
                 })
                 .catch(e => {
                     window.alert(e);
-                    //this.$router.push('/communityboard');
+                    this.$router.push('/communityboard');
                 });
         },
         DiscardPost() {

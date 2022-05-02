@@ -38,16 +38,16 @@ const routes = [
     component: FeedView
   },
   {
-    path: '/createpost',
+    path: '/createpost/:feedName',
     name: 'createpost',
     //meta: {guest: false}, // Attempt at restricting direct access
     component: CreatePostView,
     props: true,
   },
   {
-    path: '/postdetails', // Lets the id to show up in url
+    // path: '/postdetails', // Lets the id to show up in url
     path: '/postdetails/:id', // Lets the id to show up in url
-    // name: 'postdetails',
+    name: 'postdetails',
     //meta: {guest: false}, // Attempt at restricting direct access
     component: PostDetails,
     props: true,
