@@ -10,7 +10,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
     {
 
         // Create a private readonly DAO for Event List
-        private readonly EventPostContentDataAccess _eventPostContentDataAccess = new EventPostContentDataAccess();
+        private readonly MeetingPointDirectionsDataAccess _meetingPointDirectionsDataAccess = new MeetingPointDirectionsDataAccess();
 
         public IActionResult Index()
         {
@@ -24,13 +24,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
         {
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
-            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
-            EventListManager eventListManager = new EventListManager(eventListService);
+            MeetingPointDirectionsService meetingPointDirectionsService = new MeetingPointDirectionsService(_meetingPointDirectionsDataAccess);
+            MeetingPointDirectionsManager meetingPointDirectionsManager = new MeetingPointDirectionsManager(meetingPointDirectionsService);
 
             try
             {
                 // Make a call to the Event List Manager
-                ISet<EventDetailsModel> fetchedEventLocation = eventListManager.FetchAllEventDetails(); // ONLY FETCHING 1 ROW -> SET NOT NEEDED?
+                ISet<EventDetailsModel> fetchedEventLocation = meetingPointDirectionsManager.FetchEventLocation(); // ONLY FETCHING 1 ROW -> SET NOT NEEDED?
                 // Return the fetched EventDetails Model
                 return Ok(fetchedEventLocation);
             }

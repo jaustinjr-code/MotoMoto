@@ -14,16 +14,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         // Readonly means that the object/variable cannot be defined outside of the
         // constructor
-        private readonly EventPostContentDataAccess _eventPostContentDAO;
+        private readonly MeetingPointDirectionsDataAccess _meetingPointDirectionsDAO;
 
         // Single argument constructor
-        public MeetingPointDirectionsService(EventPostContentDataAccess eventPostContentDataAccess) { _eventPostContentDAO = eventPostContentDataAccess; }
+        public MeetingPointDirectionsService(MeetingPointDirectionsDataAccess meetingPointDirectionsDataAccess) { _meetingPointDirectionsDAO = meetingPointDirectionsDataAccess; }
 
         // Function to FetchAllEventPosts 
         public ISet<EventDetailsModel> FetchEventLocation()
         {
-            // Use the DAO object to retrieve all rows from the EventDetails table and store it in a HashSet
-            var eventDetailsEntities = _eventPostContentDAO.FetchAllPosts();
+            // Use the DAO object to retrieve the event location
+            var eventDetailsEntities = _meetingPointDirectionsDAO.FetchEventLocation();
 
             // Selects each row from the retrieved HashSet and stores it 
             var location = eventDetailsEntities!.Select(loc => new EventDetailsModel()
