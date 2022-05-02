@@ -38,7 +38,7 @@
                     <option value='1'>Incompatible Part</option>
                 </select>
                 <button class='flagging-builder-button' v-on:click='removePart(index)'>Remove Part</button>
-                <button class='flagging-builder-button' v-on:click='flagPart(index)'>Flag Part</button>
+                <button class='flagging-builder-button' v-on:click='flagPart($event.currentTarget, index)'>Flag Part</button>
             </div>
             
         </div>
@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         // Adds a part to the build
-        addPart: function(param) {
+        addPart: function() {
             this.currentPartCount += 1
             this.partInputs.push(this.currentPartCount)
             this.checkCompatibility()
@@ -125,7 +125,9 @@ export default {
         },
 
         //Increments the count for selected flag in the flagging database
-        flagPart: async function(index) {
+        flagPart: async function(caller, index) {
+            this.tempDisableButton(caller)
+
             let carMakeElement = document.getElementById('car-make-select')
             let carMake = carMakeElement.options[carMakeElement.selectedIndex].value
 
@@ -138,7 +140,6 @@ export default {
             let partSelections = document.getElementsByClassName('builder__single-part-selection-selector')
             let partNum = partSelections[index].options[partSelections[index].selectedIndex].value
 
-            
             await instance.post('PartFlagging/CreateFlag', null, {
                 params: {
                     partNum: partNum, carMake: carMake, carModel: carModel, carYear: carYear
@@ -146,7 +147,21 @@ export default {
                 }).then((res) => {
                 console.log(res.data)
             })
+        },
+
+        //Disables a button 
+        tempDisableButton: async function(caller) {
+            let sleepTimeMs = 5000
+
+            caller.disabled = true;
+            await this.sleep(sleepTimeMs)
+            caller.disabled = false;
+        },
+
+        sleep: function(timeMs) {
+            return new Promise(resolve => setTimeout(resolve, timeMs));
         }
+        
     },
     //Initializes year selector for car selection
     mounted() {
