@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AccountDeletionView from '../views/AccountDeletionView.vue'
 import FeedView from '../views/CommunityBoardViews/FeedView.vue'
+import CreatePostView from '../views/CommunityBoardViews/CreatePostView.vue'
 
 const routes = [
   {
@@ -28,6 +29,12 @@ const routes = [
     path: '/communityboard',
     name: 'communityboard',
     component: FeedView
+  },
+  {
+    path: '/createpost',
+    name: 'createpost',
+    component: CreatePostView,
+    props: true,
   }
 ]
 
