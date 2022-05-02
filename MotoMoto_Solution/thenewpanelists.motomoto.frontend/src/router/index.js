@@ -1,8 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AccountDeletionView from '../views/AccountDeletionView.vue'
+import FeedView from '../views/CommunityBoardViews/FeedView.vue'
+import CreatePostView from '../views/CommunityBoardViews/CreatePostView.vue'
+import PostDetails from '../views/CommunityBoardViews/PostDetails.vue'
 import DirectMessage from '../views/DirectMessageView.vue'
 import Login from '../views/LoginView.vue'
-import CommunityDashboard from '../views/CommunityView.vue'
 import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 import EventList from '../views/EventListView.vue'
@@ -12,7 +15,6 @@ import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
-
 
 const routes = [
   {
@@ -26,14 +28,34 @@ const routes = [
     component: Login
   },
   {
+    path: '/accountdelete',
+    name: 'accountdelete',
+    component: AccountDeletionView
+  },
+  {
+    path: '/communityboard',
+    name: 'communityboard',
+    component: FeedView
+  },
+  {
+    path: '/createpost/:feedName',
+    name: 'createpost',
+    //meta: {guest: false}, // Attempt at restricting direct access
+    component: CreatePostView,
+    props: true,
+  },
+  {
+    // path: '/postdetails', // Lets the id to show up in url
+    path: '/postdetails/:id', // Lets the id to show up in url
+    name: 'postdetails',
+    //meta: {guest: false}, // Attempt at restricting direct access
+    component: PostDetails,
+    props: true,
+  },
+  {
     path: '/DM',
     name: 'DirectMessage',
     component: DirectMessage
-  },
-  {
-    path: '/CommunityDashboard',
-    name: 'CommunityDashboard',
-    component: CommunityDashboard
   },
   {
     path: '/PartFlaggingBuilder',

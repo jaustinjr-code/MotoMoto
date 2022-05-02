@@ -12,6 +12,7 @@ import http from "./Http-coman"
     <RegistrationComponent/>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
+    <button @click="goToCommunityBoard">Community Board</button>
   </div>
 </template>
 
@@ -42,6 +43,9 @@ export default {
     },
     goToPartFlaggingPost(){
       this.$router.push('/PartFlaggingPost')
+    },
+    goToCommunityBoard(){
+      this.$router.push('/communityboard')
     }
   }
 }
