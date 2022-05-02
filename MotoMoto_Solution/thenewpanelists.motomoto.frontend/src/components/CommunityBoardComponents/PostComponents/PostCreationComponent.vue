@@ -7,7 +7,7 @@
             <br>
             <input id="images" type="file" name="filename" multiple disabled />
             <br>
-            <button >Submit</button>
+            <button>Submit</button>
     </form>
     <ul id="button-selection">
         <button>Upload Car Build</button>
@@ -64,9 +64,9 @@ export default {
                     postDescription: description,
                     //imageList: images
                 }
-                console.log(p)
+                //console.log(p)
                 let params = JSON.stringify(p);
-                console.log(params)
+                //console.log(params)
                 this.SubmitPost(params);
             } else
                 window.alert("Invalid Input")            

@@ -8,7 +8,12 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "vue": "^3.2.13",
+    "@babel/preset-env": "^7.17.10",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.3",
+    "bootstrap-vue": "^2.22.0",
+    "vue": "^3.2.33",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.0.3",
     "vue3-cookies": "^1.0.6",
     "vuex": "^4.0.0"

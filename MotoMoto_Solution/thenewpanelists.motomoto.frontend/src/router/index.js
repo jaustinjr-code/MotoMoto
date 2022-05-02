@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AccountDeletionView from '../views/AccountDeletionView.vue'
 import FeedView from '../views/CommunityBoardViews/FeedView.vue'
 import CreatePostView from '../views/CommunityBoardViews/CreatePostView.vue'
+import PostDetails from '../views/CommunityBoardViews/PostDetails.vue'
 
 const routes = [
   {
@@ -33,7 +34,15 @@ const routes = [
   {
     path: '/createpost',
     name: 'createpost',
+    //meta: {guest: false}, // Attempt at restricting direct access
     component: CreatePostView,
+    props: true,
+  },
+  {
+    path: '/postdetails/:id', // Lets the id to show up in url
+    name: 'postdetails',
+    //meta: {guest: false}, // Attempt at restricting direct access
+    component: PostDetails,
     props: true,
   }
 ]

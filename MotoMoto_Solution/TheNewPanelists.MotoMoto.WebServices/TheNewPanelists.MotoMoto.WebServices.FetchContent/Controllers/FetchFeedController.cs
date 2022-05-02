@@ -25,7 +25,7 @@ public class FetchFeedController
     };
 
     // Dynamic allocation from json data to objects in aspnet core
-    // [HttpPost]
+    //[HttpPost]
     [Route("FetchFeed")]
     public LoadFeedResponseModel GetFeed(CommunityFeedModel feedModel)
     {

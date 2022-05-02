@@ -13,9 +13,9 @@
         <ul id="post-summary">
             <!-- Consider filling in data for a component Post Summary -->
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
-            <div v-for="post in postList" :key="post.postId">
+            <div v-for="post in postList" :key="post.postId" >
                 <li>{{ post.postUsername }}</li>
-                <li>{{ post.postTitle }}</li>
+                <li @click="ExpandPost(post.postId)">{{ post.postTitle }}</li>
                 <button @click="UpvoteButton(post.postId, post.postTitle)">Upvote</button>
                 <!-- Want to pass in current user's username into UpvoteButton -->
             </div>
@@ -94,10 +94,11 @@ export default {
                 })
                 .catch((e) => {
                     window.alert(e);
-                })
+                });
         },
         ExpandPost(req) {
-
+            console.log(req);
+            this.$router.push({name: 'postdetails', params: { id: req }});
         },
         CreatePost() {
             this.$router.push({name: 'createpost', params: { feedName: this.feedName }});
