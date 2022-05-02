@@ -26,4 +26,14 @@ export default {
 </script>
 
 <style>
+th {
+    background-color:green;
+    Color:white;
+}
+th, td {
+    width:200px;
+    text-align:center;
+    padding:5px;
+    border-collapse: collapse;
+}
 </style>
