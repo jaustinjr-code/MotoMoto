@@ -26,9 +26,6 @@ export default {
 </script>
 
 <style>
-table {
-    border-collapse: collapse;
-}
 th {
     background-color:green;
     Color:white;

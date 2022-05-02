@@ -22,7 +22,7 @@
                 <option value='13'>Water Pump</option>
             </select>
             <div>
-                <table>
+                <table class="partTable">
                     <thead>
                         <tr class="titles">
                             <td>Comparison Selection</td>
@@ -210,8 +210,8 @@ table {
     padding-left: 50px;
 }
 
-table {
-    border-collapse:collapse;
+.partTable {
+    border-collapse: collapse;
 }
 </style>
 
