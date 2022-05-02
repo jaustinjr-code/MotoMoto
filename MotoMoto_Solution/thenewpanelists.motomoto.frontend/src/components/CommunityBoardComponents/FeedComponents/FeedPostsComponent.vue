@@ -26,12 +26,8 @@
 <script>
 //import axios from 'axios'
 import {instanceFetch, instanceSubmit} from '../../../router/CommunityBoardConnection.js'
-import PostSummaryComponent from '../PostComponents/PostSummaryComponent.vue'
 //import router from '../../../router/index.js'
 export default {
-    components: {
-        PostSummaryComponent,
-    },
     methods: {
         LoadFeed(req) {
             // Syntax Error?
