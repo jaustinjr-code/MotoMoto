@@ -15,7 +15,10 @@
     <a class="proURL" :href="part.productURL">Link to Product</a>
     <div class="priceTrendGraph">
         <h5 class="partHistoryTitle">Part History Past 6 Months</h5>
-        <canvas id="partTrendGraph" width="585" height="450"></canvas>
+        <div class="priceTrendGraph">
+            <canvas id="partTrendGraph" width="585" height="450"></canvas>
+        </div>
+        
     </div>
     <div class="partPriceHistory">
         <ul>
@@ -97,9 +100,9 @@ export default {
             this.partPricesOverTime.push(this.part.currentPrice);
             this.drawGraph()
         },
-        //tabular function << not sure if we are able to use the js library for graphs >>
         drawGraph: function() {
-            var dataArr = this.partPricesOverTime
+            var dataArr = this.partPricesOverTime;
+            var arrayLen = dataArr.length;
             var canvas = document.getElementById("partTrendGraph");  
             var context = canvas.getContext("2d");  
         
@@ -107,11 +110,7 @@ export default {
             var graphBot = 375;  
             var graphLef = 25;  
             var graphRight = 475;  
-        
-            var graphHei = 350;  
-            var GRAPH_WIDTH = 450;  
-        
-            var arrayLen = dataArr.length;  
+            var graphHei = 350;    
         
             var largest = 0;  
             for( var i = 0; i < arrayLen; i++ ){  
@@ -119,8 +118,7 @@ export default {
                     largest = dataArr[i];  
                 }  
             }  
-        
-            context.clearRect( 0, 0, 500, 500 );  
+            context.clearRect(0, 0, 500, 500);  
             context.font = "16px Arial";  
         
             context.beginPath();  
@@ -130,16 +128,13 @@ export default {
             context.stroke();  
             
             context.beginPath();  
-            context.strokeStyle = "#BBB";  
+            context.strokeStyle = "black";  
             context.moveTo(graphLef, graphTop);  
-            context.lineTo(graphRight, graphTop);  
+            context.lineTo(graphRight, graphTop);
 
-            context.fillText(largest, graphRight + 15, graphTop);  
-            context.stroke();  
-      
             context.beginPath();  
             context.moveTo(graphLef, (graphHei) / 4 * 3 + graphTop);  
-            context.lineTo(graphRight, (graphHei) / 4 * 3 + graphTop);  
+            context.lineTo(graphRight, (graphHei) / 4 * 3 + graphTop);
 
             context.fillText(largest / 4, graphRight + 15, (graphHei) / 4 * 3 + graphTop);  
             context.stroke();    
@@ -155,17 +150,17 @@ export default {
             context.moveTo(graphLef, (graphHei) / 4 + graphTop);  
             context.lineTo(graphRight, (graphHei) / 4 + graphTop );   
             context.fillText(largest / 4 * 3, graphRight + 15, (graphHei) / 4 + graphTop);  
-            context.stroke();  
-        
+            context.stroke();
+
             context.fillText("Months", graphRight / 2.2, graphBot + 50);  
             context.fillText("Cost", graphRight + 70, graphHei / 1.8);  
         
             context.beginPath();  
             context.lineJoin = "round";  
-            context.strokeStyle = "black";  
+            context.strokeStyle = "blue";  
         
             context.moveTo(graphLef, (graphHei - dataArr[0] / largest * graphHei) + graphTop);  
-            context.fillText( "1", 15, graphBot + 25);  
+            context.fillText("1", 15, graphBot + 25);  
             for(var i = 1; i < arrayLen; i++){  
                 context.lineTo( graphRight / arrayLen * i + graphLef, (graphHei - dataArr[i] / largest * graphHei) + graphTop);  
                 context.fillText((i + 1), graphRight / arrayLen * i, graphBot + 25);  
@@ -212,7 +207,9 @@ div.priceTrendGraph {
     margin: 0;
     padding: 0;
 }
-
+.priceTrendGraph {
+    padding-left: 50px;
+}
 .data-point {
     background-color: white;
     border: 2px solid lightblue;

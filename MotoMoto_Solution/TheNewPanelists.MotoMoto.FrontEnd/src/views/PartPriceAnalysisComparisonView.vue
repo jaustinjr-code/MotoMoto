@@ -49,7 +49,6 @@
         </thead>
     </table>
 </div>
-    
 </template>
 
 <script>
@@ -115,7 +114,3 @@ h6.priceDiff {
     padding-bottom: 25px;
 }
 </style>
-
-dictionary = {
-    dates = {date: [], date: [], date[]}
-}
