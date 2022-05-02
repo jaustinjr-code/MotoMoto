@@ -9,7 +9,7 @@ import http from "./Http-coman"
     <button @click = "goToRegistration"> Register </button>
     <RegistrationComponent/>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <RegistrationComponent/>
+    <PersonalizedRecommendationsComponent/>
   </div>
 </template>
 
