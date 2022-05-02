@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.MotoMoto.Models.MeetingPointDirectionsModels
+namespace TheNewPanelists.MotoMoto.Models
 {
     public class MeetingPointDirectionsModel : IEventDetailsModel
     {

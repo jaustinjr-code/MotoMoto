@@ -7,7 +7,7 @@ using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class MeetingPointDirectionsService
     {
@@ -20,14 +20,21 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
         public MeetingPointDirectionsService(EventPostContentDataAccess eventPostContentDataAccess) { _eventPostContentDAO = eventPostContentDataAccess; }
 
         // Function to FetchAllEventPosts 
-        public ISet<EventDetailsModel> FetchAllEventPosts() // NOTE: Might not need passed in arg because not being used
+        public ISet<EventDetailsModel> FetchEventLocation()
         {
             // Use the DAO object to retrieve all rows from the EventDetails table and store it in a HashSet
             var eventDetailsEntities = _eventPostContentDAO.FetchAllPosts();
 
             // Selects each row from the retrieved HashSet and stores it 
-            var events = eventDetailsEntities!.Select(evnt => new EventDetailsModel() {eventAddress = evnt!.eventAddress}).ToHashSet();
-            return events; // Returns the retrieved data back to the manager
+            var location = eventDetailsEntities!.Select(loc => new EventDetailsModel()
+            {
+                streetAddress = loc!.streetAddress,
+                city = loc!.city,
+                state = loc!.state,
+                country = loc!.country,
+                zipCode = loc!.zipCode
+            }).ToHashSet();
+            return location; // Returns the retrieved data back to the manager
         }
 
     }
