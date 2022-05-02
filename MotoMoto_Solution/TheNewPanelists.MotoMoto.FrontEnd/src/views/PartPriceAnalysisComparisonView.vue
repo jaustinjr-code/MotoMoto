@@ -220,6 +220,9 @@ export default {
 </script>
 
 <style>
+.partComp {
+    border-collapse: collapse;
+}
 p.priceDiff {
     font: 25px;
 }
@@ -245,8 +248,5 @@ div.priceTrendGraph {
     height: 12px;
     position: absolute;
     width: 12px;
-}
-.partTrendGraph {
-    border: 1px solid #000000;
 }
 </style>
