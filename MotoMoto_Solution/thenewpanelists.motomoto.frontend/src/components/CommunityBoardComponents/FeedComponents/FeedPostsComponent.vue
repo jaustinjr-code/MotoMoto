@@ -6,14 +6,18 @@
             <option value="Main Feed">Main Feed</option>
             <option value="Supercar">Supercar</option>
         </select>
-        <h1>{{ feedName }}</h1>
+        <div>
+            <h1>{{ feedName }}</h1>
+            <button @click="CreatePost()" v-if="feedName != 'Main Feed'">Create Post</button>
+        </div>
         <ul id="post-summary">
             <!-- Consider filling in data for a component Post Summary -->
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
             <div v-for="post in postList" :key="post.postId">
-                <li>{{ post.postUser }}</li>
+                <li>{{ post.postUsername }}</li>
                 <li>{{ post.postTitle }}</li>
-                <button @click="UpvoteButton(post.postId)">Upvote</button>
+                <button @click="UpvoteButton(post.postId, post.postTitle)">Upvote</button>
+                <!-- Want to pass in current user's username into UpvoteButton -->
             </div>
         </ul>
     </div>
@@ -21,7 +25,7 @@
 
 <script>
 //import axios from 'axios'
-import {instance} from '../../../router/FeedConnection.js'
+import {instanceFetch, instanceSubmit} from '../../../router/CommunityBoardConnection.js'
 import PostSummaryComponent from '../PostComponents/PostSummaryComponent.vue'
 //import router from '../../../router/index.js'
 export default {
@@ -31,11 +35,11 @@ export default {
     methods: {
         LoadFeed(req) {
             // Syntax Error?
-            console.log(req);
+            //console.log(req);
             let feedModel = JSON.stringify({ "feedName": req });
-            console.log(instance.getUri());
-            console.log(feedModel);
-            instance.post('/FetchFeed/FetchFeed', feedModel, {
+            //console.log(instanceFetch.getUri());
+            //console.log(feedModel);
+            instanceFetch.post('/FetchFeed/FetchFeed', feedModel, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -45,11 +49,15 @@ export default {
                     console.log(res);
                     window.alert(res.data.responseMessage);
                     //window.alert(res.data.postId);
-                    this.postList = res.data.output.postList;
-                    this.postList.forEach(post => {
-                        console.log(post.postId);
-                        console.log(post.postTitle);
-                    });
+                    if (res.data.output != null) {
+                        this.postList = res.data.output.postList;
+                        //this.postList.forEach(post => {
+                        //console.log(post.postId);
+                        //console.log(post.postTitle);
+                        //});
+                    }
+                    else 
+                        this.postList = []
                     //this.feedName = res.data.feedName; // Use when request works
                     this.feedName = req; 
                 })
@@ -61,22 +69,38 @@ export default {
         //     console.log(event.target.value);
         //     this.feedName = event.target.value;
         // },
-        UpvoteButton(req) {
-            // let params = { postId: req };
-            this.postList.forEach(post => {
-                        if (post.postId == req) window.alert(true);
-                    })
-            // instance.get(url='/FetchPost/FetchPostDetails', { params })
-            //     .then((res) => {
-            //         this.postList.forEach(post => {
-            //             if (post.postId == res) window.alert(true);
+        UpvoteButton(id, title) {
+            let interactionModel = JSON.stringify({ 
+                contentId: id,
+                contentTitle: title,
+                interactUsername: 'ran'
+            });
+            // this.postList.forEach(post => {
+            //             if (post.postId == req) {
+            //                 window.alert(true);
+
+            //             }
             //         })
-            //         window.alert(res.data.message);
-            //         //router.push({path: '/${res.data.postId}'});
-            //     })
-            //     .catch((e) => {
-            //         window.alert(e);
-            //     })
+            instanceSubmit.post('/SubmitUpvotePost/SubmitUpvotePost', interactionModel, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    console.log(res);
+                    window.alert(res.data.responseMessage + ": " + title);
+                    //router.push({path: '/${res.data.postId}'});
+                    // Change button to reflect success of Upvote
+                })
+                .catch((e) => {
+                    window.alert(e);
+                })
+        },
+        ExpandPost(req) {
+
+        },
+        CreatePost() {
+            this.$router.push({name: 'createpost', params: { feedName: this.feedName }});
         }
     },
     data() {
@@ -104,6 +128,6 @@ ul#post-summary li {
     display: inline;
 }
 li {
-    padding: 20px
+    padding: 20px;
 }
 </style>
