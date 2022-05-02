@@ -1,0 +1,46 @@
+
+title Part Price Analysis Individual Part Information Retrieval Fail Case Negative Part ID 
+
+
+Front End->Part Price Analysis Application Layer:IActionResult RetrieveSpecifiedPart(int _partID) : StatusCode500(partModel)
+activate Front End
+activate Part Price Analysis Application Layer
+
+Part Price Analysis Application Layer -> Part Price Analysis Business Layer: <<Constructor>> PartPriceAnalysisManager(PartPriceAnalysisService service) : 
+activate Part Price Analysis Business Layer
+Part Price Analysis Business Layer -->Part Price Analysis Application Layer: Activated Business Layer
+
+Part Price Analysis Application Layer ->Part Price Analysis Business Layer: RetrieveSpecifiedPartManager(PartModel partModel) : PartPriceAnalysisService.RetrieveSpecifiedPartInformation(PartModel)
+
+Part Price Analysis Business Layer-->Part Price Analysis Application Layer: Invalid part ID value is less than 0
+
+deactivate Part Price Analysis Business Layer
+
+Part Price Analysis Application Layer-->Front End: PartID is non existent!!
+
+
+Part Price Analysis Application Layer -> Log Service Layer: <<Constructor>> LoggingService(LoggingDataAccess LogDAO) 
+activate Log Service Layer
+
+Log Service Layer -->Part Price Analysis Application Layer: Activated Logging Services
+
+Part Price Analysis Application Layer->Log Service Layer: LogCurrentEvent(LoggingModel loggingModel) : bool
+
+Log Service Layer -> Log Data Access Layer: CreateNewLogEvent(LoggingModel loggingModel) : bool
+activate Log Data Access Layer
+
+database Log Database
+Log Data Access Layer ->Log Database: command.ExecuteReader() //Write Functionality Calling on Our String Query to DB
+activate Log Database
+
+Log Database ->Log Database: INSERT INTO LOG(categoryName, levelName, userHash, DSCRIPTION) VALUES X,X,X,X;
+
+Log Database -->Log Data Access Layer: Return True <<Validation of Execution>>
+deactivate Log Database
+
+Log Data Access Layer -->Log Service Layer: Return True
+deactivate Log Data Access Layer
+
+Log Service Layer-->Part Price Analysis Application Layer: Return True
+
+
