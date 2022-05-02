@@ -20,6 +20,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public MeetingPointDirectionsDataAccess() { }
         public MeetingPointDirectionsDataAccess(string connectionString) { _connectionString = connectionString; }
 
+        // Function that will establish the connection to the AWS RDS MariaDB datastore
+        public bool EstablishDBConnection()
+        {
+            // Create a MySqlConnection object which is connected to the database using the connection string
+            mySqlConnection = new MySqlConnection(_connectionString);
+            try
+            {
+                mySqlConnection.Open(); // Draws an open connection from the connection pool if one is available; else open new connection
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); // CONSOLE MESSAGES SHOULD NOT BE IN PRODUCTION CODE
+            }
+            return false;
+        }
+
         public ISet<EventDetailsModel>? FetchEventLocation()
         {
             return null;
