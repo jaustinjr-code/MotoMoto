@@ -34,5 +34,14 @@ namespace TheNewPanelists.MotoMoto.Models
             }
             return this;
         }
+        public PartModel ReturnInvalidPriceUpdate()
+        {
+            if (currentPrice == newPrice || newPrice <= 0)
+            {
+                returnValue = false;
+                return this;
+            }
+            return this;
+        }
     }
 }

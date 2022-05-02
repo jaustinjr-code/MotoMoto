@@ -11,6 +11,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public PartModel RetrieveSpecifiedPartHistory(PartModel partModel);
         public PartModel RetrieveSpecifiedPartInformation(PartModel partModel);
         public PartComparisonModel RetrieveSpecifiedComparisonPartPriceHistory(PartComparisonModel partComparisonModel);
+        public PartModel UpdatePartPriceAndRecordToHistoryService(PartModel partModel);
 
     }
 }

@@ -59,5 +59,18 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
             return partListModel.InvalidRetrunValueForNoTrueCategory();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
+        public PartModel UpdatePartPriceAndAddHistoryManager(PartModel partModel)
+        {
+            if (partModel.currentPrice == partModel.newPrice || partModel.newPrice < 0)
+            {
+                return partModel.ReturnInvalidPriceUpdate();
+            }
+            return _partPriceAnalysisService!.UpdatePartPriceAndRecordToHistoryService(partModel);
+        }
     }
 }

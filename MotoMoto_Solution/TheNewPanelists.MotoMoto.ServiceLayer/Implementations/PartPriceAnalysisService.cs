@@ -44,7 +44,17 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             return _partPriceAnalysisDAO!.RetrieveSpecifiedPartPriceHistory(partModel);
         }
-
+        /// <summary>
+        /// Function updates a record of a price to a new price that is set by an admin
+        /// This functionality is manual but without the use of Amazon Affiliate or 
+        /// Autozone automation of this function is invalid at the moment.
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
+        public PartModel UpdatePartPriceAndRecordToHistoryService(PartModel partModel)
+        {
+            return _partPriceAnalysisDAO!.UpdatePartPrice(partModel);
+        }
         public PartModel RetrieveSpecifiedPartInformation(PartModel partModel)
         {
             return _partPriceAnalysisDAO!.RetrievePartInformation(partModel);

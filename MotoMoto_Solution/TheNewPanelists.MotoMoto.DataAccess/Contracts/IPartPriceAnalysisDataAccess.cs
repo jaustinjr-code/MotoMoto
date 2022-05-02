@@ -10,6 +10,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public PartListModel RetrieveAllCategorialPartInformationDataAccess(PartListModel listModel);
         public PartModel RetrievePartInformation(PartModel part);
         public PartModel RetrieveSpecifiedPartPriceHistory(PartModel partModel);
-        public bool UpdatePartPrice(PartModel partModel);
+        public PartModel UpdatePartPrice(PartModel partModel);
     }
 }

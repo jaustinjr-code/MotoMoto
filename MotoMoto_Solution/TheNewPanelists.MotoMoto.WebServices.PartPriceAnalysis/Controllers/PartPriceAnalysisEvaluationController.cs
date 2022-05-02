@@ -72,8 +72,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         [HttpGet("Evaluate")]
         public IActionResult EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
-            PartPriceAnalysisService partService = new PartPriceAnalysisService();
-            PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService();
+            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             try
             {
@@ -88,6 +88,30 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                     return new StatusCodeResult(StatusCodes.Status400BadRequest);
                 }
                 return Ok(partModel);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+        public IActionResult UpdateSpecifiedPartPrice(int _partID, double _newPrice)
+        {
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService();
+            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
+
+            try
+            {
+                var updatePartModel = new PartModel()
+                {
+                    partID = _partID,
+                    newPrice = _newPrice,
+                };
+                updatePartModel = partManager.UpdatePartPriceAndAddHistoryManager(updatePartModel);
+                if (updatePartModel.returnValue == false)
+                {
+                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
+                }
+                return Ok();
             }
             catch
             {
