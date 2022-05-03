@@ -22,7 +22,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
         //    _logger = logger;
         //}
 
-        [HttpGet("cartype")]
+        [HttpGet("CarType")]
         public IActionResult GetCarTypes()
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -39,7 +39,31 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpGet("carbuild")]
+        [HttpPost("CreateCar")]
+        public IActionResult CreateCar(CarTypeModel car)
+        {
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
+            bool result = manager.SaveCarTypeManager(car); //What should i put here if i want to save it to DataStoreCarBuilds
+            if (result)
+            {
+                Dictionary<string, string> response = new Dictionary<string, string>
+            {
+                { "message", "Flag Successfully Created" },
+            };
+                return Ok(response);
+            }
+            else
+            {
+                Dictionary<string, string> response = new Dictionary<string, string>
+            {
+                { "message", "Error Flag Could Not Be Created" },
+            };
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("CarBuild")]
         public IActionResult GetModifiedCarBuilds()
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -53,6 +77,30 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             catch
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPut("UpdateCar")]
+        public IActionResult UpdateCar(ModifyCarBuildModel modifyCar) // What should I take in????
+        {
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
+            bool result = manager.SaveCarModificationsManager(modifyCar); //What should i put here if i want to save it to DataStoreCarBuilds
+            if (result)
+            {
+                Dictionary<string, string> response = new Dictionary<string, string>
+            {
+                { "message", "Flag Successfully Created" },
+            };
+                return Ok(response);
+            }
+            else
+            {
+                Dictionary<string, string> response = new Dictionary<string, string>
+            {
+                { "message", "Error Flag Could Not Be Created" },
+            };
+                return BadRequest(response);
             }
         }
     }
