@@ -1,0 +1,91 @@
+title Load Feed Success Scenario
+
+
+activate Client
+Client -> Front End: User Enters Feed
+activate Front End
+
+Front End -> Front End: IsAuthenticated() : Boolean
+note right of Front End: **NOTE**: This assumes user is already\nauthenticated so the Authentication\nprocess is omitted.
+
+Front End -> LoadFeedAPI (Web Services): Axios.get(url : "/LoadFeed/<FeedName>" : String) : HTTP Request : IResponseModel
+activate LoadFeedAPI (Web Services)
+
+LoadFeedAPI (Web Services) -> IFeedModel: IFeedModel feedModel = new FeedModel()
+activate IFeedModel
+IFeedModel -> IFeedModel: FeedModel()
+LoadFeedAPI (Web Services) <-- IFeedModel: return FeedModel
+deactivate IFeedModel
+
+
+LoadFeedAPI (Web Services)-> IFeedManager (Business Layer): IFeedManager feedManager = new FeedManager()
+activate IFeedManager (Business Layer)
+
+IFeedManager (Business Layer) -> IFeedManager (Business Layer): FeedManager()
+
+LoadFeedAPI (Web Services) <-- IFeedManager (Business Layer): return FeedManager
+
+LoadFeedAPI (Web Services)-> IFeedManager (Business Layer): feedManager.IsContentActive(IFeedModel feedModel) : 
+
+IFeedManager (Business Layer) -> IFeedService (Service Layer): IFeedService feedService = new FetchFeedService()
+activate IFeedService (Service Layer)
+
+IFeedService (Service Layer) -> IFeedService (Service Layer): FetchFeedService()
+
+IFeedManager (Business Layer) <-- IFeedService (Service Layer): return FeedService
+
+IFeedManager (Business Layer) -> IFeedService (Service Layer): feedService.LoadFeed(IFeedModel feedModel) : IFeedEntity
+
+IFeedService (Service Layer) -> IFeedDataAccess (Data Access Layer): IFeedDataAccess feedDataAccess = new LoadFeedDataAccess()
+activate IFeedDataAccess (Data Access Layer)
+
+IFeedDataAccess (Data Access Layer) ->IFeedDataAccess (Data Access Layer): LoadFeedDataAccess()
+
+IFeedService (Service Layer) <-- IFeedDataAccess (Data Access Layer): return LoadFeedDataAccess
+
+IFeedService (Service Layer) -> IFeedDataAccess (Data Access Layer): feedDataAccess.FetchAllPosts(IFeedModel feedModel) : IFeedEntity
+
+IFeedDataAccess (Data Access Layer) ->IFeedDataAccess (Data Access Layer): FetchPost() : IPostEntity
+
+IFeedDataAccess (Data Access Layer) -> Feed Table (MariaDB / Data Store):  SELECT * FROM Post\n   WHERE feedName LIKE dataInput.feedName\n         AND DATEDIFF(NOW(),submitUTC) < 7;
+activate Feed Table (MariaDB / Data Store)
+
+// Feed Table (MariaDB / Data Store) -> Feed Table (MariaDB / Data Store)
+
+
+
+
+
+
+
+
+IFeedDataAccess (Data Access Layer) <-- Feed Table (MariaDB / Data Store): return raw data
+deactivate Feed Table (MariaDB / Data Store)
+
+IFeedDataAccess (Data Access Layer) ->IFeedDataAccess (Data Access Layer): RefineData() : IEnumerable<IPostEntity>
+
+IFeedService (Service Layer) <-- IFeedDataAccess (Data Access Layer): return IFeedEntity
+note left of IFeedDataAccess (Data Access Layer): **NOTE**: IFeedEntity contains an IEnumerable<IPostEntity>\nthat represents all the Post within a Feed
+deactivate IFeedDataAccess (Data Access Layer)
+
+IFeedService (Service Layer) -> IResponseModel: IResponseModel response = new LoadFeedResponseModel()
+activate IResponseModel
+IResponseModel -> IResponseModel: LoadFeedResponseModel()
+IFeedService (Service Layer) <-- IResponseModel: return LoadFeedResponseModel
+deactivate IResponseModel
+note left of IResponseModel: **NOTE**: The Response model here will contain\nIFeedEntity and any supporting info for the Front End.
+
+
+IFeedManager (Business Layer) <-- IFeedService (Service Layer): return IResponseModel
+deactivate IFeedService (Service Layer)
+
+LoadFeedAPI (Web Services) <-- IFeedManager (Business Layer): return IResponseModel
+deactivate IFeedManager (Business Layer)
+
+Front End <-- LoadFeedAPI (Web Services): return IResponseModel
+deactivate LoadFeedAPI (Web Services)
+
+
+Client <-- Front End: Display Feed Posts
+deactivate Front End
+deactivate Client
