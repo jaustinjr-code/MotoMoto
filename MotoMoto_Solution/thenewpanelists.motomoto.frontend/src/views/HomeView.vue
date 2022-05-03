@@ -13,6 +13,7 @@ import http from "./Http-coman"
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToCommunityBoard">Community Board</button>
+    <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
   </div>
 </template>
 
@@ -46,6 +47,9 @@ export default {
     },
     goToCommunityBoard(){
       this.$router.push('/communityboard')
+    },
+    goToMeetingPointDirections() {
+      this.$router.push('/MeetingPointDirections')
     }
   }
 }

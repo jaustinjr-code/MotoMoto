@@ -24,6 +24,7 @@
                     <td>{{ event.registeredUsers}}</td>
                     <td>
                         <b-button variant="default">Details</b-button>
+                        <b-button variant="default">Find Directions</b-button>
                     </td>
                 </tr>
             </tbody>

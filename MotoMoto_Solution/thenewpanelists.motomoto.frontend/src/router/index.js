@@ -15,6 +15,7 @@ import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
+import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
 
 const routes = [
   {
@@ -101,6 +102,11 @@ const routes = [
     path: '/EditPreferences',
     name: 'EditPreferences',
     component: EditPreferences
+  },
+  {
+    path: '/MeetingPointDirections',
+    name: 'MeetingPointDirections',
+    component: MeetingPointDirections
   }
 ]
 
