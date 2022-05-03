@@ -1,5 +1,6 @@
 <template>
     <div class="form-row justify-content-center align-items-center">
+        <div class="alert alert-danger" v-show="error">{{ error }}</div>
         <input type="text" class="form-control mb-2" v-model="origin" placeholder="Enter Origin Location">
         <button type="button" class="btn btn-primary mb-2" @click="findOriginLocation">Search</button>
     </div>
@@ -15,10 +16,11 @@ export default {
     name: 'Map',
     data () {
         return {
-            origin: '',
             map: null,
+            origin: '',
             latitude: '',
             longitude: '',
+            error: '',
         }
     },
     methods: {
@@ -34,11 +36,13 @@ export default {
                         // console.log(position.coords.longitude);
                     },
                     error => {
-                        console.log(error.message);
+                        this.error = error.message;
+                        // console.log(error.message);
                     }
                 );
             } else {
-                console.log("Your browser does not support geolocatoin API");
+                this.error = "BROWSER DOES NOT SUPPORT GEOLOCATION API..."
+                // console.log("Your browser does not support geolocatoin API");
             }
         },
         getAddressFromCoords(latitude, longitude) {
@@ -58,11 +62,13 @@ export default {
                     // console.log(response.results[0].formatted_address);
                 }
                 else {
-                    console.log(response.error_message);
+                    this.error = response.error_message;
+                    // console.log(response.error_message);
                 }
             })
             .catch(error => {
-                console.log(error.message);
+                this.error = response.message;
+                // console.log(error.message);
             })
         }
         //     axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
@@ -99,6 +105,9 @@ export default {
 <style scoped>
     #map{
         height: 600px;
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
         background: grey;
     }
 </style>
