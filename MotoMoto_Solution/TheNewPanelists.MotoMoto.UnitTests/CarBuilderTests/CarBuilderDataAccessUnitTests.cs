@@ -13,7 +13,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
     public class CarBuilderDataAccessUnitTests
     {
         //[Fact]
-        //public void GetCarTypesTest()
+        //public void GetCarTypeTest()
         //{
         //    string json = "{"make":"toyota","model":"gr86","year":"2022"}";
         //    CarTypeModel input = JsonSerializer.Deserialize<CarTypeModel>(json);

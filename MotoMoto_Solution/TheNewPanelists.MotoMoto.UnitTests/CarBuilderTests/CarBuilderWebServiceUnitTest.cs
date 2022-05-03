@@ -8,7 +8,7 @@ using Xunit;
 
 namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
 {
-    public class CarBuilderServiceUnitTests
+    public class CarBuilderWebServiceUnitTest
     {
     }
 }

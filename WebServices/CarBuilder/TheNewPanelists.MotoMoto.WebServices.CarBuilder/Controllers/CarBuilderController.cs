@@ -49,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
             {
-                { "message", "Flag Successfully Created" },
+                { "message", "Car Successfully Created" },
             };
                 return Ok(response);
             }
@@ -57,7 +57,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
             {
-                { "message", "Error Flag Could Not Be Created" },
+                { "message", "Error Car Could Not Be Created" },
             };
                 return BadRequest(response);
             }
@@ -90,7 +90,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
             {
-                { "message", "Flag Successfully Created" },
+                { "message", "Car Successfully Modified" },
             };
                 return Ok(response);
             }
@@ -98,7 +98,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
             {
-                { "message", "Error Flag Could Not Be Created" },
+                { "message", "Error Could Not Modify Car" },
             };
                 return BadRequest(response);
             }

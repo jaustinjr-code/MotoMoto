@@ -13,6 +13,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     {
         private readonly CarBuildService _carBuildService;
 
+        public CarBuildManager() // AM I SUPPOSED TO DO THIS ?!?!?!?!?!
+        {
+        }
+
         public CarBuildManager(CarBuildService carBuildService)
         {
             _carBuildService = carBuildService;
@@ -48,7 +52,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool SaveCarModificationsManager(ModifyCarBuildModel modifiedCarBuild)
         {
-            if (modifiedCarBuild.partName!.Length == 0 || modifiedCarBuild.partName!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
             {
                 return false;
             }
@@ -67,6 +71,16 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public IList<ModifyCarBuildModel> RetrieveAllModifiedCarBuilds()
         {
             return _carBuildService.FetchModifiedCarBuild();
+        }
+
+        public CarTypeModel CreateCarTypeModel(string make, string model, string year)
+        {
+            return new CarTypeModel(make, model, year);
+        }
+
+        public ModifyCarBuildModel CreateModifyCarBuildModel(string partNumber, string type)
+        {
+            return new ModifyCarBuildModel(partNumber, type);
         }
     }
 }

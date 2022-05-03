@@ -27,7 +27,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 make = carType!.make,
                 model = carType!.model,
                 year = carType!.year,
-                //country = carType!.country
             };
             return _carBuildDAO.InsertNewDataStoreCarTypeEntity(carTypeModel);
         }
@@ -41,7 +40,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             var modifyCarBuildModel = new ModifyCarBuildModel()
             {
-                partName = modifiedCar!.partName,
+                partNumber = modifiedCar!.partNumber,
                 type = modifiedCar!.type
             };
             return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID

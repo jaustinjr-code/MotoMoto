@@ -67,7 +67,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarTypes";
+                string getSenderUserIdQuery = "SELECT make, model, year FROM CarTypes";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -106,14 +106,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT partName, type FROM OEMAndAfterMarketParts";
+                string getSenderUserIdQuery = "SELECT partNumber, type FROM OEMAndAfterMarketParts";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        carModification.partName = reader["partName"].ToString();
+                        carModification.partNumber = reader["partNumber"].ToString();
                         carModification.type = reader["type"].ToString();
                         carModificationList.Add(carModification);
                     }
@@ -145,14 +145,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (make, model, country, year)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1, @v2, @v3)";
-                var parameters = new MySqlParameter[4];
+                command.CommandText = $"INSERT INTO USER (make, model, year)" +     // Do not pass carID 
+                                      $"VALUES (@v0, @v1, @v2)";
+                var parameters = new MySqlParameter[2];
                 //parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[0] = new MySqlParameter("@v1", carType!.make);
-                parameters[1] = new MySqlParameter("@v2", carType!.model);
-                //parameters[2] = new MySqlParameter("@v3", carType!.country);
-                parameters[3] = new MySqlParameter("@v4", carType!.year);
+                parameters[0] = new MySqlParameter("@v0", carType!.make);
+                parameters[1] = new MySqlParameter("@v1", carType!.model);
+                parameters[3] = new MySqlParameter("@v2", carType!.year);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
@@ -228,12 +227,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"INSERT INTO USER (partName, type)" +     // Do not pass carID 
+                command.CommandText = $"INSERT INTO USER (partNumber, type)" +     // Do not pass carID 
                                       $"VALUES (@v0, @v1)";
                 var parameters = new MySqlParameter[1];
                 //parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[1] = new MySqlParameter("@v1", modifiedCar!.partName);
-                parameters[2] = new MySqlParameter("@v2", modifiedCar!.type);
+                parameters[0] = new MySqlParameter("@v0", modifiedCar!.partNumber);
+                parameters[1] = new MySqlParameter("@v1", modifiedCar!.type);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
