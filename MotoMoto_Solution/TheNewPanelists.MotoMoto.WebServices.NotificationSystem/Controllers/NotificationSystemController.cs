@@ -12,9 +12,8 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 {
-    //[EnableCors("CorsPolicy")]
     [ApiController]
-    [Route("api/controller")]
+    [Route("api/[controller]")]
 
     public class NotificationSystemController : ControllerBase
     {
@@ -23,7 +22,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
         //[HttpGet]
-        [HttpGet]
+        // [HttpGet]
         [Route("GetRegisteredEventDetails")]
         public IActionResult FetchRegisteredEvents(string username)
         {

@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 //
-builder.Services.AddHttpContextAccessor();
+//builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddControllers();

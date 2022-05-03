@@ -65,7 +65,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 var currentDate = DateOnly.FromDateTime(DateTime.Now);
 
                 string getRegisteredEventDetails = "SELECT eventTime, eventDate, eventStreetAddress, "
-                                                + "eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE i.eventDate <= "
+                                                + "eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE eventDate <= "
                                                 + currentDate.AddDays(2) + " AND registeredUsers = " + username;
                 MySqlCommand cmd = new MySqlCommand(getRegisteredEventDetails, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();

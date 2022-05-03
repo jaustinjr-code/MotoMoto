@@ -25,6 +25,14 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return result;
         }
 
+
+        /// <summary>
+        /// Calls RetchRegisteredEvents from the service layer then return the list of events
+        /// </summary>
+        ///
+        /// <param name="username">Logged-in username to receive in-app notification</param>
+        ///
+        /// <returns>Return a list with all the fetched data of registered events</returns>
         public IList<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
         {
             return _notificationSystemService.FetchRegisteredEvents(username);

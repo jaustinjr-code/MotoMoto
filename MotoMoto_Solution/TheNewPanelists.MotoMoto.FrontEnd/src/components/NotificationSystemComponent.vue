@@ -20,9 +20,9 @@ export default {
         this.fetchData(); 
     },
     methods: { 
-        fetchData() { debugger
-            let params = {username: "user118"}; debugger
-            instance.get('NotificationSystem/GetRegisteredEventDetails', {params}).then((res) =>{
+        fetchData() { 
+            let params = {username: "user118"}; 
+            instance.get('NotificationSystem/GetRegisteredEventDetails?username=' + params.username).then((res) =>{
             for(let i = 0; i < res.data.length; i++)
             {
                 this.notification.push({'eventTime' :res.data[i][0], 'eventDate' :res.data[i][1],
