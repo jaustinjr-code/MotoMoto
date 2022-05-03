@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.NotificationSystem", "TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj", "{171F3699-C6D7-4A0B-99EF-C89B791F983D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

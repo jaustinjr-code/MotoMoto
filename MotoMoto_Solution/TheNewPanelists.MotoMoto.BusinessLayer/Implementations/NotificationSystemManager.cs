@@ -25,9 +25,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return result;
         }
 
-        public IList<NotificationSystemInAppModel> RetrieveRegisteredEvents(string ran) 
+        public IList<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
         {
-            return _notificationSystemService.FetchRegisteredEvents(ran);
+            return _notificationSystemService.FetchRegisteredEvents(username);
         }
 
     }

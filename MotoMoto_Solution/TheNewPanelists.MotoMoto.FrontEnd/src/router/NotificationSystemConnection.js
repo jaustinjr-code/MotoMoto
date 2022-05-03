@@ -4,8 +4,8 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'DELETE, POST, GET, OPTIONS';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With';
 const instance = axios.create({
-    // baseURL: 'https://localhost:5000/api/'
-    baseURL: 'https://motomotoca.com/'
+    baseURL: 'http://localhost:5000/api/'
+    // baseURL: 'https://motomotoca.com/'
 });
 
 export {instance}

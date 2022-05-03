@@ -1,4 +1,8 @@
 using System;
+using System.Net;
+using System.Net.Mail;
+using System.Web;
+using System.Collections.Specialized;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using TheNewPanelists.MotoMoto.DataAccess;
@@ -9,8 +13,9 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 {
     //[EnableCors("CorsPolicy")]
-    [Route("[api/controller]")]
     [ApiController]
+    [Route("api/controller")]
+
     public class NotificationSystemController : ControllerBase
     {
         // Create a private readonly DAO for Event List
@@ -20,18 +25,17 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
         //[HttpGet]
         [HttpGet]
         [Route("GetRegisteredEventDetails")]
-        
-        public IActionResult FetchRegisteredEvents()
+        public IActionResult FetchRegisteredEvents(string username)
         {
 
-            string username = Request.QueryString["username"];
+            //string username = Request.QueryString["username"];
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
             NotificationSystemManager notificationSystemManager = new NotificationSystemManager();
-
+            List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
+            notificationSystemManager.RetrieveRegisteredEvents(username);
             NameValueCollection urlQueryString = HttpUtility.ParseQueryString(string.Empty);
-            urlQueryString.Add("registrationID", registrationRequest.RegistrationId.ToString());
-            urlQueryString.Add("email", registrationRequest.Email!);
+            urlQueryString.Add("username", registeredEventsList.ToString());
 
             // try
             // {
@@ -45,6 +49,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
             //     Console.WriteLine(ex.Message);
             //     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             // }
+            return Ok(registeredEventsList);
         }
 
     }

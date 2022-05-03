@@ -2,8 +2,8 @@
     <div>
         <h1>Notification Center</h1>
         <button @click="display">Registered Events</button>
-        <button>Subscribed Accounts</button>
-        <h2>CurrentTime()</h2>
+        <h1>{{notification}}</h1>
+        <!-- <button>Subscribed Accounts</button> -->
     </div>
 </template>
 
@@ -11,11 +11,35 @@
 import {instance} from '../router/NotificationSystemConnection'
 
 export default {
-    data() {
-        return
+    data() { 
+        return {
+            notification: []
+        }
     },
-    mounted() {
-        fetch()
+    mounted() { 
+        this.fetchData(); 
+    },
+    methods: { 
+        fetchData() { debugger
+            let params = {username: "user118"}; debugger
+            instance.get('NotificationSystem/GetRegisteredEventDetails', {params}).then((res) =>{
+            for(let i = 0; i < res.data.length; i++)
+            {
+                this.notification.push({'eventTime' :res.data[i][0], 'eventDate' :res.data[i][1],
+                    'eventStreetAddress' :res.data[i][2], 'eventCity' :res.data[i][3],
+                    'eventState' :res.data[i][4], 'eventCountry' :res.data[i][5],
+                    'eventZipCode' :res.data[i][6], 'eventZipCode' :res.data[i][7]})
+                // console.log(res.data.length);
+                // if(!this.notes.some(data => data.title === res.data[i]))
+                // {
+
+                //     this.notes.push({'title' :res.data[i][0], 'note':res.data[i][1]});
+                // }
+            }
+            }).catch((e)=>{
+                console.log(e);
+            });
+        }
     }
 }   
 </script>
