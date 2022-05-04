@@ -1,14 +1,9 @@
 <template>
     <div>
         <h1>Notification Center</h1>
-        <select name="notificationFeeds" id="notificationType" @change="fetchData">
-            <option value="Upcoming Events">Upcoming Events</option>
-            <option value="All Registered Events">All Registered Events</option>
-        </select>
+        <h2>Upcoming Events</h2>
         <br>
-        <div>
-            <h1>{{ notificationType }}</h1>
-        </div>
+        <p>current user: {{ username }}</p>
         <table id="registered-events">
             <tr>
                 <th>Event Date</th>
@@ -22,7 +17,6 @@
                 <td>{{ event.eventTitle }}</td>
                 <td>{{ event.eventStreetAddress }},<br>{{ event.eventCity }}, 
                     {{ event.eventState }} {{ event.eventZipCode }} {{ event.eventCountry }}</td>
-                    <button @click="deleteNotification(event[index].eventID, username)">Delete</button>
             </tr> 
         </table>
     </div>
@@ -33,7 +27,8 @@ import {instance} from '../router/NotificationSystemConnection'
 export default {
     data() { 
         return {
-            registeredEventList: []
+            registeredEventList: [],
+            username: "ran"
         }
     },
     mounted() { 

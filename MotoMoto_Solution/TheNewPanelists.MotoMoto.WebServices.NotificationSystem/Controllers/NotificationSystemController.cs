@@ -34,13 +34,14 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
             Console.WriteLine("after manager call");
             return Ok(registeredEventsList);
         }
-        [HttpPost("DeleteNotification")]
-        public IActionResult RemoveNotification(int eventID, string username)
-        {
-            NotificationSystemManager  notificationSystemManager = new NotificationSystemManager();
-            notificationSystemManager.RemoveNotification(eventID, username);
-            return Ok();
-        }
+        
+        // [HttpPost("DeleteNotification")]
+        // public IActionResult RemoveNotification(int eventID, string username)
+        // {
+        //     NotificationSystemManager  notificationSystemManager = new NotificationSystemManager();
+        //     notificationSystemManager.RemoveNotification(eventID, username);
+        //     return Ok();
+        // }
 
     }
 }

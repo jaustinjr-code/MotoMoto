@@ -25,21 +25,21 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
             List<NotificationSystemInAppModel> list;
             list = _notificationSystemService.FetchRegisteredEvents(username);
-            Console.WriteLine("return from business" + list[0].eventStreetAddress);
+            //Console.WriteLine("return from business" + list[0].eventStreetAddress);
             return list;
         }
 
-        public bool RemoveNotification(int eventID, string username)
-        {
-            if (eventID == 0 || username == null)
-            {
-                return false;
-            }
-            else
-            {
-                return (_notificationSystemService.DeleteNotification(eventID, username));
-            }
-        }
+        // public bool RemoveNotification(int eventID, string username)
+        // {
+        //     if (eventID == 0 || username == null)
+        //     {
+        //         return false;
+        //     }
+        //     else
+        //     {
+        //         return (_notificationSystemService.DeleteNotification(eventID, username));
+        //     }
+        // }
 
 
         // public bool IsTimeToSendEmailNotifications()

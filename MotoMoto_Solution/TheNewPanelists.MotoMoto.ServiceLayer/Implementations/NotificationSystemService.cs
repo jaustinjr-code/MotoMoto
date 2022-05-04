@@ -20,14 +20,14 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             _notificationSystemDataAccess = new NotificationSystemDataAccess();
         }
 
-        public bool DeleteNotification(int eventID, string username)
-        {
-            if (eventID == 0 || username == null)
-            {
-                return false;
-            }
-            return (_notificationSystemDataAccess.DeleteNotification(eventID, username));
-        }
+        // public bool DeleteNotification(int eventID, string username)
+        // {
+        //     if (eventID == 0 || username == null)
+        //     {
+        //         return false;
+        //     }
+        //     return (_notificationSystemDataAccess.DeleteNotification(eventID, username));
+        // }
 
         /// <summary>
         /// Calls GetRegisteredEvents from the data access layer then return the list of events
@@ -41,7 +41,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             Console.WriteLine("NotificationSystemService:FetchRegisteredEvents Hello " + username);
             List<NotificationSystemInAppModel> list;
             list = _notificationSystemDataAccess.GetRegisteredEvents(username);
-            Console.WriteLine("return from service" + list[0].eventCity);
+            //Console.WriteLine("return from service" + list[0].eventCity);
             return list;
         }
 
