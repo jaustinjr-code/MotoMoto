@@ -6,6 +6,8 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class MeetingPointDirectionsController : Controller
     {
 
@@ -18,8 +20,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
         }
 
         // Web API call to fetch the selected event location from the data store and display it in the Frontend
-        [HttpGet]
-        [Route("GetEventLocation")]
+        //[HttpGet]
+        [Route("GetEventLocation/eventID={eventID}")]
         public IActionResult FetchEventLocation(int eventID) // Pass in int eventID or EventDetailsModel eventID?
         {
             // Create dependency objects before performing operation

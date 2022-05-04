@@ -11,9 +11,13 @@
 
 <script>
 import TabBarComponent from './TabBarComponent.vue'
+import EventListDashboardComponent from './EventListDashboardComponent.vue'
+import {instance} from '../router/MeetingPointDirectionsConnection'
+window.axios = require('axios')
 
 export default {
     name: 'Map',
+    props: ['id'],
     data () {
         return {
             map: null,
@@ -21,7 +25,12 @@ export default {
             latitude: '',
             longitude: '',
             error: '',
+            location: [],
+            eventID: 0,
         }
+    },
+    created() {
+        this.eventID = this.id;
     },
     methods: {
         findOriginLocation() {
@@ -110,6 +119,12 @@ export default {
             console.log(place);
             this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
         })
+        
+        instance.get('MeetingPointDirections/GetEventLocation')
+            .then(response => this.location = response.data)
+            .catch(error => console.log(error))
+            .finally(() => console.log('Data loading complete.'))
+
         // this.map = new window.google.maps.Map(this.$refs["map"], {
         //     center: {lat: 33.781985, lng: -118.122324},
         //     zoom: 15
