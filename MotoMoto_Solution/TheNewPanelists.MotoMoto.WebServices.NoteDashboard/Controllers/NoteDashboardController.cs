@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.Models.NoteDashboardModels;
 
 namespace TheNewPanelists.MotoMoto.WebServices
 {
@@ -14,35 +15,22 @@ namespace TheNewPanelists.MotoMoto.WebServices
         }
         [HttpGet]
         [Route("GetNotes")]
-        public IActionResult GetNotes()
+        public IActionResult GetNotes(string username)
         {
             NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-            return Ok(note.GetNotes("user1", "order"));
+            List < NoteModel > noteList = note.GetNotes(username, "option");
+            List<string> temp = new List<string>();
+            List<List<string>> noteParse = new List<List<string>>();
+            foreach(NoteModel item in noteList)
+            {
+                temp.Add(item.title);
+                temp.Add(item.notes);
+                noteParse.Add(temp);
+                temp = new List<string>();
+            }
+            return Ok(noteParse);
         }
 
-        [HttpPut]
-        [Route("InsertNewNote")]
-        public IActionResult  AddNotes()
-        {
-            NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-            return Ok(note.AddNotes("user1", "Test Adding New Note"));
-        }
-
-        [HttpDelete]
-        [Route("DeleteNote")]
-        public IActionResult DeleteNotes()
-        {
-            NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-            return Ok(note.DeleteNotes("user1", "Delete Note"));
-        }
-
-        [HttpPost]
-        [Route("UpdateNote")]
-        public IActionResult UpdateNotes()
-        {
-            NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-            return Ok(note.UpdateNotes("user1", "Update Note", "This Note Has been updated"));
-        }
-       
+            
     }
 }

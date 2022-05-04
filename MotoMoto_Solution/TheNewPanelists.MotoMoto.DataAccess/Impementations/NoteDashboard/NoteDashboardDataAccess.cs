@@ -101,7 +101,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         note = reader.GetString(1);
                     }
                     DateTime date = reader.GetDateTime(2);
-                    NoteModel noteModel = new NoteModel(title, note, date);
+                    NoteModel noteModel = new NoteModel();
+                    noteModel.SetNotes(note);
+                    noteModel.SetTitle(title);
+                    noteModel.SetUsername(username);
                     notes.Add(noteModel);
                 }
                 return notes;
