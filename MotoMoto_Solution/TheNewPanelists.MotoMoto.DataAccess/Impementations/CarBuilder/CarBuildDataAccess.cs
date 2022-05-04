@@ -151,7 +151,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 //parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
                 parameters[0] = new MySqlParameter("@v0", carType!.make);
                 parameters[1] = new MySqlParameter("@v1", carType!.model);
-                parameters[3] = new MySqlParameter("@v2", carType!.year);
+                parameters[2] = new MySqlParameter("@v2", carType!.year);
 
                 command.Parameters.AddRange(parameters);
                 return (ExecuteQuery(command));
