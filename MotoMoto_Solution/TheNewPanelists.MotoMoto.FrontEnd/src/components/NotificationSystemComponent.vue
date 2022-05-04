@@ -16,19 +16,14 @@
                 <th>Event</th>
                 <th>Event Location</th>
             </tr>
-            <tr v-for="event, index in registeredEventList" :key="event">
-                <td>{{ event[index].eventDate.split(" ")[0] }}</td>
-                <td>{{ event[index].eventTime }}</td>
-                <td>{{ event[index].eventTitle }}</td>
-                <td>{{ event[index].eventStreetAddress }},<br>{{ event[index].eventCity }}, 
-                    {{ event[index].eventState }} {{ event[index].eventZipCode }} {{ event[index].eventCountry }}</td>
-                    <td><button @click="deleteNotification(event[index].eventID, username)">Delete</button></td>
-            </tr>
-            <!-- <tr v-for="name in tests" :key="name.id">
-                <td>{{ name.first }}</td>
-                <td>{{ name. second }}</td>
-                <td>{{ name.third }}</td>
-            </tr> -->
+            <tr v-for="event in registeredEventList" :key="event.eventID">
+                <td>{{ event.eventDate.split(" ")[0] }}</td>
+                <td>{{ event.eventTime }}</td>
+                <td>{{ event.eventTitle }}</td>
+                <td>{{ event.eventStreetAddress }},<br>{{ event.eventCity }}, 
+                    {{ event.eventState }} {{ event.eventZipCode }} {{ event.eventCountry }}</td>
+                    <button @click="deleteNotification(event[index].eventID, username)">Delete</button>
+            </tr> 
         </table>
     </div>
 </template>
@@ -38,9 +33,7 @@ import {instance} from '../router/NotificationSystemConnection'
 export default {
     data() { 
         return {
-            registeredEventList: [],
-            tests: [{first: 'naeun', second: 'yu', thrid: 'joon'}, 
-                    {first: 'this', second: 'is', third: 'last'}]
+            registeredEventList: []
         }
     },
     mounted() { 
@@ -64,8 +57,15 @@ export default {
                 //     this.notes.push({'title' :res.data[i][0], 'note':res.data[i][1]});
                 // }
             //}
-            console.log(res); 
-            this.registeredEventList.push(res.data);
+            console.log(res);
+            console.log(res.data);
+            // res.data.array.forEach(event => {
+            //     this.registeredEventList.push(event);
+            // });
+            this.registeredEventList = res.data;
+            //registeredEventList = [];
+            //this.registeredEventList.push(res.data);
+            console.log(this.registeredEventList);
             }).catch((e)=>{
                 console.log(e);
             });
