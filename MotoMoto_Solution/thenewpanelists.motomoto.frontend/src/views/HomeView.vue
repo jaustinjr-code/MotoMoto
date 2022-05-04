@@ -8,6 +8,8 @@ import http from "./Http-coman"
     <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
     <RegistrationComponent/>
+    <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
+    <PersonalizedRecommendationsComponent/>
     <button @click = "goToParts"> Parts </button>
     <RegistrationComponent/>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>

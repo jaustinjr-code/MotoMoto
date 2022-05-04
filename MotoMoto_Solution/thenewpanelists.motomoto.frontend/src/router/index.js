@@ -17,6 +17,7 @@ import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import NotificationSystem from '../views/NotificationSystemView'
 
+
 const routes = [
   {
     path:'/',
@@ -96,11 +97,11 @@ const routes = [
   {
     path: '/UserProfile',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
   },
   {
-    path: '/EditPreferences',
-    name: 'EditPreferences',
+    path: '/UserProfile/EditPreferences',
+    name: 'Edit Preferences',
     component: EditPreferences
   },
   {
