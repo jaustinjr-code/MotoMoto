@@ -1,7 +1,7 @@
 <template>
     <div class="form-row justify-content-center align-items-center">
         <div class="alert alert-danger" v-show="error">{{ error }}</div>
-        <input type="text" class="form-control mb-2" v-model="origin" placeholder="Enter Origin Location">
+        <input type="text" class="form-control mb-2" v-model="origin" id="autocomplete" placeholder="Enter Origin Location">
         <button type="button" class="btn btn-primary mb-2" @click="findOriginLocation">Search</button>
     </div>
     <div class="col-md-6"><h3> Latitude : {{ latitude }}</h3></div>
@@ -32,11 +32,12 @@ export default {
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
                         this.getAddressFromCoords(this.latitude, this.longitude);
+                        this.showOriginLocationOnMap(this.latitude, this.longitude);
                         // console.log(position.coords.latitude);
                         // console.log(position.coords.longitude);
                     },
                     error => {
-                        this.error = error.message;
+                        this.error = error.message + " PLEASE TYPE YOUR ADDRESS MANUALLY...";
                         // console.log(error.message);
                     }
                 );
@@ -67,10 +68,10 @@ export default {
                 }
             })
             .catch(error => {
-                this.error = response.message;
+                this.error = error;
                 // console.log(error.message);
             })
-        }
+        },
         //     axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
         //     + lat + "," + long + "&key=AIzaSyDWiig_4EKjtfZjDf49AEbYReRb3EwLBRs")
         //     .then(response => {
@@ -85,12 +86,29 @@ export default {
         //         console.log(error.message);
         //     })
         // }
+
+        showOriginLocationOnMap(latitude, longitude) {
+            // Create map object
+            this.map = new window.google.maps.Map(this.$refs["map"], {
+                center: {lat: latitude, lng: longitude},
+                zoom: 15
+            })
+
+            // Create origin marker on map
+            new window.google.maps.Marker({
+                position: {lat: latitude, lng: longitude},
+                map: this.map,
+            })
+        }
     },
     mounted() {
-        this.map = new window.google.maps.Map(this.$refs["map"], {
-            center: {lat: 33.781985, lng: -118.122324},
-            zoom: 15
-        })
+        new window.google.maps.places.Autocomplete(
+            document.getElementById("autocomplete"),
+        )
+        // this.map = new window.google.maps.Map(this.$refs["map"], {
+        //     center: {lat: 33.781985, lng: -118.122324},
+        //     zoom: 15
+        // })
         // this.map = new window.google.maps.Map(document.getElementById('map'), {
         //     center: {lat: 33.781985, lng: -118.122324},
         //     zoom: 15
@@ -102,7 +120,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     #map{
         height: 600px;
         width: 800px;
@@ -110,4 +128,19 @@ export default {
         margin-right: auto;
         background: grey;
     }
+
+    .pac-item{
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .pac-item:hover {
+        background-color: grey;
+    }
+
+    .pac-item-query{
+        font-size: 16px;
+    }
+
 </style>
