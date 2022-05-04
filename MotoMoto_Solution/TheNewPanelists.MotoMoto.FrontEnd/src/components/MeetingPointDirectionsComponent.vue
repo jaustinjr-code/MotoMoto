@@ -102,9 +102,14 @@ export default {
         }
     },
     mounted() {
-        new window.google.maps.places.Autocomplete(
+        var autocomplete = new window.google.maps.places.Autocomplete(
             document.getElementById("autocomplete"),
         )
+        autocomplete.addListener("place_changed", () => {
+            var place = autocomplete.getPlace();
+            console.log(place);
+            this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
+        })
         // this.map = new window.google.maps.Map(this.$refs["map"], {
         //     center: {lat: 33.781985, lng: -118.122324},
         //     zoom: 15
