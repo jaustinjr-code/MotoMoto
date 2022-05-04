@@ -6,6 +6,12 @@
     </div>
     <div class="col-md-6"><h3> Latitude : {{ latitude }}</h3></div>
     <div class="col-md-6"><h3> Longitude : {{ longitude }}</h3></div>
+    <!-- <ul>
+        <li v-for="(value, index) in id" 
+        :key="index" >
+        {{value}} 
+        </li> 
+    </ul> -->
     <div id="map" ref="map"></div>
 </template>
 
@@ -110,6 +116,10 @@ export default {
             })
         }
     },
+    created() {
+        this.eventID = this.$route.params.data;
+        console.log(this.eventID);
+    },
     mounted() {
         var autocomplete = new window.google.maps.places.Autocomplete(
             document.getElementById("autocomplete"),
@@ -120,10 +130,10 @@ export default {
             this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
         })
         
-        instance.get('MeetingPointDirections/GetEventLocation')
-            .then(response => this.location = response.data)
-            .catch(error => console.log(error))
-            .finally(() => console.log('Data loading complete.'))
+        // instance.get('MeetingPointDirections/GetEventLocation')
+        //     .then(response => this.location = response.data)
+        //     .catch(error => console.log(error))
+        //     .finally(() => console.log('Data loading complete.'))
 
         // this.map = new window.google.maps.Map(this.$refs["map"], {
         //     center: {lat: 33.781985, lng: -118.122324},

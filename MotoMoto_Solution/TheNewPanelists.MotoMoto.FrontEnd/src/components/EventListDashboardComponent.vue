@@ -27,13 +27,14 @@
                     <td>{{ event.eventDate }}</td>
                     <td>{{ event.registeredUsers}}</td>
                     <td><button type="button" class="btn btn-primary mb-2"> Details </button></td>
+
+                    <!-- <MeetingPointDirectionsComponent :idData="this.id"/> -->
                     <td><button type="button" class="btn btn-primary mb-2" @click="goToMeetingPointDirections(id)"> Find Directions </button></td>   
                 </tr>
             </tbody>
             </table>
         </div>
     </div>
-    <!-- <MeetingPointDirectionsComponent :eventID="this.id"/> -->
 </template>
 
 <script>
@@ -63,7 +64,8 @@ export default {
             this.id = id;
             console.log(this.id);
             console.log(this.events);
-            this.$router.push('/MeetingPointDirections')
+            this.$router.push({ name: 'MeetingPointDirections', params: {data: this.id } });
+            // this.$router.push('/MeetingPointDirections')
         }
     }
 }
