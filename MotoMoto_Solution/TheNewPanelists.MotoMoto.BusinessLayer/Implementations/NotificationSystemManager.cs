@@ -33,10 +33,13 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <param name="username">Logged-in username to receive in-app notification</param>
         ///
         /// <returns>Return a list with all the fetched data of registered events</returns>
-        public IList<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
+        public List<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
         {
             Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
-            return _notificationSystemService.FetchRegisteredEvents(username);
+            List<NotificationSystemInAppModel> list;
+            list = _notificationSystemService.FetchRegisteredEvents(username);
+            Console.WriteLine("return from business" + list[0].eventStreetAddress);
+            return list;
         }
 
     }

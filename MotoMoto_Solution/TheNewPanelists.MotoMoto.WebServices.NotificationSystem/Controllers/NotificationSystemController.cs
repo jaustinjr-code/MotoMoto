@@ -29,7 +29,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
             // Create Service and Manager objects for EventList
             NotificationSystemManager notificationSystemManager = new NotificationSystemManager();
             List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
-            notificationSystemManager.RetrieveRegisteredEvents(username);
+            registeredEventsList = notificationSystemManager.RetrieveRegisteredEvents(username);
+            Console.WriteLine("after manager call");
+            // List<String> registeredEventsList = new List<string>();
+            // registeredEventsList.Add("this");
+            // registeredEventsList.Add("is");
+            // registeredEventsList.Add("controller");
+
 
             // try
             // {
@@ -43,6 +49,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
             //     Console.WriteLine(ex.Message);
             //     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             // }
+            //Console.WriteLine("return from controller" + registeredEventsList[0].eventTitle);
             return Ok(registeredEventsList);
         }
 
