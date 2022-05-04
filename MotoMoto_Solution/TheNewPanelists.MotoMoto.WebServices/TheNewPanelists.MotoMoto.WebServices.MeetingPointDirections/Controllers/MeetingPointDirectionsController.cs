@@ -21,7 +21,9 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.Controller
 
         // Web API call to fetch the selected event location from the data store and display it in the Frontend
         //[HttpGet]
-        [Route("GetEventLocation/eventID={eventID}")]
+        //[Route("GetEventLocation/eventID={eventID}")]
+
+        [Route("GetEventLocation")]
         public IActionResult FetchEventLocation(int eventID) // Pass in int eventID or EventDetailsModel eventID?
         {
             // Create dependency objects before performing operation

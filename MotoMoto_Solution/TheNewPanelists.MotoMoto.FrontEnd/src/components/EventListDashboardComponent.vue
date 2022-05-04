@@ -49,6 +49,7 @@ export default {
     mounted: function() {
         instance.get('EventList/GetEvents')
             .then(response => this.events = response.data)
+            // .then(response => console.log(response.data))
             .catch(error => console.log(error))
             .finally(() => console.log('Data loading complete.'))
     },

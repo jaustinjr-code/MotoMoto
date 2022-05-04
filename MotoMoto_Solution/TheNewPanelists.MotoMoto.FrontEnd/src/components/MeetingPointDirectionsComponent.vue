@@ -6,6 +6,12 @@
     </div>
     <div class="col-md-6"><h3> Latitude : {{ latitude }}</h3></div>
     <div class="col-md-6"><h3> Longitude : {{ longitude }}</h3></div>
+
+    <div class="form-row justify-content-center align-items-center">
+        <div class="col-md-6"><h3> Location : {{ this.location }}</h3></div>
+    </div>
+
+    
     <!-- <ul>
         <li v-for="(value, index) in id" 
         :key="index" >
@@ -31,12 +37,14 @@ export default {
             latitude: '',
             longitude: '',
             error: '',
-            location: [],
+            location: '',
             eventID: 0,
+            eventStreetAddress: '',
+            eventCity: '',
+            eventState: '',
+            eventCountry: '',
+            eventZipCode: '',
         }
-    },
-    created() {
-        this.eventID = this.id;
     },
     methods: {
         findOriginLocation() {
@@ -114,11 +122,43 @@ export default {
                 position: {lat: latitude, lng: longitude},
                 map: this.map,
             })
-        }
+        },
+
+        fetchInformation() {
+            instance.get('MeetingPointDirections/GetEventLocation', {params: { eventID: 2 } })
+            // instance.get('MeetingPointDirections/GetEventLocation?eventID=' + this.eventID )
+
+            .then(response => {
+
+                    if(response.status == 200) {
+                        // this.location = response.data[0].eventStreetAddress;
+                        // console.log(this.location);
+                        this.eventStreetAddress = response.data[0].eventStreetAddress;
+                        console.log(this.eventStreetAddress);
+                        
+                        this.eventCity = response.data[0].eventCity;
+                        console.log(this.eventCity);
+                        
+                        this.eventState = response.data[0].eventState;
+                        console.log(this.eventState);
+                        
+                        this.eventCountry = response.data[0].eventCountry;
+                        console.log(this.eventCountry);
+                        
+                        this.eventZipCode = response.data[0].eventZipCode;
+                        console.log(this.eventZipCode);
+                    
+                        this.location = this.eventStreetAddress + ", " + this.eventCity + ", " + this.eventState + " " + this.eventZipCode;
+                        console.log(this.location);
+                    }
+                })
+            .catch(error => console.log(error))
+            .finally(() => console.log('DATA LOADING COMPLETE...'))
+        },
     },
     created() {
         this.eventID = this.$route.params.data;
-        console.log(this.eventID);
+        // console.log(this.eventID);
     },
     mounted() {
         var autocomplete = new window.google.maps.places.Autocomplete(
@@ -127,13 +167,40 @@ export default {
         autocomplete.addListener("place_changed", () => {
             var place = autocomplete.getPlace();
             console.log(place);
+            this.latitude = place.geometry.location.lat();
+            this.longitude = place.geometry.location.lng();
             this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
         })
-        
-        // instance.get('MeetingPointDirections/GetEventLocation')
-        //     .then(response => this.location = response.data)
+        this.fetchInformation();
+        // instance.get('MeetingPointDirections/GetEventLocation', {params: { eventID: 2 } })
+        //     // .then(response => this.location = response.data)
+        //     // .then(response => console.log(this.location))
+        //     // .then(console.log(this.location))
+
+        //     .then(response => {
+        //     //         // console.log(response.data);
+
+        //             if(response.status == 200) {
+        //                 this.location = response.data;
+        //                 console.log(this.location);
+                                            
+        //                 // this.eventStreetAddress = this.location.eventStreetAddress;
+        //                 // console.log(this.eventStreetAddress);
+        //                 // this.eventStreetAddress = response.data.eventCity;
+        //                 // console.log(response.data.eventStreetAddress);
+        //                 // this.eventCity = response.data.eventCity;
+        //                 // this.eventState = response.data.eventState;
+        //                 // this.eventCountry = response.data.eventCountry;
+        //                 // this.eventZipCode = response.data.eventZipCode;
+        //             }
+        //         })
+        //     //     // .catch(e => {
+        //     //     //     window.alert(e);
+        //     //     // });
         //     .catch(error => console.log(error))
-        //     .finally(() => console.log('Data loading complete.'))
+        //     .finally(() => console.log('DATA LOADING COMPLETE...'))
+
+        // console.log(this.location);
 
         // this.map = new window.google.maps.Map(this.$refs["map"], {
         //     center: {lat: 33.781985, lng: -118.122324},
