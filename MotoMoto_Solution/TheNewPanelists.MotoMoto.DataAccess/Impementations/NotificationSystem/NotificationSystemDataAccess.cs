@@ -76,7 +76,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 var todayDate = DateTime.Now;
                 var endDate = todayDate.AddDays(2);
 
-                command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username AND (eventDate >= @todayDate AND eventDate <= @endDate) ORDER BY eventDate DESC;";
+                command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username AND (eventDate >= @todayDate AND eventDate <= @endDate) ORDER BY eventDate;";
 
                 // command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username;";
                 // command.CommandText = "SELECT eventID, eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";

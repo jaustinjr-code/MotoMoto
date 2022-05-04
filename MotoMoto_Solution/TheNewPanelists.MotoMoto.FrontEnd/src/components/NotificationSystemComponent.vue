@@ -1,17 +1,28 @@
 <template>
     <div>
         <h1>Notification Center</h1>
-        <h3>Upcoming Events</h3>
-        <!-- <button>Subscribed Accounts</button> -->
+        <select name="notificationFeeds" id="notificationType" @change="fetchData">
+            <option value="Upcoming Events">Upcoming Events</option>
+            <option value="All Registered Events">All Registered Events</option>
+        </select>
         <br>
+        <div>
+            <h1>{{ notificationType }}</h1>
+        </div>
         <table id="registered-events">
             <tr>
                 <th>Event Date</th>
+                <th>Event Time</th>
                 <th>Event</th>
+                <th>Event Location</th>
             </tr>
             <tr v-for="event, index in registeredEventList" :key="event">
                 <td>{{ event[index].eventDate.split(" ")[0] }}</td>
+                <td>{{ event[index].eventTime }}</td>
                 <td>{{ event[index].eventTitle }}</td>
+                <td>{{ event[index].eventStreetAddress }},<br>{{ event[index].eventCity }}, 
+                    {{ event[index].eventState }} {{ event[index].eventZipCode }} {{ event[index].eventCountry }}</td>
+                    <td><button @click="deleteNotification(event[index].eventID)">Delete</button></td>
             </tr>
             <!-- <tr v-for="name in tests" :key="name.id">
                 <td>{{ name.first }}</td>
@@ -34,6 +45,7 @@ export default {
     },
     mounted() { 
         this.fetchData(); 
+        // this.deleteNotification(eventID);
     },
     methods: { 
         fetchData() { 
@@ -57,6 +69,13 @@ export default {
             }).catch((e)=>{
                 console.log(e);
             });
+        },
+        deleteNotification(eventID) {
+            let params = eventID;
+            instance.post('NotificationSystem/DeleteNotification?id=' + params.eventID).then((res) =>{
+                console.log(res);
+
+            }) 
         }
     }
 }   
