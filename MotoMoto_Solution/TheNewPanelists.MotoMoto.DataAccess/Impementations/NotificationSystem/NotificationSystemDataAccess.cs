@@ -1,6 +1,7 @@
 using MySql.Data.MySqlClient;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.Models;
+using System.Configuration;
 using System.Data;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
@@ -53,46 +54,101 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
-        public List<NotificationSystemInAppModel> GetRegisteredEvents(string username) //cookie         
+        public List<NotificationSystemInAppModel> RefineData(MySqlDataReader reader)
         {
-            MySqlConnection connection = new MySqlConnection(_connectionString);
-            NotificationSystemInAppModel inAppNotification = new NotificationSystemInAppModel();
-            List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
-            try
+            if (reader.HasRows)
             {
-                connection.Open();
-                Console.WriteLine("Connection Open");
-                var currentDate = DateOnly.FromDateTime(DateTime.Now);
+                List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
 
-                string getRegisteredEventDetails = "SELECT eventTime, eventDate, eventStreetAddress, "
-                                                + "eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE eventDate <= "
-                                                + currentDate.AddDays(2) + " AND registeredUsers = " + username;
-                MySqlCommand cmd = new MySqlCommand(getRegisteredEventDetails, connection);
-                MySqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        inAppNotification.eventTime = reader["eventTime"].ToString();
-                        inAppNotification.eventDate = reader["eventDate"].ToString();
-                        inAppNotification.eventStreetAddress = reader["eventStreetAddress"].ToString();
-                        inAppNotification.eventCity = reader["eventCity"].ToString();
-                        inAppNotification.eventState = reader["eventState"].ToString();
-                        inAppNotification.eventCountry = reader["eventCountry"].ToString();
-                        inAppNotification.eventZipCode = reader["eventZipCode"].ToString();
-                        registeredEventsList.Add(inAppNotification);
-                    }
+                    string eventTime = reader.GetString("eventTime");
+                    string eventDate = reader.GetString("eventDate");
+                    string eventStreetAddress = reader.GetString("eventStreetAddress");
+                    string eventCity = reader.GetString("eventCity");
+                    string eventState = reader.GetString("eventState");
+                    string eventCountry = reader.GetString("eventCountry");
+                    string eventZipCode = reader.GetString("eventZipCode");
                 }
+                reader.Close();
+                return registeredEventsList;
             }
-            catch (Exception ex)
+            reader.Close();
+            throw new Exception("No records");
+        }
+
+        public List<NotificationSystemInAppModel> GetRegisteredEvents(string username) //cookie   
+        {
+        // Establish connection assigns connection string
+            if (!EstablishMariaDBConnection())
             {
-                throw new Exception(ex.Message);
+                throw new NullReferenceException();
             }
-            finally
+            else mySqlConnection!.BeginTransaction();
+
+            string commandText = "SELECT eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
+            
+            using (MySqlCommand command = new MySqlCommand(commandText, mySqlConnection))
             {
-                connection.Close();
-            }
-            return registeredEventsList;
+                command.Parameters.AddWithValue("@username", username);
+                try
+                {
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    List<NotificationSystemInAppModel> data = RefineData(command.ExecuteReader());
+                    command.Transaction.Commit();
+                    mySqlConnection.Close();
+
+                    
+                    return data;
+                }
+                catch (Exception e)
+                {
+                    command.Transaction.Rollback();
+                    // Trigger Logging Service
+                    // e.ToString();
+                    // Console.WriteLine(e.Message);
+                    throw e;
+                }
+            }      
+        // {
+        //     MySqlConnection connection = new MySqlConnection(_connectionString);
+        //     NotificationSystemInAppModel inAppNotification = new NotificationSystemInAppModel();
+        //     List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
+        //     string commandText = "SELECT eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
+        //     try
+        //     {
+        //         connection.Open();
+        //         Console.WriteLine("Connection Open");
+        //         var currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+        //         MySqlCommand cmd = new MySqlCommand(commandText, connection);
+        //         MySqlDataReader reader = cmd.ExecuteReader();
+        //         if (reader.HasRows)
+        //         {
+        //             while (reader.Read())
+        //             {
+        //                 inAppNotification.eventTime = reader["eventTime"].ToString();
+        //                 inAppNotification.eventDate = reader["eventDate"].ToString();
+        //                 inAppNotification.eventStreetAddress = reader["eventStreetAddress"].ToString();
+        //                 inAppNotification.eventCity = reader["eventCity"].ToString();
+        //                 inAppNotification.eventState = reader["eventState"].ToString();
+        //                 inAppNotification.eventCountry = reader["eventCountry"].ToString();
+        //                 inAppNotification.eventZipCode = reader["eventZipCode"].ToString();
+        //                 registeredEventsList.Add(inAppNotification);
+        //             }
+        //             reader.Close();
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new Exception(ex.Message);
+        //     }
+        //     finally
+        //     {
+        //         connection.Close();
+        //     }
+        //     return registeredEventsList;
         }
 
         // /// <summary>

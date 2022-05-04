@@ -1,6 +1,3 @@
-using System;
-using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Collections.Specialized;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +19,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
         //[HttpGet]
-        // [HttpGet]
+        [HttpGet]
         [Route("GetRegisteredEventDetails")]
         public IActionResult FetchRegisteredEvents(string username)
         {
