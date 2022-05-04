@@ -4,11 +4,17 @@
         <input type="text" class="form-control mb-2" v-model="origin" id="autocomplete" placeholder="Enter Origin Location">
         <button type="button" class="btn btn-primary mb-2" @click="findOriginLocation">Search</button>
     </div>
-    <div class="col-md-6"><h3> Latitude : {{ latitude }}</h3></div>
-    <div class="col-md-6"><h3> Longitude : {{ longitude }}</h3></div>
+    <!-- <div class="row"> -->
+        <div class="col-md-6"><h3> Latitude of Origin : {{ latitude }}</h3></div>
+        <div class="col-md-6"><h3> Longitude of Origin : {{ longitude }}</h3></div>
+    <!-- </div> -->
 
     <div class="form-row justify-content-center align-items-center">
-        <div class="col-md-6"><h3> Location : {{ this.location }}</h3></div>
+        <div class="row">
+            <h3> Selected Event Location : {{ this.location }}</h3>
+            <div class="col-md-6"><h3> Latitude of Event Location : {{ eventLatitude }}</h3></div>
+            <div class="col-md-6"><h3> Longitude of Event Location : {{ eventLongitude }}</h3></div>
+        </div>
     </div>
 
     
@@ -36,6 +42,8 @@ export default {
             origin: '',
             latitude: '',
             longitude: '',
+            eventLatitude: '',
+            eventLongitude: '',
             error: '',
             location: '',
             eventID: 0,
@@ -160,7 +168,7 @@ export default {
         this.eventID = this.$route.params.data;
         // console.log(this.eventID);
     },
-    mounted() {
+    async mounted() {
         var autocomplete = new window.google.maps.places.Autocomplete(
             document.getElementById("autocomplete"),
         )
