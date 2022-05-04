@@ -25,7 +25,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
             List<NotificationSystemInAppModel> list;
             list = _notificationSystemService.FetchRegisteredEvents(username);
-            Console.WriteLine("return from business" + list[0].eventStreetAddress);
+            //Console.WriteLine("return from business" + list[0].eventStreetAddress);
             return list;
         }
 

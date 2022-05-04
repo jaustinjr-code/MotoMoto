@@ -140,8 +140,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 myReader.Close();
                 mySqlConnection!.Close();
 
-                Console.WriteLine("Returning from NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
-                Console.WriteLine("this is registered Events" + registeredEventList[0].eventTitle);
+                //Console.WriteLine("Returning from NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
+                //Console.WriteLine("this is registered Events" + registeredEventList[0].eventTitle);
                 return registeredEventList;
             }
         }
