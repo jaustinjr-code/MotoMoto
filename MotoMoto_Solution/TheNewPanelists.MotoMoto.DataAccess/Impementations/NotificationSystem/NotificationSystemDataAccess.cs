@@ -54,29 +54,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
-        public List<NotificationSystemInAppModel> RefineData(MySqlDataReader reader)
-        {
-            if (reader.HasRows)
-            {
-                List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
-
-                while (reader.Read())
-                {
-                    string eventTime = reader.GetString("eventTime");
-                    string eventDate = reader.GetString("eventDate");
-                    string eventStreetAddress = reader.GetString("eventStreetAddress");
-                    string eventCity = reader.GetString("eventCity");
-                    string eventState = reader.GetString("eventState");
-                    string eventCountry = reader.GetString("eventCountry");
-                    string eventZipCode = reader.GetString("eventZipCode");
-                }
-                reader.Close();
-                return registeredEventsList;
-            }
-            reader.Close();
-            throw new Exception("No records");
-        }
-
+        /// <summary>
+        /// Returns list of registered events within give date range
+        /// </summary>
+        /// <returns>List<NotificationSystemInAppModel> GetRegisteredEvents</returns>
         public List<NotificationSystemInAppModel> GetRegisteredEvents(string username) //cookie   
         {
             Console.WriteLine("NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
@@ -92,16 +73,23 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
+                var todayDate = DateTime.Now;
+                var endDate = todayDate.AddDays(2);
 
-                command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username;";
+                command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username AND (eventDate >= @todayDate AND eventDate <= @endDate) ORDER BY eventDate DESC;";
+
+                // command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username;";
                 // command.CommandText = "SELECT eventID, eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
                 command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@todayDate", todayDate.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@endDate", endDate.ToString("yyyy-MM-dd"));
 
                 MySqlDataReader myReader = command.ExecuteReader();
-                NotificationSystemInAppModel inAppNotificationData = new NotificationSystemInAppModel();
         
                 while (myReader.Read())
                 {
+                    NotificationSystemInAppModel inAppNotificationData = new NotificationSystemInAppModel();
+        
                     inAppNotificationData.eventID = myReader.GetInt32("eventID");
                     inAppNotificationData.eventTime = myReader.GetString("eventTime");
                     Console.WriteLine("thisis myreader.Read()" + inAppNotificationData.eventTime);

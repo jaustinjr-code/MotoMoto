@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Notification Center</h1>
-        <h3>Registered Events</h3>
+        <h3>Upcoming Events</h3>
         <!-- <button>Subscribed Accounts</button> -->
         <br>
         <table id="registered-events">
@@ -9,9 +9,9 @@
                 <th>Event Date</th>
                 <th>Event</th>
             </tr>
-            <tr v-for="event in tests" :key="event.id">
-                <td>{{ event.first }}</td>
-                <td>{{ event.second }}</td>
+            <tr v-for="event, index in registeredEventList" :key="event">
+                <td>{{ event[index].eventDate.split(" ")[0] }}</td>
+                <td>{{ event[index].eventTitle }}</td>
             </tr>
             <!-- <tr v-for="name in tests" :key="name.id">
                 <td>{{ name.first }}</td>
@@ -37,7 +37,7 @@ export default {
     },
     methods: { 
         fetchData() { 
-            let params = {username: "user118"}; 
+            let params = {username: "ran"}; 
             instance.get('NotificationSystem/GetRegisteredEventDetails?username=' + params.username).then((res) =>{
                 //console.log(res.data.length); 
             // for(let i = 0; i < res.data.length; i++)
@@ -53,6 +53,7 @@ export default {
                 // }
             //}
             console.log(res); 
+            this.registeredEventList.push(res.data);
             }).catch((e)=>{
                 console.log(e);
             });

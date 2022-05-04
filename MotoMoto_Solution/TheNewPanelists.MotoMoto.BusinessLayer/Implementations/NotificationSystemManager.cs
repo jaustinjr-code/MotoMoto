@@ -6,23 +6,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     public class NotificationSystemManager
     {
         private readonly NotificationSystemService _notificationSystemService;
-        // Default constructor, initializes service layer entity for Notification System
+        // Default constructor, initializes service layer for Notification System
         public NotificationSystemManager()
         {
             _notificationSystemService = new NotificationSystemService();
-        }
-
-        public bool IsTimeToSendEmailNotifications()
-        {
-            bool result = false;
-            DateTime currentTime = DateTime.UtcNow;
-            
-            if (currentTime.Hour >= 22)
-            {
-                result = true;
-            }
-
-            return result;
         }
 
 
@@ -41,6 +28,20 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             Console.WriteLine("return from business" + list[0].eventStreetAddress);
             return list;
         }
+
+
+        // public bool IsTimeToSendEmailNotifications()
+        // {
+        //     bool result = false;
+        //     DateTime currentTime = DateTime.UtcNow;
+            
+        //     if (currentTime.Hour >= 22)
+        //     {
+        //         result = true;
+        //     }
+
+        //     return result;
+        // }
 
     }
 }

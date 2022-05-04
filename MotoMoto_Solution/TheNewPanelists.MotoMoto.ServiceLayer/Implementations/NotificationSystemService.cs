@@ -14,12 +14,19 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     public class NotificationSystemService
     {
         private readonly NotificationSystemDataAccess _notificationSystemDataAccess;
-        // Default constructor that creates the data access entity for notification system
+        // Default constructor that creates the data access for notification system
         public NotificationSystemService()
         {
             _notificationSystemDataAccess = new NotificationSystemDataAccess();
         }
 
+        /// <summary>
+        /// Calls GetRegisteredEvents from the data access layer then return the list of events
+        /// </summary>
+        ///
+        /// <param name="username">Logged-in username to receive in-app notification</param>
+        ///
+        /// <returns>Return a list with all the fetched data of registered events from data access layer</returns>
         public List<NotificationSystemInAppModel> FetchRegisteredEvents(string username) 
         {
             Console.WriteLine("NotificationSystemService:FetchRegisteredEvents Hello " + username);
