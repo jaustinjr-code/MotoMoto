@@ -54,39 +54,39 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
-        public bool DeleteNotification(int eventID, string username)
-        {
-            Console.WriteLine("NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            string commandText = "DELETE FROM InAppEventDetails WHERE registeredUsers = @username AND eventID = @eventID;";
-            if (eventID != 0 || username != null)
-            {
-                MySqlCommand command = new MySqlCommand(_connectionString);
-                try
-                {
-                    mySqlConnection.Open();
-                    MySqlCommand cmd = new MySqlCommand(commandText, mySqlConnection);
-                    command.Parameters.AddWithValue("@username", username);
-                    command.Parameters.AddWithValue("@eventID", eventID);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    mySqlConnection.Close();
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        // public bool DeleteNotification(int eventID, string username)
+        // {
+        //     Console.WriteLine("NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
+        //     if (!EstablishMariaDBConnection())
+        //     {
+        //         throw new NullReferenceException();
+        //     }
+        //     string commandText = "DELETE FROM InAppEventDetails WHERE registeredUsers = @username AND eventID = @eventID;";
+        //     if (eventID != 0 || username != null)
+        //     {
+        //         MySqlCommand command = new MySqlCommand(_connectionString);
+        //         try
+        //         {
+        //             mySqlConnection.Open();
+        //             MySqlCommand cmd = new MySqlCommand(commandText, mySqlConnection);
+        //             command.Parameters.AddWithValue("@username", username);
+        //             command.Parameters.AddWithValue("@eventID", eventID);
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             Console.WriteLine(ex.ToString());
+        //         }
+        //         finally
+        //         {
+        //             mySqlConnection.Close();
+        //         }
+        //         return true;
+        //     }
+        //     else
+        //     {
+        //         return false;
+        //     }
+        // }
 
         /// <summary>
         /// Returns list of registered events within give date range

@@ -29,17 +29,17 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return list;
         }
 
-        public bool RemoveNotification(int eventID, string username)
-        {
-            if (eventID == 0 || username == null)
-            {
-                return false;
-            }
-            else
-            {
-                return (_notificationSystemService.DeleteNotification(eventID, username));
-            }
-        }
+        // public bool RemoveNotification(int eventID, string username)
+        // {
+        //     if (eventID == 0 || username == null)
+        //     {
+        //         return false;
+        //     }
+        //     else
+        //     {
+        //         return (_notificationSystemService.DeleteNotification(eventID, username));
+        //     }
+        // }
 
 
         // public bool IsTimeToSendEmailNotifications()

@@ -11,7 +11,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.NotificationSystemTests
     public class NotificationSystemBusinessLayerUnitTest
     {
         [Fact]
-        public void IsValidRequest_RetrieveRegisteredEvents()
+        public void IsValid_RetrieveRegisteredEvents()
         {
             // Given
             NotificationSystemManager manager = new NotificationSystemManager();
