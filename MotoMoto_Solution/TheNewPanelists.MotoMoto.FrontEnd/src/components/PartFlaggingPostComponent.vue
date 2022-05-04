@@ -23,10 +23,10 @@
         <div class='parts-single-selection'>
             <ul class='post-list' id='parts-list'>
                 <div class='parts-list-single-entry'>
-                    <li class='parts-list-item' value='0'>Compatible Part</li><button v-on:click='flagNewPart(0)'>Flag Part</button>
+                    <li class='parts-list-item' value='0'>Compatible Part</li><button v-on:click='flagNewPart($event.currentTarget, 0)'>Flag Part</button>
                 </div>
                 <div class='parts-list-single-entry'>
-                    <li class='parts-list-item' value='1'>Incompatible Part</li><button v-on:click='flagNewPart(1)'>Flag Part</button>
+                    <li class='parts-list-item' value='1'>Incompatible Part</li><button v-on:click='flagNewPart($event.currentTarget, 1)'>Flag Part</button>
                 </div>
             </ul>
         </div>
@@ -105,7 +105,9 @@ export default {
         },
 
         //Flags a part in the list of parts in the car build
-        flagNewPart: async function(partNum) {
+        flagNewPart: async function(caller, partNum) {
+            this.tempDisableButton(caller)
+            
             let carMakeElement = document.getElementById('car-make')
             let carMake = carMakeElement.dataset.value
 
@@ -188,7 +190,21 @@ export default {
         Downvote: async function(index) {
             this.decrementFlagCount(index)
             this.UnSelectFlag()
-        }
+        },
+
+        //Disables a button 
+        tempDisableButton: async function(caller) {
+            let sleepTimeMs = 5000
+
+            caller.disabled = true;
+            await this.sleep(sleepTimeMs)
+            caller.disabled = false;
+        },
+
+        //Pauses code execution for passed in number of milliseconds
+        sleep: function(timeMs) {
+            return new Promise(resolve => setTimeout(resolve, timeMs));
+        },
     },
 
     //Initializes the incompatibility list for the build

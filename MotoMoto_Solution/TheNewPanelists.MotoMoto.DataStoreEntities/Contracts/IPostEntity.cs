@@ -1,11 +1,12 @@
 namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public interface IPostEntity
+    public interface IPostEntity : IContentEntity
     {
         int postId { get; }
         string postTitle { get; }
-        DataStoreUserProfile postUser { get; }
+        //DataStoreUserProfile postUser { get; }
+        string postUsername { get; }
         string? postDescription { get; }
-        IEnumerable<byte[]> imageList { get; set; }
+        IEnumerable<byte[]>? imageList { get; set; }
     }
 }
