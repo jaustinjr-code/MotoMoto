@@ -9,6 +9,7 @@ import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import UserProfile from '../views/UserProfileView.vue'
+import EditPreferences from '../views/EditPreferencesView.vue'
 
 const routes = [
   {
@@ -59,8 +60,13 @@ const routes = [
   {
     path: '/UserProfile',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
   },
+  {
+    path: '/UserProfile/EditPreferences',
+    name: 'Edit Preferences',
+    component: EditPreferences
+  }
 ]
 
 const router = createRouter({
