@@ -40,6 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.NotificationSystem", "TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj", "{171F3699-C6D7-4A0B-99EF-C89B791F983D}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.FetchContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.FetchContent\TheNewPanelists.MotoMoto.WebServices.FetchContent.csproj", "{D3305279-3D43-4274-ADCC-F21200F2654E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.SubmitContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj", "{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}"
@@ -114,6 +115,10 @@ Global
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

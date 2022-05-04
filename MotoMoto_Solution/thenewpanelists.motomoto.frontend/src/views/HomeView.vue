@@ -14,6 +14,7 @@ import http from "./Http-coman"
     <RegistrationComponent/>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
+    <button @click="goToNotificationSystem"> Notification Center </button>
     <button @click="goToCommunityBoard">Community Board</button>
   </div>
 </template>
@@ -21,6 +22,7 @@ import http from "./Http-coman"
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import router from '../router'
 
 export default {
   name: 'HomeView',
@@ -45,6 +47,9 @@ export default {
     },
     goToPartFlaggingPost(){
       this.$router.push('/PartFlaggingPost')
+    },
+    goToNotificationSystem() {
+      this.$router.push('/NotificationSystem')
     },
     goToCommunityBoard(){
       this.$router.push('/communityboard')

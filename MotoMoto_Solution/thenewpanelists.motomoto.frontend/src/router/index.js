@@ -14,7 +14,9 @@ import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
-import EditPreferences from '../views/EditPreferencesView.vue'
+import EditPreferences from '../views/EditPreferencesView'
+import NotificationSystem from '../views/NotificationSystemView'
+
 
 const routes = [
   {
@@ -101,6 +103,11 @@ const routes = [
     path: '/UserProfile/EditPreferences',
     name: 'Edit Preferences',
     component: EditPreferences
+  },
+  {
+    path: '/NotificationSystem',
+    name: 'NotificationSystem',
+    component: NotificationSystem
   }
 ]
 
