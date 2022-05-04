@@ -10,6 +10,9 @@ namespace TheNewPanelists.MotoMoto.Models
         string? eventState { get; set; }
         string? eventCountry { get; set; }
         string? eventZipCode { get; set; }
+
+        int? eventID { get; set; }
+        string? eventTitle {get; set;}
         // bool isNotificationSent { get; set; }
         // int eventID { get; }
 

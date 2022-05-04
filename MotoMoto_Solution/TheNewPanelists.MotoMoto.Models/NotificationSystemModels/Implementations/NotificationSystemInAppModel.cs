@@ -9,5 +9,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? eventState { get; set; }
         public string? eventCountry { get; set; }
         public string? eventZipCode { get; set; }
+        public int? eventID {get; set;}
+        public string? eventTitle{get; set;}
     }
 }

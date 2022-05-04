@@ -1,9 +1,21 @@
 <template>
     <div>
         <h1>Notification Center</h1>
-        <button @click="display">Registered Events</button>
+        <h3>Registered Events</h3>
         <h1>{{notification}}</h1>
         <!-- <button>Subscribed Accounts</button> -->
+        <br>
+        <table id="registered-events">
+            <tr>
+                <th>Event Date</th>
+                <th>Event</th>
+            </tr>
+            <tr v-for="event in registeredEventList" :key="event.eventID">
+                <td>{{ event.eventDate}}</td>
+                <td @click="ExpandEventDetail(event.eventID)">{{ event}}</td>
+
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -13,7 +25,7 @@ import {instance} from '../router/NotificationSystemConnection'
 export default {
     data() { 
         return {
-            notification: []
+            registeredEventList: []
         }
     },
     mounted() { 
@@ -25,7 +37,7 @@ export default {
             instance.get('NotificationSystem/GetRegisteredEventDetails?username=' + params.username).then((res) =>{
             for(let i = 0; i < res.data.length; i++)
             {
-                this.notification.push({'eventTime' :res.data[i][0], 'eventDate' :res.data[i][1],
+                this.registeredEventList.push({'eventTime' :res.data[i][0], 'eventDate' :res.data[i][1],
                     'eventStreetAddress' :res.data[i][2], 'eventCity' :res.data[i][3],
                     'eventState' :res.data[i][4], 'eventCountry' :res.data[i][5],
                     'eventZipCode' :res.data[i][6], 'eventZipCode' :res.data[i][7]})

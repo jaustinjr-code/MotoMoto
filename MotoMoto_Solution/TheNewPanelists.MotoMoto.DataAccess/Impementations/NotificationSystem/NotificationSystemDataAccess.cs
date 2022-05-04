@@ -79,37 +79,82 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         public List<NotificationSystemInAppModel> GetRegisteredEvents(string username) //cookie   
         {
-        // Establish connection assigns connection string
+            Console.WriteLine("NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
             if (!EstablishMariaDBConnection())
             {
                 throw new NullReferenceException();
             }
-            else mySqlConnection!.BeginTransaction();
 
-            string commandText = "SELECT eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
-            
-            using (MySqlCommand command = new MySqlCommand(commandText, mySqlConnection))
+            List<NotificationSystemInAppModel> registeredEventList = new List<NotificationSystemInAppModel>();
+            using (MySqlCommand command = new MySqlCommand())
             {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username;";
+                // command.CommandText = "SELECT eventID, eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
                 command.Parameters.AddWithValue("@username", username);
-                try
+
+                MySqlDataReader myReader = command.ExecuteReader();
+                NotificationSystemInAppModel inAppNotificationData = new NotificationSystemInAppModel();
+        
+                while (myReader.Read())
                 {
-                    command.Transaction = mySqlConnection!.BeginTransaction();
-                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    List<NotificationSystemInAppModel> data = RefineData(command.ExecuteReader());
-                    command.Transaction.Commit();
-                    mySqlConnection.Close();
+                    inAppNotificationData.eventID = myReader.GetInt32("eventID");
+                    inAppNotificationData.eventTime = myReader.GetString("eventTime");
+                    Console.WriteLine("thisis myreader.Read()" + inAppNotificationData.eventTime);
+                    inAppNotificationData.eventDate = myReader.GetString("eventDate");
+                    inAppNotificationData.eventStreetAddress = myReader.GetString("eventStreetAddress");
+                    inAppNotificationData.eventCity = myReader.GetString("eventCity");
+                    inAppNotificationData.eventState = myReader.GetString("eventState");
+                    inAppNotificationData.eventCountry = myReader.GetString("eventCountry");
+                    inAppNotificationData.eventZipCode= myReader.GetString("eventZipCode");
+                    inAppNotificationData.eventTitle = myReader.GetString("postTitle");
+
+                    registeredEventList.Add(inAppNotificationData);
+                }
+                myReader.Close();
+                mySqlConnection!.Close();
+
+                Console.WriteLine("Returning from NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
+                Console.WriteLine("this is registered Events" + registeredEventList[0].eventTitle);
+                return registeredEventList;
+            }
+        }
+
+        // Establish connection assigns connection string
+            // if (!EstablishMariaDBConnection())
+            // {
+            //     throw new NullReferenceException();
+            // }
+            // else mySqlConnection!.BeginTransaction();
+
+            // string commandText = "SELECT eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
+            
+            // using (MySqlCommand command = new MySqlCommand(commandText, mySqlConnection))
+            // {
+            //     command.Parameters.AddWithValue("@username", username);
+            //     try
+            //     {
+            //         command.Transaction = mySqlConnection!.BeginTransaction();
+            //         command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+            //         List<NotificationSystemInAppModel> data = RefineData(command.ExecuteReader());
+            //         command.Transaction.Commit();
+            //         mySqlConnection.Close();
 
                     
-                    return data;
-                }
-                catch (Exception e)
-                {
-                    command.Transaction.Rollback();
-                    // Trigger Logging Service
-                    // e.ToString();
-                    // Console.WriteLine(e.Message);
-                    throw e;
-                }
+            //         return data;
+            //     }
+            //     catch (Exception e)
+            //     {
+            //         command.Transaction.Rollback();
+            //         // Trigger Logging Service
+            //         // e.ToString();
+            //         // Console.WriteLine(e.Message);
+            //         throw e;
+            //     }
             }      
         // {
         //     MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -249,7 +294,3 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //         };
         //     }
         // }
-
-        
-    }
-}

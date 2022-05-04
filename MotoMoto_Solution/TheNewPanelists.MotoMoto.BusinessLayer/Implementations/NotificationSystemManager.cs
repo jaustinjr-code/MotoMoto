@@ -35,6 +35,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>Return a list with all the fetched data of registered events</returns>
         public IList<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
         {
+            Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
             return _notificationSystemService.FetchRegisteredEvents(username);
         }
 

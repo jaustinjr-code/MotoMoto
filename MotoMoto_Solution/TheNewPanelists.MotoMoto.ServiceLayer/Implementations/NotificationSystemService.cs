@@ -22,6 +22,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public List<NotificationSystemInAppModel> FetchRegisteredEvents(string username) 
         {
+            Console.WriteLine("NotificationSystemService:FetchRegisteredEvents Hello " + username);
             return _notificationSystemDataAccess.GetRegisteredEvents(username);
         }
 

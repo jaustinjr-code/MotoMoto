@@ -23,15 +23,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
         [Route("GetRegisteredEventDetails")]
         public IActionResult FetchRegisteredEvents(string username)
         {
+            Console.WriteLine("NotificationSystemController:FetchRegisteredEvents Hello " + username);
 
-            //string username = Request.QueryString["username"];
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
             NotificationSystemManager notificationSystemManager = new NotificationSystemManager();
             List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
             notificationSystemManager.RetrieveRegisteredEvents(username);
-            NameValueCollection urlQueryString = HttpUtility.ParseQueryString(string.Empty);
-            urlQueryString.Add("username", registeredEventsList.ToString());
 
             // try
             // {
