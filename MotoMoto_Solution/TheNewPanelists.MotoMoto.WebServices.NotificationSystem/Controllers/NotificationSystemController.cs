@@ -1,5 +1,3 @@
-using System.Web;
-using System.Collections.Specialized;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using TheNewPanelists.MotoMoto.DataAccess;
@@ -9,6 +7,8 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 {
+    // [ApiController]
+    // [Route("api/[controller]")]
     [ApiController]
     [Route("api/[controller]")]
 
@@ -19,8 +19,9 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
         //[HttpGet]
-        [HttpGet]
-        [Route("GetRegisteredEventDetails")]
+        [HttpGet("GetNotification")]
+        // [HttpGet]
+        // [Route("GetRegisteredEventDetails")]
         public IActionResult FetchRegisteredEvents(string username)
         {
             Console.WriteLine("NotificationSystemController:FetchRegisteredEvents Hello " + username);
@@ -31,26 +32,14 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
             List<NotificationSystemInAppModel> registeredEventsList = new List<NotificationSystemInAppModel>();
             registeredEventsList = notificationSystemManager.RetrieveRegisteredEvents(username);
             Console.WriteLine("after manager call");
-            // List<String> registeredEventsList = new List<string>();
-            // registeredEventsList.Add("this");
-            // registeredEventsList.Add("is");
-            // registeredEventsList.Add("controller");
-
-
-            // try
-            // {
-            //     // Make a call to the Event List Manager
-            //     ISet<EventDetailsModel> fetchedAllEvents = eventListManager.FetchAllEventDetails();
-            //     // Return the fetched EventDetails Model
-            //     return Ok(fetchedAllEvents);
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine(ex.Message);
-            //     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            // }
-            //Console.WriteLine("return from controller" + registeredEventsList[0].eventTitle);
             return Ok(registeredEventsList);
+        }
+        [HttpPost("DeleteNotification")]
+        public IActionResult RemoveNotification(int eventID, string username)
+        {
+            NotificationSystemManager  notificationSystemManager = new NotificationSystemManager();
+            notificationSystemManager.RemoveNotification(eventID, username);
+            return Ok();
         }
 
     }

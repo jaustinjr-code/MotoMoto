@@ -22,7 +22,7 @@
                 <td>{{ event[index].eventTitle }}</td>
                 <td>{{ event[index].eventStreetAddress }},<br>{{ event[index].eventCity }}, 
                     {{ event[index].eventState }} {{ event[index].eventZipCode }} {{ event[index].eventCountry }}</td>
-                    <td><button @click="deleteNotification(event[index].eventID)">Delete</button></td>
+                    <td><button @click="deleteNotification(event[index].eventID, username)">Delete</button></td>
             </tr>
             <!-- <tr v-for="name in tests" :key="name.id">
                 <td>{{ name.first }}</td>
@@ -50,7 +50,7 @@ export default {
     methods: { 
         fetchData() { 
             let params = {username: "ran"}; 
-            instance.get('NotificationSystem/GetRegisteredEventDetails?username=' + params.username).then((res) =>{
+            instance.get('NotificationSystem/GetNotification?username=' + params.username).then((res) =>{
                 //console.log(res.data.length); 
             // for(let i = 0; i < res.data.length; i++)
             // {
@@ -70,10 +70,11 @@ export default {
                 console.log(e);
             });
         },
-        deleteNotification(eventID) {
-            let params = eventID;
-            instance.post('NotificationSystem/DeleteNotification?id=' + params.eventID).then((res) =>{
+        deleteNotification(eventID, username) {
+            let params = JSON.stringify({id: eventID, name: username})
+            instance.post('NotificationSystem/DeleteNotification?id=', params).then((res) =>{
                 console.log(res);
+                this.registeredEventList.splice(this.registeredEventList.indexOf(eventID - 1), 1);
 
             }) 
         }
