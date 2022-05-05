@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class ProfileManagementDataAccess
+    public class ProfileManagementDataAccess : IProfileDataAccess
     {
         private MySqlConnection? _mySqlConnection = null;
         private string? _connectionString { get; set; }
@@ -35,10 +35,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             switch (command.ExecuteNonQuery())
             {
                 case 1:
-                    _mySqlConnection!.Close();
+                    _mySqlConnection.Close();
                     return true;
                 default:
-                    _mySqlConnection!.Close();
+                    _mySqlConnection.Close();
                     return false;
             }
         }
@@ -240,7 +240,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Retrieveal of all user posts that a user has posted. This is not included for event accounts
         /// </summary>
         /// <param name="userProfile"></param>
         /// <returns></returns>
@@ -285,7 +285,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// This functionality updates a profile description and displays it on their page.
+        /// this function is not dynamic so it will change on page refresh.
         /// </summary>
         /// <param name="profileModel"></param>
         /// <returns></returns>
@@ -316,7 +317,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Functionailty will allow a user to update their profile username. This will change the user profile
+        /// username and will cause changes to all posts and login information.
         /// </summary>
         /// <param name="userProfile"></param>
         /// <returns></returns>
@@ -347,7 +349,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Update profile image will take in a path of a new user profile. Since we are going to allow uploaded
+        /// images, this functionality is subject to change based on the user
         /// </summary>
         /// <param name="userProfile"></param>
         /// <returns></returns>
