@@ -8,6 +8,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class EventFeedModel : IFeedModel
     {
+        public string type { get; } = "event";
         public string feedName { get; set; } = default!;
         public IEnumerable<IPostModel> postList { get; set; } = default!;
     }
