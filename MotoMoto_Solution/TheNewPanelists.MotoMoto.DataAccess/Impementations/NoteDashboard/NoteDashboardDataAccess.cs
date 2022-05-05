@@ -142,6 +142,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
 
+            List<NoteModel> temp = GetNotes(username, "timeStamp ASC");
+            if(temp.Count >= 100)
+            {
+                return false;
+            }
+
             try
             {
                 

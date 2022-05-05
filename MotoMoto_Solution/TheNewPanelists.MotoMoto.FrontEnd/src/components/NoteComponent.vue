@@ -2,18 +2,18 @@
     <div class = 'button'>
         <button :disabled="disableSave" @click="save" v-if = !isNewNote > save </button>
         <button :disabled="clickedAddNote" @click ="addNote" v-if= isNewNote> addNote </button>
-        <button :disabled="clickedDelete" @click="deleteNote" v-if = !isNewNote>delete</button>
+        <button :disabled="clickedDelete"  @click="deleteNote" v-if = !isNewNote>delete</button>
         <button @click="closeNotes"> close </button>
     </div>
 
   <div class = 'title'>
     <input class = "disabled" :value= noteTitle v-if = !isNewNote placeholder="Title" disabled>
-    <input v-model = "titleText" v-if = isNewNote placeholder="Please Enter New Note Title">
+    <input :maxlength="maxLengthTitle" v-model = "titleText" v-if = isNewNote placeholder="Please Enter New Note Title">
   </div>
   
 
   <div class = 'note'>
-      <textarea v-model = "noteText" v-if = !isNewNote placeholder="Write Your Note Here"></textarea>
+      <textarea :maxlength="maxLengthNote" v-model = "noteText" v-if = !isNewNote placeholder="Write Your Note Here"></textarea>
   </div>
 </template>
 
@@ -29,7 +29,9 @@ export default {
             user: "user1",
             clickedDelete: false,
             clickedAddNote: false,
-            disableSave: false
+            disableSave: false,
+            maxLengthNote:5000,
+            maxLengthTitle: 30
         }
     },
     methods:

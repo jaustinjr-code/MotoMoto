@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="newNote">New Note</button>
+        <button :disabled="noteCapacityExceeded" @click="newNote">New Note</button>
         <select v-model="selected" @change="getUpdateNotes()">
             <option disabled value="">Please select one</option>
             <option>By Date: Ascending Order</option>
@@ -22,7 +22,8 @@ export default {
     {
         return{
             notes: [],
-            user: ""
+            user: "",
+            noteCapacityExceeded:false
         }
     },
     methods: 
@@ -52,6 +53,10 @@ export default {
             console.log(`Server replied with: ${res.data}`);
             for(let i = 0; i < res.data.length; i++)
             {
+                if(res.data.length >= 100)
+                {
+                    this.noteCapacityExceeded = true;
+                }
                 if(!this.notes.some(data => data.title === res.data[i][0]))
                {
                    
