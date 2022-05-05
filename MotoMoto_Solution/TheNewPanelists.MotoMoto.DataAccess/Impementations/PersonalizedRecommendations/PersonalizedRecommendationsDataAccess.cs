@@ -6,8 +6,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations.PersonalizedRecomme
     public class PersonalizedRecommendationsDataAccess
     {
         private MySqlConnection? _mySqlConnection { get; set; }
-        private string _connectionString = "server=localhost;user=root;database=dev_um;port=3306;password=12345;";
-
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;"
         public bool EstablishMariaDBConnection()
         {
             try
