@@ -7,9 +7,9 @@ using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models.NoteDashboardModels;
 using Xunit;
 
-namespace TheNewPanelists.MotoMoto.UnitTests.NoteDashboardTests
+namespace TheNewPanelists.MotoMoto.UnitTests
 {
-    public class NoteDashboardDataAccessIntegrationTest
+    public class NoteDashboardDataAccessUnitTest
     {
         [Fact]
         public void AddNotes_True()
