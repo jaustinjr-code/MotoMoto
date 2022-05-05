@@ -15,10 +15,32 @@ namespace TheNewPanelists.MotoMoto.WebServices
         }
         [HttpGet]
         [Route("GetNotes")]
-        public IActionResult GetNotes(string username)
+        public IActionResult GetNotes(string username, string option)
         {
+            string order = "";
             NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-            List < NoteModel > noteList = note.GetNotes(username, "option");
+            if (option == "none" || option == "By Date: Ascending Order")
+            {
+                order = "timeStamp ASC";
+            }
+            else if (option == "By Date: Descending Order")
+            {
+                order = "timeStamp DESC";
+            }
+            else if (option == "Alphabetical: Ascending Order")
+            {
+                order = "title ASC";
+            }
+            else if (option == "Alphabetical: Descending Order")
+            {
+                order = "title DESC";
+            }
+            else
+            {
+                order = "timeStamp ASC";
+            }
+
+            List < NoteModel > noteList = note.GetNotes(username, order);
             List<string> temp = new List<string>();
             List<List<string>> noteParse = new List<List<string>>();
             foreach(NoteModel item in noteList)

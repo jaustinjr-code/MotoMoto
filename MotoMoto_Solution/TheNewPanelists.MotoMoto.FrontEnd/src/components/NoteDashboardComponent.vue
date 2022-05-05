@@ -1,10 +1,12 @@
 <template>
     <div>
         <button @click="newNote">New Note</button>
-        <select v-model="selected">
+        <select v-model="selected" @change="getUpdateNotes()">
             <option disabled value="">Please select one</option>
-            <option>By date</option>
-            <option>Alphabetical</option>
+            <option>By Date: Ascending Order</option>
+            <option>By Date: Descending Order</option>
+            <option>Alphabetical: Ascending Order</option>
+            <option>Alphabetical: Descending Order</option>
         </select>
     </div>
     <div class="userNotes" ref="noteList" v-for="item in notes" :key = "item">
@@ -36,8 +38,16 @@ export default {
         },
         getNotes()
         {
-            //this.user = "user1";
-            let params = {username: "user1"};
+            //this.user = "user1"
+            let option = "";
+            if(typeof this.selected === 'undefined')
+            {
+                option = "none";
+            }
+            else{
+                option = this.selected;
+            }
+            let params = {username: "user1", option: option};
             instance.get('NoteDashboard/GetNotes', {params}).then((res) =>{
             console.log(`Server replied with: ${res.data}`);
             for(let i = 0; i < res.data.length; i++)
@@ -51,16 +61,18 @@ export default {
             }).catch((e)=>{
                 console.log(e);
             });   
+        },
+        getUpdateNotes()
+        {
+            this.notes = [];
+            this.getNotes();
         }
+
     },
     beforeMount()
     {
         this.getNotes();
     },
-    beforeUnmount()
-    {
-        clearInterval(this.timer);
-    }
 
 }
 </script>
@@ -69,6 +81,7 @@ export default {
 .userNotes
 {
     display:grid;
+    grid-auto-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
 
 }

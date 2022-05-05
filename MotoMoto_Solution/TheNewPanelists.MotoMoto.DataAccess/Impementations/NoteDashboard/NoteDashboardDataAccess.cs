@@ -103,14 +103,17 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "SELECT n.title,n.notes,n.timestamp FROM Notes n WHERE userId = @v1 ORDER BY n.timeStamp;";
+                command.CommandText = "SELECT title,notes,timestamp FROM Notes WHERE userId = @v1 ORDER BY "+ order + " ;";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userId);
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader reader = command.ExecuteReader();
+                int test = 0;
                 while(reader.Read())
                 {
+                    Console.WriteLine("Order: " + order + " " + test + ") " + reader.GetString(0));
+                    test++;
                     string note = "";
                     string title = reader.GetString(0);
                     if (!reader.IsDBNull("notes"))

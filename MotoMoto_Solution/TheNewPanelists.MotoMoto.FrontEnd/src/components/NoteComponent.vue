@@ -1,8 +1,8 @@
 <template>
     <div class = 'button'>
-        <button @click="save" v-if = !isNewNote > save </button>
-        <button @click ="addNote" v-if= isNewNote> addNote </button>
-        <button @click="deleteNote" v-if = !isNewNote>delete</button>
+        <button :disabled="disableSave" @click="save" v-if = !isNewNote > save </button>
+        <button :disabled="clickedAddNote" @click ="addNote" v-if= isNewNote> addNote </button>
+        <button :disabled="clickedDelete" @click="deleteNote" v-if = !isNewNote>delete</button>
         <button @click="closeNotes"> close </button>
     </div>
 
@@ -26,7 +26,10 @@ export default {
     {
         return{
             noteText: "",
-            user: "user1"
+            user: "user1",
+            clickedDelete: false,
+            clickedAddNote: false,
+            disableSave: false
         }
     },
     methods:
@@ -48,7 +51,8 @@ export default {
         },
         deleteNote()
         {
-            
+            this.clickedDelete = true;
+            this.disableSave = true;
             let params = {username: "user1", title: this.noteTitle};
             instance.get('NoteDelete/DeleteNote', {params}).then((res) => {
                 console.log(`Server replied with: ${res.data}`);
@@ -59,6 +63,7 @@ export default {
         },
         addNote()
         {
+            this.clickedAddNote = true;
             //let test = this.user;
             //let test2 = this.noteText;
             if(this.titleText != '' || this.titleText != null)
