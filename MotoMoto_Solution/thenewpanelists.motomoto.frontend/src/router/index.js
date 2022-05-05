@@ -113,7 +113,6 @@ const routes = [
     name: 'noteDashabord',
     component: NoteDashboardView
   },
-  {
     path: '/NotificationSystem',
     name: 'NotificationSystem',
     component: NotificationSystem
