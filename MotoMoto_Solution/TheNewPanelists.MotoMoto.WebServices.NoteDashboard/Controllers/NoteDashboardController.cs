@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.Models.NoteDashboardModels;
 
 namespace TheNewPanelists.MotoMoto.WebServices
@@ -18,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.WebServices
         public IActionResult GetNotes(string username, string option)
         {
             string order = "";
-            NoteDashboardDataAccess note = new NoteDashboardDataAccess();
+            NoteDashboardManager note = new NoteDashboardManager();
             if (option == "none" || option == "By Date: Ascending Order")
             {
                 order = "timeStamp ASC";
