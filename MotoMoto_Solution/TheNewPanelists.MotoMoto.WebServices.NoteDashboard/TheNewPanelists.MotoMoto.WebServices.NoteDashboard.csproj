@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheNewPanelists.MotoMoto.DataAccess\TheNewPanelists.MotoMoto.DataAccess.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.BusinessLayer\TheNewPanelists.MotoMoto.BusinessLayer.csproj" />
   </ItemGroup>
 
 </Project>

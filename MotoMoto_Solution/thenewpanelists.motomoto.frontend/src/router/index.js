@@ -10,6 +10,7 @@ import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
+import NoteDashboardView from '../views/NoteDashboardView.vue'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: '/EditPreferences',
     name: 'EditPreferences',
     component: EditPreferences
+  },
+  {
+    path: '/noteDashboard',
+    name: 'noteDashabord',
+    component: NoteDashboardView
   }
 ]
 

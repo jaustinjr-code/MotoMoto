@@ -20,15 +20,19 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         {
             _connectionString = connectionString;
         }
-        private bool ExecuteQuery(MySqlCommand command)
+        private bool CLoseConnection(MySqlCommand command)
         {
-            if (command.ExecuteNonQuery() == 1)
+            try
             {
                 mySqlConnection!.Close();
                 return true;
             }
-            mySqlConnection!.Close();
-            return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine("Connection did not close");
+                Console.WriteLine(ex.Message);  
+                return false;
+            }
         }
         public bool EstablishMariaDBConnection()
         {
@@ -63,15 +67,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Parameters.AddRange(parameters);
 
                 MySqlDataReader reader = command.ExecuteReader();
-                int userId = -1;
-                while (reader.Read())
+                try
                 {
-                    userId = reader.GetInt32(0);
+                    int userId = -1;
+                    while (reader.Read())
+                    {
+                        userId = reader.GetInt32(0);
+                    }
+                    return userId;
                 }
-                return userId;
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                finally
+                {
+                    reader.Close();
+                    CLoseConnection(command);
+                }
             }
         }
-        public List<NoteModel> GetNotes(string username, string? order)
+        public List<NoteModel> GetNotes(string username, string order)
         {
             List<NoteModel> notes = new List<NoteModel>();
             int userId = getUserId(username);
@@ -111,9 +128,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
-        public bool AddNotes(string username, string title)
+        public bool AddNotes(NoteModel model)
         {
+            string username = model.GetUsername();
+            string title = model.GetTitle();
             int userId = getUserId(username);
+            using var con = new MySqlConnection(_connectionString);
             if (!EstablishMariaDBConnection())
             {
                 return false;
@@ -121,7 +141,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
             try
             {
-                using var con = new MySqlConnection(_connectionString);
+                
                 con.Open();
 
                 var sql = "INSERT INTO Notes(userID, title) VALUES (@v1, @v2);";
@@ -140,18 +160,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
 
             }
+            finally
+            {
+                con.Close();
+            }
            
         }
-        public bool DeleteNotes(string username, string title)
+        public bool DeleteNotes(NoteModel model)
         {
+            string username = model.GetUsername();
+            string title = model.GetTitle();
             int userId = getUserId(username);
+            using var con = new MySqlConnection(_connectionString);
             if (!EstablishMariaDBConnection())
             {
                 return false;
             }
             try
-            {
-                using var con = new MySqlConnection(_connectionString);
+            {              
                 con.Open();
 
                 var sql = "DELETE FROM Notes WHERE userID = @v1 AND title = @v2;";
@@ -170,20 +196,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
 
             }
+            finally
+            {
+                con.Close();
+            }
 
         }
 
-        public bool UpdateNotes(string username, string title, string notes)
+        public bool UpdateNotes(NoteModel model)
         {
+            string username = model.GetUsername();
+            string title = model.GetTitle();
+            string notes = model.GetNotes();
             DateTime currentDate = DateTime.Now;
             int userId = getUserId(username);
+            using var con = new MySqlConnection(_connectionString);
             if (!EstablishMariaDBConnection())
             {
                 return false;
             }
             try
             {
-                using var con = new MySqlConnection(_connectionString);
+                
                 con.Open();
 
                 var sql = "UPDATE Notes n Set n.notes = @v2, n.timestamp = @v3 WHERE n.userID = @v4 AND n.title = @v1;";
@@ -202,6 +236,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 Console.WriteLine(ex.Message);
                 return false;
 
+            }
+            finally
+            {
+                con.Close();
             }
 
         }

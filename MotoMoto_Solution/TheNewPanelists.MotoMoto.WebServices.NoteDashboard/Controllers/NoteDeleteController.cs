@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
 {
@@ -18,8 +18,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
         {
             try
             {
-                NoteDashboardDataAccess note = new NoteDashboardDataAccess();
-                return Ok(note.DeleteNotes(username, title));
+                NoteDashboardManager manager = new NoteDashboardManager();
+                return Ok(manager.DeleteNotes(username, title));
             }
             catch (Exception ex)
             {

@@ -12,6 +12,7 @@ import http from "./Http-coman"
     <RegistrationComponent/>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
+    <button @click="goToNoteDashboard">Note Dashboard</button>
   </div>
 </template>
 
@@ -42,6 +43,10 @@ export default {
     },
     goToPartFlaggingPost(){
       this.$router.push('/PartFlaggingPost')
+    },
+    goToNoteDashboard()
+    {
+      this.$router.push('/noteDashboard');
     }
   }
 }

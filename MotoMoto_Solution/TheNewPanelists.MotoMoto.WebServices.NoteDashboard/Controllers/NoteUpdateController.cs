@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TheNewPanelists.MotoMoto.DataAccess;
+using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
 {
@@ -16,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
         [Route("UpdateNote")]
         public IActionResult UpdateNotes(string username, string title, string notes)
         {
-            NoteDashboardDataAccess note = new NoteDashboardDataAccess();
+            NoteDashboardManager note = new NoteDashboardManager();
             return Ok(note.UpdateNotes(username, title, notes));
         }
     }
