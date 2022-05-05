@@ -15,8 +15,15 @@ namespace TheNewPanelists.MotoMoto.Models
         public bool eventAccount { get; set; }
         public string? profileImagePath { get; set; }
         public string? profileDescription { get; set; }
-        public List<UpvotedPostsModel>? upVotedPosts { get; set; }
+        public IEnumerable<UpvotedPostsModel>? upVotedPosts { get; set; }
+        public IEnumerable<UserPostModel>? userPosts { get; set; }
 
-        public List<UserPostModel>? userPosts { get; set; }
+        public string systemResponse = string.Empty;
+        
+        public ProfileModel GetResponse(ResponseModel.response _responseAction)
+        {
+            systemResponse = _responseAction.ToString();
+            return this;
+        }
     }
 }

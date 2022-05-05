@@ -46,7 +46,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.SubmitContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj", "{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewPanelists.MotoMoto.WebServices.Profile", "TheNewPanelists.MotoMoto.WebServices.Profile\TheNewPanelists.MotoMoto.WebServices.Profile.csproj", "{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Profile", "TheNewPanelists.MotoMoto.WebServices.Profile\TheNewPanelists.MotoMoto.WebServices.Profile.csproj", "{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4DEE8A4-D8FD-4410-B03C-4B69BDDD7C5E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
