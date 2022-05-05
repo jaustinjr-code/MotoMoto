@@ -15,6 +15,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public bool eventAccount { get; set; }
         public string? profileImagePath { get; set; }
         public string? profileDescription { get; set; }
+        public string? newProfileUsername { get; set; }
         public IEnumerable<UpvotedPostsModel>? upVotedPosts { get; set; }
         public IEnumerable<UserPostModel>? userPosts { get; set; }
 

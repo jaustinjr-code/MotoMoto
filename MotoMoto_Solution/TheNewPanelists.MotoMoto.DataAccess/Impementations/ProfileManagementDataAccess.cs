@@ -181,13 +181,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             catch
             {
-                return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
             }
             finally
             {
                 _mySqlConnection.Close();
             }
-            return new ProfileModel().GetResponse(ResponseModel.response.success);
+            return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
         /// Retrieves all the posts that a user has upvoted that is not their own posts
@@ -230,8 +230,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch
             {
                 if (userProfile.upVotedPosts == null)
-                    return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-                return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
             }
             finally
             {
@@ -275,8 +275,132 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch
             {
                 if (userProfile.userPosts == null)
-                    return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-                return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
+            finally
+            {
+                _mySqlConnection.Close();
+            }
+            return userProfile.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileDescription(ProfileModel userProfile)
+        {
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand("UpdateProfileDescription", _mySqlConnection))
+                {
+                    _mySqlConnection.Open();
+                    command.Transaction = _mySqlConnection.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@_username", userProfile.username);
+                    command.Parameters.AddWithValue("@_newDescription", userProfile.profileDescription);
+
+                    var value = ExecuteQuery(command);
+                }
+            }
+            catch
+            {
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
+            finally
+            {
+                _mySqlConnection.Close();
+            }
+            return userProfile.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userProfile"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileUsername(ProfileModel userProfile)
+        {
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
+                {
+                    _mySqlConnection.Open();
+                    command.Transaction = _mySqlConnection.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@_username", userProfile.username);
+                    command.Parameters.AddWithValue("@_newUsername", userProfile.newProfileUsername);
+
+                    var value = ExecuteQuery(command);
+                }
+            }
+            catch
+            {
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
+            finally
+            {
+                _mySqlConnection.Close();
+            }
+            return userProfile.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userProfile"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileImage(ProfileModel userProfile)
+        {
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
+                {
+                    _mySqlConnection.Open();
+                    command.Transaction = _mySqlConnection.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@_username", userProfile.username);
+                    command.Parameters.AddWithValue("@_newURL", userProfile.profileImagePath);
+
+                    var value = ExecuteQuery(command);
+                }
+            }
+            catch
+            {
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
+            finally
+            {
+                _mySqlConnection.Close();
+            }
+            return userProfile.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userProfile"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileStatus(ProfileModel userProfile)
+        {
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand("UpdateProfileStatus", _mySqlConnection))
+                {
+                    _mySqlConnection.Open();
+                    command.Transaction = _mySqlConnection.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@_username", userProfile.username);
+                    command.Parameters.AddWithValue("@_newURL", userProfile.status);
+
+                    var value = ExecuteQuery(command);
+                }
+            }
+            catch
+            {
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
             }
             finally
             {
@@ -286,103 +410,3 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         }
     }
 }
-
-/**
-         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="profileModel"></param>
-        /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
-        public ProfileModel UpdateProfileDescription(ProfileModel profileModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE Profile P SET P.profileDescription = '@v1' WHERE P.username = '@v2';";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel!.profileDescription);
-                parameters[1] = new MySqlParameter("@v2", profileModel!.username);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command)
-                return null;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="profileModel"></param>
-        /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
-        public ProfileModel UpdateProfileImage(ProfileModel profileModel)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE Profile P SET P.profileImage = '@v1' WHERE P.username = '@v2';";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", profileModel!.profileImagePath);
-                parameters[1] = new MySqlParameter("@v2", profileModel!.username);
-
-                command.Parameters.AddRange(parameters);
-                ExecuteQuery(command);
-                return null;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dataStoreUser"></param>
-        /// <returns></returns>
-        public override async Task<IActionResult> UpdateProfileUsername(AccountModel accountUser)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
-        public bool UpdateProfileStatus(ProfileModel profile)
-        {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "UPDATE Profile P SET P.Status = v0 WHERE P.username = '@v1';";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v0", profile.status);
-                parameters[1] = new MySqlParameter("@v1", profile.username);
-
-                command.Parameters.AddRange(parameters);
-                return (ExecuteQuery(command));
-            }
-        }
- 
- 
- */
