@@ -75,69 +75,40 @@ export default {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     position => {
-                        // console.log(postition);
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
                         this.getAddressFromCoords(this.latitude, this.longitude);
                         // this.showOriginLocationOnMap(this.latitude, this.longitude);
-                        // console.log(position.coords.latitude);
-                        // console.log(position.coords.longitude);
                     },
                     error => {
                         window.alert(error.message + " REDIRECTING TO EVENT LIST PAGE...");
                         this.$router.push('/EventList')
-                        // this.error = error.message + " PLEASE TYPE YOUR ADDRESS MANUALLY...";
-                        // console.log(error.message);
                     }
                 );
             } else {
                 this.error = "BROWSER DOES NOT SUPPORT GEOLOCATION API..."
-                // console.log("Your browser does not support geolocatoin API");
             }
         },
         getAddressFromCoords(latitude, longitude) {
             var geocoder = new window.google.maps.Geocoder();
 
-            // const input = document.getElementById("latlng").value;
-            // const latlngStr = input.split(",", 2);
-            // const latlng = {
-            //     lat: parseFloat(latlngStr[0]),
-            //     long: parseFloat(latlngStr[1]),
-            // };
-
             geocoder.geocode({ location: new google.maps.LatLng(latitude, longitude) })
             .then((response) => {
                 if(response.results[0]) {
                     this.origin = response.results[0].formatted_address;
-                    // console.log(response.results[0].formatted_address);
                 }
                 else {
                     this.error = response.error_message;
-                    // console.log(response.error_message);
                 }
             })
             .catch(error => {
                 this.error = error;
-                // console.log(error.message);
             })
         },
-        //     axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
-        //     + lat + "," + long + "&key=AIzaSyDWiig_4EKjtfZjDf49AEbYReRb3EwLBRs")
-        //     .then(response => {
-        //         if(response.data.error.message) {
-        //             console.log(response.data.error.message);
-        //         }
-        //         else {
-        //             console.log(response.data.results[0].formatted_address);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message);
-        //     })
-        // }
 
         showOriginLocationOnMap(latitude, longitude) {
-            // Create map object
+
+            // // Create map object
             this.map = new window.google.maps.Map(this.$refs["map"], {
                 center: {lat: latitude, lng: longitude},
                 zoom: 15
@@ -157,66 +128,20 @@ export default {
             .then(response => {
 
                     if(response.status == 200) {
-                        // this.location = response.data[0].eventStreetAddress;
-                        // console.log(this.location);
-                        this.eventStreetAddress = response.data[0].eventStreetAddress;
-                        // console.log(this.eventStreetAddress);
-                        
-                        this.eventCity = response.data[0].eventCity;
-                        // console.log(this.eventCity);
-                        
-                        this.eventState = response.data[0].eventState;
-                        // console.log(this.eventState);
-                        
+                        this.eventStreetAddress = response.data[0].eventStreetAddress;                        
+                        this.eventCity = response.data[0].eventCity;                        
+                        this.eventState = response.data[0].eventState;                        
                         this.eventCountry = response.data[0].eventCountry;
-                        // console.log(this.eventCountry);
-                        
-                        this.eventZipCode = response.data[0].eventZipCode;
-                        // console.log(this.eventZipCode);
-                    
+                        this.eventZipCode = response.data[0].eventZipCode;                    
                         this.location = this.eventStreetAddress + " " + this.eventCity + " " + this.eventState;// + " " + this.eventZipCode;
-                        // console.log(this.location);
                     }
                 })
             .catch(error => console.log(error))
             .finally(() => console.log('DATA LOADING COMPLETE...'))
         },
 
-        geocodeRetrievedInfo() {
-            console.log("THIS IS IN THE FUNCTION");
-            // var geocoder = new window.google.maps.Geocoder();
-            // geocoder.geocode(this.location);
-
-            var geocoder = new window.google.maps.Geocoder();
-            geocoder.geocode({ address: this.location })
-            .then((response) => {
-                if(response.results[0]) {
-                    this.eventLatitude = response.results[0].lat();
-                    this.eventLongitude = response.results[0].lng();
-                    // console.log(response.results[0].formatted_address);
-                }
-                else {
-                    this.error = response.error_message;
-                    // console.log(response.error_message);
-                }
-            })
-            .catch(error => {
-                this.error = error;
-                // console.log(error.message);
-            })
-
-            // navigator.geolocation.getCurrentPosition(
-            //     position => {
-            //         this.eventLatitude = position.coords.latitude;
-            //         console.log(this.eventLatitude);
-
-            //         this.eventLongitude = position.coords.longitude;
-            //         console.log(this.eventLongitude);
-            //     }
-            // )
-        },
-
         initMap() {
+
             var autocomplete = new window.google.maps.places.Autocomplete(
                 document.getElementById("autocomplete"),
             )
@@ -226,7 +151,7 @@ export default {
                 this.origin = place.formatted_address; // MIGHT NOT NEED IF ORIGIN TEXT BOX GETS UPDATED ON CLICK
                 this.latitude = place.geometry.location.lat();
                 this.longitude = place.geometry.location.lng();
-                // this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
+                this.showOriginLocationOnMap(place.geometry.location.lat(), place.geometry.location.lng());
             })
 
             var autocomplete2 = new window.google.maps.places.Autocomplete(
@@ -238,58 +163,50 @@ export default {
                 this.eventLatitude = place2.geometry.location.lat();
                 this.eventLongitude = place2.geometry.location.lng();
             })
+        },
+        findDirections() {
+
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            var directionsService = new google.maps.DirectionsService();
+
+            this.map = new window.google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: {lat: this.latitude, lng: this.longitude},
+            })
+            directionsRenderer.setMap(this.map);
+            this.displayDirections(directionsRenderer, directionsService);
+            document.getElementById("mode").addEventListener("change", () =>{
+                this.displayDirections(directionsRenderer, directionsService);
+            })
+        },
+
+        displayDirections(directionsRenderer, directionsService) {
+            const selectedMode = document.getElementById("mode").value;
+            // console.log(document.getElementById("autocomplete").value);
+            directionsService.route({
+                origin: new google.maps.LatLng(this.latitude, this.longitude),
+                destination: new google.maps.LatLng(this.eventLatitude, this.eventLongitude),
+                travelMode: google.maps.TravelMode[selectedMode],
+                provideRouteAlternatives: true,
+
+            })
+            .then(response => {
+                directionsRenderer.setDirections(response);
+            })
+            .catch(error => {
+                window.alert("Directions request failed due to " + error)
+            })
         }
     },
     created() {
         this.eventID = this.$route.params.data;
-        // console.log(this.eventID);
     },
-    async mounted() {
-
-        this.initMap();
+    mounted() {
 
         this.fetchInformation();
 
-        // this.geocodeRetrievedInfo();
+        this.initMap();
 
-        // instance.get('MeetingPointDirections/GetEventLocation', {params: { eventID: 2 } })
-        //     // .then(response => this.location = response.data)
-        //     // .then(response => console.log(this.location))
-        //     // .then(console.log(this.location))
-
-        //     .then(response => {
-        //     //         // console.log(response.data);
-
-        //             if(response.status == 200) {
-        //                 this.location = response.data;
-        //                 console.log(this.location);
-                                            
-        //                 // this.eventStreetAddress = this.location.eventStreetAddress;
-        //                 // console.log(this.eventStreetAddress);
-        //                 // this.eventStreetAddress = response.data.eventCity;
-        //                 // console.log(response.data.eventStreetAddress);
-        //                 // this.eventCity = response.data.eventCity;
-        //                 // this.eventState = response.data.eventState;
-        //                 // this.eventCountry = response.data.eventCountry;
-        //                 // this.eventZipCode = response.data.eventZipCode;
-        //             }
-        //         })
-        //     //     // .catch(e => {
-        //     //     //     window.alert(e);
-        //     //     // });
-        //     .catch(error => console.log(error))
-        //     .finally(() => console.log('DATA LOADING COMPLETE...'))
-
-        // console.log(this.location);
-
-        // this.map = new window.google.maps.Map(this.$refs["map"], {
-        //     center: {lat: 33.781985, lng: -118.122324},
-        //     zoom: 15
-        // })
-        // this.map = new window.google.maps.Map(document.getElementById('map'), {
-        //     center: {lat: 33.781985, lng: -118.122324},
-        //     zoom: 15
-        // })
     },
     components: {
         TabBarComponent
