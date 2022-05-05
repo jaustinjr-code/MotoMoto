@@ -10,11 +10,11 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public class CarBuildService
+    public class CarBuildService 
     {
         private readonly CarBuildDataAccess _carBuildDAO;
 
-        public CarBuildService(CarBuildDataAccess carBuildDataAccess)
+        public CarBuildService()
         {
             _carBuildDAO = new CarBuildDataAccess();
         }

@@ -10,10 +10,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public interface IContentDataAccess : IDataAccess
     {
-        //string SqlGenerator();
-        IPostEntity? FetchPost(IPostModel postInput); // A Post belongs to Feed t/f is a Feed Entity
-
-        // Consider removing Fetch All Posts, this is specific to Load Feed Data Access and is an extension of Fetch Post
-        // public IEnumerable<IPostEntity>? FetchAllPosts(IFeedModel feedInput); // A Post model belongs to a Feed model
+        string SqlGenerator();
+        IFeedEntity? GetPost(IFeedModel postInput); // A Post belongs to Feed t/f is a Feed Entity
+        public IEnumerable<IPostEntity>? FetchAllPosts(IFeedModel feedInput); // A Post model belongs to a Feed model
     }
 }

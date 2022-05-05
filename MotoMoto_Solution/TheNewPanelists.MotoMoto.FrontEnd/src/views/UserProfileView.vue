@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <UserProfileComponent/>
-    </div>
+   <UserProfileComponent/>
 </template>
 
 <script>
@@ -11,6 +9,6 @@
         components: 
         {
             UserProfileComponent
-        },
+        }
     }
 </script>

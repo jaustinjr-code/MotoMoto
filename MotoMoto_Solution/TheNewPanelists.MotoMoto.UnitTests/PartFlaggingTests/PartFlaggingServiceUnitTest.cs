@@ -5,31 +5,8 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
-    /// <summary>
-    /// Contains unit testing for part flagging service layer.
-    /// </summary>
     public class PartFlaggingServiceUnitTest
     {
-        /// <summary>
-        /// Entity containing data access functionality for part flagging
-        /// </summary>
-        private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
-
-        /// <summary>
-        /// Entity containing service layer functionality
-        /// </summary>
-        private readonly IPartFlaggingService __partFlaggingService;
-
-        /// <summary>
-        /// Default constructor. Initializes both the data access and service layers
-        /// for part flagging
-        /// </summary>
-        public PartFlaggingServiceUnitTest()
-        {
-            __partFlaggingDataAccess = new PartFlaggingDataAccess();
-            __partFlaggingService = new PartFlaggingService();
-        }
-
         /// <summary>
         /// Uses service layer to create a valid flag.
         /// Test is successful if flag creation is successful.
@@ -40,7 +17,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             const string testId = "6";
             FlagModel testFlag = new FlagModel(testId, testId, testId, testId);
 
-            bool result = __partFlaggingService.CallFlagCreation(testFlag);
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
+
+            bool result = partFlaggingService.CallFlagCreation(testFlag);
             Assert.True(result);
         }
 
@@ -53,7 +32,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             FlagModel testFlag = new FlagModel();
 
-            bool result = __partFlaggingService.CallFlagCreation(testFlag);
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
+
+            bool result = partFlaggingService.CallFlagCreation(testFlag);
             Assert.False(result);
         }
 
@@ -66,12 +47,14 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             const int ZERO = 0;
             FlagModel testFlag = new FlagModel("10", "10", "10", "10");
+
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
             
             //Create flag to ensure that the flag exists
-            __partFlaggingService.CallFlagCreation(testFlag);
+            partFlaggingService.CallFlagCreation(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
-            int result = __partFlaggingService.CallGetFlagCount(testFlag);
+            int result = partFlaggingService.CallGetFlagCount(testFlag);
             Assert.True(result > ZERO);
 
         }
@@ -85,12 +68,15 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             const int ZERO = 0;
             FlagModel testFlag = new FlagModel("10", "10", "10", "10");
+
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            await __partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
-            int result = __partFlaggingService.CallGetFlagCount(testFlag);
+            int result = partFlaggingService.CallGetFlagCount(testFlag);
             Assert.True(result == ZERO);
         }
 
@@ -105,12 +91,15 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             const string testName = "CallDecrementNonExistingFlagCount";
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
+
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
             
             //Delete flag to ensure that the flag does not exist
-            await __partFlaggingDataAccess.DeleteFlag(testFlag);
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             //If a positive value is returned then the flag count was successfully retrieved
-            bool result = __partFlaggingService.CallDecrementFlagCount(testFlag);
+            bool result = partFlaggingService.CallDecrementFlagCount(testFlag);
             Assert.False(result);
         }
 
@@ -128,16 +117,19 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             FlagModel testFlag = new FlagModel(testName, testName, testName, "2022");
             
-            await __partFlaggingDataAccess.DeleteFlag(testFlag);
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+            await partFlaggingDataAccess.DeleteFlag(testFlag);
 
             for (int flagCountIt = 0; flagCountIt < minFlagCount; ++flagCountIt)
             {
-                await __partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
+                await partFlaggingDataAccess.CreateOrIncrementFlag(testFlag);
             }
 
-            int prevCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
-            __partFlaggingService.CallDecrementFlagCount(testFlag);
-            int afterCount = await __partFlaggingDataAccess.GetFlagCount(testFlag);
+            PartFlaggingService partFlaggingService = new PartFlaggingService();
+
+            int prevCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
+            partFlaggingService.CallDecrementFlagCount(testFlag);
+            int afterCount = await partFlaggingDataAccess.GetFlagCount(testFlag);
 
             Assert.True(prevCount == afterCount + 1);
         }

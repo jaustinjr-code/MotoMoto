@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? _mySqlConnection { get; set; }
 
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string _connectionString = "server=localhost;user=root;database=dev_um;port=3306;password=12345;";
 
         public bool EstablishMariaDBConnection()
         {
@@ -23,7 +23,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return false;
+                throw e;
             }   
         }
 

@@ -30,8 +30,7 @@
         </div>
         
         <div class = "RegisterButton">
-            <button @click="RegisterClick">Create Account</button>
-            <button @click="$router.push('/')">Back Home</button>
+            <button @click="RegisterClick">Register</button>
         </div>
 
     </div>
@@ -39,21 +38,24 @@
 </template>
 
 <script>
-import { useCookies } from "vue3-cookies";
+/*import { useCookies } from "vue3-cookies";*/
 import { defineComponent } from "vue";
 import {instance} from '../router/RegistrationConnection'
 
 export default defineComponent({
-  setup() {
+  /*setup() {
     const { cookies } = useCookies();
     return { cookies };
-  },
-  data() {
+  },*/
+
+  data()
+  {
       return{
           email: '',
           password: '',
       }
   },
+
   methods: {
         Registration: async function(){
             await instance.post('/Registration/Register', null, {params: {email: this.email, password: this.password}}).then((response)=>{
@@ -78,7 +80,7 @@ export default defineComponent({
     padding-top: 25px;
     scroll-behavior: smooth;
     overflow-y: scroll;
-    position: fixed;
+    position:fixed;
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -125,24 +127,21 @@ h2
     padding-bottom: 20px;
 }
 
-button 
+button.submit
 {
-    white-space: nowrap;
-    background-color:lightgrey;
-    width: fit-content;
-    border: none;
-    margin: 10px 5px;
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    
+    float:left;
 }
-button:hover
+
+button
 {
-    color: red;
+    border-radius: 5px;
+    color: #333;
+    border: 1px solid #eee;
+    padding: 8px;
+    margin: 30px 0 10px 0;
+    text-decoration: none;
+    text-align: center;
+
 }
 
 input

@@ -1,27 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataAccess;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    /// <summary>
-    /// Boundary between business logic for application and external services required
-    /// </summary>
-    public class PartFlaggingService : IPartFlaggingService
+    public class PartFlaggingService
     {
-
-        /// <summary>
-        /// Data Access Layer Entity for Part Flagging
-        ///</summary>
-        private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
-
-        /// <summary> 
-        /// Default constructor that creates the data access entity for part flagging.
-        /// </summary>
-        public PartFlaggingService()
-        {
-            __partFlaggingDataAccess = new PartFlaggingDataAccess();
-        }
 
         /// <summary>
         /// Calls the data access layer's function to create or increment the given flag.
@@ -32,7 +20,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the new flag</returns>
         public bool CallFlagCreation(FlagModel flag)
         {
-            return __partFlaggingDataAccess.CreateOrIncrementFlag(flag).Result;
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+            return partFlaggingDataAccess.CreateOrIncrementFlag(flag).Result;
         }
 
         /// <summary>
@@ -44,7 +33,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns>Integer value of the count of the argument part flag.</returns>
         public int CallGetFlagCount(FlagModel flag)
         {
-            return __partFlaggingDataAccess.GetFlagCount(flag).Result;
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+            return partFlaggingDataAccess.GetFlagCount(flag).Result;
         }
 
         /// <summary>
@@ -56,7 +46,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns>Boolean value representing if the flag database was successfully updated to reflect the decremented flag</returns>
         public bool CallDecrementFlagCount(FlagModel flag)
         {
-            return __partFlaggingDataAccess.DecrementOrRemove(flag).Result;
+            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
+            return partFlaggingDataAccess.DecrementOrRemove(flag).Result;
         }
     }
 }

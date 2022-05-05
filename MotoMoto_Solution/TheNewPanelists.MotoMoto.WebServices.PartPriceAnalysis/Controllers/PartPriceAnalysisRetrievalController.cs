@@ -9,13 +9,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
     [Route("[controller]")]
     public class PartPriceAnalysisRetrievalController : Controller
     {
-        private readonly IPartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
+        private readonly PartPriceAnalysisDataAccess _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
 
         [HttpGet]
-        public IActionResult RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
+        public async Task<ActionResult<PartListModel>> RetrieveCategorialVehicleParts(int _categoryID, CancellationToken token= default(CancellationToken))
         {
-            IPartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
-            IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
+            PartPriceAnalysisService partService = new PartPriceAnalysisService();
+            PartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             try
             {
@@ -24,10 +24,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
                     categoryId = _categoryID
                 };
                 partListModel = partManager.RetrieveSpecifiedCategorialParts(partListModel);
-                if (partListModel.returnValueNoRealCategory == false)
-                {
-                    return new StatusCodeResult(StatusCodes.Status400BadRequest);
-                }
+                await Task.Delay(0_001, token);
 
                 return Ok(partListModel);
             }
@@ -35,6 +32,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
+            
         }
     }
 }

@@ -1,15 +1,17 @@
 <template>
-        <div class = PartAnalysis>
-            <PartPriceAnalysisComponent/>
-        </div>
+        <div class = PartAnalysis></div>
+        <TabBarComponent/>
+        <PartPriceAnalysisComponent/>
 </template>
 
 <script>
-import PartPriceAnalysisComponent from '../components/PartPriceAnalysisPartsListComponent.vue'
-
+import PartPriceAnalysisComponent from '../components/PartPriceAnalysisComponent.vue'
+import TabBarComponent from '../components/TabBarComponent.vue'
 export default {
     name: 'PartPriceAnalysisView',
-    components: {
+    components:
+    {
+        TabBarComponent,
         PartPriceAnalysisComponent
     },
     methods:
@@ -26,14 +28,5 @@ export default {
 </script>
 
 <style>
-th {
-    background-color:green;
-    Color:white;
-}
-th, td {
-    width:200px;
-    text-align:center;
-    padding:5px;
-    border-collapse: collapse;
-}
+
 </style>

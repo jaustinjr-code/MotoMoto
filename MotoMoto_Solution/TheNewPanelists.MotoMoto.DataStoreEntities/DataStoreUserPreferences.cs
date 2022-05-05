@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
+namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    internal class PersonalizedRecommendationsService
+    internal class DataStoreUserPreferences
     {
     }
 }

@@ -1,26 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 
-/// <summary>
-/// Encapsulates business logic for part flagging functionality.
-/// </summary>
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
-    public class PartFlaggingBusinessLayer : IPartFlaggingBusinessLayer
+    public class PartFlaggingBusinessLayer
     {
-        /// <summary>
-        /// Part Flagging service entity, contains functinality of service layer
-        /// </summary>
-        private readonly IPartFlaggingService __partFlaggingService;
-
-        /// <summary>
-        /// Default constructor, initializes service layer entity for part flagging
-        /// </summary>
-        public PartFlaggingBusinessLayer()
-        {
-            __partFlaggingService = new PartFlaggingService();
-        }
 
         /// <summary>
         /// Encapsulates flag information into entity, checks that flag entity is valid, and passes entity to
@@ -39,7 +28,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
             if (IsValidFlag(flag))
             {
-                result = __partFlaggingService.CallFlagCreation(flag);
+                PartFlaggingService partFlaggingService = new PartFlaggingService();
+                result = partFlaggingService.CallFlagCreation(flag);
             }
             return result;
         }
@@ -68,9 +58,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <returns>FlagModel entity which represents a single part flag</returns>
         public bool IsValidFlag(FlagModel flag)
         {
-            const int FIRST_CAR_YEAR = 1800;
-            const int FUTURE_CAR_BUFFER = 5;
-
             bool result = false;
             bool nullValidation =   flag.PartNumber is not null && 
                                     flag.CarMake is not null &&
@@ -83,7 +70,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 int year;
                 if (Int32.TryParse(flag.CarYear, out year))
                 {
-                    if (year >= FIRST_CAR_YEAR && year < DateTime.Now.Year + FUTURE_CAR_BUFFER)
+                    if (year > 1800 && year < DateTime.Now.Year + 5)
                     {
                         yearValidation = true;
                     }
@@ -115,7 +102,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
             if (IsValidFlag(flag))
             {
-                int flagCount = __partFlaggingService.CallGetFlagCount(flag);
+                PartFlaggingService partFlaggingService = new PartFlaggingService();
+                int flagCount = partFlaggingService.CallGetFlagCount(flag);
                 if (flagCount >= FLAG_COMPATIBILITY_THRESHOLD)
                 {
                     return true;
@@ -149,7 +137,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             FlagModel flag = CreateFlagModel(partNum, carMake, carModel, carYear);
             if (IsValidFlag(flag))
             {
-                result = __partFlaggingService.CallDecrementFlagCount(flag);
+                PartFlaggingService partFlaggingService = new PartFlaggingService();
+                result = partFlaggingService.CallDecrementFlagCount(flag);
             }
             return result;
         }

@@ -10,18 +10,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartFlagging.Controllers;
 [Route("api/[controller]")]
 public class PartFlaggingController : ControllerBase
 {
-    /// <summary>
-    /// Entity containing business logic for part flagging functionality
-    /// </summary>
-    private readonly IPartFlaggingBusinessLayer __partFlaggingBusinessLayer;
 
-    /// <summary>
-    /// Default Constructor. Initializes part flagging business layer entity
-    /// </summary>
-    public PartFlaggingController()
-    {
-        __partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
-    }
     /// <summary>
     /// Creates new flag or updates flag count for the existing matching flag in the part flags database.
     /// </summary>
@@ -35,7 +24,8 @@ public class PartFlaggingController : ControllerBase
     [HttpPost("CreateFlag")]
     public IActionResult CreateFlag(string partNum, string carMake, string carModel, string carYear) 
     {
-        bool result = __partFlaggingBusinessLayer.HandleFlagCreation(partNum, carMake, carModel, carYear);
+        PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+        bool result = partFlaggingBusinessLayer.HandleFlagCreation(partNum, carMake, carModel, carYear);
         if (result)
         {
             Dictionary<string, string> response = new Dictionary<string, string>
@@ -68,7 +58,8 @@ public class PartFlaggingController : ControllerBase
     [HttpPost("DecrementFlagCount")]
     public IActionResult DecrementFlagCount(string partNum, string carMake, string carModel, string carYear) 
     {
-        bool result = __partFlaggingBusinessLayer.HandleFlagCountDecrement(partNum, carMake, carModel, carYear);
+        PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+        bool result = partFlaggingBusinessLayer.HandleFlagCountDecrement(partNum, carMake, carModel, carYear);
         if (result)
         {
             Dictionary<string, string> response = new Dictionary<string, string>
@@ -101,7 +92,8 @@ public class PartFlaggingController : ControllerBase
     [HttpGet("IsPossibleIncompatibility")]
     public IActionResult IsPossibleIncompatibility(string partNum, string carMake, string carModel, string carYear)
     {
-        bool? result = __partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNum, carMake, carModel, carYear);
+        PartFlaggingBusinessLayer partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+        bool? result = partFlaggingBusinessLayer.HandleGetFlagCompatibility(partNum, carMake, carModel, carYear);
         if (result is not null)
         {
             if (result == true)

@@ -5,9 +5,9 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public class PartPriceAnalysisService: IPartPriceAnalysisService
+    public class PartPriceAnalysisService
     {
-        private readonly IPartPriceAnalysisDataAccess? _partPriceAnalysisDAO;
+        private readonly PartPriceAnalysisDataAccess? _partPriceAnalysisDAO;
         /// <summary>
         /// Default constructor and only used for unit/integration testing
         /// This functionality is wasteful in resources so it is not good to
@@ -17,7 +17,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _partPriceAnalysisDAO = new PartPriceAnalysisDataAccess();
         }
-        public PartPriceAnalysisService(IPartPriceAnalysisDataAccess partPriceAnalysisDAO)
+        public PartPriceAnalysisService(PartPriceAnalysisDataAccess partPriceAnalysisDAO)
         {
             _partPriceAnalysisDAO = partPriceAnalysisDAO;
         }
@@ -30,6 +30,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns></returns>
         public PartListModel RetrievSpecifiedCategorialParts(PartListModel partListModel)
         {
+            // Category initialized after we validate in the manager that the category does exist within
+            // the spectrum of the category array. Array's may not 100% be extensible but provide an area
+            // where query information can be used in the DAO. 
             partListModel.categorySelect = partListModel.categories[partListModel.categoryId];
             return _partPriceAnalysisDAO!.RetrieveAllCategorialPartInformationDataAccess(partListModel);
         }
@@ -44,17 +47,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             return _partPriceAnalysisDAO!.RetrieveSpecifiedPartPriceHistory(partModel);
         }
-        /// <summary>
-        /// Function updates a record of a price to a new price that is set by an admin
-        /// This functionality is manual but without the use of Amazon Affiliate or 
-        /// Autozone automation of this function is invalid at the moment.
-        /// </summary>
-        /// <param name="partModel"></param>
-        /// <returns></returns>
-        public PartModel UpdatePartPriceAndRecordToHistoryService(PartModel partModel)
-        {
-            return _partPriceAnalysisDAO!.UpdatePartPrice(partModel);
-        }
+
         public PartModel RetrieveSpecifiedPartInformation(PartModel partModel)
         {
             return _partPriceAnalysisDAO!.RetrievePartInformation(partModel);
@@ -68,10 +61,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <returns></returns>
         public PartComparisonModel RetrieveSpecifiedComparisonPartPriceHistory(PartComparisonModel partComparisonModel)
         {
-            foreach (PartModel part in ((List<PartModel>)partComparisonModel.comparisonParts!))
-            {
-                RetrieveSpecifiedPartInformation(part);
-            }
             ComparePrices(partComparisonModel);
             return partComparisonModel;
         }
@@ -89,16 +78,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             {
                 if (part.currentPrice > max && part.currentPrice > min)
                 {
-                    switch(max)
-                    {
-                        case -1:
-                            max = part.currentPrice;
-                            min = max;
-                            break;
-                        default:
-                            max = part.currentPrice;
-                            break;
-                    }
+                    max = part.currentPrice;
                 }
                 else
                 {

@@ -8,7 +8,6 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class EventPostModel : IPostModel
     {
-        public string type { get; } = "event";
         public int postID { get; }
         public string? postTitle { get; set; }
         public string? contentType { get; set; }

@@ -68,28 +68,6 @@ CREATE TABLE Registration (
     CONSTRAINT Registration_Pk PRIMARY KEY (registrationId)
 );
 
-CREATE TABLE FollowedCountry (
-    userId INT NOT NULL,
-    country VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedCountries_Pk PRIMARY KEY (userId, country),
-    CONSTRAINT FollowedCountries_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
-CREATE TABLE FollowedMake (
-    userId INT NOT NULL,
-    Make VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedMakes_Pk PRIMARY KEY (userId, make),
-    CONSTRAINT FollowedMakes_User__Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
-CREATE TABLE FollowedModel (
-    userId INT NOT NULL,
-    make VARCHAR(20) NOT NULL,
-    model VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedModels_Pk PRIMARY KEY (userId, make, model),
-    CONSTRAINT FollowedModels_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
@@ -98,3 +76,34 @@ VALUES (NULL, 'ADMIN'),
 INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
 INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
+
+/* Vehicle Data information */
+
+CREATE TABLE Country (
+    countryName VARCHAR(20) NOT NULL,
+    countryId VARCHAR(3) NOT NULL,
+    CONSTRAINT Country_Pk PRIMARY KEY (countryId),
+    CONSTRAINT Country_fullName UNIQUE KEY (countryName)
+);
+
+CREATE TABLE CarMake (
+    makeId INT NOT NULL AUTO_INCREMENT,
+    make VARCHAR(25) NOT NULL,
+    countryId VARCHAR(3) NOT NULL,
+    CONSTRAINT CarMake_PK PRIMARY KEY (makeId),
+    CONSTRAINT Country_Fk FOREIGN KEY (countryId) REFERENCES Country (countryId),
+    CONSTRAINT CarMake_make UNIQUE KEY (make)
+);
+
+INSERT INTO Country (countryName, countryId) VALUES
+    ('United States', 'USA'), ('Japan', 'JPN'), ('Germany', 'DEU'), ('Italy', 'ITA'), ('United Kingdom', 'GBR'), ('France', 'FRA'),
+    ('China', 'CHN'), ('South Korea', 'KOR'), ('Austrailia', 'AUS'), ('Sweden', 'SWE');
+
+INSERT INTO CarMake (make, countryId) VALUES 
+    ('Acura', 'JPN'), ('Alfa Romeo', 'ITA'), ('Aston Martin', 'GBR'), ('Audi', 'DEU'), ('Bentley', 'GBR'), ('BMW', 'DEU'), ('Buick', 'USA'), ('Cadillac', 'USA'), 
+    ('Chevrolet', 'USA'), ('Chrysler', 'USA'), ('Dodge', 'USA'), ('Ferrari', 'ITA'), ('FIAT', 'ITA'), ('Ford', 'USA'), ('Genesis', 'KOR'), ('GMC', 'USA'), 
+    ('Honda', 'JPN'), ('Hyundai', 'KOR'), ('INFINITI', 'JPN'), ('Jaguar', 'GBR'), ('Jeep', 'USA'), ('Kia', 'KOR'), ('Lamborghini', 'ITA'), ('Land Rover', 'GBR'), 
+    ('Lexus', 'JPN'), ('Lincoln', 'USA'), ('Lotus', 'GBR'), ('Maserati', 'ITA'), ('MAZDA', 'JPN'), ('McLaren', 'GBR'), ('Mercedes-Benz', 'DEU'), ('MINI', 'GBR'), 
+    ('Mitsubishi', 'JPN'), ('Nissan', 'JPN'), ('Plymouth', 'USA'), ('Porsche', 'DEU'), ('Ram', 'USA'), ('Rolls-Royce', 'GBR'), ('Subaru', 'JPN'), ('Suzuki', 'JPN'), 
+    ('Tesla', 'USA'), ('Toyota', 'JPN'), ('Volkswagen', 'DEU'), ('Volvo', 'SWE'); 
+

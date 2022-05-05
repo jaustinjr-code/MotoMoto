@@ -1,8 +1,8 @@
 namespace TheNewPanelists.MotoMoto.Models
 {
-    public interface IFeedModel : IContentModel
+    public interface IFeedModel
     {
         string feedName { get; set; }
-        //IEnumerable<IPostModel> postList { get; set; }
+        IEnumerable<IPostModel> postList { get; set; }
     }
 }
