@@ -1,8 +1,12 @@
 import axios from 'axios';
-
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-const instance = axios.create({
-    baseURL: ''
+
+const VPICApi = axios.create({
+    baseURL: 'https://vpic.nhtsa.dot.gov/api/vehicles'
 });
 
-export {instance}
+const PersonalizedRecsApi = axios.create({
+    baseURL: 'https://localhost:7167/Api'
+});
+
+export {VPICApi, PersonalizedRecsApi}

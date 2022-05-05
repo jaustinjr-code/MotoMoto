@@ -3,8 +3,8 @@
     <h2 style="font-size: 22px" class = "header"><i>User Preferences</i></h2>
 
     <div class = "preferencesContainer">
-      <div v-if="preferences.length > 0">
-        <table v-if="followedCountries.length > 0">
+
+        <table>
           <th class = "title">Countries Followed</th>
           <tbody>
             <tr>
@@ -16,44 +16,32 @@
           </tbody>
         </table>  
 
-        <table v-if="followedMakes.length > 0">
+        <table>
           <th class = "title">Makes Followed</th>
           <tbody>
             <tr>
-              <th>Country</th>
               <th>Make</th>
             </tr>
             <tr v-for="record in followedMakes" :key=record.make>
-              <td>{{record.country}}</td>
               <td>{{record.make}}</td>
             </tr>
           </tbody>
         </table>        
 
-        <table v-if="followedModels > 0">
+        <table>
           <th class = "title">Models Followed</th>
           <tbody>
             <tr>
-              <th>Country</th>
               <th>Make</th>
               <th>Model</th>
             </tr>
             <tr v-for="record in followedModels" :key=record.model>
-              <td>{{record.country}}</td>
               <td>{{record.make}}</td>
               <td>{{record.model}}</td>
             </tr>
           </tbody>
         </table> 
-      </div>
 
-      <div v-else class="noPreferences"> 
-          <b>You have no preferences!</b><br><br>
-           <p>
-             Please select edit preferences to follow specific<br>
-             makes, models, or countries of origin
-          </p>
-      </div>
     </div>
 
     <div class = "editButton">
@@ -65,7 +53,8 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
-import {instance} from '../router/PreferencesManagerConnection'
+import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
+
 
 export default defineComponent({
   setup() {
@@ -74,17 +63,30 @@ export default defineComponent({
   },
   data () {
     return {
-      userId: 0,
       followedCountries: [],
       followedMakes: [],
       followedModels: [],
-      preferences: []
+      hasPreferences: false
     }
   },
-  created () {
-  },
   methods: {
-
+    GetPreferences: async function() {
+        await PersonalizedRecsApi.get('/Preferences/Retrieve', {params: {userId: this.$cookies.get("userId")}}).then((response)=>{
+            console.log(`Server replied with: ${response.data}`),
+            this.followedCountries = response.data.followedCountries, 
+            this.followedMakes = response.data.followedMakes, 
+            this.followedModels = response.data.followedModels
+        }).catch((e)=>{
+            console.log(e);})
+    }
+  },
+  created: function () {
+      if (this.$cookies.get("userId") != "guest") {
+          this.GetPreferences();
+      }
+      else {
+          this.$router.push('/login');
+      }
   }
 })
 </script>
@@ -121,14 +123,19 @@ table
 }
 .title
 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 20px;
+  color: black;
   text-align: left;
   white-space: nowrap;
   padding-bottom: 10px;
+  background-color: white;
 }
 th
 {
   padding-left: 5px;
   padding-bottom: 5px;
+  background-color:dimgray;
 }
 td,tr
 {

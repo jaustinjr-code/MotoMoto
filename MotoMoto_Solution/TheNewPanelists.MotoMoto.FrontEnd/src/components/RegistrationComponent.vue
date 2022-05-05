@@ -48,14 +48,12 @@ export default defineComponent({
     const { cookies } = useCookies();
     return { cookies };
   },
-  data()
-  {
+  data() {
       return{
           email: '',
           password: '',
       }
   },
-
   methods: {
         Registration: async function(){
             await instance.post('/Registration/Register', null, {params: {email: this.email, password: this.password}}).then((response)=>{

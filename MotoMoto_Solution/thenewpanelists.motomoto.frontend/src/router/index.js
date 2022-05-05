@@ -16,7 +16,7 @@ import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import NotificationSystem from '../views/NotificationSystemView'
-
+import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 
 const routes = [
   {
@@ -101,13 +101,18 @@ const routes = [
   },
   {
     path: '/UserProfile/EditPreferences',
-    name: 'Edit Preferences',
+    name: 'EditPreferences',
     component: EditPreferences
   },
   {
     path: '/NotificationSystem',
     name: 'NotificationSystem',
     component: NotificationSystem
+  },
+  {
+    path: '/PersonalizedRecommendations',
+    name: 'PersonalizedRecommendations',
+    component: PersonalizedRecommendations
   }
 ]
 

@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TheNewPanelists.MotoMoto.DataAccess;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using TheNewPanelists.MotoMoto.DataStoreEntities.PersonalizedRecommendations;
+using TheNewPanelists.MotoMoto.ServiceLayer.Implementations;
 
 namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.Controllers
 {
@@ -14,15 +17,30 @@ namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.Contr
         }
 
         [HttpPost("Update")]
-        public IActionResult UpdatePreferences()
+        public IActionResult UpdatePreferences(int userId, string countries, string makes, string models)
         {
-            return Ok("ok");
+            PersonalizedRecommendationsService personalizedRecommendationsService = new PersonalizedRecommendationsService();
+            DataStoreRequestPreferences requestPreferences = new DataStoreRequestPreferences()
+            {
+                followedCountries = JsonSerializer.Deserialize<List<Country>>(countries),
+                followedMakes = JsonSerializer.Deserialize<List<Make>>(makes),
+                followedModels = JsonSerializer.Deserialize<List<Model>>(models)
+            };
+
+            personalizedRecommendationsService.UpdateUserPreferences(userId, ref requestPreferences);
+            return Ok(requestPreferences);
         }
 
         [HttpGet("Retrieve")]
-        public IActionResult RetrievePreferences()
+        public IActionResult RetrievePreferences(int userId)
         {
-            return Ok("ok");
+            PersonalizedRecommendationsService personalizedRecommendationsService = new PersonalizedRecommendationsService();
+            DataStoreRequestPreferences requestPreferences = personalizedRecommendationsService.GetUserPreferences(userId);
+
+            if(requestPreferences.status)
+                return Ok(requestPreferences);
+            return BadRequest(requestPreferences);
+
         }
     }
 }

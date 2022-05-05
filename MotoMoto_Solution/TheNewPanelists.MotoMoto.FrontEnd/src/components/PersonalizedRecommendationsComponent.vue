@@ -1,11 +1,11 @@
 <template>
-    <div class = "main">
+    <div class = "PersonalizedRecommendationsComponent">
         <div class = "top">
             <h1 class = "header">Personalized Recommendations</h1>
             <div class = "menunav">
                 <button @click = "$router.push('/')">Home</button>
                 <button @click = "$router.push('/DM')">Direct Messages</button>
-                <button @click = "$router.push('/CommunityDashboard')">Community Board</button>
+                <button @click = "$router.push('/Communityboard')">Community Board</button>
                 <button @click = "$router.push('/UserProfile')">Preferences</button>
             </div>      
         </div>
@@ -16,12 +16,16 @@
                 <PersonalizedRecommendationsDefaultComponent/>
             </div>
 
-            <div class = "component" v-if="followedMakes.length == 0">
+            <div class = "component" v-if="followedCountries.length > 0">
+                <h2 class = "header"><i>Followed Countries</i></h2>
+                <PersonalizedRecommendationsMakesComponent/>
+            </div>
+            <div class = "component" v-if="followedMakes.length > 0">
                 <h2 class = "header"><i>Followed Makes</i></h2>
                 <PersonalizedRecommendationsMakesComponent/>
             </div>
                 
-            <div class = "component" v-if="followedModels.length == 0">
+            <div class = "component" v-if="followedModels.length > 0">
                 <h2 class = "header"><i>Specific Models</i></h2>
                 <PersonalizedRecommendationsModelsComponent/>
             </div>
@@ -32,57 +36,61 @@
 <script>
     import { useCookies } from "vue3-cookies";
     import { defineComponent } from "vue";
-    import {instance} from '../router/PreferencesManagerConnection';
+    import PersonalizedRecommendationsDefaultComponent from '../components/PersonalizedRecommendationsDefaultComponent.vue';
+    import PersonalizedRecommendationsMakesComponent from '../components/PersonalizedRecommendationsMakesComponent.vue';
+    import PersonalizedRecommendationsModelsComponent from '../components/PersonalizedRecommendationsModelsComponent.vue';
+    import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
 
     export default defineComponent ({
+        setup() {
+            const { cookies } = useCookies();
+            return { cookies };
+        },
         data () {
             return {
-                followedMakes: [],
-                followedModels: []
+                followedCountries: '',
+                followedMakes: '',
+                followedModels: ''
             }
+        },
+        components: {
+            PersonalizedRecommendationsDefaultComponent,
+            PersonalizedRecommendationsMakesComponent,
+            PersonalizedRecommendationsModelsComponent
         },
         methods: {
             GetPreferences: async function() {
-            if (this.$cookies.get("userId") != "guest") {
-                userId = this.$cookies.get("userId")
-
-                if(!this.$cookies.get("preferencesChecked"))
-                {
-                    await instance.get('/Preferences/Retrieve', {params: {userId: this.$cookies.get("userId")}}).then((response)=>{
-                        console.log(`Server replied with: ${response.data}`),
-                        this.$cookies.set("preferencesChecked", true, "1h"),
-                        this.$cookies.set("preferences", [response.data.followedCountries, response.data.followedModels, response.data.followedMakes], "1h");
-                    }).catch((e)=>{
-                        console.log(e);})
-                }
-                else
-                {
-                    this.followedCountries = (this.$cookies.get("preferences"))[0],
-                    this.followedMakes = (this.$cookies.get("preferences"))[1],
-                    this.followedModels = (this.$cookies.get("preferences"))[2];
-                }
-            }
-            else
-            {
-                this.$router.push('/login');
-            }
+                await PersonalizedRecsApi.get('/Preferences/Retrieve', {params: {userId: this.$cookies.get("userId")}}).then((response)=>{
+                    console.log(`Server replied with: ${response.data}`),
+                    this.followedCountries = response.data.followedCountries, 
+                    this.followedMakes = response.data.followedMakes, 
+                    this.followedModels = response.data.followedModels
+                }).catch((e)=>{
+                    console.log(e);})
             }
         },
-        created () {
-            this.GetPreferences()
+        created: function () {
+            if (this.$cookies.get("userId") != "guest") {
+                this.GetPreferences();
+            }
+            else {
+                this.$router.push('/login');
+            }
         }
     })
 </script>
 
 <style scoped>
-
+.PersonalizedRecommendationsComponent
+{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 .top
 {
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin: auto;
     white-space: nowrap;
 	text-align: center; 
-    height: 100px;
+    height: 78px;
     width: 600px;
     background-color: aliceblue;
     border-style: solid;

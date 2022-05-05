@@ -68,6 +68,28 @@ CREATE TABLE Registration (
     CONSTRAINT Registration_Pk PRIMARY KEY (registrationId)
 );
 
+CREATE TABLE FollowedCountry (
+    userId INT NOT NULL,
+    country VARCHAR(20) NOT NULL,
+    CONSTRAINT FollowedCountries_Pk PRIMARY KEY (userId, country),
+    CONSTRAINT FollowedCountries_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
+);
+
+CREATE TABLE FollowedMake (
+    userId INT NOT NULL,
+    Make VARCHAR(20) NOT NULL,
+    CONSTRAINT FollowedMakes_Pk PRIMARY KEY (userId, make),
+    CONSTRAINT FollowedMakes_User__Fk FOREIGN KEY (userId) REFERENCES User (userId)
+);
+
+CREATE TABLE FollowedModel (
+    userId INT NOT NULL,
+    make VARCHAR(20) NOT NULL,
+    model VARCHAR(20) NOT NULL,
+    CONSTRAINT FollowedModels_Pk PRIMARY KEY (userId, make, model),
+    CONSTRAINT FollowedModels_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
+);
+
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
@@ -76,23 +98,3 @@ VALUES (NULL, 'ADMIN'),
 INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
 INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
-
--- INSERT INTO Country (countryName, countryId) VALUES
---     ('United States', 'United States'), ('Japan', 'Japan'), ('Germany', 'Germany'), ('Italy', 'Italy'), ('United Kingdom', 'United Kingdom'), ('France', 'France'),
---     ('China', 'China'), ('South Korea', 'South Korea'), ('Austrailia', 'Austrailia'), ('Sweden', 'Sweden');
-
--- INSERT INTO CarMake (make, countryId) VALUES 
---     ('Acura', 'Japan'), ('Alfa Romeo', 'Italy'), ('Aston Martin', 'United Kingdom'), ('Audi', 'Germany'), 
---     ('Bentley', 'United Kingdom'), ('BMW', 'Germany'), ('Buick', 'United States'), 
---     ('Cadillac', 'United States'), 
---     ('Chevrolet', 'United States'), ('Chrysler', 'United States'), ('Dodge', 'United States'), 
---     ('Ferrari', 'Italy'), ('FIAT', 'Italy'), ('Ford', 'United States'), ('Genesis', 'South Korea'),
---      ('GMC', 'United States'), 
---     ('Honda', 'Japan'), ('Hyundai', 'South Korea'), ('INFINITI', 'Japan'), ('Jaguar', 'United Kingdom'), 
---     ('Jeep', 'United States'), ('Kia', 'South Korea'), ('Lamborghini', 'Italy'), ('Land Rover', 'United Kingdom'), 
---     ('Lexus', 'Japan'), ('Lincoln', 'United States'), ('Lotus', 'United Kingdom'), ('Maserati', 'Italy'),
---      ('MAZDA', 'Japan'), ('McLaren', 'United Kingdom'), ('Mercedes-Benz', 'Germany'), ('MINI', 'United Kingdom'), 
---     ('Mitsubishi', 'Japan'), ('Nissan', 'Japan'), ('Plymouth', 'United States'), ('Porsche', 'Germany'), 
---     ('Ram', 'United States'), ('Rolls-Royce', 'United Kingdom'), ('Subaru', 'Japan'), ('Suzuki', 'Japan'), 
---     ('Tesla', 'United States'), ('Toyota', 'Japan'), ('Volkswagen', 'Germany'), ('Volvo', 'Sweden'); 
-

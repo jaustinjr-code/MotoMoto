@@ -7,11 +7,8 @@ import http from "./Http-coman"
     <button @click = "goToEventList"> Event List </button>
     <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
-    <RegistrationComponent/>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <PersonalizedRecommendationsComponent/>
     <button @click = "goToParts"> Parts </button>
-    <RegistrationComponent/>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
@@ -23,11 +20,21 @@ import http from "./Http-coman"
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import router from '../router'
+import { useCookies } from "vue3-cookies";
 
 export default {
   name: 'HomeView',
   components: {
     HelloWorld
+  },
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
+  created() {
+      if (!this.$cookies.isKey("userId")) {
+        this.$cookies.set("userId", 2,"1h")
+      }
   },
   methods:{
     goToLogin(){
@@ -53,6 +60,9 @@ export default {
     },
     goToCommunityBoard(){
       this.$router.push('/communityboard')
+    },
+    goToPersonalizedRecommendations(){
+      this.$router.push('/PersonalizedRecommendations')
     }
   }
 }
