@@ -71,7 +71,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         [HttpGet("Evaluate")]
         public IActionResult EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
-            IPartPriceAnalysisService partService = new PartPriceAnalysisService();
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
             IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             try

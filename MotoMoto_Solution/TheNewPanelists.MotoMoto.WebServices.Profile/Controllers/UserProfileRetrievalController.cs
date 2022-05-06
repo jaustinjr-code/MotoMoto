@@ -6,14 +6,27 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
 {
+    [Route("[controller]")]
     public class UserProfileController : Controller
     {
         private readonly IProfileDataAccess _profileDAO = new ProfileManagementDataAccess();
 
-        [HttpGet("ProfileRetrieval")]
-        public IActionResult RetrieveProfile(string username)
+        [HttpGet]
+        public IActionResult RetrieveUserProfile(string username)
         {
-            throw new NotImplementedException();
+            IProfileManagementService profileService = new ProfileManagementService(_profileDAO);
+            IProfileManagementManager profileManager = new ProfileManagementManager(profileService);
+
+            var userProfile = new ProfileModel();
+            try
+            {
+                userProfile = profileManager.RetrieveSpecifiedProfileManager(username);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status400BadRequest);
+            }
+            return Ok(userProfile);
         }
     }
 }

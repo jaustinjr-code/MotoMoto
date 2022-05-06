@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Remove="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
