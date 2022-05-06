@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
-    public class ProfileManagementService
+    public class ProfileManagementService : IProfileManagementService
     {
         private readonly IProfileDataAccess profileDataAccess;
 
@@ -22,7 +22,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// create profiles.
         /// </summary>
         /// <returns></returns>
-        public ProfileModel CreateProfilesForAllNewUsers()
+        public ProfileModel CreateProfilesForAllNewUsersManager()
         {
             ProfileModel profileModel = new ProfileModel();
             try
