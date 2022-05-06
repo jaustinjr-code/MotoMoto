@@ -180,21 +180,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string username = model.GetUsername();
             string title = model.GetTitle();
             int userId = getUserId(username);
-
-            List<NoteModel> list = new List<NoteModel>();
-            list = GetNotes(username, "timeStamp ASC");
-            bool validNote = false; 
-            foreach(NoteModel m in list)
-            {
-                if(model.GetTitle().Equals(m.GetTitle()) && model.GetUsername().Equals(m.GetUsername()))
-                {
-                   validNote = true;
-                }
-            }
-            if(!validNote)
-            {
-                return false;
-            }
             using var con = new MySqlConnection(_connectionString);
             if (!EstablishMariaDBConnection())
             {
@@ -232,22 +217,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             string username = model.GetUsername();
             string title = model.GetTitle();
             string notes = model.GetNotes();
-
-            List<NoteModel> list = new List<NoteModel>();
-            list = GetNotes(username, "timeStamp ASC");
-            bool validNote = false;
-            foreach (NoteModel m in list)
-            {
-                if (model.GetTitle().Equals(m.GetTitle()) && model.GetUsername().Equals(m.GetUsername()))
-                {
-                    validNote = true;
-                }
-            }
-            if (!validNote)
-            {
-                return false;
-            }
-
             DateTime currentDate = DateTime.Now;
             int userId = getUserId(username);
             using var con = new MySqlConnection(_connectionString);
