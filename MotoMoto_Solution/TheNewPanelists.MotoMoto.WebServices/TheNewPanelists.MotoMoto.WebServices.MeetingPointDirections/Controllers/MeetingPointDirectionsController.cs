@@ -31,7 +31,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections
                 ISet<EventDetailsModel>? fetchedEventLocation = meetingPointDirectionsManager.FetchEventLocation(eventID); 
                 return Ok(fetchedEventLocation);
             }
-            catch (Exception ex)
+            catch
             {
                 // Log here
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
