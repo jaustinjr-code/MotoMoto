@@ -76,27 +76,44 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpPost("CreateCarPart")]
-        public IActionResult CreateCarPart(ModifyCarBuildModel modifyCar) 
+        //[HttpPost("CreateCarPart")]
+        //public IActionResult CreateCarPart(ModifyCarBuildModel modifyCar) 
+        //{
+        //    CarBuildService service = new CarBuildService(_carBuildDataAccess);
+        //    CarBuildManager manager = new CarBuildManager(service);
+        //    bool result = manager.SaveCarModificationsManager(modifyCar); 
+        //    if (result)
+        //    {
+        //        Dictionary<string, string> response = new Dictionary<string, string>
+        //        {
+        //            { "message", "Car Successfully Modified" },
+        //        };
+        //        return Ok(response);
+        //    }
+        //    else
+        //    {
+        //        Dictionary<string, string> response = new Dictionary<string, string>
+        //        {
+        //            { "message", "Error Could Not Modify Car" },
+        //        };
+        //        return BadRequest(response);
+        //    }
+        //}
+
+        [HttpGet("GetCarPart")]
+        public IActionResult GetCarPart()
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
             CarBuildManager manager = new CarBuildManager(service);
-            bool result = manager.SaveCarModificationsManager(modifyCar); 
-            if (result)
+
+            try
             {
-                Dictionary<string, string> response = new Dictionary<string, string>
-                {
-                    { "message", "Car Successfully Modified" },
-                };
-                return Ok(response);
+                IList<ModifyCarBuildModel> retrieveAllCarParts = manager.RetrieveAllCarParts();
+                return Ok(retrieveAllCarParts);
             }
-            else
+            catch
             {
-                Dictionary<string, string> response = new Dictionary<string, string>
-                {
-                    { "message", "Error Could Not Modify Car" },
-                };
-                return BadRequest(response);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 

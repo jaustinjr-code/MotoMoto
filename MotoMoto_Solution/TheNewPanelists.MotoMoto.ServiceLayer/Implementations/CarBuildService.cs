@@ -36,7 +36,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             return _carBuildDAO.GetCarType();
         }
-
+        public List<ModifyCarBuildModel> FetchCarParts()
+        {
+            return _carBuildDAO.GetCarParts();
+        }
         public bool SaveModifiedCarBuild(ModifyCarBuildModel modifiedCar)
         {
             var modifyCarBuildModel = new ModifyCarBuildModel()

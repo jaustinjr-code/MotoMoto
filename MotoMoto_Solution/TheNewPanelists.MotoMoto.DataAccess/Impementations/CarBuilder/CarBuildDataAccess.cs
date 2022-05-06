@@ -93,6 +93,38 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             return carTypeList;
         }
 
+        public List<ModifyCarBuildModel> GetCarParts()
+        {
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            List<ModifyCarBuildModel> carPartsList = new List<ModifyCarBuildModel>();
+            try
+            {
+                connection.Open();
+                string getSenderUserIdQuery = "SELECT partNumber, type FROM OEMAndAfterMarketParts";
+                MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ModifyCarBuildModel carPart = new ModifyCarBuildModel();
+                        carPart.partNumber = reader["partNumber"].ToString();
+                        carPart.type = reader["type"].ToString();
+                        carPartsList.Add(carPart);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return carPartsList;
+        }
+
         // Referenced in the Service Layer
         // Displays to the user two types of parts the user can choose from (OEM or Aftermarket)
         // Once the user decides, displays names of parts
@@ -254,31 +286,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 return (ExecuteQuery(cmd));
             }
         }
-
-        //if (!EstablishMariaDBConnection())
-        //{
-        //    throw new NullReferenceException();
-        //}
-
-        //using (MySqlCommand command = new MySqlCommand())
-        //{
-        //    command.Transaction = mySqlConnection!.BeginTransaction();
-        //    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-        //    command.Connection = mySqlConnection!;
-        //    command.CommandType = CommandType.Text;
-
-        //    command.CommandText = @$"insert into CarModifications(carBuildID, partID) values (@v0, @v1);SELECT CAST(@@IDENTITY AS int)";
-
-        //    var parameters = new MySqlParameter[2];
-        //    parameters[0] = new MySqlParameter("@v0", Convert.ToInt32(updateCarModel!.carBuildID));
-        //    parameters[1] = new MySqlParameter("@v1", Convert.ToInt32(updateCarModel!.partID));
-
-        //    command.Parameters.AddRange(parameters);
-        //    int modified = Convert.ToInt32(command.ExecuteScalar());
-        //    mySqlConnection!.Close();
-        //    return modified;
-        //    //return (ExecuteQuery(command));
-        //}
 
         // Stores the information from the model to the entity
         public bool InsertNewDataStoreOEMAndAfterMarketPartsEntity(ModifyCarBuildModel modifiedCar)

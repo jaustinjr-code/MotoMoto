@@ -78,6 +78,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _carBuildService.FetchCarType();
         }
 
+        public IList<ModifyCarBuildModel> RetrieveAllCarParts()
+        {
+            return _carBuildService.FetchCarParts();
+        }
+
         public IList<UserCarBuildModel> RetrieveAllModifiedCarBuilds(string username)
         {
             return _carBuildService.FetchModifiedCarBuild(username);
