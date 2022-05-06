@@ -11,15 +11,22 @@ namespace TheNewPanelists.MotoMoto
         public enum response
         {
             success,
+            invalidStringParameter,
+            invalidIntegerParameter,
+            invalidBooleanParameter,
+            invalidObjectParameter,
             managerInvalidInteger,
             managerInvalidString,
             managerInvalidBoolean,
             managerInvalidObject,
+            managerInvalidProfileDescriptionRetrieval,
+            managerInvalidProfileUsernameRetrieval,
             managerObjectFailOnRetrieval,
             serviceObjectCreationFailure,
             serviceObjectFailOnRetrievalFromDataAccess,
             dataAccessFailedObjectOutOfRange,
             dataAccessFailedObjectNonExistent,
+            nullObjectReferenceAchieved,
         }
     }
 }

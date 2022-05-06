@@ -10,12 +10,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     public interface IProfileManagementService
     {
         public ProfileModel CreateProfilesForAllNewUsersManager();
-        public ProfileModel RetrieveSpecifiedProfileEntity(string _username);
+        public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel profileModel);
         public ProfileListModel RetrieveAllProfileModels();
-        public ProfileModel RetrieveAllUpvotesPostsForProfile(string _username);
-        public ProfileModel UpdateProfileDescriptionService(string _username, string _newDescription);
-        public ProfileModel UpdateProfileUsernameService(string _username, string _newUsername);
-        public ProfileModel UpdateProfileStatus(string _username, bool _status);
-
+        public ProfileModel RetrieveAllUpvotesPostsForProfile(ProfileModel profileModel);
+        public ProfileModel UpdateProfileDescriptionService(ProfileModel profileModel);
+        public ProfileModel UpdateProfileUsernameService(ProfileModel profileModel);
+        public ProfileModel UpdateProfileStatus(ProfileModel profileModel);
+        public ProfileModel DeleteProfileService(ProfileModel profileModel);
     }
 }

@@ -4,7 +4,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public interface IProfileManagementManager
     {
-        public ProfileModel CreatProfilesForAllNewAccountsManager();
+        public ProfileModel CreateProfilesForAllNewAccountsManager();
         public ProfileListModel RetrieveAllProfileManager();
         public ProfileModel RetrieveSpecifiedProfileManager(string _username);
         public ProfileModel RetrieveAllUpVotedPostsForProfileManager(string _username);

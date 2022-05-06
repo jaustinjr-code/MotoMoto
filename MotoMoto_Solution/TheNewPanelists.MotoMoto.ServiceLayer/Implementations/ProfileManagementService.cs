@@ -9,11 +9,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class ProfileManagementService : IProfileManagementService
     {
-        private readonly IProfileDataAccess profileDataAccess;
+        private readonly IProfileDataAccess _profileDataAccess;
 
-        public ProfileManagementService(IProfileDataAccess _profileDataAccess)
+        public ProfileManagementService(IProfileDataAccess profileDataAccess)
         {
-            profileDataAccess = _profileDataAccess;
+            _profileDataAccess = profileDataAccess;
         }
         /// <summary>
         /// function executes all new users that are created and generates a profile
@@ -27,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             ProfileModel profileModel = new ProfileModel();
             try
             {
-                profileModel = profileDataAccess.InsertAllExsitingUsers();
+                profileModel = _profileDataAccess.InsertAllExsitingUsers();
             }
             catch
             {
@@ -43,17 +43,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// </summary>
         /// <param name="_username"></param>
         /// <returns></returns>
-        public ProfileModel RetrieveSpecifiedProfileEntity(string _username)
+        public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel _profileModel)
         {
-            ProfileModel profileModel = new ProfileModel();
+            ProfileModel profileModel = _profileModel;
             try
             {
-                profileModel.username = _username;
-                profileModel = profileDataAccess.RetrieveSpecifiedProfileEntity(profileModel);
+                profileModel = _profileDataAccess.RetrieveSpecifiedProfileEntity(profileModel);
             }
             catch
             {
-                if (profileModel.username != _username)
+                if (profileModel.username != _profileModel.username)
                     return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
                 return profileModel.GetResponse(ResponseModel.response.serviceObjectCreationFailure);
 
@@ -70,7 +69,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             ProfileListModel profileList = new ProfileListModel();
             try
             {
-                profileList = profileDataAccess.GetAllProfiles(profileList);
+                profileList = _profileDataAccess.GetAllProfiles(profileList);
             }
             catch
             {
@@ -88,13 +87,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// </summary>
         /// <param name="_username"></param>
         /// <returns></returns>
-        public ProfileModel RetrieveAllUpvotesPostsForProfile(string _username)
+        public ProfileModel RetrieveAllUpvotesPostsForProfile(ProfileModel _profileModel)
         {
-            ProfileModel profile = new ProfileModel();
+            ProfileModel profile = _profileModel;
             try
             {
-                profile.username = _username;
-                profile = profileDataAccess.RetrieveAllUpvotesPostsForProfile(profile);
+                profile = _profileDataAccess.RetrieveAllUpvotesPostsForProfile(profile);
             }
             catch
             {
@@ -111,14 +109,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="_username"></param>
         /// <param name="_newDescription"></param>
         /// <returns></returns>
-        public ProfileModel UpdateProfileDescriptionService(string _username, string _newDescription)
+        public ProfileModel UpdateProfileDescriptionService(ProfileModel _profileModel)
         {
-            ProfileModel profileModel = new ProfileModel();
+            ProfileModel profileModel = _profileModel;
             try
             {
-                profileModel.username = _username;
-                profileModel.profileDescription = _newDescription;
-                profileModel = profileDataAccess.UpdateProfileDescription(profileModel);
+                profileModel = _profileDataAccess.UpdateProfileDescription(profileModel);
             }
             catch
             { 
@@ -133,14 +129,12 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="_username"></param>
         /// <param name="_newUsername"></param>
         /// <returns></returns>
-        public ProfileModel UpdateProfileUsernameService(string _username, string _newUsername)
+        public ProfileModel UpdateProfileUsernameService(ProfileModel _profileModel)
         {
-            ProfileModel profileModel = new ProfileModel();
+            ProfileModel profileModel = _profileModel;
             try
             {
-                profileModel.username = _username;
-                profileModel.newProfileUsername = _newUsername;
-                profileDataAccess.UpdateProfileUsername(profileModel);
+                _profileDataAccess.UpdateProfileUsername(profileModel);
             }
             catch
             {
@@ -156,13 +150,30 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="_username"></param>
         /// <param name="_status"></param>
         /// <returns></returns>
-        public ProfileModel UpdateProfileStatus(string _username, bool _status)
+        public ProfileModel UpdateProfileStatus(ProfileModel _profileModel)
         {
-            ProfileModel profileModel = new ProfileModel();
+            ProfileModel profileModel = _profileModel;
             try
             {
-                profileModel.username = _username;
-                profileModel.status = _status;
+                profileModel = _profileDataAccess.UpdateProfileDescription(_profileModel);
+            }
+            catch
+            {
+                return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
+        public ProfileModel DeleteProfileService(ProfileModel _profileModel)
+        {
+            ProfileModel profileModel = _profileModel;
+            try
+            {
+                profileModel = _profileDataAccess.DeleteProfileDataAccess(_profileModel);
             }
             catch
             {
