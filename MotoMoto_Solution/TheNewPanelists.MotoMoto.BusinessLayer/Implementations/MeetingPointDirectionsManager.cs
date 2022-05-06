@@ -10,14 +10,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public class MeetingPointDirectionsManager
     {
-        // Create private readonly property for EventListService
         private readonly MeetingPointDirectionsService _meetingPointDirectionsService;
-
-        // Single argument constructor
         public MeetingPointDirectionsManager(MeetingPointDirectionsService meetingPointDirectionsService) { _meetingPointDirectionsService = meetingPointDirectionsService; }
 
-        // Function that will be used to Fetch event location from the datastore
-        public ISet<EventDetailsModel> FetchEventLocation(int eventID)
+        // Initiates the execution of fetching the event location using the specified eventID
+        public ISet<EventDetailsModel>? FetchEventLocation(int eventID)
         {
             return _meetingPointDirectionsService.FetchEventLocation(eventID);
         }
