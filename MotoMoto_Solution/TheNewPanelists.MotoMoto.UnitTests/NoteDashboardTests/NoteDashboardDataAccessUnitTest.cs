@@ -59,10 +59,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             model.SetTitle("Unit Test Note Delete");
             model.SetNotes("Should be deleted");
             unitTest.AddNotes(model);
-            NoteModel model2 = new NoteModel();
-            model2.SetUsername("user2");
-            model2.SetTitle("Unit Test Note Delete");
-            bool actual = unitTest.DeleteNotes(model2);
+            bool actual = unitTest.DeleteNotes(model);
             Assert.True(actual);
         }
 

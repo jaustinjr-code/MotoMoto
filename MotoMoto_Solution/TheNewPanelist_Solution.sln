@@ -44,15 +44,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.SubmitContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj", "{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj", "{25589E01-EA61-4769-AB69-95EFA82575C5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B21BEF11-10C3-4880-8983-E7FF3C8AEB16} = {B21BEF11-10C3-4880-8983-E7FF3C8AEB16}
-		{013F2F48-5928-4779-96F9-A381827F3986} = {013F2F48-5928-4779-96F9-A381827F3986}
-		{CBDA388C-0226-4C8C-BDF6-B51CE79B33B6} = {CBDA388C-0226-4C8C-BDF6-B51CE79B33B6}
-		{44619BBF-92B4-4614-8AFE-1F8E3ED95369} = {44619BBF-92B4-4614-8AFE-1F8E3ED95369}
-		{180185C9-4FD0-44A8-BE9D-03592092DF79} = {180185C9-4FD0-44A8-BE9D-03592092DF79}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NotificationSystem", "TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj", "{171F3699-C6D7-4A0B-99EF-C89B791F983D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NoteDashboard", "TheNewPanelists.MotoMoto.WebServices.NoteDashboard\TheNewPanelists.MotoMoto.WebServices.NoteDashboard.csproj", "{C10C4078-3154-4E61-BBBC-E797309059E7}"
@@ -127,10 +118,6 @@ Global
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25589E01-EA61-4769-AB69-95EFA82575C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25589E01-EA61-4769-AB69-95EFA82575C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25589E01-EA61-4769-AB69-95EFA82575C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25589E01-EA61-4769-AB69-95EFA82575C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,7 +138,6 @@ Global
 		{1B465270-9CE3-4A61-B305-1C84B3874765} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{D3305279-3D43-4274-ADCC-F21200F2654E} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{25589E01-EA61-4769-AB69-95EFA82575C5} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{C10C4078-3154-4E61-BBBC-E797309059E7} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -228,6 +228,25 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return false;
             }
+
+            List<NoteModel> list = GetNotes(username, "timeStamp ASC");
+            bool temp = false;
+            foreach (NoteModel note in list)
+            {
+                if (note.GetUsername().Equals(username) && note.GetTitle().Equals(title))
+                {
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }       
+            if (!temp)
+            {
+                return false;
+            }
+
             try
             {              
                 con.Open();
@@ -272,6 +291,25 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return false;
             }
+
+            List<NoteModel> list = GetNotes(username, "timeStamp ASC");
+            bool temp = false;
+            foreach (NoteModel note in list)
+            {
+                if (note.GetUsername().Equals(username) && note.GetTitle().Equals(title))
+                {
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }
+            if (!temp)
+            {
+                return false;
+            }
+
             try
             {
                 
