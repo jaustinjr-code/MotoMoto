@@ -16,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         private MySqlConnection? mySqlConnection { get; set; }
 
         // Connection string
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;"; //write config so this only appears once
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;"; 
 
         // CarBuildDataAccess constructors
         public CarBuildDataAccess() { }
@@ -61,12 +61,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         public List<CarTypeModel> GetCarType()
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
-            CarTypeModel carType = new CarTypeModel();
+            //CarTypeModel carType = new CarTypeModel();
             List<CarTypeModel> carTypeList = new List<CarTypeModel>();
             try
             {
                 connection.Open();
-                Console.WriteLine("Connection Open");
                 string getSenderUserIdQuery = "SELECT make, model, year FROM CarTypes";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -74,6 +73,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 {
                     while (reader.Read())
                     {
+                        CarTypeModel carType = new CarTypeModel();
                         carType.make = reader["make"].ToString();
                         carType.model = reader["model"].ToString();
                         carType.year = reader["year"].ToString();
@@ -97,7 +97,45 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         // Once the user decides, displays names of parts
         // Takes in part the user wants to modify their car
         // Returns a list of the modifications the user has chosen
-        public List<ModifyCarBuildModel> GetModifiedCarBuild()
+        public UserCarBuildModel GetModifiedCarBuild(string username)
+        {
+            MySqlConnection connection = new MySqlConnection(_connectionString);
+            UserCarBuildModel userCarBuild = new UserCarBuildModel();
+            try
+            {
+                connection.Open();
+                string getSenderUserIdQuery = "select cp.make, cp.model, cp.year, oem.partNumber, oem.type from CarBuilds ct join CarModifications cb on ct.carBuildID = cb.carBuildID join OEMAndAfterMarketParts oem on cb.partID = oem.partID join CarTypes cp on cp.carID = ct.carID where ct.username = '" +  username +"'";
+                MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        userCarBuild.make = reader["make"].ToString();
+                        userCarBuild.model = reader["model"].ToString();
+                        userCarBuild.year = reader["year"].ToString();
+                        userCarBuild.partNumber = reader["partNumber"].ToString();
+                        userCarBuild.type = reader["type"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return userCarBuild;
+        }
+
+        // Referenced in the Service Layer
+        // Displays to the user two types of parts the user can choose from (OEM or Aftermarket)
+        // Once the user decides, displays names of parts
+        // Takes in part the user wants to modify their car
+        // Returns a list of the modifications the user has chosen
+        public List<ModifyCarBuildModel> GetParts()
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
             ModifyCarBuildModel carModification = new ModifyCarBuildModel();
@@ -137,24 +175,24 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 throw new NullReferenceException();
             }
-
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                string query = @$"INSERT INTO CarTypes (make, model, year) VALUES (@v0, @v1, @v2)";
 
-                command.CommandText = $"INSERT INTO USER (make, model, year)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1, @v2)";
-                var parameters = new MySqlParameter[2];
-                //parameters[0] = new MySqlParameter("@v0", carType!.carID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[0] = new MySqlParameter("@v0", carType!.make);
-                parameters[1] = new MySqlParameter("@v1", carType!.model);
-                parameters[2] = new MySqlParameter("@v2", carType!.year);
 
-                command.Parameters.AddRange(parameters);
-                return (ExecuteQuery(command));
+                MySqlConnection connection = new MySqlConnection(_connectionString);
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.Add("@v0", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@v1", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@v2", MySqlDbType.VarChar);
+
+                cmd.Parameters["@v0"].Value = carType.make;
+                cmd.Parameters["@v1"].Value = carType.model;
+                cmd.Parameters["@v2"].Value = carType.year;
+
+                //connection.Close();
+                return (ExecuteQuery(cmd));
             }
         }
 
@@ -219,23 +257,21 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 throw new NullReferenceException();
             }
-
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                string query = @$"INSERT INTO OEMAndAfterMarketParts (partNumber, type) VALUES (@v0, @v1)";
 
-                command.CommandText = $"INSERT INTO USER (partNumber, type)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1)";
-                var parameters = new MySqlParameter[1];
-                //parameters[0] = new MySqlParameter("@v0", carParts!.partID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[0] = new MySqlParameter("@v0", modifiedCar!.partNumber);
-                parameters[1] = new MySqlParameter("@v1", modifiedCar!.type);
 
-                command.Parameters.AddRange(parameters);
-                return (ExecuteQuery(command));
+                MySqlConnection connection = new MySqlConnection(_connectionString);
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.Add("@v0", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@v1", MySqlDbType.VarChar);
+
+                cmd.Parameters["@v0"].Value = modifiedCar.partNumber;
+                cmd.Parameters["@v1"].Value = modifiedCar.type;
+
+                return (ExecuteQuery(cmd));
             }
         }
     }

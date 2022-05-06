@@ -12,144 +12,146 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
     public class CarBuilderManagerUnitTests
     {
 
-        // Below are for CarTypeModel
+        //don't pass parameters, create object and pass the object in
 
-        [Fact]
-        public void CreateCarWithCompleteData()
-        {
-            string make = "Toyota";
-            string model = "GR86";
-            string year = "2022";
+        //// Below are for CarTypeModel
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void CreateCarWithCompleteData()
+        //{
+        //    string make = "Toyota";
+        //    string model = "GR86";
+        //    string year = "2022";
 
-            CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.Make == "toyota" &&
-                          newCar.Model == "gr86" &&
-                          newCar.Year == "2022";
+        //    CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.make == "toyota" &&
+        //                  newCar.model == "gr86" &&
+        //                  newCar.year == "2022";
 
-        [Fact]
-        public void CreateCarWithIncompleteData()
-        {
-            string make = "";
-            string model = "";
-            string year = "";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void CreateCarWithIncompleteData()
+        //{
+        //    string make = "";
+        //    string model = "";
+        //    string year = "";
 
-            CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.Make is null &&
-                          newCar.Model is null &&
-                          newCar.Year is null;
+        //    CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.make is null &&
+        //                  newCar.model is null &&
+        //                  newCar.year is null;
 
-        [Fact]
-        public void CreateCarWithExtraWhitespace()
-        {
-            string make = "         Toyota      ";
-            string model = "     GR86     ";
-            string year = "     2022     ";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void CreateCarWithExtraWhitespace()
+        //{
+        //    string make = "         Toyota      ";
+        //    string model = "     GR86     ";
+        //    string year = "     2022     ";
 
-            CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.Make == "toyota" &&
-                          newCar.Model == "gr86" &&
-                          newCar.Year == "2022";
+        //    CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.make == "toyota" &&
+        //                  newCar.model == "gr86" &&
+        //                  newCar.year == "2022";
 
-        [Fact]
-        public void CreateCarWithOnlyWhitespace()
-        {
-            string make = "          ";
-            string model = "          ";
-            string year = "          ";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void CreateCarWithOnlyWhitespace()
+        //{
+        //    string make = "          ";
+        //    string model = "          ";
+        //    string year = "          ";
 
-            CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.Make is null &&
-                          newCar.Model is null &&
-                          newCar.Year is null;
+        //    CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.make is null &&
+        //                  newCar.model is null &&
+        //                  newCar.year is null;
 
-        // Below are for ModifyCarBuildModel
+        //    Assert.True(result);
+        //}
 
-        [Fact]
-        public void ModifyCarWithCompleteData()
-        {
-            string partNumber = "D1195";
-            string type = "Aftermarket";
+        //// Below are for ModifyCarBuildModel
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void ModifyCarWithCompleteData()
+        //{
+        //    string partNumber = "D1195";
+        //    string type = "Aftermarket";
 
-            ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.PartNumber == "D1195" &&
-                          newCar.Type == "Aftermarket";
+        //    ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.PartNumber == "D1195" &&
+        //                  newCar.Type == "Aftermarket";
 
-        [Fact]
-        public void ModifyCarWithIncompleteData()
-        {
-            string partNumber = "";
-            string type = "";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void ModifyCarWithIncompleteData()
+        //{
+        //    string partNumber = "";
+        //    string type = "";
 
-            ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.PartNumber is null &&
-                          newCar.Type is null;
+        //    ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.PartNumber is null &&
+        //                  newCar.Type is null;
 
-        [Fact]
-        public void ModifyCarWithExtraWhitespace()
-        {
-            string partNumber = "     D1195     ";
-            string type = "     Aftermarket     ";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void ModifyCarWithExtraWhitespace()
+        //{
+        //    string partNumber = "     D1195     ";
+        //    string type = "     Aftermarket     ";
 
-            ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.PartNumber == "D1195" &&
-                          newCar.Type == "Aftermarket";
+        //    ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.PartNumber == "D1195" &&
+        //                  newCar.Type == "Aftermarket";
 
-        [Fact]
-        public void ModifyCarWithOnlyWhitespace()
-        {
-            string partNumber = "          ";
-            string type = "          ";
+        //    Assert.True(result);
+        //}
 
-            CarBuildManager manager = new CarBuildManager();
+        //[Fact]
+        //public void ModifyCarWithOnlyWhitespace()
+        //{
+        //    string partNumber = "          ";
+        //    string type = "          ";
 
-            ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
+        //    CarBuildManager manager = new CarBuildManager();
 
-            bool result = newCar.PartNumber is null &&
-                          newCar.Type is null;
+        //    ModifyCarBuildModel newCar = manager.CreateModifyCarBuildModel(partNumber, type);
 
-            Assert.True(result);
-        }
+        //    bool result = newCar.PartNumber is null &&
+        //                  newCar.Type is null;
+
+        //    Assert.True(result);
+        //}
     }
 }

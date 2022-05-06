@@ -24,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool SaveCarTypeManager(CarTypeModel savedCarBuild)
         {
-            if (!Regex.Match(savedCarBuild.year, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
+            if (Regex.Match(savedCarBuild.year, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
             {
                 int input = Int32.Parse(savedCarBuild.year);            // Parse the user input string into integers called input
                 if (input < 1950 || input > 2022)                       // Make sure the integer is equal to or between 1950 & 2022
@@ -68,19 +68,19 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _carBuildService.FetchCarType();
         }
 
-        public IList<ModifyCarBuildModel> RetrieveAllModifiedCarBuilds()
+        public UserCarBuildModel RetrieveAllModifiedCarBuilds(string username)
         {
-            return _carBuildService.FetchModifiedCarBuild();
+            return _carBuildService.FetchModifiedCarBuild(username);
         }
 
-        public CarTypeModel CreateCarTypeModel(string make, string model, string year)
-        {
-            return new CarTypeModel(make, model, year);
-        }
+        //public CarTypeModel CreateCarTypeModel(string make, string model, string year)
+        //{
+        //    return new CarTypeModel(make, model, year);
+        //}
 
-        public ModifyCarBuildModel CreateModifyCarBuildModel(string partNumber, string type)
-        {
-            return new ModifyCarBuildModel(partNumber, type);
-        }
+        //public ModifyCarBuildModel CreateModifyCarBuildModel(string partNumber, string type)
+        //{
+        //    return new ModifyCarBuildModel(partNumber, type);
+        //}
     }
 }

@@ -46,9 +46,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
         }
 
-        public List<ModifyCarBuildModel> FetchModifiedCarBuild()
+        public UserCarBuildModel FetchModifiedCarBuild(string username)
         {
-            return _carBuildDAO.GetModifiedCarBuild();
+            return _carBuildDAO.GetModifiedCarBuild(username);
         }
 
         public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)

@@ -39,8 +39,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpPost("CreateCar")]
-        public IActionResult CreateCar(CarTypeModel car)
+        [HttpPost("CreateCarBuild")]
+        public IActionResult CreateCarBuild(CarTypeModel car)
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
             CarBuildManager manager = new CarBuildManager(service);
@@ -64,14 +64,14 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
         }
 
         [HttpGet("CarBuild")]
-        public IActionResult GetModifiedCarBuilds()
+        public IActionResult GetModifiedCarBuilds(string username)
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
             CarBuildManager manager = new CarBuildManager(service);
 
             try
             {
-                IList<ModifyCarBuildModel> retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds();
+                UserCarBuildModel retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds(username);
                 return Ok(retrieveAllModifiedCars);
             }
             catch

@@ -12,78 +12,78 @@ namespace TheNewPanelists.MotoMoto
         public string? model { get; set; }      //Car model
         public string? year { get; set; }       //Car year
 
-        public CarTypeModel()
-        {
-            make = null;
-            model = null;
-            year = null;
-        }
+        //public CarTypeModel()
+        //{
+        //    make = null;
+        //    model = null;
+        //    year = null;
+        //}
 
-        public CarTypeModel(string make, string model, string year)
-        {
-            Make = make;
-            Model = model;
-            Year = year;
-        }
+        //public CarTypeModel(string make, string model, string year)
+        //{
+        //    Make = make;
+        //    Model = model;
+        //    Year = year;
+        //}
 
-        public string? Make
-        {
-            get
-            {
-                if (Make is not null)
-                {
-                    if (Make.Trim().Length == 0)
-                    {
-                        return null;
-                    }
-                    return Make.ToLower().Trim();
-                }
-                return Make;
-            }
-            set
-            {
-                Make = value;
-            }
-        }
+        //public string? Make
+        //{
+        //    get
+        //    {
+        //        if (Make is not null)
+        //        {
+        //            if (Make.Trim().Length == 0)
+        //            {
+        //                return null;
+        //            }
+        //            return Make.ToLower().Trim();
+        //        }
+        //        return Make;
+        //    }
+        //    set
+        //    {
+        //        Make = value;
+        //    }
+        //}
 
-        public string? Model
-        {
-            get
-            {
-                if (Model is not null)
-                {
-                    if (Model.Trim().Length == 0)
-                    {
-                        return null;
-                    }
-                    return Model.ToLower().Trim();
-                }
-                return Model;
-            }
-            set
-            {
-                Model = value;
-            }
-        }
+        //public string? Model
+        //{
+        //    get
+        //    {
+        //        if (Model is not null)
+        //        {
+        //            if (Model.Trim().Length == 0)
+        //            {
+        //                return null;
+        //            }
+        //            return Model.ToLower().Trim();
+        //        }
+        //        return Model;
+        //    }
+        //    set
+        //    {
+        //        Model = value;
+        //    }
+        //}
 
-        public string? Year
-        {
-            get
-            {
-                if (Year is not null)
-                {
-                    if (Year.Trim().Length == 0)
-                    {
-                        return null;
-                    }
-                    return Year.ToLower().Trim();
-                }
-                return Year;
-            }
-            set
-            {
-                Year = value;
-            }
-        }
+        //public string? Year
+        //{
+        //    get
+        //    {
+        //        if (Year is not null)
+        //        {
+        //            if (Year.Trim().Length == 0)
+        //            {
+        //                return null;
+        //            }
+        //            return Year.ToLower().Trim();
+        //        }
+        //        return Year;
+        //    }
+        //    set
+        //    {
+        //        Year = value;
+        //    }
+        //}
     }
 }
