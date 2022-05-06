@@ -5,6 +5,7 @@ import Login from '../views/LoginView.vue'
 import CommunityDashboard from '../views/CommunityView.vue'
 import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
+import CarBuilder from '../views/CarBuilderView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
@@ -41,6 +42,11 @@ const routes = [
     path: '/PartFlaggingPost',
     name: 'PartFlaggingPost',
     component: PartFlaggingPost
+  },
+  {
+    path: '/CarBuilder',
+    name: 'CarBuilder',
+    component: CarBuilder
   },
   {
     path: '/EventList',
