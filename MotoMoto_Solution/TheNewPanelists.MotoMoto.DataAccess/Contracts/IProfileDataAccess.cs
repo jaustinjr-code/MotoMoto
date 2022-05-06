@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public ProfileModel RetrieveAllUpvotesPostsForProfile(ProfileModel userProfile);
         public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel userProfile);
         public ProfileListModel GetAllProfiles(ProfileListModel profileListModel);
-        public ProfileModel InstertAllExsitingUsers();
+        public ProfileModel InsertAllExsitingUsers();
         public ProfileModel DeleteProfileDataAccess(ProfileModel userProfile);
         public ProfileModel GetAllUsersPosts(ProfileModel userProfile);
         public ProfileModel UpdateProfileDescription(ProfileModel userProfile);

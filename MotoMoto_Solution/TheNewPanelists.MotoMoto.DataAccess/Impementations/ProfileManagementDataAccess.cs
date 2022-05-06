@@ -9,12 +9,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public class ProfileManagementDataAccess : IProfileDataAccess
     {
-        private MySqlConnection? _mySqlConnection = null;
+        private readonly MySqlConnection _mySqlConnection = new MySqlConnection();
         private string? _connectionString { get; set; }
 
         public ProfileManagementDataAccess()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["motomotoDBConnection"].ConnectionString;
+            _mySqlConnection.ConnectionString = _connectionString;
         }
         /// <summary>
         /// Uses the configuration file to set the name of the connection string. We do not use the overloaded constructor
@@ -136,7 +137,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// will be stored
         /// </summary>
         /// <returns></returns>
-        public ProfileModel InstertAllExsitingUsers()
+        public ProfileModel InsertAllExsitingUsers()
         {
             try
             {
@@ -381,7 +382,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Updating profile status to determine whether an account is active or not
         /// </summary>
         /// <param name="userProfile"></param>
         /// <returns></returns>
@@ -396,7 +397,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@_username", userProfile.username);
-                    command.Parameters.AddWithValue("@_newURL", userProfile.status);
+                    command.Parameters.AddWithValue("@_newStatus", userProfile.status);
 
                     var value = ExecuteQuery(command);
                 }

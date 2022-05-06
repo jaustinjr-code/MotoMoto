@@ -16,6 +16,26 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             profileDataAccess = _profileDataAccess;
         }
         /// <summary>
+        /// function executes all new users that are created and generates a profile
+        /// for each user that is not in the profile table. This functionality allows
+        /// the system to dump in all new profiles to generate without needing to indivdually
+        /// create profiles.
+        /// </summary>
+        /// <returns></returns>
+        public ProfileModel CreateProfilesForAllNewUsers()
+        {
+            ProfileModel profileModel = new ProfileModel();
+            try
+            {
+                profileModel = profileDataAccess.InsertAllExsitingUsers();
+            }
+            catch
+            {
+                return profileModel.GetResponse(ResponseModel.response.serviceObjectCreationFailure);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
         /// functionality passes in the validated username from the business layer
         /// and converts the string into a profile. Once passed through to the data
         /// access. Information should return with a response set to success or failure
@@ -39,7 +59,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
             }
             return profileModel.GetResponse(ResponseModel.response.success);
-
         }
         /// <summary>
         /// Admin functionality that allows the system to retrieve all users. This functionality is mostly used 
