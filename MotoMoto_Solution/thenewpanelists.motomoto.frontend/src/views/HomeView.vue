@@ -14,6 +14,7 @@ import http from "./Http-coman"
     <button @click="goToNoteDashboard">Note Dashboard</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
     <button @click="goToCommunityBoard">Community Board</button>
+    <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
   </div>
 </template>
 
@@ -65,6 +66,9 @@ export default {
     },
     goToCommunityBoard(){
       this.$router.push('/communityboard')
+    },
+    goToMeetingPointDirections() {
+      this.$router.push('/MeetingPointDirections')
     },
     goToPersonalizedRecommendations(){
       this.$router.push('/PersonalizedRecommendations')

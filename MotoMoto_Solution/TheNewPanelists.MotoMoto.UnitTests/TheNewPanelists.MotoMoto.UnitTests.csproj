@@ -33,6 +33,7 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations\TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj" />
   </ItemGroup>
 
   <ItemGroup>

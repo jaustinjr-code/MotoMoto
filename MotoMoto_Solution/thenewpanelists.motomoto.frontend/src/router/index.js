@@ -15,6 +15,7 @@ import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
+import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
 
 import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
@@ -108,7 +109,10 @@ const routes = [
     component: EditPreferences
   },
   {
-
+    path: '/MeetingPointDirections',
+    name: 'MeetingPointDirections',
+    component: MeetingPointDirections
+  },
     path: '/noteDashboard',
     name: 'noteDashabord',
     component: NoteDashboardView
