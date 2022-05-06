@@ -181,5 +181,22 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profileModel"></param>
+        /// <returns></returns>
+        public ProfileModel RetrieveSpecifiedUserPosts(ProfileModel profileModel)
+        {
+            try
+            {
+                profileModel = _profileDataAccess.GetAllUsersPosts(profileModel);
+            }
+            catch
+            {
+                return profileModel.GetResponse(ResponseModel.response.serviceObjectCreationFailure);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
     }
 }

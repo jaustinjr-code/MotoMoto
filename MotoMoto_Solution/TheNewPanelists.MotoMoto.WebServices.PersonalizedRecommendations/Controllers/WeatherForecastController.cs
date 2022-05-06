@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
+namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.Controllers
 {
     [ApiController]
     [Route("[controller]")]

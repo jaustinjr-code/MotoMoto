@@ -7,7 +7,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     public class ProfileManagementManager : IProfileManagementManager
     {
         private readonly IProfileManagementService _profileManagementService;
-        
+
         public ProfileManagementManager(IProfileManagementService profileManagementService)
         {
             _profileManagementService = profileManagementService;
@@ -45,7 +45,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 return new ProfileListModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
             }
-            return managerProfileList.GetResponse(ResponseModel.response.success); 
+            return managerProfileList.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
         /// 
@@ -165,7 +165,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             {
                 if (_username.Length >= 25 && _username.Length < 0 && _newUsername.Length >= 25 && _newUsername.Length < 0)
                     return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
-                
+
                 profileModel = _profileManagementService.UpdateProfileUsernameService(profileModel);
 
                 if (profileModel != null)
@@ -184,6 +184,12 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <param name="_status"></param>
+        /// <returns></returns>
         public ProfileModel UpdateProfileStatusManager(string _username, bool _status)
         {
             ProfileModel profileModel = new ProfileModel
@@ -213,6 +219,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <returns></returns>
         public ProfileModel DeleteProfileManager(string _username)
         {
             ProfileModel profileModel = new ProfileModel
@@ -241,49 +252,38 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <returns></returns>
+        public ProfileModel RetrieveSpecifiedUserPostsManager(string _username)
+        {
+            ProfileModel profileModel = new ProfileModel
+            {
+                username = _username
+            };
+            try
+            {
+                if (_username.Length >= 25 && _username.Length < 0)
+                    return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
+
+                profileModel = _profileManagementService.RetrieveSpecifiedUserPosts(profileModel);
+                if (profileModel != null)
+                {
+                    if (profileModel.systemResponse != "success")
+                        return profileModel.GetResponse(ResponseModel.response.managerInvalidObject);
+                }
+                else
+                {
+                    return new ProfileModel().GetResponse(ResponseModel.response.nullObjectReferenceAchieved);
+                }
+            }
+            catch
+            {
+                return new ProfileModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
     }
 }
-// namespace TheNewPanelists.MotoMoto.BusinessLayer
-// {
-//     public class ProfileManagementManager
-//     {
-//         private readonly ProfileManagementService? _profileManagementService;
-
-//         public ProfileManagementManager(ProfileManagementService profileManagementService)
-//         {
-//             _profileManagementService = profileManagementService;
-//         }
-
-//         public bool DeleteProfileManager(DeleteAccountModel deleteAccountModel)
-//         {
-//             if (deleteAccountModel.userId < 0)
-//                 return false;
-//             return _profileManagementService!.DeleteAccountProfile(deleteAccountModel);
-//         }
-
-//         public bool CreateAccountManager()
-//         {
-//             return _profileManagementService!.CreateExistingAccountProfiles();
-//         }
-//         public bool UpdateProfileUsername()
-//         {
-//             throw new NotImplementedException();
-//         }
-//         public bool UpdateProfileImage()
-//         {
-//             throw new NotImplementedException();
-//         }
-//         public bool UpdateProfileDescription()
-//         {
-//             throw new NotImplementedException();
-//         }
-//         public ProfileModel RetrieveSpecifiedUserProfile()
-//         {
-//             throw new NotImplementedException();
-//         }
-//         public bool UpdateProfileStatus()
-//         {
-//             throw new NotImplementedException();
-//         }
-//     }
-// }

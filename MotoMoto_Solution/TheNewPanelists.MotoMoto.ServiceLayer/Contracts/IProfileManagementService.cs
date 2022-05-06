@@ -17,5 +17,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public ProfileModel UpdateProfileUsernameService(ProfileModel profileModel);
         public ProfileModel UpdateProfileStatus(ProfileModel profileModel);
         public ProfileModel DeleteProfileService(ProfileModel profileModel);
+        public ProfileModel RetrieveSpecifiedUserPosts(ProfileModel profileModel);
     }
 }
