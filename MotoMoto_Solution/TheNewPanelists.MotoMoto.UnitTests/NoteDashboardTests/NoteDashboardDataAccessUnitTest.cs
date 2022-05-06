@@ -96,6 +96,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             model2.SetTitle("Unit Test Note Update");
             model2.SetNotes("Is Updated");
             bool actual = unitTest.UpdateNotes(model2);
+            unitTest.DeleteNotes(model2);
             Assert.True(actual);
         }
         /// <summary>
@@ -110,6 +111,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             model.SetUsername("user300");
             model.SetTitle("Unit Test Note");
             bool actual = unitTest.UpdateNotes(model);
+           
             Assert.False(actual);
         }
 

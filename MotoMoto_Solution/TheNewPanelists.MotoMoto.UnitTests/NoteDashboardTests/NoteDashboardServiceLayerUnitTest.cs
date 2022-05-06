@@ -91,6 +91,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             model2.SetTitle("Unit Test Note Update Service layer");
             model2.SetNotes("Is Updated");
             bool actual = unitTest.UpdateNotes(model2);
+            unitTest.DeleteNotes(model2);
             Assert.True(actual);
         }
         /// <summary>

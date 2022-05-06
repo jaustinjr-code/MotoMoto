@@ -184,6 +184,26 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return false;
             }
+            bool temps = true;
+
+            //Check For duplicates
+            foreach (NoteModel note in temp)
+            {
+                if (note.GetUsername().Equals(username) && note.GetTitle().Equals(title))
+                {
+                    temps = false;
+                }
+                else
+                {
+                    temps = true;
+                }
+            }
+            if (!temps)
+            {
+                return false;
+            }
+
+
 
             try
             {

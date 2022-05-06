@@ -85,6 +85,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             unitTest.AddNotes(username, title);
             string note = "Note is updated";
             bool actual = unitTest.UpdateNotes(username, title, note);
+            unitTest.DeleteNotes(username, title);
             Assert.True(actual);
         }
 

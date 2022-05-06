@@ -36,8 +36,4 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NoteDashboardTests\" />
-  </ItemGroup>
-
 </Project>
