@@ -6,16 +6,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
     public class CarBuildManager
     {
         private readonly CarBuildService _carBuildService;
-
-        public CarBuildManager() // AM I SUPPOSED TO DO THIS ?!?!?!?!?!
-        {
-        }
 
         public CarBuildManager(CarBuildService carBuildService)
         {
@@ -63,12 +60,25 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _carBuildService.SaveModifiedCarBuild(modifiedCarBuild);
         }
 
+        public bool UpdateCarManager(UpdateCarModel updateCar)
+        {
+            //if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            //{
+            //    return false;
+            //}
+            //if (modifiedCarBuild.type != "OEM" || modifiedCarBuild.type != "Aftermarket")           // If user input string is not 'OEM' or 'Aftermarket', return false
+            //{
+            //    return false;
+            //}
+            return _carBuildService.UpdateCarBuild(updateCar);
+        }
+
         public IList<CarTypeModel> RetrieveAllCarTypes()
         {
             return _carBuildService.FetchCarType();
         }
 
-        public UserCarBuildModel RetrieveAllModifiedCarBuilds(string username)
+        public IList<UserCarBuildModel> RetrieveAllModifiedCarBuilds(string username)
         {
             return _carBuildService.FetchModifiedCarBuild(username);
         }

@@ -7,6 +7,7 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.Models;
 using System.Data;
 using System.Data.SqlClient;
+using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 
 namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
 {
@@ -61,12 +62,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         public List<CarTypeModel> GetCarType()
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
-            //CarTypeModel carType = new CarTypeModel();
             List<CarTypeModel> carTypeList = new List<CarTypeModel>();
             try
             {
                 connection.Open();
-                string getSenderUserIdQuery = "SELECT make, model, year FROM CarTypes";
+                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarTypes";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -74,6 +74,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                     while (reader.Read())
                     {
                         CarTypeModel carType = new CarTypeModel();
+                        carType.carID = reader["carID"].ToString();
                         carType.make = reader["make"].ToString();
                         carType.model = reader["model"].ToString();
                         carType.year = reader["year"].ToString();
@@ -97,10 +98,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         // Once the user decides, displays names of parts
         // Takes in part the user wants to modify their car
         // Returns a list of the modifications the user has chosen
-        public UserCarBuildModel GetModifiedCarBuild(string username)
+        public List<UserCarBuildModel> GetModifiedCarBuild(string username)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
-            UserCarBuildModel userCarBuild = new UserCarBuildModel();
+            List<UserCarBuildModel> userCarBuildList = new List<UserCarBuildModel>();
             try
             {
                 connection.Open();
@@ -111,11 +112,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                 {
                     while (reader.Read())
                     {
+                        UserCarBuildModel userCarBuild = new UserCarBuildModel();
                         userCarBuild.make = reader["make"].ToString();
                         userCarBuild.model = reader["model"].ToString();
                         userCarBuild.year = reader["year"].ToString();
                         userCarBuild.partNumber = reader["partNumber"].ToString();
                         userCarBuild.type = reader["type"].ToString();
+                        userCarBuildList.Add(userCarBuild);
                     }
                 }
             }
@@ -127,7 +130,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Close();
             }
-            return userCarBuild;
+            return userCarBuildList;
         }
 
         // Referenced in the Service Layer
@@ -144,13 +147,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             {
                 connection.Open();
                 Console.WriteLine("Connection Open");
-                string getSenderUserIdQuery = "SELECT partNumber, type FROM OEMAndAfterMarketParts";
+                string getSenderUserIdQuery = "SELECT partID, partNumber, type FROM OEMAndAfterMarketParts";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
+                        carModification.partID = reader["partID"].ToString();
                         carModification.partNumber = reader["partNumber"].ToString();
                         carModification.type = reader["type"].ToString();
                         carModificationList.Add(carModification);
@@ -197,58 +201,84 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         }
 
         // Stores values for car build variables in database
-        public bool InsertNewDataStoreCarBuildsEntity(DataStoreCarBuilds carBuilds)
+        public bool InsertNewDataStoreCarBuildsEntity(UpdateCarModel updateCarModel)
         {
             if (!EstablishMariaDBConnection())
             {
                 throw new NullReferenceException();
             }
-
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                string query = @$"insert into CarBuilds(carID, username) values (@v0, @v1);SELECT CAST(@@IDENTITY AS int)";
 
-                command.CommandText = $"INSERT INTO USER (carBuildID, carID, username)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1, @v2)";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v0", carBuilds!.carBuildID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[1] = new MySqlParameter("@v1", carBuilds!.carID);
-                parameters[2] = new MySqlParameter("@v2", carBuilds!.username);
 
-                command.Parameters.AddRange(parameters);
-                return (ExecuteQuery(command));
+                MySqlConnection connection = new MySqlConnection(_connectionString);
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.Add("@v0", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@v1", MySqlDbType.VarChar);
+
+                cmd.Parameters["@v0"].Value = updateCarModel.carID;
+                cmd.Parameters["@v1"].Value = updateCarModel.username;
+
+                var modified = cmd.ExecuteScalar();
+                return InsertNewDataStoreCarModificationsEntity(updateCarModel, modified.ToString());
+                //mySqlConnection!.Close();
+                //return modified;
+
+                //return (ExecuteQuery(cmd));
             }
         }
 
         // Stores values for car modifications variables in database
-        public bool InsertNewDataStoreCarModificationsEntity(DataStoreCarModifications carModifications)
+        public bool InsertNewDataStoreCarModificationsEntity(UpdateCarModel updateCarModel, string modified)
         {
-            if (!EstablishMariaDBConnection())
-            {
-                throw new NullReferenceException();
-            }
-
+            //if (!EstablishMariaDBConnection())
+            //{
+            //    throw new NullReferenceException();
+            //}
             using (MySqlCommand command = new MySqlCommand())
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                string query = @$"insert into CarModifications(carBuildID, partID) values (@v0, @v1)";
 
-                command.CommandText = $"INSERT INTO USER (carModificationID, carBuildID, partID)" +     // Do not pass carID 
-                                      $"VALUES (@v0, @v1, @v2)";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v0", carModifications!.carModificationID);     // Should be removed because you do not need this if auto-incrementing
-                parameters[1] = new MySqlParameter("@v1", carModifications!.carBuildID);
-                parameters[2] = new MySqlParameter("@v2", carModifications!.partID);
 
-                command.Parameters.AddRange(parameters);
-                return (ExecuteQuery(command));
+                MySqlConnection connection = new MySqlConnection(_connectionString);
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.Add("@v0", MySqlDbType.VarChar);
+                cmd.Parameters.Add("@v1", MySqlDbType.VarChar);
+
+                cmd.Parameters["@v0"].Value = modified;
+                cmd.Parameters["@v1"].Value = updateCarModel.partID;
+
+                return (ExecuteQuery(cmd));
             }
         }
+
+        //if (!EstablishMariaDBConnection())
+        //{
+        //    throw new NullReferenceException();
+        //}
+
+        //using (MySqlCommand command = new MySqlCommand())
+        //{
+        //    command.Transaction = mySqlConnection!.BeginTransaction();
+        //    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+        //    command.Connection = mySqlConnection!;
+        //    command.CommandType = CommandType.Text;
+
+        //    command.CommandText = @$"insert into CarModifications(carBuildID, partID) values (@v0, @v1);SELECT CAST(@@IDENTITY AS int)";
+
+        //    var parameters = new MySqlParameter[2];
+        //    parameters[0] = new MySqlParameter("@v0", Convert.ToInt32(updateCarModel!.carBuildID));
+        //    parameters[1] = new MySqlParameter("@v1", Convert.ToInt32(updateCarModel!.partID));
+
+        //    command.Parameters.AddRange(parameters);
+        //    int modified = Convert.ToInt32(command.ExecuteScalar());
+        //    mySqlConnection!.Close();
+        //    return modified;
+        //    //return (ExecuteQuery(command));
+        //}
 
         // Stores the information from the model to the entity
         public bool InsertNewDataStoreOEMAndAfterMarketPartsEntity(ModifyCarBuildModel modifiedCar)

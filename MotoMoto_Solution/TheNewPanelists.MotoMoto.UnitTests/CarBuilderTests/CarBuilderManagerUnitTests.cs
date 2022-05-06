@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Xunit;
 using TheNewPanelists.MotoMoto.BusinessLayer;
+using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
 
 namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
 {
     public class CarBuilderManagerUnitTests
     {
-
-        //don't pass parameters, create object and pass the object in
-
-        //// Below are for CarTypeModel
-
         //[Fact]
         //public void CreateCarWithCompleteData()
         //{
@@ -23,13 +20,14 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
         //    string model = "GR86";
         //    string year = "2022";
 
-        //    CarBuildManager manager = new CarBuildManager();
+        //    CarBuildService service = new CarBuildService(_carBuilderDataAccess);
+        //    CarBuildManager manager = new CarBuildManager(service);
 
-        //    CarTypeModel newCar = manager.CreateCarTypeModel(make, model, year);
+        //    IList<CarTypeModel> newCar = manager.RetrieveAllCarTypes();
 
-        //    bool result = newCar.make == "toyota" &&
-        //                  newCar.model == "gr86" &&
-        //                  newCar.year == "2022";
+        //    bool result = newCar[0].make == "toyota" &&
+        //                  newCar[0].model == "gr86" &&
+        //                  newCar[0].year == "2022";
 
         //    Assert.True(result);
         //}

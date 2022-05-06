@@ -5,6 +5,7 @@ using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
+using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 
 namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 {
@@ -15,14 +16,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
     {
         private readonly CarBuildDataAccess _carBuildDataAccess = new CarBuildDataAccess();
 
-        //private readonly ILogger<CarBuilderController> _logger;
 
-        //public CarBuilderController(ILogger<CarBuilderController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-        [HttpGet("CarType")]
+        [HttpGet("GetCarTypes")]
         public IActionResult GetCarTypes()
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -39,12 +34,12 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpPost("CreateCarBuild")]
-        public IActionResult CreateCarBuild(CarTypeModel car)
+        [HttpPost("CreateCarType")]
+        public IActionResult CreateCarTypes(CarTypeModel car)
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
             CarBuildManager manager = new CarBuildManager(service);
-            bool result = manager.SaveCarTypeManager(car); //What should i put here if i want to save it to DataStoreCarBuilds
+            bool result = manager.SaveCarTypeManager(car); 
             if (result)
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
@@ -71,7 +66,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 
             try
             {
-                UserCarBuildModel retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds(username);
+                IList<UserCarBuildModel> retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds(username);
+                //UserCarBuildModel retrieveAllModifiedCars = manager.RetrieveAllModifiedCarBuilds(username);
                 return Ok(retrieveAllModifiedCars);
             }
             catch
@@ -80,26 +76,50 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpPut("UpdateCar")]
-        public IActionResult UpdateCar(ModifyCarBuildModel modifyCar) // What should I take in????
+        [HttpPost("CreateCarPart")]
+        public IActionResult CreateCarPart(ModifyCarBuildModel modifyCar) 
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
             CarBuildManager manager = new CarBuildManager(service);
-            bool result = manager.SaveCarModificationsManager(modifyCar); //What should i put here if i want to save it to DataStoreCarBuilds
+            bool result = manager.SaveCarModificationsManager(modifyCar); 
             if (result)
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
-            {
-                { "message", "Car Successfully Modified" },
-            };
+                {
+                    { "message", "Car Successfully Modified" },
+                };
                 return Ok(response);
             }
             else
             {
                 Dictionary<string, string> response = new Dictionary<string, string>
+                {
+                    { "message", "Error Could Not Modify Car" },
+                };
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("UpdateCar")]
+        public IActionResult UpdateCar(UpdateCarModel updateCarBuildModel) // What should I take in????
+        {
+            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildManager manager = new CarBuildManager(service);
+            bool result = manager.UpdateCarManager(updateCarBuildModel); //What should i put here if i want to save it to DataStoreCarBuilds
+            if (result)
             {
-                { "message", "Error Could Not Modify Car" },
-            };
+                Dictionary<string, string> response = new Dictionary<string, string>
+                {
+                    { "message", "Car Successfully Modified" },
+                };
+                return Ok(response);
+            }
+            else
+            {
+                Dictionary<string, string> response = new Dictionary<string, string>
+        {
+            { "message", "Error Could Not Modify Car" },
+        };
                 return BadRequest(response);
             }
         }
