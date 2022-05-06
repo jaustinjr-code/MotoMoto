@@ -62,14 +62,18 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool UpdateCarManager(UpdateCarModel updateCar)
         {
-            //if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
-            //{
-            //    return false;
-            //}
-            //if (modifiedCarBuild.type != "OEM" || modifiedCarBuild.type != "Aftermarket")           // If user input string is not 'OEM' or 'Aftermarket', return false
-            //{
-            //    return false;
-            //}
+            if (Convert.ToInt32(updateCar.carID) < 0)   
+            {
+                return false;
+            }
+            if (Convert.ToInt32(updateCar.partID) < 0)  
+            {
+                return false;
+            }
+            if (updateCar.username!.Length == 0 || updateCar.username!.Length > 30)   
+            {
+                return false;
+            }
             return _carBuildService.UpdateCarBuild(updateCar);
         }
 
