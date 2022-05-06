@@ -2,7 +2,7 @@
 using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.Models.NoteDashboardModels;
 
-namespace TheNewPanelists.MotoMoto.WebServices 
+namespace TheNewPanelists.MotoMoto.WebServices
 {
     [Route("api/[controller]")]
     [ApiController]
