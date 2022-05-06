@@ -9,8 +9,14 @@ using TheNewPanelists.MotoMoto.Models.NoteDashboardModels;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
+    
+     /// Used to access the database to Add, create, update, and delete notes
+     
     public class NoteDashboardDataAccess
     {
+        
+         /// connection to connect to the database
+         
         MySqlConnection? mySqlConnection { get; set; }
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
@@ -20,6 +26,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         {
             _connectionString = connectionString;
         }
+
+        /// </summary>
+        /// Closes that connection string
+        /// </summary>
+        /// <param> MySqlCommand command </param>
+        /// <returns> bool </return>
         private bool CLoseConnection(MySqlCommand command)
         {
             try
@@ -34,6 +46,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
         }
+        /// </summary>
+        ///Creates a connection to the database
+        /// </summary>
+        /// <param> bool </param>
         public bool EstablishMariaDBConnection()
         {
             try
@@ -48,6 +64,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return false;
         }
+
+
+        /// <summary>
+        /// gets the userId from the username that is passed in 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>int</returns>
         public int getUserId(string username)
         {
             if (!EstablishMariaDBConnection())
@@ -88,6 +111,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
             }
         }
+
+        /// <summary>
+        /// returns a list Note Model in an order specified by the user
+        /// if the order is note specified by the user, timestamp in ascending order will be used
+        /// </summary>
+        /// <param name="username" name = "order"></param>
+        /// <returns>List<NoteModel></returns>
         public List<NoteModel> GetNotes(string username, string order)
         {
             List<NoteModel> notes = new List<NoteModel>();
@@ -131,6 +161,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
+        /// <summary>
+        /// inserts the object into the database
+        /// will not allow the user to intput more than 100 notes
+        /// </summary>
+        /// <param name="model" </param>
+        /// <returns>bool</returns>
         public bool AddNotes(NoteModel model)
         {
             string username = model.GetUsername();
@@ -142,6 +178,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 return false;
             }
 
+            ///checks if the user has over a hundred notes
             List<NoteModel> temp = GetNotes(username, "timeStamp ASC");
             if(temp.Count >= 100)
             {
@@ -175,6 +212,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
            
         }
+
+        /// <summary>
+        /// delete the object from the database
+        /// </summary>
+        /// <param name="model" </param>
+        /// <returns>bool</returns>
         public bool DeleteNotes(NoteModel model)
         {
             string username = model.GetUsername();
@@ -212,6 +255,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         }
 
+        /// <summary>
+        /// updates the object from the database
+        /// </summary>
+        /// <param name="model" </param>
+        /// <returns>bool</returns>
         public bool UpdateNotes(NoteModel model)
         {
             string username = model.GetUsername();

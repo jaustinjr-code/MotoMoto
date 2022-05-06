@@ -11,6 +11,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class NoteDashboardDataAccessUnitTest
     {
+
+        /// <summary>
+        /// Checks to ensure that addNotes notes is working in the DataAccess layer
+        /// Should return true
+        /// </summary>
+
         [Fact]
         public void AddNotes_True()
         {
@@ -23,6 +29,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(actual);    
             unitTest.DeleteNotes(model);
         }
+        /// <summary>
+        /// Checks to ensure that addNotes notes is working in the DataAccess layer
+        /// Should return false
+        /// </summary>
 
         [Fact]
         public void AddNotes_False()
@@ -35,6 +45,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.AddNotes(model);
             Assert.False(actual);  
         }
+
+        /// <summary>
+        /// Checks to ensure that deleteNotes notes is working in the DataAccess layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void DeleteNotes_True()
         {
@@ -50,6 +65,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.DeleteNotes(model2);
             Assert.True(actual);
         }
+
+        /// <summary>
+        /// Checks to ensure that deleteNotes notes is working in the DataAccess layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void DeleteNotes_False()
         {
@@ -61,6 +81,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(actual);
         }
 
+        /// <summary>
+        /// Checks to ensure that updateNotes notes is working in the DataAccess layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void UpdateNote_True()
         {
@@ -77,7 +101,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.UpdateNotes(model2);
             Assert.True(actual);
         }
-
+        /// <summary>
+        /// Checks to ensure that updateNotes notes is working in the Data Access layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void UpdateNote_False()
         {
@@ -89,6 +116,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(actual);
         }
 
+        /// <summary>
+        /// Checks to ensure that getNotes notes is working in the Data Access layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void GetNote_True()
         {
@@ -110,7 +141,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             unitTest.DeleteNotes(model);
             Assert.True(actual);
         }
-        
+
+        /// <summary>
+        /// Checks to ensure that getNotes notes is working in the Data Access layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void GetNote_False()
         {

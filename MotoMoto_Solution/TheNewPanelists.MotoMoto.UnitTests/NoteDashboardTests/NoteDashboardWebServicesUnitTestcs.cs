@@ -13,6 +13,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class NoteDashboardWebServicesUnitTestcs
     {
+
+
+        /// <summary>
+        /// Checks to ensure that addNotes notes is working in the WebService layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void AddNotes_True()
         {
@@ -26,7 +32,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             NoteDeleteController delete = new NoteDeleteController();
             IActionResult temp = delete.DeleteNotes(username, title);
         }
-
+        /// <summary>
+        /// Checks to ensure that addNotes notes is working in the WebService layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void AddNotes_False()
         {
@@ -38,6 +47,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.NotNull(OKResponse);
             Assert.Equal(false, OKResponse.Value);
         }
+        /// <summary>
+        /// Checks to ensure that deleteNotes notes is working in the WebService layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void DeleteNotes_True()
         {
@@ -51,6 +64,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.NotNull(OKResponse);
             Assert.Equal(true, OKResponse.Value);
         }
+        /// <summary>
+        /// Checks to ensure that deleteNotes notes is working in the WebService layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void DeleteNotes_False()
         {
@@ -62,7 +79,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.NotNull(OKResponse);
             Assert.Equal(false, OKResponse.Value);
         }
-
+        /// <summary>
+        /// Checks to ensure that updateNotes notes is working in the WebService layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void UpdateNote_True()
         {
@@ -77,6 +97,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.NotNull(OKResponse);
             Assert.Equal(true, OKResponse.Value);
         }
+
+        /// <summary>
+        /// Checks to ensure that updateNotes notes is working in the WebService layer
+        /// Should return false
+        /// </summary>
 
         [Fact]
         public void UpdateNote_False()

@@ -11,6 +11,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
 {
     public class NoteDashboardBusinessLayerUnitTest
     {
+        /// <summary>
+        /// Checks to ensure that add notes is working in the business layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void AddNotes_True()
         {
@@ -22,6 +26,10 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             unitTest.DeleteNotes(username, title);
         }
 
+        /// <summary>
+        /// Checks to ensure that add notes is working in the business layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void AddNotes_False()
         {
@@ -31,6 +39,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.AddNotes(username, title);
             Assert.False(actual);
         }
+
+        /// <summary>
+        /// Checks to ensure that delete notes is working in the business layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void DeleteNotes_True()
         {
@@ -41,6 +54,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.DeleteNotes(username, title);
             Assert.True(actual);
         }
+
+
+        /// <summary>
+        /// Checks to ensure that delete notes is working in the business layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void DeleteNotes_False()
         {
@@ -51,6 +70,12 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.False(actual);
         }
 
+
+
+        /// <summary>
+        /// Checks to ensure that update notes is working in the business layer
+        /// Should return true
+        /// </summary>
         [Fact]
         public void UpdateNote_True()
         {
@@ -63,6 +88,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(actual);
         }
 
+
+        /// <summary>
+        /// Checks to ensure that update notes is working in the business layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void UpdateNote_False()
         {
@@ -73,6 +103,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             bool actual = unitTest.UpdateNotes(username, title, note);
             Assert.False(actual);
         }
+
+        /// <summary>
+        /// Checks to ensure that getNotes notes is working in the business layer
+        /// Should return true
+        /// </summary>
 
         [Fact]
         public void GetNote_True()
@@ -92,6 +127,11 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             Assert.True(actual);
         }
 
+
+        /// <summary>
+        /// Checks to ensure that getNotes notes is working in the business layer
+        /// Should return false
+        /// </summary>
         [Fact]
         public void GetNote_False()
         {

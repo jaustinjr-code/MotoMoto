@@ -12,6 +12,14 @@ namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        ///  Web API call to get the updated notes from the front end and store it into the backend database
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="title"></param>
+        /// <param name="notes"></param>
+        /// <returns>IAction Result</returns>
         [HttpGet]
         [Route("UpdateNote")]
         public IActionResult UpdateNotes(string username, string title, string notes)

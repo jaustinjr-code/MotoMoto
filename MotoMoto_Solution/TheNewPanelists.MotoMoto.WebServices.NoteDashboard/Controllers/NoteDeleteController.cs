@@ -12,6 +12,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.NoteDashboard.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Web API call to delete a specified note from the database
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("DeleteNote")]
         public IActionResult DeleteNotes(string username, string title)
