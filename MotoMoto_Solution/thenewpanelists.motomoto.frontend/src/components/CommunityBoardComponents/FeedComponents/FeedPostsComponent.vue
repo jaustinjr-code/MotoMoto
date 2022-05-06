@@ -2,24 +2,40 @@
     <div>
         <!-- Source: https://stackoverflow.com/questions/50982408/vue-js-get-selected-option-on-change -->
         <select name="community_feeds" id="feedNames" @change="LoadFeed($event.target.value)">
-            <option value="test">test</option>
             <option value="Main Feed">Main Feed</option>
+            <option value="Lowrider">Lowrider</option>
             <option value="Supercar">Supercar</option>
+            <option value="European">European</option>
+            <option value="American Muscle">American Muscle</option>
+            <option value="Exotic">Exotic</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Is That a Supra?!">Is That a Supra?!</option>
+            <option value="Economy">Economy</option>
+            <option value="Electric">Electric</option>
+            <option value="Sleeper">Sleeper</option>
+            <option value="Truck">Truck</option>
+            <option value="test">test</option>
         </select>
         <div>
             <h1>{{ feedName }}</h1>
             <button @click="CreatePost()" v-if="feedName != 'Main Feed'">Create Post</button>
         </div>
-        <ul id="post-summary">
+        <br>
+        <table id="post-summary">
+            <tr>
+                <th>User</th>
+                <th>Title</th>
+                <th></th>
+            </tr>
             <!-- Consider filling in data for a component Post Summary -->
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
-            <div v-for="post in postList" :key="post.postId" >
-                <li>{{ post.postUsername }}</li>
-                <li @click="ExpandPost(post.postId)">{{ post.postTitle }}</li>
+            <tr v-for="post in postList" :key="post.postId" >
+                <td>{{ post.postUsername }}</td>
+                <td @click="ExpandPost(post.postId)">{{ post.postTitle }}</td>
                 <button @click="UpvoteButton(post.postId, post.postTitle)">Upvote</button>
                 <!-- Want to pass in current user's username into UpvoteButton -->
-            </div>
-        </ul>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -93,7 +109,7 @@ export default {
                 });
         },
         ExpandPost(req) {
-            console.log(req);
+            //console.log(req);
             this.$router.push({name: 'postdetails', params: { id: req }});
             // this.$router.push({path: '/postdetails/' + req});
         },
@@ -103,7 +119,7 @@ export default {
     },
     data() {
         return {
-            feedName: "test",
+            feedName: "Main Feed",
             postList: []
         }
     },
@@ -117,15 +133,5 @@ export default {
 </script>
 
 <style>
-ul#post-summary {
-    border:1px solid #000;
-    border-color: black;
-    margin: 50px;
-}
-ul#post-summary li {
-    display: inline;
-}
-li {
-    padding: 20px;
-}
+
 </style>

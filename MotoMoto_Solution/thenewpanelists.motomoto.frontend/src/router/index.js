@@ -17,6 +17,11 @@ import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
 
+import NoteDashboardView from '../views/NoteDashboardView.vue'
+import NotificationSystem from '../views/NotificationSystemView'
+import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+
+
 const routes = [
   {
     path:'/',
@@ -96,10 +101,10 @@ const routes = [
   {
     path: '/UserProfile',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
   },
   {
-    path: '/EditPreferences',
+    path: '/UserProfile/EditPreferences',
     name: 'EditPreferences',
     component: EditPreferences
   },
@@ -107,6 +112,19 @@ const routes = [
     path: '/MeetingPointDirections',
     name: 'MeetingPointDirections',
     component: MeetingPointDirections
+  },
+    path: '/noteDashboard',
+    name: 'noteDashabord',
+    component: NoteDashboardView
+  },
+    path: '/NotificationSystem',
+    name: 'NotificationSystem',
+    component: NotificationSystem
+  },
+  {
+    path: '/PersonalizedRecommendations',
+    name: 'PersonalizedRecommendations',
+    component: PersonalizedRecommendations
   }
 ]
 

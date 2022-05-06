@@ -33,14 +33,7 @@ th {
 th, td {
     width:200px;
     text-align:center;
-    border:1px solid black;
-    padding:5px
-}
-.geeks {
-    border-right:hidden;
-}
-.gfg {
-    border-collapse:separate;
-    border-spacing:0 15px;
+    padding:5px;
+    border-collapse: collapse;
 }
 </style>

@@ -176,12 +176,17 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             // Select most recent posts within set number of days
             // Order by the most recent to the latest because that is how the feed
             // should be organized
-            string commandText = "SELECT * FROM Post WHERE feedName LIKE @feedname AND DATEDIFF(NOW(), submitUTC) < @diff ORDER BY submitUTC DESC;";
+            string commandText;
+            if (feedInput.feedName.Equals("Main Feed"))
+                commandText = "SELECT * FROM Post WHERE DATEDIFF(NOW(), submitUTC) < @diff ORDER BY submitUTC DESC;";
+            else
+                commandText = "SELECT * FROM Post WHERE feedName LIKE @feedname AND DATEDIFF(NOW(), submitUTC) < @diff ORDER BY submitUTC DESC;";
             using (MySqlCommand command = new MySqlCommand(commandText, _mySqlConnection))
             {
                 // Difference of NOW and the post UTC submission time is a week
                 int diff = 7;
-                command.Parameters.AddWithValue("@feedname", feedInput.feedName);
+                if (!feedInput.feedName.Equals("Main Feed"))
+                    command.Parameters.AddWithValue("@feedname", feedInput.feedName);
                 command.Parameters.AddWithValue("@diff", diff);
                 try
                 {
