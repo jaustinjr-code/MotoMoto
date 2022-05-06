@@ -113,10 +113,12 @@ const routes = [
     name: 'MeetingPointDirections',
     component: MeetingPointDirections
   },
+  {
     path: '/noteDashboard',
     name: 'noteDashabord',
     component: NoteDashboardView
   },
+  {
     path: '/NotificationSystem',
     name: 'NotificationSystem',
     component: NotificationSystem
