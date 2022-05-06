@@ -40,8 +40,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NoteDashboard", "TheNewPanelists.MotoMoto.WebServices.NoteDashboard\TheNewPanelists.MotoMoto.WebServices.NoteDashboard.csproj", "{D4F92859-BFB4-447A-A8D9-EEFE057BE61A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,10 +102,6 @@ Global
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4F92859-BFB4-447A-A8D9-EEFE057BE61A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4F92859-BFB4-447A-A8D9-EEFE057BE61A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4F92859-BFB4-447A-A8D9-EEFE057BE61A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4F92859-BFB4-447A-A8D9-EEFE057BE61A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,7 +112,6 @@ Global
 		{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{1A697F31-A8C4-4298-B624-138E0443387E} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{1B465270-9CE3-4A61-B305-1C84B3874765} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{D4F92859-BFB4-447A-A8D9-EEFE057BE61A} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
