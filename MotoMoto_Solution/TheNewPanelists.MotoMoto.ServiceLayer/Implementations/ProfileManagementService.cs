@@ -42,7 +42,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         }
         /// <summary>
-        /// 
+        /// Admin functionality that allows the system to retrieve all users. This functionality is mostly used 
+        /// during the display of profiles and how many active users status are currently true
         /// </summary>
         /// <returns></returns>
         public ProfileListModel RetrieveAllProfileModels()
@@ -85,7 +86,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return profile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Initializs the model for the use and updates a profile description by calling data access.
+        /// Retrieves the model back from data access on success.
         /// </summary>
         /// <param name="_username"></param>
         /// <param name="_newDescription"></param>
@@ -106,7 +108,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return profileModel.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
-        /// 
+        /// Initializes a profile model and initializes the new profile username where the DAL passes back the object
+        /// with the response object determining whether the return object was valid or not
         /// </summary>
         /// <param name="_username"></param>
         /// <param name="_newUsername"></param>
@@ -120,7 +123,29 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 profileModel.newProfileUsername = _newUsername;
                 profileDataAccess.UpdateProfileUsername(profileModel);
             }
-            catch (Exception ex)
+            catch
+            {
+                return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// Updates a profile status to determine whether a user has deactivated their account. This functionality 
+        /// works hand in hand with user management so a user can come back and log back into their profile without
+        /// having to worry about their initial profile being lost.
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <param name="_status"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileStatus(string _username, bool _status)
+        {
+            ProfileModel profileModel = new ProfileModel();
+            try
+            {
+                profileModel.username = _username;
+                profileModel.status = _status;
+            }
+            catch
             {
                 return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
             }
@@ -128,74 +153,3 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         }
     }
 }
-
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-
-// namespace TheNewPanelists.MotoMoto.ServiceLayer
-// {
-//     public class ProfileManagementService : IUserManagementService
-//     {
-//         private readonly ProfileManagementDataAccess? _profileManagementDAO;
-
-//         public ProfileManagementService()
-//         {
-//             _profileManagementDAO = new ProfileManagementDataAccess();
-//         }
-//         /// <summary>
-//         /// 
-//         /// </summary>
-//         /// <param name="userAccount"></param>
-//         /// <returns></returns>
-//         public ISet<ProfileModel> RetrieveAllProfiles(ProfileModel userProfile)
-//         {
-//             var accountEntities = _profileManagementDAO!.GetAllProfiles();
-
-//             var userAccounts = accountEntities.Select(acct => new ProfileModel()
-//             {
-//                 username = userProfile!.username,
-//                 status = userProfile!.status,
-//                 eventAccount = userProfile!.eventAccount,
-//             }).ToHashSet();
-//             return userAccounts;
-//         }
-//         /// <summary>
-//         /// 
-//         /// </summary>
-//         /// <param name="deletedProfile"></param>
-//         /// <returns></returns>
-//         public bool DeleteAccountProfile(DeleteAccountModel deletedProfile)
-//         {
-//             var dataStoreUserProfile = new DeleteAccountModel()
-//             {
-//                 username = deletedProfile!.username,
-//                 verifiedPassword = deletedProfile!.verifiedPassword
-//             };
-//             return _profileManagementDAO!.DeleteProfile(dataStoreUserProfile);
-//         }
-
-//         public bool CreateExistingAccountProfiles()
-//         {
-//             return _profileManagementDAO!.InsertNewProfileEntity();
-//         }
-//         public bool UpdateProfileDescription(ProfileModel profileModel)
-//         {
-//             return _profileManagementDAO!.UpdateProfileDescription(profileModel);
-//         }
-
-//         public ProfileModel RetrieveSpecifiedUserProfile(ProfileModel userProfile)
-//         {
-//             return _profileManagementDAO!.RetrieveSpecifiedProfileEntity(userProfile);
-//         }
-
-//         public bool UpdateUserProfileUsername(ProfileModel profileModel)
-//         {
-//             var _dataStoreUserAccount = new AccountModel
-//             {
-//                 username = profileModel.username
-//             };
-//             return _profileManagementDAO!.UpdateProfileUsername(_dataStoreUserAccount);
-//         }
-//     }
-// }
