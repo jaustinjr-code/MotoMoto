@@ -65,7 +65,7 @@ export default {
             this.id = id;
             console.log(this.id);
             console.log(this.events);
-            this.$router.push({ name: 'MeetingPointDirections', params: {data: this.id } });
+            this.$router.push({ name: 'MeetingPointDirections', params: {data: this.id+1 } });
             // this.$router.push('/MeetingPointDirections')
         }
     }
