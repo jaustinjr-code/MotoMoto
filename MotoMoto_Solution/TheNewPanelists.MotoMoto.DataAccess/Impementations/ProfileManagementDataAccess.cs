@@ -10,13 +10,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     public class ProfileManagementDataAccess : IProfileDataAccess
     {
         private readonly MySqlConnection _mySqlConnection = new MySqlConnection();
-        private string? _connectionString { get; set; }
+        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
-        public ProfileManagementDataAccess()
-        {
-            _connectionString = ConfigurationManager.ConnectionStrings["motomotoDBConnection"].ConnectionString;
-            _mySqlConnection.ConnectionString = _connectionString;
-        }
+        public ProfileManagementDataAccess() {}
         /// <summary>
         /// Uses the configuration file to set the name of the connection string. We do not use the overloaded constructor
         /// unless for expansion purposes where information needs to be stored to a new data store
@@ -45,6 +41,27 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         }
 
         /// <summary>
+        /// Establish mariadbconnection ensures the our connection string
+        /// is valid. If it does not pass the establishment portion then
+        /// our system is notified that connection cannot be passed
+        /// </summary>
+        /// <returns></returns>
+        public bool EstablishMariaDBConnection()
+        {
+            try
+            {
+                _mySqlConnection.ConnectionString = _connectionString;
+                _mySqlConnection.Open();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Retrieves a specified profile entity that is called upon 
         /// </summary>
         /// <param name="userProfile"></param>
@@ -52,34 +69,41 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <exception cref="NullReferenceException"></exception>
         public ProfileModel RetrieveSpecifiedProfileEntity(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
-                using (MySqlCommand command = new MySqlCommand("RetrieveSpecifiedProfile", _mySqlConnection))
+                using (MySqlCommand command = new MySqlCommand("GetSpecifiedUserProfile", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@_username", userProfile.username);
-
                     MySqlDataReader reader = command.ExecuteReader();
+
                     while (reader.Read())
                     {
-                        userProfile.userId = reader.GetInt32("userId");
-                        userProfile.username = reader.GetString("username");
-                        userProfile.eventAccount = reader.GetBoolean("eventAccount");
-                        userProfile.profileImagePath = reader.GetString("profileImage");
-                        userProfile.profileDescription = reader.GetString("profileDescription");
-                        userProfile.status = reader.GetBoolean("STATUS");
+                        ProfileModel profile = new ProfileModel
+                        {
+                            userId = reader.GetInt32("userId"),
+                            username = reader.GetString("username"),
+                            eventAccount = reader.GetBoolean("eventAccount"),
+                            profileImagePath = reader.GetString("profileImage"),
+                            profileDescription = reader.GetString("profileDescription"),
+                            status = reader.GetBoolean("STATUS")
+    
+                        };
+                        userProfile = profile;
                     }
-                    reader.Close();
                 }
             }
-            catch
+            catch (Exception)
             {
-                if (userProfile.userId == null)
-                    return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-                return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                if (userProfile.username == null)
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
             }
             finally
             {
@@ -94,11 +118,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <exception cref="NullReferenceException"></exception>
         public ProfileListModel GetAllProfiles(ProfileListModel profileListModel)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return profileListModel;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("GetAllProfiles", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -139,11 +166,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel InsertAllExsitingUsers()
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("DumpAllNewProfiles", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -167,11 +197,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel DeleteProfileDataAccess(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("DeleteProfile", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -199,11 +232,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel RetrieveAllUpvotesPostsForProfile(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("GetAllPostsWhereUserUpvoted", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -247,11 +283,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel GetAllUsersPosts(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("GetAllUserCreatePosts", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -293,11 +332,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileDescription(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("UpdateProfileDescription", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -325,11 +367,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileUsername(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -357,11 +402,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileImage(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
@@ -388,11 +436,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileStatus(ProfileModel userProfile)
         {
+            if (!EstablishMariaDBConnection())
+            {
+                return userProfile;
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand("UpdateProfileStatus", _mySqlConnection))
                 {
-                    _mySqlConnection.Open();
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;

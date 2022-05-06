@@ -19,11 +19,19 @@ namespace TheNewPanelists.MotoMoto.Models
         public IEnumerable<UpvotedPostsModel>? upVotedPosts { get; set; }
         public IEnumerable<UserPostModel>? userPosts { get; set; }
 
-        public string systemResponse = string.Empty;
+        public string? systemResponse { get; set; }
         
         public ProfileModel GetResponse(ResponseModel.response _responseAction)
         {
-            systemResponse = _responseAction.ToString();
+            if (systemResponse != null)
+            {
+                return this;
+            }
+            if (systemResponse == "success" || systemResponse == null)
+            {
+                systemResponse = _responseAction.ToString();
+                return this;
+            }
             return this;
         }
     }
