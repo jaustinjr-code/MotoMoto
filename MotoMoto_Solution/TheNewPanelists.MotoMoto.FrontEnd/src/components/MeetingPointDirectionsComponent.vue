@@ -111,8 +111,8 @@ export default {
 
         // Fetch event details information within the datastore using eventID
         fetchInformation() {
-            instance.get('MeetingPointDirections/GetEventLocation', {params: { eventID: 2 } })
-            // instance.get('MeetingPointDirections/GetEventLocation?eventID=' + this.eventID )
+            // instance.get('MeetingPointDirections/GetEventLocation', {params: { eventID: 1 } })
+            instance.get('MeetingPointDirections/GetEventLocation?eventID=' + this.eventID )
 
             // Determine if the response is valid and set the data
             .then(response => {
