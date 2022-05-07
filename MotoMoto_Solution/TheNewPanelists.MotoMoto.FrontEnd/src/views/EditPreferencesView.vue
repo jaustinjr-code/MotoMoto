@@ -1,8 +1,5 @@
 <template>
-    <div>
-        <EditPreferencesComponent/>
-        <router-view></router-view>
-    </div>
+    <EditPreferencesComponent/>
 </template>
 
 <script>

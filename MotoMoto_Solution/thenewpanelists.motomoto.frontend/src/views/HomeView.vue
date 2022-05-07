@@ -35,7 +35,7 @@ export default {
   },
   created() {
       if (!this.$cookies.isKey("userId")) {
-        this.$cookies.set("userId", 2,"1h")
+        this.$cookies.set("userId", "guest","1h")
       }
   },
   methods:{
@@ -60,7 +60,7 @@ export default {
     goToNoteDashboard()
     {
       this.$router.push('/noteDashboard');
-	},
+	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
     },

@@ -23,6 +23,7 @@ CREATE TABLE User (
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
+    salt VARCHAR(256) NOT NULL,
     CONSTRAINT user_Pk PRIMARY KEY (userId, username),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
@@ -65,7 +66,7 @@ CREATE TABLE Registration (
     password VARCHAR(20) NOT NULL,
     expiration DATETIME NOT NULL,
     validated BOOL NOT NULL DEFAULT FALSE,
-    CONSTRAINT Registration_Pk PRIMARY KEY (registrationId)
+    CONSTRAINT Registration_Pk PRIMARY KEY (email)
 );
 
 CREATE TABLE FollowedCountry (
@@ -93,8 +94,8 @@ CREATE TABLE FollowedModel (
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
-    (NULL, "DEFAULT");
+    (NULL, 'DEFAULT');
 
 INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
-INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+--INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;

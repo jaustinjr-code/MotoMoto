@@ -10,17 +10,16 @@ import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
+import RegistrationConfirmation from '../views/RegistrationConfirmationView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
-
 import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
-
 
 const routes = [
   {
@@ -82,6 +81,11 @@ const routes = [
     path: '/Registration',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/Registration/Confirmation/:',
+    name: 'RegistrationConfirmation',
+    component: RegistrationConfirmation
   },
   {
     path: '/Parts',

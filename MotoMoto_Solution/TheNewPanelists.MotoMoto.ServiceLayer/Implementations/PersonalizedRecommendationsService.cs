@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TheNewPanelists.MotoMoto.DataAccess.Impementations.PersonalizedRecommendations;
+using TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecommendations;
 using TheNewPanelists.MotoMoto.DataStoreEntities.PersonalizedRecommendations;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
