@@ -16,6 +16,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             _connectionString = "server=localhost;user=dev_moto;database=dev_UAD;port=3306;password=motomoto;";
         }
 
+        /// <summary>
+        /// Refine the chart metrics from the MySqlDataReader into an IUsageAnalyticEntity 
+        /// </summary>
+        /// <param name="reader">MySqlDataReader</param>
+        /// <param name="analyticModel">IUsageAnalyticModel</param>
+        /// <returns>IUsageAnalyticEntity</returns>
         private IUsageAnalyticEntity RefineData(MySqlDataReader reader, IUsageAnalyticModel analyticModel)
         {
             if (reader.HasRows)
@@ -43,6 +49,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             throw new Exception("No Rows Found");
         }
 
+        /// <summary>
+        /// Fetch the Trend Chart metrics from Registration Analytics
+        /// </summary>
+        /// <param name="analyticModel">IUsageAnalyticModel</param>
+        /// <returns>IUsageAnalyticEntity</returns>
         public IUsageAnalyticEntity FetchChartMetrics(IUsageAnalyticModel analyticModel)
         {
             // Establish MariaDB Connection

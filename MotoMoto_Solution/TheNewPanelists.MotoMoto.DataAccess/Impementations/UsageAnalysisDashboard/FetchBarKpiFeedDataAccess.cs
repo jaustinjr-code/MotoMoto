@@ -10,6 +10,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         private MySqlConnection? _mySqlConnection;
         private string _connectionString;
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public FetchBarKpiFeedDataAccess()
         {
             // Use App.config here
@@ -19,6 +22,12 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             //_connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
         }
 
+        /// <summary>
+        /// Refine the chart metrics from the MySqlDataReader into an IUsageAnalyticEntity 
+        /// </summary>
+        /// <param name="reader">MySqlDataReader</param>
+        /// <param name="analyticModel">IUsageAnalyticModel</param>
+        /// <returns>IUsageAnalyticEntity</returns>
         private IUsageAnalyticEntity RefineData(MySqlDataReader reader, IUsageAnalyticModel analyticModel)
         {
 
@@ -63,9 +72,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         }
 
         /// <summary>
-        /// Fetch the Bar Chart metrics from View Analytics
+        /// Fetch the Bar Chart metrics from Feed Analytics
         /// </summary>
-        /// <param name="analyticModel"></param>
+        /// <param name="analyticModel">IUsageAnalyticModel</param>
         /// <returns>IUsageAnalyticEntity</returns>
         public IUsageAnalyticEntity FetchChartMetrics(IUsageAnalyticModel analyticModel)
         {

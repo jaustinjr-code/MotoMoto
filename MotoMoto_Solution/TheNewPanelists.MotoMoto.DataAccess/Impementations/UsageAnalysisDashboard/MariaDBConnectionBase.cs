@@ -4,6 +4,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 {
     public abstract class MariaDBConnectionBase
     {
+        /// <summary>
+        /// Static method that creates a new MySqlConnection for the connectionString passed in
+        /// </summary>
+        /// <param name="connectionString">string</param>
+        /// <returns>MySqlConnection</returns>
         public static MySqlConnection EstablishConnection(string connectionString)
         {
             // Does not work
