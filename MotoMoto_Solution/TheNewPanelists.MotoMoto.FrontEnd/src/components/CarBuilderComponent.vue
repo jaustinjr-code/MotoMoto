@@ -63,8 +63,8 @@ export default {
     },
     methods: {
         GetCarTypes(){
-            let car_type = {make: "Honda", model: "Accord", year: "2015"};
-            instance.get("CarBuilder/GetCarTypes", car_type).then((res) => 
+            //let car_type = {make: "Honda", model: "Accord", year: "2015"};
+            instance.get("CarBuilder/GetCarTypes").then((res) => 
             {console.log(res);
             this.carTypeList = res.data;
             console.log(this.carTypeList);
