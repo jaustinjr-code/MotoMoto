@@ -23,7 +23,7 @@ app.UseCors(builder => {
     .AllowCredentials();
 });
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

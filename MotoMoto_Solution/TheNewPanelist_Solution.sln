@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.DirectMessage", "TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj", "{EBC1E9D2-56F5-40EF-B936-486011B95C37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.CarBuilder", "..\WebServices\CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj", "{6DA32067-8AF6-4353-960B-53C668BA5322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.CarBuilder", "TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj", "{6DA32067-8AF6-4353-960B-53C668BA5322}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.EventList", "TheNewPanelists.MotoMoto.WebServices.EventList\TheNewPanelists.MotoMoto.WebServices.EventList.csproj", "{1BDCB3AD-5C2E-4025-8D32-EC1FD73CEDBA}"
 	ProjectSection(ProjectDependencies) = postProject

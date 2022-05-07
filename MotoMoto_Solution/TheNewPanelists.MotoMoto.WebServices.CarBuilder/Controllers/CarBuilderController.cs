@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
@@ -10,7 +10,7 @@ using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 {
     [EnableCors("CorsPolicy")]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CarBuilderController : ControllerBase
     {

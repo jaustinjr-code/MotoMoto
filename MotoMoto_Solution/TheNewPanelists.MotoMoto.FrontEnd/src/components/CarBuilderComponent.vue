@@ -64,7 +64,7 @@ export default {
     methods: {
         GetCarTypes(){
             let car_type = {make: "Honda", model: "Accord", year: "2015"};
-            instance.get("CarBuilderController", car_type).then((res) => 
+            instance.get("CarBuilder/GetCarTypes", car_type).then((res) => 
             {console.log(res);
             this.carTypeList = res.data;
             console.log(this.carTypeList);
@@ -72,6 +72,16 @@ export default {
                 console.log(e);
             });
         }
+        // GetCarParts(){
+        // let car_part = {partNumber: "", type: ""};
+        // instance.get("CarBuilder/GetCarTypes", car_type).then((res) => 
+        // {console.log(res);
+        // this.carTypeList = res.data;
+        // console.log(this.carTypeList);
+        // }).catch((e) => {
+        //     console.log(e);
+        // });
+        // }
         // createCarBuild(){
             
         // },
@@ -86,14 +96,16 @@ export default {
     mounted() {
 
         this.GetCarTypes();
-        // let yearSelector = document.getElementById('car-year-select')
-        // for (let yearIterator = 2022; yearIterator >= 1950; --yearIterator)
-        // {
-        //     let option = document.createElement('option')
-        //     option.value = yearIterator.toString()
-        //     option.innerHTML = yearIterator
-        //     yearSelector.append(option)
-        // }
+
+
+        let yearSelector = document.getElementById('car-year-select')
+        for (let yearIterator = 2022; yearIterator >= 1950; --yearIterator)
+        {
+            let option = document.createElement('option')
+            option.value = yearIterator.toString()
+            option.innerHTML = yearIterator
+            yearSelector.append(option)
+        }
     }
 }
 
