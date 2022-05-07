@@ -8,8 +8,37 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
+    /// <summary>
+    /// Contains unit testing for the part flagging web services api
+    /// </summary>
     public class PartFlaggingWebServiceUnitTest
     {
+
+        /// <summary>
+        /// Entity containing data access for part flagging functionality
+        /// </summary>
+        private readonly IPartFlaggingDataAccess __partFlaggingDataAccess;
+
+        /// <summary>
+        /// Entity containing business logic for part flagging functionality
+        /// </summary>
+        private readonly IPartFlaggingBusinessLayer __partFlaggingBusinessLayer;
+
+        /// <summary>
+        /// Entity containing controller functions for part flagging functionality
+        /// </summary>
+        private readonly PartFlaggingController __partFlaggingController;
+        
+        /// <summary>
+        /// Default constructors. Used to inintialize all layers used in unit testing for
+        /// part flagging
+        /// </summary>
+        public PartFlaggingWebServiceUnitTest()
+        {
+            __partFlaggingDataAccess = new PartFlaggingDataAccess();
+            __partFlaggingBusinessLayer = new PartFlaggingBusinessLayer();
+            __partFlaggingController = new PartFlaggingController();
+        }
         /// <summary>
         /// Tests creation of valid flag using the function exposed to the PartFlagging WebAPI.
         /// Test is successful if the resulting object from the function has a success message.
@@ -22,9 +51,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = "Accord";
             string carYear = "2022";
 
-            PartFlaggingController controller = new PartFlaggingController();
-
-            IActionResult result = controller.CreateFlag(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.CreateFlag(partNum, carMake, carModel, carYear);
 
             Dictionary<string, string> response = new Dictionary<string, string>
             {
@@ -57,9 +84,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = "";
             string carYear = "";
 
-            PartFlaggingController controller = new PartFlaggingController();
-
-            IActionResult result = controller.CreateFlag(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.CreateFlag(partNum, carMake, carModel, carYear);
 
             bool comparison = false;
 
@@ -89,13 +114,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carYear = "2022";
 
             //Ensure flag exists
-            PartFlaggingDataAccess partFlaggingDataAccess = new PartFlaggingDataAccess();
-            PartFlaggingBusinessLayer partFlaggingBusiness = new PartFlaggingBusinessLayer();
-            await partFlaggingDataAccess.CreateOrIncrementFlag(partFlaggingBusiness.CreateFlagModel(partNum, carMake, carModel, carYear));
-            
-            PartFlaggingController controller = new PartFlaggingController();
+            await __partFlaggingDataAccess.CreateOrIncrementFlag(__partFlaggingBusinessLayer.CreateFlagModel(partNum, carMake, carModel, carYear));
 
-            IActionResult result = controller.CreateFlag(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.CreateFlag(partNum, carMake, carModel, carYear);
 
             Dictionary<string, string> response = new Dictionary<string, string>
             {
@@ -128,9 +149,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = "";
             string carYear = "";
 
-            PartFlaggingController controller = new PartFlaggingController();
-
-            IActionResult result = controller.DecrementFlagCount(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.DecrementFlagCount(partNum, carMake, carModel, carYear);
 
             bool comparison = false;
 
@@ -157,9 +176,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = "Accord";
             string carYear = "2022";
 
-            PartFlaggingController controller = new PartFlaggingController();
-
-            IActionResult result = controller.IsPossibleIncompatibility(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.IsPossibleIncompatibility(partNum, carMake, carModel, carYear);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             var okResultDict = okResult.Value as Dictionary<string, bool>;
@@ -189,9 +206,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             string carModel = "";
             string carYear = "";
 
-            PartFlaggingController controller = new PartFlaggingController();
-
-            IActionResult result = controller.IsPossibleIncompatibility(partNum, carMake, carModel, carYear);
+            IActionResult result = __partFlaggingController.IsPossibleIncompatibility(partNum, carMake, carModel, carYear);
 
             Assert.IsType<BadRequestObjectResult>(result);
         }

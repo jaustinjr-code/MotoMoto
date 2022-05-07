@@ -49,18 +49,18 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             if (_registrationDAO.ConfirmRegistration(ref emailConfirmationRequest))
             {
                 _registrationDAO.UpdateRegistrationToValid(emailConfirmationRequest.Email!);
-                DataStoreUser newUserAccount = new DataStoreUser();
                 string userName = GenerateUniqueName(emailConfirmationRequest);
-
-                newUserAccount.userType = "Registered";
-                newUserAccount.username = userName;
-                newUserAccount.email = emailConfirmationRequest.Email;
-                newUserAccount.password = emailConfirmationRequest.Password;
+                DataStoreUser newUserAccount = new DataStoreUser {
+                    userType = "REGISTERED",
+                    username = userName,
+                    email = emailConfirmationRequest.Email,
+                    password = emailConfirmationRequest.Password
+                };
 
                 UserManagementService userManagementService = new UserManagementService(new UserManagementDataAccess());
 
                 if (userManagementService.CreateAccount(newUserAccount))
-                    emailConfirmationRequest.message = String.Format("Registration complete!\n\n Username = {0}", userName);
+                    emailConfirmationRequest.message = "Registration complete! Username = " + userName;
                 else
                     emailConfirmationRequest.message = "Registration Error.";
             }
@@ -73,18 +73,18 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public bool SendEmailConfirmationRequest(RegistrationRequestModel registrationRequest)
         {
             UriBuilder builder = new UriBuilder() {
-                    Host = "motomotoca.com",
-                    Scheme = "http",
-                    Path = "/Registration/Confirmation",
+                    //Host = "motomotca.com",
+                    //Scheme = "https"
+                    Port = 7006,
+                    Scheme = "https",
+                    Path = "Api/Registration/Confirmation",
             };
 
             NameValueCollection urlQueryString = HttpUtility.ParseQueryString(string.Empty);
-            urlQueryString.Add("registrationID", registrationRequest.RegistrationId.ToString());
             urlQueryString.Add("email", registrationRequest.Email!);
-
+            urlQueryString.Add("registrationID", registrationRequest.RegistrationId.ToString());
+            
             string uniqueUrl = builder.ToString() + "?" + urlQueryString.ToString();
-            Console.WriteLine(uniqueUrl);
-
             string From = "support@daniel-bribiesca-jr.com";
             string FromName = "MotoMoto Support Testing";
             string To = registrationRequest.Email!;
@@ -101,7 +101,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                             <p>Please click on the link below to complete  
                             your account registration.<br><br><br>
 
-                            <a href={uniqueUrl}>Confirm Email</a>
+                            <a href ={uniqueUrl}>Confirm Email</a>
 
                             <br><br><p>Sincerely,<br>
                             MotoMoto Customer Care</p>
@@ -134,13 +134,13 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }
         }
         
-        private static string GenerateUniqueName(RegistrationRequestModel emailConfirmationRequest)
+        public string GenerateUniqueName(RegistrationRequestModel emailConfirmationRequest)
         {
             Random rand = new Random();
             var emailSplitString = emailConfirmationRequest.Email!.Split('@');
 
-            string userName = string.Format(String.Format("{0:000000}", emailConfirmationRequest.RegistrationId));
-            userName += emailSplitString[0];
+            string userName = string.Format(String.Format("{0:000}", emailConfirmationRequest.RegistrationId));
+            userName += emailSplitString[0].Substring(0, 5);
 
             return userName;
         }

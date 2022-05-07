@@ -29,11 +29,12 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.EventList\TheNewPanelists.MotoMoto.WebServices.EventList.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.NoteDashboard\TheNewPanelists.MotoMoto.WebServices.NoteDashboard.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PartFlagging\TheNewPanelists.MotoMoto.WebServices.PartFlagging.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations\TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.csproj" />
-    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj" />
   </ItemGroup>
 
 </Project>

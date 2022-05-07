@@ -1,17 +1,16 @@
 <template>
-    <PersonalizedRecommendationsComponent/>
-    <LogoutComponent/>
+    <div>
+        <PersonalizedRecommendationsComponent/>
+    </div>
 </template>
 
 <script>
-    import PersonalizedRecommendationsComponent from '../components/PersonalizedRecommendationsComponent.vue';
-    import LogoutComponent from '../components/LogoutComponent.vue'
+    import PersonalizedRecommendationsComponent from '../components/PersonalizedRecommendationsComponent.vue'
+
     export default {
         name: 'PersonalizedRecommendationsView',
-        components: 
-        {
-            PersonalizedRecommendationsComponent,
-            LogoutComponent
+        components: {
+            PersonalizedRecommendationsComponent
         }
     }
 </script>

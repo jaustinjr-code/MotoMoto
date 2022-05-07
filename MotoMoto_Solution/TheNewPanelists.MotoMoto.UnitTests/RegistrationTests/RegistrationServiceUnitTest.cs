@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
@@ -13,7 +14,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             // Password for gmail account: Secret#1
             var testEmail = "motomoto1ca@gmail.com";
-            var testRegistrationId = 542356;
+            var testRegistrationId = 105;
 
             RegistrationService registrationService = new RegistrationService();
             RegistrationRequestModel model = new RegistrationRequestModel () {
@@ -22,7 +23,28 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             };
 
             result = registrationService.SendEmailConfirmationRequest(model);
-            Assert.True(result, "Send Email Test Failure.");
+            Assert.True(result, "SendEmailConfirmationRequest() Test Failure.");
+        }
+
+        [Fact]
+        public void Generate_Unique_Name_ReturnTrue()
+        {
+            var testEmail = "motomoto1ca@gmail.com";
+            var testRegistrationId = 35;
+            var expected = "035motomoto1ca";
+
+            RegistrationService registrationService = new RegistrationService();
+            RegistrationRequestModel model = new RegistrationRequestModel () {
+                Email = testEmail,
+                RegistrationId = testRegistrationId
+            };
+
+            string result = registrationService.GenerateUniqueName(model);
+
+            var emailSplitString = model.Email.Split('@');
+            var beforeAtSymbol = emailSplitString[0];
+
+            Assert.True((result == expected), "GenerateUniqueName() Test Failure.");
         }
     }
 }

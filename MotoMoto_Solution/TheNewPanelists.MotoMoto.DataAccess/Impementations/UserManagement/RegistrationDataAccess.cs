@@ -23,7 +23,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw e;
+                return false;
             }   
         }
 
@@ -36,7 +36,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 
                 MySqlCommand command = _mySqlConnection!.CreateCommand();
                 command.Connection = _mySqlConnection;
-                command.Transaction = _mySqlConnection.BeginTransaction();                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Transaction = _mySqlConnection.BeginTransaction();                
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandText = $"SELECT * FROM USER U WHERE U.email = @v1;";
                 command.Parameters.Add(new MySqlParameter("@v1", email));
 
@@ -70,9 +71,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     new MySqlParameter("@v1", email),
                     new MySqlParameter("@v2", DateTime.Now)
                 });
-
-                int response = command.ExecuteNonQuery();
-                return response == 1;     
+                
+                int result = command.ExecuteNonQuery();
+                return (result > 0);
             }
             catch (Exception e)
             {
@@ -272,13 +273,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 try
                 {
                     sqlTrans.Rollback();
+                    return false;
                 }
                 catch(MySqlException ex)
                 {
                     Console.WriteLine("ErrorType: " + ex.GetType() + "\nErrorMessage: " + ex.Message);
                     throw ex;
                 }
-                throw e;
             }
             finally
             {

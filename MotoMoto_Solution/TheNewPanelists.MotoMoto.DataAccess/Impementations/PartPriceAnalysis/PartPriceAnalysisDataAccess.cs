@@ -7,7 +7,7 @@ using System;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class PartPriceAnalysisDataAccess
+    public class PartPriceAnalysisDataAccess : IPartPriceAnalysisDataAccess
     {
         MySqlConnection? mySqlConnection { get; set; }
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
@@ -67,43 +67,54 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return listModel;
             }
-            using (var command = new MySqlCommand())
+            try
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "SELECT * FROM VehicleParts WHERE productName LIKE @v1";
-                var parameters = new MySqlParameter[1];
-                listModel.categorySelect = $"%{listModel.categorySelect}%";
-                parameters[0] = new MySqlParameter("@v1", listModel.categorySelect);
-
-                command.Parameters.AddRange(parameters);
-
-                IEnumerable<IPartEntity> _partList = new List<IPartEntity>();
-
-                using (MySqlDataReader myReader = command.ExecuteReader())
+                using (var command = new MySqlCommand())
                 {
-                    while (myReader.Read())
-                    {
-                        int partID = myReader.GetInt32("productId");
-                        string partName = myReader.GetString("productName");
-                        string rating = myReader.GetString("rating");
-                        int ratingCount = myReader.GetInt32("ratingCount");
-                        double productPrice = myReader.GetDouble("productPrice");
-                        string productURL = myReader.GetString("productURL");
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.Connection = mySqlConnection!;
+                    command.CommandType = CommandType.Text;
 
-                        IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
-                        partEntity.ShrinkPartName();
-                        ((List<IPartEntity>)_partList).Add(partEntity);
-                    }
-                    myReader.Close();
-                    mySqlConnection!.Close();
-                };
-                listModel.partList = _partList;
-                return listModel;
+                    command.CommandText = "SELECT * FROM VehicleParts WHERE productName LIKE @v1";
+                    var parameters = new MySqlParameter[1];
+                    listModel.categorySelect = $"%{listModel.categorySelect}%";
+                    parameters[0] = new MySqlParameter("@v1", listModel.categorySelect);
+
+                    command.Parameters.AddRange(parameters);
+
+                    IEnumerable<IPartEntity> _partList = new List<IPartEntity>();
+
+                    using (MySqlDataReader myReader = command.ExecuteReader())
+                    {
+                        while (myReader.Read())
+                        {
+                            int partID = myReader.GetInt32("productId");
+                            string partName = myReader.GetString("productName");
+                            string rating = myReader.GetString("rating");
+                            int ratingCount = myReader.GetInt32("ratingCount");
+                            double productPrice = myReader.GetDouble("productPrice");
+                            string productURL = myReader.GetString("productURL");
+
+                            IPartEntity partEntity = new DataStoreVehicleParts(partID, partName, rating, ratingCount, productURL, productPrice);
+                            partEntity.ShrinkPartName();
+                            ((List<IPartEntity>)_partList).Add(partEntity);
+                        }
+                        myReader.Close();
+                    };
+                    listModel.partList = _partList;
+                    return listModel;
+                }
             }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("VehicleParts the ListID do not exist", nameof(listModel), ex);
+            }
+            finally
+            {
+                mySqlConnection!.Close();
+            }
+            
         }
         /// <summary>
         /// Retrieve part information will be used to fetch part information from the 
@@ -120,39 +131,46 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return part;
             }
-            using (var command = new MySqlCommand())
+            try
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "SELECT * FROM VehicleParts WHERE productId = @v1;";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", part.partID);
-
-                command.Parameters.AddRange(parameters);
-                PartModel _partModel = new PartModel();
-                using (MySqlDataReader myReader = command.ExecuteReader())
+                using (var command = new MySqlCommand())
                 {
-                    while (myReader.Read())
-                    {
-                        _partModel.partID = myReader.GetInt32("productId");
-                        _partModel.partName = myReader.GetString("productName");
-                        _partModel.rating = myReader.GetString("rating");
-                        _partModel.ratingCount = myReader.GetInt32("ratingCount");
-                        _partModel.productURL = myReader.GetString("productURL");
-                        _partModel.currentPrice = myReader.GetDouble("productPrice");
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.Connection = mySqlConnection!;
+                    command.CommandType = CommandType.Text;
 
-                        _partModel.partName = _partModel.partName.Substring(0, 45);
-                    }
-                    myReader.Close();
-                    mySqlConnection!.Close();
-                    return _partModel;
-                };
+                    command.CommandText = "SELECT * FROM VehicleParts WHERE productId = @v1;";
+                    var parameters = new MySqlParameter[1];
+                    parameters[0] = new MySqlParameter("@v1", part.partID);
+
+                    command.Parameters.AddRange(parameters);
+                    PartModel _partModel = new PartModel();
+                    using (MySqlDataReader myReader = command.ExecuteReader())
+                    {
+                        while (myReader.Read())
+                        {
+                            _partModel.partID = myReader.GetInt32("productId");
+                            _partModel.partName = myReader.GetString("productName");
+                            _partModel.rating = myReader.GetString("rating");
+                            _partModel.ratingCount = myReader.GetInt32("ratingCount");
+                            _partModel.productURL = myReader.GetString("productURL");
+                            _partModel.currentPrice = myReader.GetDouble("productPrice");
+                        }
+                        myReader.Close();
+                        return _partModel;
+                    };
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new ArgumentException("VehicleParts the ID do not exist", nameof(part), ex);
+            }
+            finally
+            {
+                mySqlConnection!.Close();
             }
         }
-
         /// <summary>
         /// RetrievSpecifiedPartPriceHistory is used to verify the part price history
         /// of specified items shown on our webpage. This information is soley used
@@ -167,58 +185,102 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return partModel;
             }
-            using (var command = new MySqlCommand())
+            try
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = "SELECT * FROM FormerPartPrices WHERE productId = @v1";
-                var parameters = new MySqlParameter[1];
-                parameters[0] = new MySqlParameter("@v1", partModel.partID);
-                command.Parameters.AddRange(parameters);
-
-                MySqlDataReader myReader = command.ExecuteReader();
-                IEnumerable<IPartPriceHistory> _partHistory = new List<IPartPriceHistory>();
-                while (myReader.Read())
+                using (var command = new MySqlCommand())
                 {
-                    int productId= myReader.GetInt32("productId");
-                    double productPrice = myReader.GetDouble("productPrice");
-                    DateTime priceSetDate = myReader.GetDateTime("lastRecordedDate");
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.Connection = mySqlConnection!;
+                    command.CommandType = CommandType.Text;
 
-                    IPartPriceHistory partHistory = new DataStorePartHistory(productId, priceSetDate, productPrice);
-                    ((List<IPartPriceHistory>)_partHistory).Add(partHistory);
-                    partModel.partPrices = _partHistory;
+                    command.CommandText = "SELECT * FROM FormerPartPrices WHERE productId = @v1";
+                    var parameters = new MySqlParameter[1];
+                    parameters[0] = new MySqlParameter("@v1", partModel.partID);
+                    command.Parameters.AddRange(parameters);
+
+                    MySqlDataReader myReader = command.ExecuteReader();
+                    IEnumerable<IPartPriceHistory> _partHistory = new List<IPartPriceHistory>();
+                    IEnumerable<double> _partPrices = new List<double>();
+                    IEnumerable<DateTime> _partDates = new List<DateTime>();
+                    while (myReader.Read())
+                    {
+                        int productId = myReader.GetInt32("productId");
+                        double productPrice = myReader.GetDouble("productPrice");
+                        DateTime priceSetDate = myReader.GetDateTime("lastRecordedDate");
+
+                        IPartPriceHistory partHistory = new DataStorePartHistory(productId, priceSetDate, productPrice);
+                        ((List<double>)_partPrices).Add(productPrice);
+                        ((List<DateTime>)_partDates).Add(priceSetDate);
+                        ((List<IPartPriceHistory>)_partHistory).Add(partHistory);
+                        partModel.historicalDate = _partDates;
+                        partModel.histroicalListingPrice = _partPrices;
+                        partModel.historicalPrices = _partHistory;
+                    }
+                    myReader.Close();
+                    return partModel;
                 }
-                myReader.Close();
+            }
+            catch(Exception ex)
+            {
+                throw new ArgumentException("VehiclePart the ID do is non-existent", nameof(partModel), ex);
+            }
+            finally
+            {
                 mySqlConnection!.Close();
-                return partModel;
             }
         }
-
-        public bool UpdatePartPrice(PartModel partModel)
+        /// <summary>
+        /// Update Part Price updates the current price of a product and 
+        /// sends that data to the data store to keep forever. The former price
+        /// will be logged onto the FormerPartPrices table where that data is retrieved
+        /// for display
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
+        public PartModel UpdatePartPrice(PartModel partModel)
         {
+            AddPriceToPriceHistory(partModel);
             if (!EstablishMariaDBConnection())
             {
-                return false;
+                return partModel.ReturnInvalidDSConnection();
             }
-            using (var command = new MySqlCommand())
+            try
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                using (var command = new MySqlCommand())
+                {
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.Connection = mySqlConnection!;
+                    command.CommandType = CommandType.Text;
 
-                command.CommandText = "UPDATE VehicleParts SET productPrice = @v1 WHERE productId = @v2";
-                var parameters = new MySqlParameter[2];
-                parameters[0] = new MySqlParameter("@v1", partModel.newPrice);
-                parameters[1] = new MySqlParameter("@v2", partModel.partID);
+                    command.CommandText = "UPDATE VehicleParts SET productPrice = @v1 WHERE productId = @v2";
+                    var parameters = new MySqlParameter[2];
+                    parameters[0] = new MySqlParameter("@v1", partModel.newPrice);
+                    parameters[1] = new MySqlParameter("@v2", partModel.partID);
 
-                command.Parameters.AddRange(parameters);
-                return ExecuteQuery(command);
+                    command.Parameters.AddRange(parameters);
+                    ExecuteQuery(command);
+                    return partModel;
+                }
             }
+            catch(Exception ex)
+            {
+                throw new ArgumentException("PartUpdate error with model", nameof(partModel), ex);
+            }
+            finally
+            {
+                mySqlConnection?.Close();
+            }
+            
         }
+        /// <summary>
+        /// This function siply adds prices that are stored in the datastore and
+        /// returns to be displayed on the graphs VIA the motomoto webpage. Simply, 
+        /// the part history traces a part's price data from the past 6 months
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
         private bool AddPriceToPriceHistory(PartModel partModel)
         {
             DateTime currentDate = DateTime.Now;
@@ -226,21 +288,31 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 return false;
             }
-            using (var command = new MySqlCommand())
+            try
             {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
+                using (var command = new MySqlCommand())
+                {
+                    command.Transaction = mySqlConnection!.BeginTransaction();
+                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                    command.Connection = mySqlConnection!;
+                    command.CommandType = CommandType.Text;
 
-                command.CommandText = "INSTER INTO FormerPartPrices (productId, lastRecordedDate, productPrice) VALUES (@v1, @v2, @v3);";
-                var parameters = new MySqlParameter[3];
-                parameters[0] = new MySqlParameter("@v1", partModel.partID);
-                parameters[1] = new MySqlParameter("@v2", currentDate);
-                parameters[2] = new MySqlParameter("@v3", partModel.currentPrice);
+                    command.CommandText = "INSTERT INTO FormerPartPrices (productId productPrice) VALUES (@v1, @v2);";
+                    var parameters = new MySqlParameter[2];
+                    parameters[0] = new MySqlParameter("@v1", partModel.partID);
+                    parameters[2] = new MySqlParameter("@v2", partModel.currentPrice);
 
-                command.Parameters.AddRange(parameters);
-                return ExecuteQuery(command);
+                    command.Parameters.AddRange(parameters);
+                    return ExecuteQuery(command);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("PartModel insertion error with model", nameof(partModel), ex);
+            }
+            finally
+            {
+                mySqlConnection!.Close();
             }
         }
     }
