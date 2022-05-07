@@ -8,8 +8,9 @@
         <label>Choose Car Make</label>
         <select id='car-make-select' @change='handleCarMake($event)'>
             <option value="">--Please choose an option--</option>
-            <option value='honda'>Honda</option>
-            <option value='toyota'>Toyota</option>
+            <option v-bind:value='make' v-for='make in carTypeList' >
+                {{ make }}
+            </option>
         </select>
     </div>
     <div>
@@ -46,13 +47,13 @@
 import { nextTick } from "vue";
 
 import axios from 'axios';
-import {instance} from '../router/PartFlaggingConnection'
+import {instance} from '../router/CarBuilderConnection'
 
 export default {
     data()
     {
         return{
-            carTypeList: [],
+            carTypeList: ["Honda", "Toyota"],
             make: "",
             model: "",
             year: "",
