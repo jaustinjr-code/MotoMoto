@@ -5,6 +5,8 @@ import http from "./Http-coman"
     <button @click = "goToLogin"> Login </button>
     <LoginComponent/>
     <button @click = "goToEventList"> Event List </button>
+    <CarBuilderComponent/>
+    <button @click = "goToCarBuilder"> Car Builder </button>
     <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
     <RegistrationComponent/>
@@ -27,6 +29,9 @@ export default {
   methods:{
     goToLogin(){
       this.$router.push('/Login');
+    },
+    goToCarBuilder(){
+      this.$router.push('/CarBuilder');
     },
     goToEventList(){
       this.$router.push('/EventList');

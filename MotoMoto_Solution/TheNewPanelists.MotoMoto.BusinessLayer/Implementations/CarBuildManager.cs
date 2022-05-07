@@ -14,6 +14,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
     {
         private readonly CarBuildService _carBuildService;
 
+        public CarBuildManager() { }
         public CarBuildManager(CarBuildService carBuildService)
         {
             _carBuildService = carBuildService;
@@ -28,8 +29,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 {
                     return false;                                       // If out of range, return false
                 }
-            } 
-            else 
+            }
+            else
             {
                 return false;                                           // If user input is anything that is not four integers, return false
             }
@@ -62,15 +63,15 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
 
         public bool UpdateCarManager(UpdateCarModel updateCar)
         {
-            if (Convert.ToInt32(updateCar.carID) < 0)   
+            if (Convert.ToInt32(updateCar.carID) < 0)
             {
                 return false;
             }
-            if (Convert.ToInt32(updateCar.partID) < 0)  
+            if (Convert.ToInt32(updateCar.partID) < 0)
             {
                 return false;
             }
-            if (updateCar.username!.Length == 0 || updateCar.username!.Length > 30)   
+            if (updateCar.username!.Length == 0 || updateCar.username!.Length > 30)
             {
                 return false;
             }
@@ -92,14 +93,67 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _carBuildService.FetchModifiedCarBuild(username);
         }
 
-        //public CarTypeModel CreateCarTypeModel(string make, string model, string year)
-        //{
-        //    return new CarTypeModel(make, model, year);
-        //}
 
-        //public ModifyCarBuildModel CreateModifyCarBuildModel(string partNumber, string type)
-        //{
-        //    return new ModifyCarBuildModel(partNumber, type);
-        //}
+
+        // ************************************Test Functions Below******************
+
+        public bool TestSaveCarTypeManager(CarTypeModel savedCarBuild)
+        {
+            if (Regex.Match(savedCarBuild.year, "^[0-9]{4}").Success)  // Regex checks that the user input is 4 integers
+            {
+                int input = Int32.Parse(savedCarBuild.year);            // Parse the user input string into integers called input
+                if (input < 1950 || input > 2022)                       // Make sure the integer is equal to or between 1950 & 2022
+                {
+                    return false;                                       // If out of range, return false
+                }
+            }
+            else
+            {
+                return false;                                           // If user input is anything that is not four integers, return false
+            }
+
+            if (savedCarBuild.make!.Length == 0 || savedCarBuild.make!.Length > 20)     // Make sure user input is not null and is less than 20 characters
+            {
+                return false;
+            }
+
+            if (savedCarBuild.model!.Length == 0 || savedCarBuild.model!.Length > 20)   // Make sure user input is not null and is less than 20 characters
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool TestSaveCarModificationsManager(ModifyCarBuildModel modifiedCarBuild)
+        {
+            if (modifiedCarBuild.partNumber!.Length == 0 || modifiedCarBuild.partNumber!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            {
+                return false;
+            }
+            if (modifiedCarBuild.type != "OEM" || modifiedCarBuild.type != "Aftermarket")           // If user input string is not 'OEM' or 'Aftermarket', return false
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool TestUpdateCarManager(UpdateCarModel updateCar)
+        {
+            if (Convert.ToInt32(updateCar.carID) < 0)
+            {
+                return false;
+            }
+            if (Convert.ToInt32(updateCar.partID) < 0)
+            {
+                return false;
+            }
+            if (updateCar.username!.Length == 0 || updateCar.username!.Length > 30)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
+
 }
