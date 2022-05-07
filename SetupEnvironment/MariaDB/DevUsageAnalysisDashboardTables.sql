@@ -86,3 +86,16 @@ SELECT *
 FROM EventListAnalytics
 ORDER BY eventRegistrationTotal DESC
 LIMIT 5;
+-- Finds the top 5 feeds with most posts
+select feedName,
+    COUNT(*) as feedPostTotal
+from Post
+group by feedName
+order by feedPostTotal desc
+limit 5;
+-- DELIMITER //
+-- CREATE PROCEDURE FetchViewAnalyticsDisplayTotal (IN metric VARCHAR, OUT param1) 
+--     BEGIN
+--         SELECT viewTitle, 
+--     END
+-- DELIMITER ;
