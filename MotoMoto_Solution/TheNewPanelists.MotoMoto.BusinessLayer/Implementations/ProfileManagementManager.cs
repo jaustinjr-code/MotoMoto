@@ -285,7 +285,12 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <param name="_imageURL"></param>
+        /// <returns></returns>
         public ProfileModel UpdateProfileImageManager(string _username, string _imageURL)
         {
             ProfileModel profileModel = new ProfileModel
@@ -316,7 +321,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return new ProfileModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
             }
             return profileModel.GetResponse(ResponseModel.response.success);
-
         }
     }
 }

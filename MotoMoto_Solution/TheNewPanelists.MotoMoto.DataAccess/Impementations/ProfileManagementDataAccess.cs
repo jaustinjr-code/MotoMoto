@@ -11,7 +11,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private readonly MySqlConnection _mySqlConnection = new MySqlConnection();
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-
         public ProfileManagementDataAccess() { }
         /// <summary>
         /// Uses the configuration file to set the name of the connection string. We do not use the overloaded constructor
@@ -390,7 +389,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         command.Parameters.Add("@_username", MySqlDbType.VarChar);
                         command.Parameters.Add("@_newUsername", MySqlDbType.VarChar);
 
-
                         command.Parameters["@_username"].Value = userProfile.username;
                         command.Parameters["@_newUsername"].Value = userProfile.newProfileUsername;
                         int numChanged = command.ExecuteNonQuery();
@@ -456,10 +454,22 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 {
                     try
                     {
+                        byte tinyIntBool = 0;   
                         command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@_username", userProfile.username);
-                        command.Parameters.AddWithValue("@_status", userProfile.profileImagePath);
+                        command.Parameters.Add("@_username", MySqlDbType.VarChar);
+                        command.Parameters.Add("@_status", MySqlDbType.Byte);
+
+                        command.Parameters["@_username"].Value = userProfile.username;
+                        switch(userProfile.status)
+                        {
+                            case true:
+                                tinyIntBool = 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        command.Parameters["@_status"].Value = tinyIntBool;
 
                         int numChanged = command.ExecuteNonQuery();
                         Console.WriteLine(numChanged);
