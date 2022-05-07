@@ -12,7 +12,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         private readonly MySqlConnection _mySqlConnection = new MySqlConnection();
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
-        public ProfileManagementDataAccess() {}
+        public ProfileManagementDataAccess() { }
         /// <summary>
         /// Uses the configuration file to set the name of the connection string. We do not use the overloaded constructor
         /// unless for expansion purposes where information needs to be stored to a new data store
@@ -93,7 +93,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                             profileImagePath = reader.GetString("profileImage"),
                             profileDescription = reader.GetString("profileDescription"),
                             status = reader.GetBoolean("STATUS")
-    
+
                         };
                         userProfile = profile;
                     }
@@ -332,67 +332,83 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileDescription(ProfileModel userProfile)
         {
-            if (!EstablishMariaDBConnection())
+            using (MySqlConnection mySqlConnection = new MySqlConnection(_connectionString))
             {
-                return userProfile;
-            }
-            try
-            {
-                using (MySqlCommand command = new MySqlCommand("UpdateProfileDescription", _mySqlConnection))
-                {
-                    command.Transaction = _mySqlConnection.BeginTransaction();
-                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@_username", userProfile.username);
-                    command.Parameters.AddWithValue("@_newDescription", userProfile.profileDescription);
+                mySqlConnection.Open();
+                string comm = "UpdateProfileDescription";
 
-                    var value = ExecuteQuery(command);
+                using (var command = new MySqlCommand(comm, mySqlConnection))
+                {
+                    try
+                    {
+                        command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@_username", MySqlDbType.VarChar);
+                        command.Parameters.Add("@_newDescription", MySqlDbType.VarChar);
+
+
+                        command.Parameters["@_username"].Value = userProfile.username;
+                        command.Parameters["@_newDescription"].Value = userProfile.profileDescription;
+                        int numChanged = command.ExecuteNonQuery();
+
+                        Console.WriteLine(numChanged);
+
+                        if (numChanged > 0)
+                            return userProfile.GetResponse(ResponseModel.response.success);
+                    }
+                    catch
+                    {
+                        return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+                    }
+                    finally
+                    { 
+                        mySqlConnection.Close();
+                    }
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectOutOfRange);
                 }
             }
-            catch
-            {
-                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-            }
-            finally
-            {
-                _mySqlConnection.Close();
-            }
-            return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
         /// Functionailty will allow a user to update their profile username. This will change the user profile
-        /// username and will cause changes to all posts and login information.
+        /// username and will cause changes to all posts and login information. Cannot implicitly run this function
+        /// until all subclasses are dealt with
         /// </summary>
         /// <param name="userProfile"></param>
         /// <returns></returns>
         public ProfileModel UpdateProfileUsername(ProfileModel userProfile)
         {
-            if (!EstablishMariaDBConnection())
+            using (MySqlConnection mySqlConnection = new MySqlConnection(_connectionString))
             {
-                return userProfile;
-            }
-            try
-            {
-                using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
+                mySqlConnection.Open();
+                string comm = "UpdateProfileUsername";
+                using (var command = new MySqlCommand(comm, mySqlConnection))
                 {
-                    command.Transaction = _mySqlConnection.BeginTransaction();
-                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@_username", userProfile.username);
-                    command.Parameters.AddWithValue("@_newUsername", userProfile.newProfileUsername);
+                    try
+                    {
+                        command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add("@_username", MySqlDbType.VarChar);
+                        command.Parameters.Add("@_newUsername", MySqlDbType.VarChar);
 
-                    var value = ExecuteQuery(command);
+
+                        command.Parameters["@_username"].Value = userProfile.username;
+                        command.Parameters["@_newUsername"].Value = userProfile.newProfileUsername;
+                        int numChanged = command.ExecuteNonQuery();
+
+                        if (numChanged > 0)
+                            Console.WriteLine(numChanged);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                    }
+                    finally 
+                    { 
+                        mySqlConnection.Close(); 
+                    }
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectOutOfRange);
                 }
             }
-            catch
-            {
-                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-            }
-            finally
-            {
-                _mySqlConnection.Close();
-            }
-            return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
         /// Update profile image will take in a path of a new user profile. Since we are going to allow uploaded
@@ -402,32 +418,28 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileImage(ProfileModel userProfile)
         {
-            if (!EstablishMariaDBConnection())
+            using (MySqlConnection mySqlConnection = new MySqlConnection(_connectionString))
             {
-                return userProfile;
-            }
-            try
-            {
-                using (MySqlCommand command = new MySqlCommand("UpdateProfileUsername", _mySqlConnection))
+                mySqlConnection.Open();
+                string comm = "UpdateProfileImageRoute";
+
+                using (var command = new MySqlCommand(comm, mySqlConnection))
                 {
-                    command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@_username", userProfile.username);
-                    command.Parameters.AddWithValue("@_newURL", userProfile.profileImagePath);
+                    command.Parameters.Add("@_username", MySqlDbType.VarChar);
+                    command.Parameters.Add("@_newURL", MySqlDbType.VarChar);
 
-                    var value = ExecuteQuery(command);
+                    command.Parameters["@_username"].Value = userProfile.username;
+                    command.Parameters["@_newURL"].Value = userProfile.profileImagePath;
+                    Console.WriteLine(command.CommandText);
+                    int numChanged = command.ExecuteNonQuery();
+
+                    if (numChanged > 0)
+                        return userProfile.GetResponse(ResponseModel.response.success);
                 }
+                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectOutOfRange);
             }
-            catch
-            {
-                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-            }
-            finally
-            {
-                _mySqlConnection.Close();
-            }
-            return userProfile.GetResponse(ResponseModel.response.success);
         }
         /// <summary>
         /// Updating profile status to determine whether an account is active or not
@@ -436,32 +448,35 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         /// <returns></returns>
         public ProfileModel UpdateProfileStatus(ProfileModel userProfile)
         {
-            if (!EstablishMariaDBConnection())
+            using (MySqlConnection mySqlConnection = new MySqlConnection(_connectionString))
             {
-                return userProfile;
-            }
-            try
-            {
-                using (MySqlCommand command = new MySqlCommand("UpdateProfileStatus", _mySqlConnection))
+                mySqlConnection.Open();
+                string comm = "UpdateProfileStatus";
+                using (var command = new MySqlCommand(comm, mySqlConnection))
                 {
-                    command.Transaction = _mySqlConnection.BeginTransaction();
-                    command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@_username", userProfile.username);
-                    command.Parameters.AddWithValue("@_newStatus", userProfile.status);
+                    try
+                    {
+                        command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@_username", userProfile.username);
+                        command.Parameters.AddWithValue("@_status", userProfile.profileImagePath);
 
-                    var value = ExecuteQuery(command);
+                        int numChanged = command.ExecuteNonQuery();
+                        Console.WriteLine(numChanged);
+                        if (numChanged > 0)
+                            return userProfile.GetResponse(ResponseModel.response.success);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        mySqlConnection.Close();
+                    }
+                    return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectOutOfRange);
                 }
             }
-            catch
-            {
-                return userProfile.GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
-            }
-            finally
-            {
-                _mySqlConnection.Close();
-            }
-            return userProfile.GetResponse(ResponseModel.response.success);
         }
     }
 }

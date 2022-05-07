@@ -125,9 +125,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             };
             try
             {
-                if (_username.Length >= 25 && _username.Length < 0)
+                if (_username.Length >= 25 || _username.Length < 0)
                     return profileModel.GetResponse(ResponseModel.response.managerInvalidString);
-                if (_newDescription.Length < 0 && _newDescription.Length > 150)
+                if (_newDescription.Length < 0 || _newDescription.Length > 150)
                     return profileModel.GetResponse(ResponseModel.response.invalidIntegerParameter);
 
                 profileModel = _profileManagementService.UpdateProfileDescriptionService(profileModel);
@@ -163,7 +163,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             };
             try
             {
-                if (_username.Length >= 25 && _username.Length < 0 && _newUsername.Length >= 25 && _newUsername.Length < 0)
+                if (_username.Length >= 25 || _username.Length < 0 || _newUsername.Length >= 25 || _newUsername.Length < 0)
                     return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
 
                 profileModel = _profileManagementService.UpdateProfileUsernameService(profileModel);
@@ -232,7 +232,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             };
             try
             {
-                if (_username.Length >= 25 && _username.Length < 0)
+                if (_username.Length >= 25 || _username.Length < 0)
                     return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
 
                 profileModel = _profileManagementService.DeleteProfileService(profileModel);
@@ -284,6 +284,39 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 return new ProfileModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
             }
             return profileModel.GetResponse(ResponseModel.response.success);
+        }
+
+        public ProfileModel UpdateProfileImageManager(string _username, string _imageURL)
+        {
+            ProfileModel profileModel = new ProfileModel
+            {
+                username = _username,
+                profileImagePath = _imageURL
+            };
+            try
+            {
+                if (_username.Length > 25 || _username.Length <= 0)
+                    return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
+                if (_imageURL.Length > 260 || _imageURL.Length <= 0)
+                    return profileModel.GetResponse(ResponseModel.response.invalidStringParameter);
+
+                profileModel = _profileManagementService.UpdateProfileImage(profileModel);
+                if (profileModel != null)
+                {
+                    if (profileModel.systemResponse != "success")
+                        return profileModel.GetResponse(ResponseModel.response.managerInvalidObject);
+                }
+                else
+                {
+                    return new ProfileModel().GetResponse(ResponseModel.response.nullObjectReferenceAchieved);
+                }
+            }
+            catch
+            {
+                return new ProfileModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+
         }
     }
 }

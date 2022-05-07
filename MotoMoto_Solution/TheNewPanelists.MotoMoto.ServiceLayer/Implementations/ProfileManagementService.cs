@@ -155,7 +155,25 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             ProfileModel profileModel = _profileModel;
             try
             {
-                profileModel = _profileDataAccess.UpdateProfileDescription(_profileModel);
+                profileModel = _profileDataAccess.UpdateProfileStatus(_profileModel);
+            }
+            catch
+            {
+                return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
+            }
+            return profileModel.GetResponse(ResponseModel.response.success);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_profileModel"></param>
+        /// <returns></returns>
+        public ProfileModel UpdateProfileImage(ProfileModel _profileModel)
+        {
+            ProfileModel profileModel = _profileModel;
+            try
+            {
+                profileModel = _profileDataAccess.UpdateProfileImage(_profileModel);
             }
             catch
             {

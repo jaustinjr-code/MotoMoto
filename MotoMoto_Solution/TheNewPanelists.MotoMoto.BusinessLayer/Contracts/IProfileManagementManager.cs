@@ -12,6 +12,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public ProfileModel UpdateProfileDescriptionManager(string _username, string _newDescription);
         public ProfileModel UpdateProfileUsernameManager(string _username, string _newUsername);
         public ProfileModel UpdateProfileStatusManager(string _username, bool _status);
+        public ProfileModel UpdateProfileImageManager(string _username, string _newImageURL);
         public ProfileModel DeleteProfileManager(string _username);
+
     }
 }
