@@ -1,0 +1,92 @@
+using Xunit;
+using TheNewPanelists.MotoMoto.ServiceLayer;
+using TheNewPanelists.MotoMoto.Models;
+using TheNewPanelists.MotoMoto.DataStoreEntities;
+
+
+namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardUnitTests
+{
+    public class UsageAnalysisDashboardServiceUnitTests
+    {
+        private readonly IFetchBarChartService _fetchBarViewKpiService;
+        private readonly IFetchBarChartService _fetchBarFeedKpiService;
+        private readonly IFetchTrendChartService _fetchTrendLoginKpiService;
+        private readonly IFetchTrendChartService _fetchTrendRegistrationKpiService;
+        private readonly IFetchTrendChartService _fetchTrendEventKpiService;
+
+        public UsageAnalysisDashboardServiceUnitTests()
+        {
+            _fetchBarViewKpiService = new FetchViewBarChartService();
+            _fetchBarFeedKpiService = new FetchFeedBarChartService();
+            _fetchTrendLoginKpiService = new FetchLoginTrendChartService();
+            _fetchTrendRegistrationKpiService = new FetchRegistrationTrendChartService();
+            _fetchTrendEventKpiService = new FetchEventTrendChartService();
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchViewBarChartServiceDisplay_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new BarChartAnalyticModel("Views", "displayTotal");
+            // Act
+            IResponseModel result = _fetchBarViewKpiService.FetchBarChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchViewBarChartServiceDuration_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new BarChartAnalyticModel("Views", "durationAvg");
+            // Act
+            IResponseModel result = _fetchBarViewKpiService.FetchBarChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchFeedBarChartService_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new BarChartAnalyticModel("feedName", "feedPostTotal");
+            // Act
+            IResponseModel result = _fetchBarFeedKpiService.FetchBarChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchLoginTrendChartService_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new TrendChartAnalyticModel("Access Date", "Login Total");
+            // Act
+            IResponseModel result = _fetchTrendLoginKpiService.FetchTrendChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchRegistrationTrendChartService_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new TrendChartAnalyticModel("Access Date", "Registration Total");
+            // Act
+            IResponseModel result = _fetchTrendRegistrationKpiService.FetchTrendChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsResponseSuccessForValidRequest_FetchEventTrendChartService_ReturnTrue()
+        {
+            // Arrange
+            IUsageAnalyticModel model = new TrendChartAnalyticModel("Event Date", "Event Total");
+            // Act
+            IResponseModel result = _fetchTrendEventKpiService.FetchTrendChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+    }
+}
