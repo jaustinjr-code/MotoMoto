@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using System.Web;
+using System.Collections.Specialized;
 using System;
-using System.Text;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
@@ -10,78 +11,88 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class RegistrationService : IUserManagementService
     {
-        private readonly RegistrationDataAccess _registrationDAO;
-        private readonly UserManagementDataAccess _userManagementDAO;
-        public RegistrationService(UserManagementDataAccess UserManagementDAO) 
-        { 
+        private readonly RegistrationDataAccess _registrationDAO;  
+
+        public RegistrationService()
+        {
             _registrationDAO = new RegistrationDataAccess();
-            _userManagementDAO = UserManagementDAO;
         }
 
-        public string AccountRegistrationRequest(RegistrationRequestModel registrationRequest)
+        public RegistrationRequestModel AccountRegistrationRequest(ref RegistrationRequestModel registrationRequest)
         {
-            string email = registrationRequest.Email!;
-
-            if (_registrationDAO.QueryUserTable(email))
-                return "An account already exists with that email. Please login to access the account.";
-            else if (_registrationDAO.HasActiveRegistration(email))
-                return "Unable to register. Account is currently pending email validation.";
+            if (_registrationDAO.QueryUserTable(registrationRequest.Email!))
+                registrationRequest.message = "An account already exists with that email. Please login to access the account.";
+            else if (_registrationDAO.HasActiveRegistration(registrationRequest.Email!))
+                registrationRequest.message = "Unable to register. Account is currently pending email validation.";
             else
             {
-                if (_registrationDAO.InsertRegistrationEntry(registrationRequest))
-                {
-                    int registrationId = _registrationDAO.ReturnRegistrationId(email);
+                if (_registrationDAO.InsertRegistrationEntry(ref registrationRequest))
+                {             
+                    registrationRequest.RegistrationId = _registrationDAO.ReturnRegistrationId(registrationRequest.Email!);
 
-                    if (SendEmailConfirmationRequest(email, registrationId))
-                        return "Registration submitted. Please validate your email to complete registration.";
-                    else
+                    if (SendEmailConfirmationRequest(registrationRequest))
                     {
-                        // Log send email failure
-                        // Delete from registration table
-                        if (!_registrationDAO.DeleteActiveRegistration(email));
-                            // log deletion error
+                        registrationRequest.message = "Registration submitted. Please validate your email to complete registration.";
+                        registrationRequest.status = true;
                     }
+                    else if (!_registrationDAO.DeleteActiveRegistration(registrationRequest.Email!))
+                        registrationRequest.message = "Registration Deletion Error.";
                 }
-                else;
-                    // log entry error
+                else
+                    registrationRequest.message = "Account registration Error.";
             }
-            return "Account registration Error.";
+            return registrationRequest;
         }
 
-        public string EmailConfirmation(EmailConfirmationRequestModel emailConfirmationRequest)
+        public string EmailConfirmation(ref RegistrationRequestModel emailConfirmationRequest)
         {
-            if (_registrationDAO.ConfirmRegistration(emailConfirmationRequest))
+            if (_registrationDAO.ConfirmRegistration(ref emailConfirmationRequest))
             {
-                DataStoreConfirmedAccount entry = _registrationDAO.ReturnConfirmedAccount(emailConfirmationRequest);
-                DataStoreUser newUserAccount = new DataStoreUser();
-                string userName = GenerateUniqueName(emailConfirmationRequest.RegistrationID!);
+                _registrationDAO.UpdateRegistrationToValid(emailConfirmationRequest.RegistrationId);
+                string userName = GenerateUniqueName(emailConfirmationRequest);
+                DataStoreUser newUserAccount = new DataStoreUser {
+                    userType = "REGISTERED",
+                    username = userName,
+                    email = emailConfirmationRequest.Email,
+                    password = emailConfirmationRequest.Password
+                };
 
-                newUserAccount._userType = "Registered";
-                newUserAccount._username = userName;
-                newUserAccount._email = entry.Email;
-                newUserAccount._password = entry.Password;
-
-                UserManagementService userManagementService = new UserManagementService(_userManagementDAO);
+                UserManagementService userManagementService = new UserManagementService(new UserManagementDataAccess());
 
                 if (userManagementService.CreateAccount(newUserAccount))
-                    return String.Format("Registration complete!\n\n Username = {0}", userName);
+                {
+                    emailConfirmationRequest.status = true;
+                    emailConfirmationRequest.message = "Registration complete! Username: " + userName;
+                }
                 else
-                    return "Registration Error.";
+                    emailConfirmationRequest.message = "Registration Error.";
             }
             else
-                return "ERROR: Registration not found.";
+                emailConfirmationRequest.message = "ERROR: Registration not found.";
+
+            return emailConfirmationRequest.message;
         }
 
-        public bool SendEmailConfirmationRequest(string email, int registrationId)
+        public bool SendEmailConfirmationRequest(RegistrationRequestModel registrationRequest)
         {
-            // Need to generate a unique url here and insert the link into the email
-            string uniqueLink = URLGenerator(registrationId);
+            UriBuilder builder = new UriBuilder() {
+                    //Host = "motomotca.com",
+                    //Scheme = "https"
+                    Port = 8080,
+                    Scheme = "http",
+                    Fragment = "#"
+            };
+
+            NameValueCollection urlQueryString = HttpUtility.ParseQueryString(string.Empty);
+            urlQueryString.Add("email", registrationRequest.Email!);
+            urlQueryString.Add("registrationID", registrationRequest.RegistrationId.ToString());
             
-            string From = "support@motomotoca.com";
-            string FromName = "MotoMoto Support";
-            string To = email;
-            string SMTP_Username = "AKIA3YUD2T2A6VR4HELH";
-            string SMTP_Password = "BNQUdw9SMvqsU8qmQvKAyk6y96wKve1U1q21O1NPJeIz";
+            string uniqueUrl = builder.ToString() + "/Registration/Confirmation?" + urlQueryString.ToString();
+            string From = "support@daniel-bribiesca-jr.com";
+            string FromName = "MotoMoto Support Testing";
+            string To = registrationRequest.Email!;
+            string SMTP_Username = "AKIAQRMTN46LNEVL3VMJ";
+            string SMTP_Password = "BPhxZNIGL/JbyRXHDb5VE9FWh6X/Y/KkZDG3y5WW3jyZ";
             // string Configset = "ConfigSet";
             string Host = "email-smtp.us-west-2.amazonaws.com";
             int Port = 587;
@@ -91,8 +102,11 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                         <body>
                             <p></p>Hello,</p>
                             <p>Please click on the link below to complete  
-                            your account registration.<br>
-                            <p>Sincerely,<br><br>
+                            your account registration.<br><br><br>
+
+                            <a href ={uniqueUrl}>Confirm Email</a>
+
+                            <br><br><p>Sincerely,<br>
                             MotoMoto Customer Care</p>
                         </body>
                     </html>";
@@ -103,7 +117,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             message.To.Add(new MailAddress(To));
             message.Subject = Subject;
             message.Body = Body;
-
+            // message.Headers.Add("X-SES-CONFIGURATION-SET", CONFIGSET);
             using (var client = new SmtpClient(Host, Port))
             {
                 client.Credentials = new NetworkCredential(SMTP_Username, SMTP_Password);
@@ -117,70 +131,21 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 }
                 catch (Exception ex)
                 {
-                    // log error message
+                    Console.WriteLine("ExceptionType:" + ex.GetType() + "\nExceptionMessage:" + ex.Message);
                     return false;
                 }
             }
         }
         
-        private static string URLGenerator(int? registrationID)
-        {
-            const int suffixSize = 10;
-
-            string urlSuffix = "";
-            Random rand = new Random();
-
-            for (int i = 0; i < suffixSize; i++)
-            {
-                int sel = rand.Next(0, 3);
-                switch (sel)
-                {
-                    case 0:
-                        // upper case
-                        urlSuffix += (char)rand.Next(65, 91);
-                        break;
-                    case 1:
-                        // lower case
-                        urlSuffix += (char)rand.Next(97, 123);   
-                        break;
-                    case 2:
-                        // number 0 - 9
-                        urlSuffix += (char)rand.Next(48, 58);    
-                        break;
-                }
-            }
-            return (registrationID.ToString() + urlSuffix);
-        }
-
-        private static string GenerateUniqueName(string registrationID)
+        public string GenerateUniqueName(RegistrationRequestModel emailConfirmationRequest)
         {
             Random rand = new Random();
-            int nameSize = 5;
-            string name = "";
-            char[] specialChars = new char[4] { '!', '@', '.', ',' };
+            var emailSplitString = emailConfirmationRequest.Email!.Split('@');
 
-            for (int i = 0; i < nameSize; i++)
-            {
-                int num = rand.Next(0, 3);
+            string userName = string.Format(String.Format("{0:000}", emailConfirmationRequest.RegistrationId));
+            userName += emailSplitString[0].Substring(0, 5);
 
-                switch (num)
-                {
-                    case 0:
-                        name += (char)rand.Next(65, 91);
-                        break;
-                    case 1:
-                        name += (char)rand.Next(97, 123);
-                        break;
-                    case 2:
-                        name += (char)rand.Next(48, 58);
-                        break;
-                    case 3:
-                        int index = rand.Next(specialChars.Length);
-                        name += specialChars[index];
-                        break;
-                }
-            }
-            return name + registrationID;
+            return userName;
         }
     }
 }

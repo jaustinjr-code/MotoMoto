@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class TypeModel
     {
-        public int _typeId { get; set; }
-        public string? _typeName { get; set; }
+        public int typeId { get; set; }
+        public string? typeName { get; set; }
     }
 }

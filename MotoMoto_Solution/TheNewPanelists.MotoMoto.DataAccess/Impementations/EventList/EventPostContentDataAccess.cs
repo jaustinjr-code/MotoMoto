@@ -9,7 +9,7 @@ using TheNewPanelists.MotoMoto.Models;
 
 namespace TheNewPanelists.MotoMoto.DataAccess
 {
-    public class EventPostContentDataAccess : IDataAccess
+    public class EventPostContentDataAccess //: IDataAccess
     {
         // MySqlConnection property which will be used to establish a connection to our data store
         MySqlConnection? mySqlConnection { get; set; }
@@ -25,7 +25,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public EventPostContentDataAccess(string connectionString){_connectionString = connectionString;}
 
         // Function that will establish the connection to the AWS RDS MariaDB datastore
-        public bool EstablishMariaDBConnection()
+        public bool EstablishDBConnection()
         {
             // Create a MySqlConnection object which is connected to the database using the connection string
             mySqlConnection = new MySqlConnection(_connectionString);
@@ -45,10 +45,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         public ISet<EventDetailsModel>? FetchAllPosts()
         {
             // Function call to establish the connection to the data store and open a new connection
-            EstablishMariaDBConnection();
+            EstablishDBConnection();
 
             // Query that will be executed to retrieve all EventDetails from the EventDetails table
-            string selectAllQuery = "SELECT * FROM EventDetails"; // Security issue - subject to SQL injection
+            string selectAllQuery = "SELECT * FROM EventDetails"; 
 
             // Using the desired query and open SQL connection, initialize an instance of MySqlCommand 
             MySqlCommand command = new MySqlCommand(selectAllQuery, mySqlConnection);
@@ -68,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
                 // Read the value from each column and store it in the eventDetails object
                 eventDetails.eventID = myReader.GetInt32("eventID");
-                eventDetails.eventLocation = myReader.GetString("eventLocation");
+                eventDetails.eventCity = myReader.GetString("eventCity");
                 eventDetails.eventTime = myReader.GetString("eventTime");
                 eventDetails.eventDate = myReader.GetString("eventDate");
 
