@@ -31,10 +31,11 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                         //}
                         return response;
                     }
+                    throw new Exception("Invalid Response");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message);
                     return new ExceptionResponseModel(e.Message);
                 }
             }

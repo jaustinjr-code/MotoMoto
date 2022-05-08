@@ -33,7 +33,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 
         public IResponseModel BuildResponse(object result)
         {
-            string message = "Retrieved View Metrics";
+            string message = "Retrieved Feed Metrics";
             bool complete = true;
             bool success = true;
             IResponseModel response = new ChartMetricsResponseModel((IUsageAnalyticEntity)result, message, complete, success);

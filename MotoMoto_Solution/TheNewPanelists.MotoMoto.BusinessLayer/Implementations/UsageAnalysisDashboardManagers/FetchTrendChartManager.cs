@@ -24,13 +24,14 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                     IResponseModel response = ProcessRequest((IUsageAnalyticModel)request.input);
                     if (IsAnalyticResponseValid(response))
                     {
-                        foreach (var item in (List<IAxisDetailsEntity>)((IUsageAnalyticEntity)response.output!).metricList)
-                        {
-                            Console.WriteLine(item.xData);
-                            Console.WriteLine(item.yData);
-                        }
+                        //foreach (var item in (List<IAxisDetailsEntity>)((IUsageAnalyticEntity)response.output!).metricList)
+                        //{
+                        //Console.WriteLine(item.xData);
+                        //Console.WriteLine(item.yData);
+                        //}
                         return response;
                     }
+                    throw new Exception("Invalid Response");
                 }
                 catch (Exception e)
                 {
@@ -71,7 +72,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             // if (response.output != null && response.output is IUsageAnalyticEntity && (response.isComplete))
             if (response.output != null && (response.isComplete))
             {
-                Console.WriteLine(response.output.GetType());
+                //Console.WriteLine(response.output.GetType());
                 if (typeof(IUsageAnalyticEntity).IsAssignableFrom(response.output.GetType()))
                     return true;
             }
