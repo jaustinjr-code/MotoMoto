@@ -6,6 +6,10 @@ using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
 {
+    /// <summary>
+    /// There is no intergration testing here, Xunit can be used for it but it's very complicated
+    /// Source: https://jimmybogard.com/integration-testing-with-xunit/
+    /// </summary>
     public class UsageAnalysisDashboardDataAccessUnitTests
     {
         private readonly IFetchKpiDataAccess _fetchBarViewKpiDataAccess;
