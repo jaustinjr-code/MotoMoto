@@ -35,11 +35,16 @@
 
 <script>
 import {instanceFetch, instanceSubmit} from  '../../../router/CommunityBoardConnection.js'
+import { useCookies } from "vue3-cookies";
 
 export default {
     props: [
         'id'
     ],
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     data() {
         return {
             postId: this.id,
@@ -95,7 +100,7 @@ export default {
             if(valid) {
                 let p = {
                     postID: parseInt(this.postId),
-                    postUser: 'ran',
+                    postUser: this.$cookies.get("username"),
                     postDescription: input
                 }
                 let params = JSON.stringify(p);
@@ -126,7 +131,7 @@ export default {
             let params = JSON.stringify({
                 contentId: parseInt(cid),
                 postId: parseInt(pid),
-                interactUsername: 'ran'
+                interactUsername: this.$cookies.get("username")
             });
             //console.log(params);
             instanceSubmit.post('/SubmitUpvoteComment/SubmitUpvoteComment', params, {
@@ -149,7 +154,7 @@ export default {
             let interactionModel = JSON.stringify({ 
                 contentId: id,
                 contentTitle: title,
-                interactUsername: 'ran'
+                interactUsername: this.$cookies.get("username")
             });
             // this.postList.forEach(post => {
             //             if (post.postId == req) {

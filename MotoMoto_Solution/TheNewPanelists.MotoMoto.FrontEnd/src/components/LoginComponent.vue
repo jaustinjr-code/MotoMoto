@@ -49,7 +49,7 @@ export default defineComponent({
                 {
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
-                    this.$router.push({path: '/CommunityDashboard'});
+                    //this.$router.push({path: '/CommunityDashboard'});
                 }
             }).catch((e)=>{
             console.log(e);
