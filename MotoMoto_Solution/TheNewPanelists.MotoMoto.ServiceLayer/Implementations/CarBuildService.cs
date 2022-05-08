@@ -32,7 +32,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return _carBuildDAO.InsertNewDataStoreCarTypeEntity(carTypeModel);
         }
 
-        public List<CarTypeModel> FetchCarType()
+        public List<CarTypeModel> FetchCarType()    //Add VALUE: 
         {
             return _carBuildDAO.GetCarType();
         }

@@ -20,7 +20,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
         [Route("GetCarTypes")]
         public IActionResult GetCarTypes()
         {
-            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildService service = new CarBuildService(_carBuildDataAccess); //Move this to top, so you're not remaking instances
             CarBuildManager manager = new CarBuildManager(service);
 
             try

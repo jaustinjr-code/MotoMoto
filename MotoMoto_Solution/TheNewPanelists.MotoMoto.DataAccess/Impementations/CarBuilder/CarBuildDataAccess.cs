@@ -61,14 +61,14 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
         // Returns a list of the information inputed by the usser
         public List<CarTypeModel> GetCarType()
         {
-            MySqlConnection connection = new MySqlConnection(_connectionString);
+            MySqlConnection connection = new MySqlConnection(_connectionString);    //SHOULD BE ASYNCH operation
             List<CarTypeModel> carTypeList = new List<CarTypeModel>();
             try
             {
                 connection.Open();
-                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarTypes";
+                string getSenderUserIdQuery = "SELECT carID, make, model, year FROM CarTypes";  //Malicious person can change this query; better to leverage store procedure
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                MySqlDataReader reader = cmd.ExecuteReader();           //asynch
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -84,7 +84,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message);        //This does not add any value, function would work the same with or without it: ANTI-PATTERN
             }
             finally
             {

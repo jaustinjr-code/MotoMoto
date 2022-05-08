@@ -64,10 +64,11 @@ export default {
     methods: {
         GetCarTypes(){
             //let car_type = {make: "Honda", model: "Accord", year: "2015"};
+            //Instance is not descriptive enough: ajax client would be better
             instance.get("CarBuilder/GetCarTypes").then((res) => 
             {console.log(res);
             this.carTypeList = res.data;
-            console.log(this.carTypeList);
+            console.log(this.carTypeList); //better to create your own LOG SERVICE
             }).catch((e) => {
                 console.log(e);
             });
@@ -99,7 +100,7 @@ export default {
 
 
         let yearSelector = document.getElementById('car-year-select')
-        for (let yearIterator = 2022; yearIterator >= 1950; --yearIterator)
+        for (let yearIterator = 2022; yearIterator >= 1950; --yearIterator) //get current year to update year
         {
             let option = document.createElement('option')
             option.value = yearIterator.toString()
