@@ -86,7 +86,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
-        public bool UpdateRegistrationToValid(string email)
+        public bool UpdateRegistrationToValid(int registrationId)
         {
             try
             {
@@ -100,6 +100,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Transaction = sqlTrans;
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandText = $"UPDATE REGISTRATION R SET validated = TRUE WHERE R.registrationId = @v1";
+                command.Parameters.Add(new MySqlParameter("@v1", registrationId));
 
                 int response = command.ExecuteNonQuery();
 

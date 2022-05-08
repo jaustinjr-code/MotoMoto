@@ -54,6 +54,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 if (isCommit)
                     sqlTrans.Commit();
+                    
                 mySqlConnection!.Close();
                 return true;
             }
@@ -379,7 +380,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE User U SET U.USERNAME = @v1 WHERE U.USERNAME =@v2";
+                command.CommandText = $"UPDATE User U SET U.USERNAME = @v1 WHERE U.USERNAME = @v2";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.newUsername);
                 parameters[1] = new MySqlParameter("@v2", userAccount!.username);

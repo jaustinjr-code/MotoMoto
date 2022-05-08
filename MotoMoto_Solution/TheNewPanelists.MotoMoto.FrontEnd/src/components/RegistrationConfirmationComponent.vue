@@ -3,7 +3,7 @@
         <h1>MotoMoto</h1>
         {{this.message}}
         <div v-if="success">
-        <button @click="this.$router.push('login')">Go to Login</button>
+        <button @click="this.$router.push('/login')">Go to Login</button>
         </div>
     </div>
 </template>
@@ -20,6 +20,8 @@ export default defineComponent({
     },
     data() {
         return{
+            email: '',
+            registrationId: '',
             message: '',
             success: false
         }
@@ -27,18 +29,20 @@ export default defineComponent({
     methods: {
         Confirmation: async function(){
             await instance.post('/Registration/Confirmation', null, 
-            {params: {email: this.$route.params.email , registrationId: this.$route.params.registrationId}}).then((response)=>{
+            {params: {email: this.email , registrationId: this.registrationId}}).then((response)=>{
                 console.log(`Server replied with: ${response.data}`);
                 this.message = response.data.message;
                 if(response.data.status == true)
                     this.success = true;
             }).catch((e)=>{
                 console.log(e);
-                this.message = 'Confirmation Error'
+                this.message = e
                 });
         },
     },
     created: function() {
+        this.email = this.$route.query.email;
+        this.registrationId = this.$route.query.registrationID;
         this.Confirmation();
     }
 })

@@ -48,7 +48,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             if (_registrationDAO.ConfirmRegistration(ref emailConfirmationRequest))
             {
-                _registrationDAO.UpdateRegistrationToValid(emailConfirmationRequest.Email!);
+                _registrationDAO.UpdateRegistrationToValid(emailConfirmationRequest.RegistrationId);
                 string userName = GenerateUniqueName(emailConfirmationRequest);
                 DataStoreUser newUserAccount = new DataStoreUser {
                     userType = "REGISTERED",
@@ -60,7 +60,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 UserManagementService userManagementService = new UserManagementService(new UserManagementDataAccess());
 
                 if (userManagementService.CreateAccount(newUserAccount))
-                    emailConfirmationRequest.message = "Registration complete! Username = " + userName;
+                {
+                    emailConfirmationRequest.status = true;
+                    emailConfirmationRequest.message = "Registration complete! Username: " + userName;
+                }
                 else
                     emailConfirmationRequest.message = "Registration Error.";
             }
@@ -75,16 +78,16 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             UriBuilder builder = new UriBuilder() {
                     //Host = "motomotca.com",
                     //Scheme = "https"
-                    Port = 7006,
-                    Scheme = "https",
-                    Path = "Api/Registration/Confirmation",
+                    Port = 8080,
+                    Scheme = "http",
+                    Fragment = "#"
             };
 
             NameValueCollection urlQueryString = HttpUtility.ParseQueryString(string.Empty);
             urlQueryString.Add("email", registrationRequest.Email!);
             urlQueryString.Add("registrationID", registrationRequest.RegistrationId.ToString());
             
-            string uniqueUrl = builder.ToString() + "?" + urlQueryString.ToString();
+            string uniqueUrl = builder.ToString() + "/Registration/Confirmation?" + urlQueryString.ToString();
             string From = "support@daniel-bribiesca-jr.com";
             string FromName = "MotoMoto Support Testing";
             string To = registrationRequest.Email!;
