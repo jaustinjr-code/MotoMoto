@@ -17,6 +17,7 @@ import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/UsageAnalysisDashboard',
+    name: 'UsageAnalysisDashboard',
+    component: UsageAnalysisDashboard
   }
 ]
 
