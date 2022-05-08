@@ -95,7 +95,7 @@ const routes = [
     component: PartComparison
   },
   {
-    path: '/UserProfile',
+    path: '/UserProfile/:userid',
     name: 'UserProfile',
     component: UserProfile,
   },
@@ -113,7 +113,7 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
-  }
+  },
 ]
 
 const router = createRouter({

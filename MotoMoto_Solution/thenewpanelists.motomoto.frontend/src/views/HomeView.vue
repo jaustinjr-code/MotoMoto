@@ -33,7 +33,10 @@ export default {
   },
   created() {
       if (!this.$cookies.isKey("userId")) {
-        this.$cookies.set("userId", 2,"1h")
+        this.$cookies.set("userId", -1,"1h")
+      }
+      if (!this.$cookies.isKey("username")) {
+        this.$cookies.set("username", "guest","1hr")
       }
   },
   methods:{

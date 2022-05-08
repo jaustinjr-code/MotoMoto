@@ -7,15 +7,40 @@
 			<router-link to="/parts"><a class="projects" v-on:click="makeActive('projects')">Vehicle Parts</a></router-link>
 			<router-link to="/communityboard"><a class="communityboard" v-on:click="makeActive('communityboard')">Community Board</a></router-link>
 			<router-link to=""><a class="contact" v-on:click="makeActive('contact')">Contact</a></router-link>
-			<router-link to="/login"><a class="login" v-on:click="makeAcive('login')">Login</a></router-link>
+			<div v-if="loggedIn() === false">
+				<router-link to="/login"><a class="login" v-on:click="makeAcive('login')">Login</a></router-link>
+			</div>
+			<div v-else>
+				<router-link to="/UserProfile/1"><a class="profile" v-on:click="makeAcive('UserProfile')">Profile</a></router-link>
+			</div>
+			
 		</nav>
 	</body>
 </div>
 </template>
 
 <script>
+import { useCookies } from "vue3-cookies";
+
 export default {
-	name: 'TabBarComponent'
+	name: 'TabBarComponent',
+	data() {
+		return {
+			userId: 0,
+			username: "",
+		}
+	},
+	// mounted() {
+	// 	// this.getLoginCredential();
+	// },
+	methods: {
+		loggedIn: function () {
+			return (this.$cookies.get("username") === "GUEST");
+		},
+		getLoginCredential: function () {
+			this.userId = this.$cookies.get("userId")
+		}
+	},
 }
 </script>
 <style>
@@ -45,7 +70,7 @@ section, footer, header, aside, nav{
 	display: block;
 }
 
-nav{
+nav {
   list-style-type: none;
 	margin:0;
   padding: 0;
