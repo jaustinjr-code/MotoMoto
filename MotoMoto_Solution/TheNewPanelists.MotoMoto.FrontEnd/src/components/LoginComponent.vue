@@ -23,7 +23,7 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
-import {instance} from '../router/directMessageConnection'
+import {instance} from '../router/LoginConnection'
 
 export default defineComponent({
   setup() {
