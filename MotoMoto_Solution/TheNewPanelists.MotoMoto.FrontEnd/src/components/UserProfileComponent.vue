@@ -3,12 +3,16 @@
     <TabBarComponent/>
     <span class="profile-header">
       <div class="ProfileImageHeader">
-          <div class="ProfileImage" v-if="isImage(profile.profileImagePath)">
-              <img src="{{profile.profileImagePath}}" class="user_profile_image" alt="user_profile_image">
-          </div>
-          <div class="ProfileImage" v-else>
-              <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" class="user_profile_image" alt="user_profile_image">
-          </div>
+          <span>
+              <div class="ProfileImage" v-if="isImage(profile.profileImagePath)">
+                <img src="{{profile.profileImagePath}}" class="user_profile_image" alt="user_profile_image">
+              </div>
+              <div class="ProfileImage" v-else>
+                  <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" class="user_profile_image" alt="user_profile_image">
+              </div>
+              <!-- <h3><router-link class="followerLink" :to="{name: 'Followers', params: {id: profile.profileId}}">Followers</router-link></h3>
+              <h3><router-link class="followerLink" :to="{name: 'Following', params: {id: profile.profileId}}">Following</router-link></h3> -->
+          </span>
       </div>
       <div class="ProfileUsernameHeader">
           <div class="profile-username" v-if="profile.username != null">
@@ -102,7 +106,6 @@
             </tr>
           </tbody>
         </table>        
-
         <table class="prefTable">
           <th class = "title">Models Followed</th>
           <tbody class="prefBody">
@@ -115,10 +118,8 @@
               <td class="prefTd">{{record.model}}</td>
             </tr>
           </tbody>
-        </table> 
-
+        </table>
     </div>
-
     <div class = "editButton">
       <button @click="$router.push('/UserProfile/EditPreferences')">Edit Preferences</button>
     </div>
@@ -206,10 +207,6 @@ export default defineComponent({
     height: 100px;
     width: 100px;
     border-radius: 50%;
-}
-.profileTitle 
-{
-    font-size: 20px;
 }
 .userPosts
 {
