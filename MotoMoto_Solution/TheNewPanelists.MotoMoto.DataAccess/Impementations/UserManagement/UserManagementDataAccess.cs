@@ -26,7 +26,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             //     foreach(ConnectionStringSettings cs in settings)
             //         _connectionString = cs.ConnectionString;
             // }
-            _connectionString = "server=localhost;user=root;database=dev_um;port=3306;password=12345;";
+            _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         }
 
@@ -39,7 +39,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             //     foreach (ConnectionStringSettings cs in settings)
             //         _connectionString = cs.ConnectionString;
             // }
-            _connectionString = "server=localhost;user=root;database=dev_um;port=3306;password=12345;";
+            _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
 
         }
 
