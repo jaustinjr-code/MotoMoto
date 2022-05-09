@@ -47,7 +47,6 @@ export default defineComponent({
                 console.log(`Server replied with: ${res.data}`);
                 if(res.data == true)
                 {
-                    this.$cookies.set("userId", res.data.userId, "1d")
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
                     this.$router.push({path: '/'});

@@ -8,6 +8,7 @@ import http from "./Http-coman"
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
+    <LogoutComponent/>
   </div>
 </template>
 
@@ -15,14 +16,17 @@ import http from "./Http-coman"
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import TabBarComponent from '../components/TabBarComponent.vue';
+import LogoutComponentVue from '../components/LogoutComponent.vue';
 import router from '../router'
 import { useCookies } from "vue3-cookies";
+import LogoutComponent from '../components/LogoutComponent.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    TabBarComponent
-  },
+    TabBarComponent,
+    LogoutComponent
+},
   setup() {
     const { cookies } = useCookies();
     return { cookies };
