@@ -17,6 +17,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         private readonly IFetchKpiDataAccess _fetchTrendLoginKpiDataAccess;
         private readonly IFetchKpiDataAccess _fetchTrendRegistrationKpiDataAccess;
         private readonly IFetchKpiDataAccess _fetchTrendEventKpiDataAccess;
+        private readonly ISubmitKpiDataAccess _submitAdmissionKpiDataAccess;
+        private readonly ISubmitKpiDataAccess _submitViewKpiDataAccess;
         // private readonly IFetchKpiDataAccess _submitKpiDataAccess;
         // private readonly IFetchKpiDataAccess _submitKpiDataAccess;
         public UsageAnalysisDashboardDataAccessUnitTests()
@@ -26,8 +28,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
             _fetchTrendLoginKpiDataAccess = new FetchTrendKpiLoginDataAccess();
             _fetchTrendRegistrationKpiDataAccess = new FetchTrendKpiRegistrationDataAccess();
             _fetchTrendEventKpiDataAccess = new FetchTrendKpiEventDataAccess();
-            // _submitKpiDataAccess = new SubmitKpiDataAccess()
-            // _submitKpiDataAccess = new SubmitKpiDataAccess()
+            _submitAdmissionKpiDataAccess = new SubmitAdmissionKpiDataAccess();
+            _submitViewKpiDataAccess = new SubmitViewKpiDataAccess();
         }
 
 
@@ -75,6 +77,50 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
             IUsageAnalyticEntity result = _fetchTrendRegistrationKpiDataAccess.FetchChartMetrics(model);
             // Assert
             Assert.NotNull(result.metricList);
+        }
+
+        [Fact]
+        public void IsAsyncCallReturnData_SubmitAdmissionDataAccessLogin_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new LoginUsageMetricModel(null, 10);
+            // Act
+            bool result = _submitAdmissionKpiDataAccess.SubmitKpiMetricsAsync(model).Result;
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void IsAsyncCallReturnData_SubmitAdmissionDataAccessRegistration_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new RegistrationUsageMetricModel(null, 10);
+            // Act
+            bool result = _submitAdmissionKpiDataAccess.SubmitKpiMetricsAsync(model).Result;
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void IsAsyncCallReturnData_SubmitViewDataAccessDisplay_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new ViewUsageMetricModel("display", "Community Board", 1);
+            // Act
+            bool result = _submitViewKpiDataAccess.SubmitKpiMetricsAsync(model).Result;
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void IsAsyncCallReturnData_SubmitViewDataAccessDuration_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new ViewUsageMetricModel("duration", "Community Board", 1);
+            // Act
+            bool result = _submitViewKpiDataAccess.SubmitKpiMetricsAsync(model).Result;
+            // Assert
+            Assert.True(result);
         }
     }
 }
