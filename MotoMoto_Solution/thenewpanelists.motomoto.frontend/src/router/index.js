@@ -21,6 +21,7 @@ import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
 import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import EditProfile from '../views/EditProfileView.vue'
 
 const routes = [
   {
@@ -109,7 +110,7 @@ const routes = [
     component: PartComparison
   },
   {
-    path: '/UserProfile',
+    path: '/UserProfile/:username',
     name: 'UserProfile',
     component: UserProfile,
   },
@@ -137,6 +138,11 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/EditProfile',
+    name: 'EditProfile',
+    component: EditProfile
   }
 ]
 
