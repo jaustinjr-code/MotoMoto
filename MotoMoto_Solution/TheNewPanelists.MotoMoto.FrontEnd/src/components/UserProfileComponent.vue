@@ -74,19 +74,14 @@
             </thead>
             <thead v-if="{profilePosts} != null">
                 <tr class="postItems" v-for="(profilePost) in profileUpvotedPosts" :key=profilePost>
-                    <td class="author">
-                        <router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}"></router-link>
-                    </td>
+                    <td class="author">{{profilePost["postUsername"]}}</td>
                     <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
-                        {{profilePost.postTitle}}
+                        {{profilePost["postTitle"]}}
                     </router-link></td>
-                    <td class="feedName">{{profilePost.feedName}}</td>
-                    <td class="postDescription">{{profilePost.postDescription.slice(0,25)}}</td>
-                    <td class="submitUTC">{{profilePost.submitUTC.slice(0,10)}}</td>
+                    <td class="feedName">{{profilePost["feedName"]}}</td>
+                    <td class="postDescription">{{profilePost["postDescription"].slice(0,25)}}</td>
+                    <td class="submitUTC">{{profilePost["submitTime"].slice(0,10)}}</td>
                 </tr>
-            </thead>
-            <thead v-else>
-                <h2 class="no-posts">No Posts Created</h2>
             </thead>
         </table>
     </div>
@@ -184,6 +179,7 @@ export default defineComponent({
         await instance.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profilePosts = response.data["userPosts"];
+            console.log(response.data);
         }).catch((e)=>{
             console.log(e)
         })
@@ -192,6 +188,7 @@ export default defineComponent({
         await instance.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profileUpvotedPosts = response.data["upVotedPosts"];
+            console.log(response.data);
         }).catch((e)=>{
             console.log(e)
         })
