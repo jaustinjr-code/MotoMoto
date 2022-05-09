@@ -1,7 +1,8 @@
 <template>
     <TabBarComponent />
     <!-- Source: https://stackoverflow.com/questions/32913226/auto-refresh-page-every-30-seconds -->
-    <meta http-equiv="refresh" content="60">
+    <!-- Refreshes when outside of route -->
+    <!-- <meta http-equiv="refresh" content="60"> -->
     <!-- <UsageAnalysisBarChartComponent :id='view_display' /> -->
     <usage-analysis-bar-chart-component id="view_display"></usage-analysis-bar-chart-component>
     <!-- <UsageAnalysisBarChartComponent :id='view_duration' /> -->
@@ -27,4 +28,15 @@ export default {
         UsageAnalysisTrendChartComponent,
     }
 }
+
+// Refresh alternatives
+// setTimeout(function(){
+//     location = '#/UsageAnalysisDashboard'
+//   },5000)
+
+// window.setInterval('refresh()', 5000);     // Call a function every 10000 milliseconds (OR 10 seconds).
+// // Refresh or reload page.
+// function refresh() {
+//     window.location.reload();
+// }
 </script>
