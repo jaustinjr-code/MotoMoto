@@ -310,6 +310,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     }
                     userProfile.userPosts = postList;
                 }
+                if (userProfile.userPosts == null)
+                {
+                    userProfile.userPosts = new List<UserPostModel>();
+                }
             }
             catch
             {

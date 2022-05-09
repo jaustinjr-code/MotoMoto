@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.BusinessLayer;
 
-namespace TheNewPanelists.MotoMoto.UnitTests
+namespace TheNewPanelists.MotoMoto.IntegrationTest.ProfileIntegrationTest
 {
-    public class ProfileWebServiceUnitTest
+    public class ProfileWebServiceIntegrationTest
     {
         private UserProfileController _userProfileController = new UserProfileController();
         private UserProfileUpdateController _userProfileUpdateController = new UserProfileUpdateController();

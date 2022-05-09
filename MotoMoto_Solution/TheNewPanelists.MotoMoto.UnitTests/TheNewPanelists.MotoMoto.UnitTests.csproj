@@ -29,6 +29,7 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.CarBuilder\TheNewPanelists.MotoMoto.WebServices.CarBuilder.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.DirectMessage\TheNewPanelists.MotoMoto.WebServices.DirectMessage.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.EventList\TheNewPanelists.MotoMoto.WebServices.EventList.csproj" />
+    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.NoteDashboard\TheNewPanelists.MotoMoto.WebServices.NoteDashboard.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.PartFlagging\TheNewPanelists.MotoMoto.WebServices.PartFlagging.csproj" />
@@ -38,7 +39,6 @@
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.FetchContent\TheNewPanelists.MotoMoto.WebServices.FetchContent.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.Login\TheNewPanelists.MotoMoto.WebServices.Login.csproj" />
-    <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj" />
     <ProjectReference Include="..\TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj" />
   </ItemGroup>
 

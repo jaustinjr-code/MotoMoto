@@ -32,7 +32,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
             };
         }
         /// <summary>
-        /// 
+        /// Validates that a profile model was able to be retrieved and that 
         /// </summary>
         [Fact]
         public void ValidateProfileModelRetrievalUserPostsList_ReturnTrue()
@@ -49,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
             }
         }
         /// <summary>
-        /// 
+        /// Validates the list of profiles to determien whether a value was initialized
         /// </summary>
         [Fact]
         public void ValidateProfileListOfProfileLists_ReturnTrue()
@@ -62,7 +62,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
             }
         }
         /// <summary>
-        /// 
+        /// Validatest the items that are being returned in the service layer to see if we catch a false decloration 
+        /// of list items
         /// </summary>
         [Fact]
         public void ValidateProfileModelRetrievalUserUpvoteList_ReturnTrue()
