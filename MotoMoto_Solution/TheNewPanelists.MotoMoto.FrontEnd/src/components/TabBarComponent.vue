@@ -3,15 +3,15 @@
 	<body>
 		  <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
 		<nav v-bind:class="active" v-on:click.prevent>
-			<router-link to="/carbuilder"><a class="carbuilder" v-on:click="makeActive('carbuilder')">Car Builder</a></router-link>
-			<router-link to="/parts"><a class="projects" v-on:click="makeActive('projects')">Vehicle Parts</a></router-link>
-			<router-link to="/communityboard"><a class="communityboard" v-on:click="makeActive('communityboard')">Community Board</a></router-link>
-			<router-link to=""><a class="contact" v-on:click="makeActive('contact')">Contact</a></router-link>
+			<router-link to="/carbuilder"><a class="carbuilder">Car Builder</a></router-link>
+			<router-link to="/parts"><a class="projects">Vehicle Parts</a></router-link>
+			<router-link to="/communityboard"><a class="communityboard">Community Board</a></router-link>
+			<router-link to=""><a class="contact">Contact</a></router-link>
 			<div v-if="loggedIn() === false">
-				<router-link to="/login"><a class="login" v-on:click="makeAcive('login')">Login</a></router-link>
+				<router-link to="/login"><a class="login">Login</a></router-link>
 			</div>
 			<div v-else>
-				<router-link :to="{name: 'UserProfile', params: { username: getLoginCredential()}}"><a class="profile" v-on:click="makeAcive('UserProfile')">Profile</a></router-link>
+				<router-link :to="{name: 'UserProfile', params: { username: getLoginCredential()}}"><a class="profile">Profile</a></router-link>
 			</div>
 		</nav>
 	</body>
@@ -43,6 +43,9 @@ export default {
 		getLoginCredential: function () {
 			this.username = this.$cookies.get("username")
 			return this.username;
+		},
+		makeActive(paths) {
+			this.$router.push({path: paths});
 		}
 	},
 }

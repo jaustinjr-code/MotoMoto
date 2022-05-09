@@ -36,7 +36,6 @@ export default {
         this.getLoginCredential();
     },
     methods : {
-        
         updateProfileDescription: async function(_description) {
             this.username = this.$cookies.get("username")
             let params = {username: this.username, newDescription: _description.description};
@@ -68,11 +67,7 @@ export default {
         getLoginCredential: function () {
 			this.username = this.$cookies.get("username")
             console.log(this.username);
-            showSuccess();
 		},
-        showSuccess: function() {
-            document.write("update successful");
-        }
     }
 }
 </script>
