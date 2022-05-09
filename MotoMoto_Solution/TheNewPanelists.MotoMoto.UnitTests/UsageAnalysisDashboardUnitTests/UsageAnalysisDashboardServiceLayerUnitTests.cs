@@ -18,6 +18,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         private readonly IFetchTrendChartService _fetchTrendLoginKpiService;
         private readonly IFetchTrendChartService _fetchTrendRegistrationKpiService;
         private readonly IFetchTrendChartService _fetchTrendEventKpiService;
+        private readonly ISubmitKpiService _submitAdmissionKpiService;
+        private readonly ISubmitKpiService _submitViewKpiService;
 
         public UsageAnalysisDashboardServiceLayerUnitTests()
         {
@@ -26,6 +28,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
             _fetchTrendLoginKpiService = new FetchLoginTrendChartService();
             _fetchTrendRegistrationKpiService = new FetchRegistrationTrendChartService();
             _fetchTrendEventKpiService = new FetchEventTrendChartService();
+            _submitAdmissionKpiService = new SubmitAdmissionKpiService();
+            _submitViewKpiService = new SubmitViewKpiService();
         }
 
         [Fact]
@@ -90,6 +94,50 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
             IUsageAnalyticModel model = new TrendChartAnalyticModel("Event Date", "Event Total");
             // Act
             IResponseModel result = _fetchTrendEventKpiService.FetchTrendChartMetrics(model);
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsAsyncCallSuccessful_SubmitAdmissionServiceLogin_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new LoginUsageMetricModel(null, 10);
+            // Act
+            IResponseModel result = _submitAdmissionKpiService.PutKpiAsync(model).Result;
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsAsyncCallSuccessful_SubmitAdmissionServiceRegistration_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new RegistrationUsageMetricModel(null, 10);
+            // Act
+            IResponseModel result = _submitAdmissionKpiService.PutKpiAsync(model).Result;
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsAsyncCallSuccessful_SubmitViewServiceViewDisplay_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new ViewUsageMetricModel("display", "Community Board", 1);
+            // Act
+            IResponseModel result = _submitViewKpiService.PutKpiAsync(model).Result;
+            // Assert
+            Assert.True(result.isSuccess);
+        }
+
+        [Fact]
+        public void IsAsyncCallSuccessful_SubmitViewServiceViewDuration_ReturnTrue()
+        {
+            // Arrange
+            IUsageMetricModel model = new ViewUsageMetricModel("duration", "Community Board", 1);
+            // Act
+            IResponseModel result = _submitViewKpiService.PutKpiAsync(model).Result;
             // Assert
             Assert.True(result.isSuccess);
         }
