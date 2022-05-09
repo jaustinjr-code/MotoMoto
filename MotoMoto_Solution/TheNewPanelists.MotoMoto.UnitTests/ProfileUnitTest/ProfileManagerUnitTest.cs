@@ -14,8 +14,9 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
     {
         private readonly IProfileManagementManager _profileManager = new ProfileManagementManager();
         /// <summary>
-        /// Is valid username response for return user this function has valid user and has the goa
-        /// to retrieve responses for correct username
+        /// Is valid username response for return user this function has valid user and has the go
+        /// to retrieve responses for correct username. If the system response is valid we know that 
+        /// the string was able to pass the manager layer. Ultimately we only care about the result.
         /// </summary>
         [Fact]
         public void IsValidUsernameForExistingProfile_ReturnTrue()
@@ -143,6 +144,28 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
             var profile = _profileManager.UpdateProfileUsernameManager(username, newUsername);
 
             if (profile.systemResponse != "success")
+            {
+                Assert.False(false, "invalid username exeeded on either parameter 1 or 2");
+            }
+            Assert.True(true, "invalid username detected and reached success phase");
+        }
+        /// <summary>
+        /// We are testing the status of the profule and determining if the username is valid
+        /// although this functionality of unit test is only covering one area, we want to ensure 
+        /// that our tests of username does not allow for the system to pass on retrieval.
+        /// </summary>
+        /// <param name="_username"></param>
+        /// <param name="_status"></param>
+        [Theory]
+        [InlineData("......................................................................", false)]
+        [InlineData("....", true)]
+        [InlineData("....", false)]
+        [InlineData("......................................................................", true)]
+        public void UpdateProfileStatus_ReturnTrue(string _username, bool _status)
+        {
+            var profile = _profileManager.UpdateProfileStatusManager(_username, _status);
+
+            if (profile.systemResponse != "success" || profile != null)
             {
                 Assert.False(false, "invalid username exeeded on either parameter 1 or 2");
             }
