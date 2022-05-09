@@ -73,7 +73,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.ProfileUnitTest
             };
             var retmodel = _profileManagementService.RetrieveAllUpvotesPostsForProfile(model);
 
-            if (retmodel.GetType() == typeof(ProfileModel) && ((List<UserPostModel>)retmodel.upVotedPosts!).Count >= 0)
+            if (retmodel.GetType() == typeof(ProfileModel) || ((List<UserPostModel>)retmodel.upVotedPosts!).Count >= 0)
             {
                 Assert.True(true, "model list passed with non initialized posts greater than 0 for a valid return model");
             }
