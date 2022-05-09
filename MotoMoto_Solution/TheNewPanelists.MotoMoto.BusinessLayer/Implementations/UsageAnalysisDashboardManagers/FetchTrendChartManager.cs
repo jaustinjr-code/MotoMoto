@@ -17,6 +17,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public IResponseModel IsAnalyticRequestValid(IUsageAnalyticFetchRequestModel request)
         {
             AuthorizationService auth = new AuthorizationService();
+            // if (auth.CheckAuthorized(request.username, "Usage Analysis Dashboard"))
             if (auth.CheckAuthorized(request.username))
             {
                 try
@@ -76,6 +77,8 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
                 if (typeof(IUsageAnalyticEntity).IsAssignableFrom(response.output.GetType()))
                     return true;
             }
+            // Why check if false then true if this is not likely to happen and the return false would be fine to use?
+            // Replace with false and false
             else if (response.isComplete == false && response.isSuccess == true)
             {
                 throw new Exception("Improper Response");

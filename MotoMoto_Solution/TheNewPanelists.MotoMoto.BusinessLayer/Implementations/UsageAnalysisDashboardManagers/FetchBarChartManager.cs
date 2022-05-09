@@ -17,6 +17,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public IResponseModel IsAnalyticRequestValid(IUsageAnalyticFetchRequestModel request)
         {
             AuthorizationService auth = new AuthorizationService();
+            // if (auth.CheckAuthorized(request.username, "Usage Analysis Dashboard"))
             if (auth.CheckAuthorized(request.username))
             {
                 try
