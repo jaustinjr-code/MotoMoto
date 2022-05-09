@@ -4,7 +4,7 @@ using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 
-namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardUnitTests
+namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
 {
     /// <summary>
     /// These unit tests only check for the success outcome, ideally nothing should interrupt each operation

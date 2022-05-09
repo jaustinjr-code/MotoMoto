@@ -4,7 +4,7 @@ using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 
 
-namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardUnitTests
+namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
 {
     /// <summary>
     /// These unit tests only check for the success and invalid requests scenarios of the Business Layer
