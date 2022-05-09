@@ -102,7 +102,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallSuccessful_SubmitAdmissionServiceLogin_ReturnTrue()
         {
             // Arrange
-            IUsageMetricModel model = new LoginUsageMetricModel(null, 10);
+            IUsageMetricModel model = new LoginUsageMetricModel(10);
             // Act
             IResponseModel result = _submitAdmissionKpiService.PutKpiAsync(model).Result;
             // Assert
@@ -113,7 +113,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallSuccessful_SubmitAdmissionServiceRegistration_ReturnTrue()
         {
             // Arrange
-            IUsageMetricModel model = new RegistrationUsageMetricModel(null, 10);
+            IUsageMetricModel model = new RegistrationUsageMetricModel(10);
             // Act
             IResponseModel result = _submitAdmissionKpiService.PutKpiAsync(model).Result;
             // Assert

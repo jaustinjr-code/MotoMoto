@@ -163,7 +163,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallReturnSuccessResponse_SubmitAdmissionKpiManagerLogin_ReturnTrue()
         {
             // Arrange
-            IUsageMetricModel model = new LoginUsageMetricModel(null, 10);
+            IUsageMetricModel model = new LoginUsageMetricModel(10);
             ISubmitKpiManager manager = new SubmitAdmissionKpiManager();
             // Act
             IResponseModel response = manager.IsSubmitKpiRequestValidAsync(model).Result;
@@ -175,7 +175,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallReturnExceptionResponse_SubmitAdmissionKpiManagerLogin_ReturnFalse()
         {
             // Arrange
-            IUsageMetricModel model = new LoginUsageMetricModel(null, -1);
+            IUsageMetricModel model = new LoginUsageMetricModel(-1);
             ISubmitKpiManager manager = new SubmitAdmissionKpiManager();
             // Act
             IResponseModel response = manager.IsSubmitKpiRequestValidAsync(model).Result;
@@ -187,7 +187,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallReturnSuccessResponse_SubmitAdmissionKpiManagerRegistration_ReturnTrue()
         {
             // Arrange
-            IUsageMetricModel model = new RegistrationUsageMetricModel(null, 10);
+            IUsageMetricModel model = new RegistrationUsageMetricModel(10);
             ISubmitKpiManager manager = new SubmitAdmissionKpiManager();
             // Act
             IResponseModel response = manager.IsSubmitKpiRequestValidAsync(model).Result;
@@ -199,7 +199,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests.UsageAnalysisDashboardTests
         public void IsAsyncCallReturnExceptionResponse_SubmitAdmissionKpiManagerRegistration_ReturnFalse()
         {
             // Arrange
-            IUsageMetricModel model = new RegistrationUsageMetricModel(null, -1);
+            IUsageMetricModel model = new RegistrationUsageMetricModel(-1);
             ISubmitKpiManager manager = new SubmitAdmissionKpiManager();
             // Act
             IResponseModel response = manager.IsSubmitKpiRequestValidAsync(model).Result;

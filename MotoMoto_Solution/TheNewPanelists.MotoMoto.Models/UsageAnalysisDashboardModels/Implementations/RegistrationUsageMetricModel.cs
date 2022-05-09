@@ -8,10 +8,9 @@ namespace TheNewPanelists.MotoMoto.Models
 
         public int metric { get; }
 
-        public RegistrationUsageMetricModel(string? sub, int m = 0)
+        public RegistrationUsageMetricModel(int metric)
         {
-            subType = sub;
-            metric = m;
+            this.metric = metric;
         }
     }
 }
