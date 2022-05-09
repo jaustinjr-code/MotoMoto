@@ -68,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                         throw new Exception("Failed to Update Analytic");
                     throw new Exception("Failed to Process Request");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     await command.Transaction.RollbackAsync();
                     await _mySqlConnection.CloseAsync();
