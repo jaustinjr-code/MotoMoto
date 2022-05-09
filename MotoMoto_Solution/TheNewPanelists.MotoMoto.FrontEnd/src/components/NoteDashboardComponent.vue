@@ -17,7 +17,12 @@
 
 <script>
 import {instance} from '../router/noteDashboardConnection'
+import { useCookies } from "vue3-cookies";
 export default {
+    setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+    },
     data()
     {
         return{
@@ -48,7 +53,7 @@ export default {
             else{
                 option = this.selected;
             }
-            let params = {username: "user1", option: option};
+            let params = {username: this.$cookies.get("username"), option: option};
             instance.get('NoteDashboard/GetNotes', {params}).then((res) =>{
             console.log(`Server replied with: ${res.data}`);
             for(let i = 0; i < res.data.length; i++)
