@@ -43,9 +43,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
 
             string commandText;
-            if (metricModel.subType!.Equals("display"))
+            if (metricModel.subType!.ToLower().Equals("display"))
                 commandText = "UPDATE ViewAnalytics SET displayTotal = displayTotal + @metric WHERE viewTitle LIKE @title;";
-            else if (metricModel.subType!.Equals("duration"))
+            else if (metricModel.subType!.ToLower().Equals("duration"))
                 commandText = "UPDATE ViewAnalytics SET durationAvg = (durationAvg + @metric) / displayTotal WHERE viewTitle LIKE @title;";
             else throw new Exception("Invalid View Sub Type");
             // Execute query, return the IUsageAnalyticEntity after data is refined into the object

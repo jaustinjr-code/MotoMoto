@@ -43,9 +43,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
 
             string commandText;
-            if (metricModel.type!.Equals("login"))
+            if (metricModel.type!.ToLower().Equals("login"))
                 commandText = "INSERT AdmissionAnalytics (accessDate, loginTotal) VALUES (CURDATE(), @metric) ON DUPLICATE KEY UPDATE loginTotal = loginTotal + @metric;";
-            else if (metricModel.type!.Equals("registration"))
+            else if (metricModel.type!.ToLower().Equals("registration"))
                 commandText = "INSERT AdmissionAnalytics (accessDate, registrationTotal) VALUES (CURDATE(), @metric) ON DUPLICATE KEY UPDATE registrationTotal = registrationTotal + @metric;";
             else throw new Exception("Invalid Admission Type");
             // Execute query, return the IUsageAnalyticEntity after data is refined into the object
