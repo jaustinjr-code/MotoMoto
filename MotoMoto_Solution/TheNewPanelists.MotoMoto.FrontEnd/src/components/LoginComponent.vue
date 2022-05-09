@@ -24,6 +24,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {instance} from '../router/directMessageConnection'
+import { instanceSubmit } from '../router/CommunityBoardConnection.js'
 
 export default defineComponent({
   setup() {
@@ -49,6 +50,21 @@ export default defineComponent({
                 {
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
+
+                    if(res.status == 200) {
+                        let params = JSON.stringify({ metric: 1 })
+                        instanceSubmit.post('SubmitKpi/SubmitLoginKpiMetric', params, {
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            }
+                            })
+                            .then(res => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
                     //this.$router.push({path: '/CommunityDashboard'});
                 }
             }).catch((e)=>{
