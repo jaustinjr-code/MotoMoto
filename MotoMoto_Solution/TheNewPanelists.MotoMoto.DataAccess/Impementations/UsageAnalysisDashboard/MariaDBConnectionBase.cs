@@ -37,9 +37,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 // mySqlConnection.Open();
                 return mySqlConnection;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 throw new NullReferenceException();
             }
         }
