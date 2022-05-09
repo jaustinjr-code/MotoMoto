@@ -34,7 +34,7 @@ export default {
 	// },
 	methods: {
 		loggedIn: function () {
-			if (this.$cookies.get("username") === "guest")
+			if (this.$cookies.get("username") === "guest" || this.$cookies.get("username") === null)
 			{
 				return false;
 			}

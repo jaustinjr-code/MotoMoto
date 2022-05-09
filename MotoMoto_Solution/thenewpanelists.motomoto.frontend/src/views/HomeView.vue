@@ -30,6 +30,9 @@ export default {
     TabBarComponent,
     LogoutComponent
 },
+mounted() {
+    this.created();
+},
   setup() {
     const { cookies } = useCookies();
     return { cookies };
