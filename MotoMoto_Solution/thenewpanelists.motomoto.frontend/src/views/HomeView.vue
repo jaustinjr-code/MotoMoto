@@ -1,31 +1,27 @@
 import http from "./Http-coman"
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to MotoMoto!"/>
-    <button @click = "goToLogin"> Login </button>
-    <LoginComponent/>
+    <TabBarComponent/>
     <button @click = "goToEventList"> Event List </button>
-    <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <button @click = "goToParts"> Parts </button>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
-    <button @click="goToCommunityBoard">Community Board</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import TabBarComponent from '../components/TabBarComponent.vue';
 import router from '../router'
 import { useCookies } from "vue3-cookies";
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    TabBarComponent
   },
   setup() {
     const { cookies } = useCookies();

@@ -4,14 +4,12 @@
     <span class="profile-header">
       <div class="ProfileImageHeader">
           <span>
-              <div class="ProfileImage" v-if="isImage(profile.profileImagePath)">
+              <div class="ProfileImage" v-if="isImage(profile.profileImagePath) === true">
                 <img src="{{profile.profileImagePath}}" class="user_profile_image" alt="user_profile_image">
               </div>
               <div class="ProfileImage" v-else>
                   <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" class="user_profile_image" alt="user_profile_image">
               </div>
-              <!-- <h3><router-link class="followerLink" :to="{name: 'Followers', params: {id: profile.profileId}}">Followers</router-link></h3>
-              <h3><router-link class="followerLink" :to="{name: 'Following', params: {id: profile.profileId}}">Following</router-link></h3> -->
           </span>
       </div>
       <div class="ProfileUsernameHeader">
@@ -19,8 +17,10 @@
               <h3 class="profile-username-header">{{profile.username}}</h3>
           </div>
           <div class="profile-username" v-else>
-              <h3 class="profile-username-header">This is an easter egg and should not be seen</h3>
           </div>
+      </div>
+      <div class="profile-edit" v-if="profile.username === GetCookieUsername()">
+          <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
       </div>
     </span>
     <div class="ProfileDescription">
@@ -28,11 +28,9 @@
             <h2 class="profileTitle">About Me</h2>
             <span class="profileDescriptionInline" v-if="profile.profileDescription != null">
                 <p class="profileDescriptiontext">{{profile.profileDescription}}</p>
-                <button class="updateDescription">Change About Me</button>
             </span>
             <span class="profileDescriptionInline" v-else>
                 <p class="profileDescriptiontext">No Profile Description</p>
-                <button class="updateDescription">Change About Me</button>
             </span>
         </body>
     </div>
@@ -49,15 +47,12 @@
             </thead>
             <thead v-if="{profilePosts} != null">
                 <tr class="postItems" v-for="(profilePost) in profilePosts" :key=profilePost>
-                    <td class="postTitle">
-                        <router-link class="postTitle" :to="{name: 'postdetails', params: {id: profilePost.postId}}">
-                          {{profilePost.title}}
-                        </router-link>
-                    </td>
-                    <td class="postTitle">{{profilePost.postTitle}}</td>
+                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                        {{profilePost.postTitle}}
+                    </router-link></td>
                     <td class="feedName">{{profilePost.feedName}}</td>
-                    <td class="postDescription">{{profilePost.postDescription}}</td>
-                    <td class="submitUTC">{{profilePost.submitUTC}}</td>
+                    <td class="postDescription">{{profilePost.postDescription.slice(0,25)}}</td>
+                    <td class="submitUTC">{{profilePost.submitUTC.slice(0,10)}}</td>
                 </tr>
             </thead>
             <thead v-else>
@@ -77,6 +72,22 @@
                     <td class="upvoteTitle">Post Date</td>
                 </tr>
             </thead>
+            <thead v-if="{profilePosts} != null">
+                <tr class="postItems" v-for="(profilePost) in profileUpvotedPosts" :key=profilePost>
+                    <td class="author">
+                        <router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}"></router-link>
+                    </td>
+                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                        {{profilePost.postTitle}}
+                    </router-link></td>
+                    <td class="feedName">{{profilePost.feedName}}</td>
+                    <td class="postDescription">{{profilePost.postDescription.slice(0,25)}}</td>
+                    <td class="submitUTC">{{profilePost.submitUTC.slice(0,10)}}</td>
+                </tr>
+            </thead>
+            <thead v-else>
+                <h2 class="no-posts">No Posts Created</h2>
+            </thead>
         </table>
     </div>
     <h2 style="font-size: 22px" class = "header"><i>Preferences</i></h2>
@@ -94,7 +105,6 @@
             </tr>
           </tbody>
         </table>  
-
         <table class="prefTable">
           <th class = "title">Makes Followed</th>
           <tbody class="prefBody">
@@ -130,7 +140,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
-import {Profile} from '../router/ProfileConnection';
+import {instance} from '../router/ProfileConnection';
 import TabBarComponent from '../components/TabBarComponent';
 
 export default defineComponent({
@@ -143,6 +153,8 @@ export default defineComponent({
   },
   data () {
     return {
+      maxPagesPost: 0,
+      maxPagesUpvo: 0,
       profile: [],
       profilePosts: [],
       profileUpvotedPosts: [],
@@ -152,17 +164,24 @@ export default defineComponent({
       hasPreferences: false
     }
   },
+  mounted()
+  {
+        this.GetProfleDetails();
+        this.GetUserPosts();
+        this.GetUserUpvotedPosts();
+  },
   methods: {
     GetProfleDetails: async function() {
-        await Profile.get('/ProfileRetrieval/Profile', {params: { username: this.$cookies.get("username")}}).then((response) =>{
-            console.log(`Server replied with: ${response.data}`),
+        let params = {username: this.$cookies.get("username")}
+        await instance.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
             this.profile = response.data;
-        }).catch((e)=>{
-            console.log(e)
-        });
+            this.$cookies.set("userId", response.data.userId,"1hr")
+            console.log(response.data);
+        })
     },
     GetUserPosts: async function() {
-        await Profile.get('/ProfileRetrieval/GetPosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
+        let params = {username: this.$cookies.get("username")}
+        await instance.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profilePosts = response.data["userPosts"];
         }).catch((e)=>{
@@ -170,7 +189,7 @@ export default defineComponent({
         })
     },
     GetUserUpvotedPosts: async function() {
-        await Profile.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
+        await instance.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profileUpvotedPosts = response.data["upVotedPosts"];
         }).catch((e)=>{
@@ -189,6 +208,19 @@ export default defineComponent({
     isImage: function(url) {
       return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
     },
+    UpdateProfileDescription: async function(newDescription) {
+        await Profile.put('/ProfileUpdate/DescriptionUpdate', {params: {username: this.$cookies.get("username"), description: newDescription}}).then((response) => {
+            console.log(`Server replied with ${resposne.data}`);
+        }).catch((e)=> {
+            console.log(e);
+        });
+    },
+    GetCookieUsername: function() {
+        return this.$cookies.get("username");
+    },
+    EditProfile: function() {
+        this.$router.push('/EditProfile')
+    }
   },
   created: function () {
       if (this.$cookies.get("userId") != "guest") {
@@ -207,6 +239,10 @@ export default defineComponent({
     height: 100px;
     width: 100px;
     border-radius: 50%;
+}
+.profileDescriptiontext
+{
+    text-align: center;
 }
 .userPosts
 {
@@ -293,10 +329,6 @@ tr:nth-child(even)
   top: 30%;
   position: relative;
   font-size: 18px;
-}
-.profileDescriptiontext 
-{
-  padding-right: 3.5%;
 }
 .ProfileUsernameHeader
 {

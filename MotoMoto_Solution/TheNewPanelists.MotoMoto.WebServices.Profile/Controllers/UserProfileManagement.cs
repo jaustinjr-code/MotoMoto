@@ -3,9 +3,11 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
 {
+    [ApiController]
     [Route("ProfileManagement")]
     public class UserProfileManagement : Controller
     {
@@ -16,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
         /// a blank profile.
         /// </summary>
         /// <returns></returns>
-        [HttpPut("Generate")]
+        [HttpGet("Generate")]
         public IActionResult GenerateProfilesForNewUsers()
         {
             IProfileManagementService profileService = new ProfileManagementService(_profileDAO);
@@ -40,7 +42,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpDelete("DeleteProf")]
+        [HttpGet("DeleteProf")]
         public IActionResult DeleteProfile(string username)
         {
             IProfileManagementService profileService = new ProfileManagementService(_profileDAO);

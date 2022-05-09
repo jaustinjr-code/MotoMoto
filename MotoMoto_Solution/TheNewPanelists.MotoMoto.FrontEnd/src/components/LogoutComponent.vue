@@ -15,6 +15,7 @@ export default {
         Logout()
         {
             this.$cookies.remove("username");
+            this.$cookies.remove("userId");
             this.$router.push({path: '/'});
         }
     }

@@ -11,6 +11,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
     {
         private readonly IProfileDataAccess _profileDataAccess;
 
+        public ProfileManagementService()
+        {
+            _profileDataAccess = new ProfileManagementDataAccess();
+        }
         public ProfileManagementService(IProfileDataAccess profileDataAccess)
         {
             _profileDataAccess = profileDataAccess;
@@ -55,7 +59,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 if (profileModel.username != _profileModel.username)
                     return profileModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
                 return profileModel.GetResponse(ResponseModel.response.serviceObjectCreationFailure);
-
             }
             return profileModel.GetResponse(ResponseModel.response.success);
         }

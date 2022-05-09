@@ -11,9 +11,8 @@
 				<router-link to="/login"><a class="login" v-on:click="makeAcive('login')">Login</a></router-link>
 			</div>
 			<div v-else>
-				<router-link to="/UserProfile/1"><a class="profile" v-on:click="makeAcive('UserProfile')">Profile</a></router-link>
+				<router-link :to="{name: 'UserProfile', params: { username: getLoginCredential()}}"><a class="profile" v-on:click="makeAcive('UserProfile')">Profile</a></router-link>
 			</div>
-			
 		</nav>
 	</body>
 </div>
@@ -26,8 +25,8 @@ export default {
 	name: 'TabBarComponent',
 	data() {
 		return {
-			userId: 0,
-			username: "",
+			userId: this.$cookies.get("userId"),
+			username: this.$cookies.get("username"),
 		}
 	},
 	// mounted() {
@@ -35,10 +34,15 @@ export default {
 	// },
 	methods: {
 		loggedIn: function () {
-			return (this.$cookies.get("username") === "GUEST");
+			if (this.$cookies.get("username") === "guest")
+			{
+				return false;
+			}
+			return true;
 		},
 		getLoginCredential: function () {
-			this.userId = this.$cookies.get("userId")
+			this.username = this.$cookies.get("username")
+			return this.username;
 		}
 	},
 }

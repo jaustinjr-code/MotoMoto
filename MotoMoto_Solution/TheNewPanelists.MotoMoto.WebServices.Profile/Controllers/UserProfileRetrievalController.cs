@@ -3,9 +3,11 @@ using TheNewPanelists.MotoMoto.BusinessLayer;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
 {
+    [ApiController]
     [Route("ProfileRetrieval")]
     public class UserProfileController : Controller
     {

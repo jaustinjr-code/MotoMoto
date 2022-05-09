@@ -22,6 +22,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import TabBarComponent from "../components/TabBarComponent.vue";
+import {instance} from "../router/directMessageConnection"
 
 export default defineComponent({
     setup() {
@@ -39,17 +40,17 @@ export default defineComponent({
             loginSuccessful:false
         }
     },
-
     methods: {
-        login(){
+        login() {
             let params = {username: this.username, password: this.password};
             instance.get('Login/Login', {params}).then((res)=>{
                 console.log(`Server replied with: ${res.data}`);
                 if(res.data == true)
                 {
+                    this.$cookies.set("userId", res.data.userId, "1d")
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
-                    this.$router.push({path: '/CommunityDashboard'});
+                    this.$router.push({path: '/'});
                 }
             }).catch((e)=>{
                 console.log(e);

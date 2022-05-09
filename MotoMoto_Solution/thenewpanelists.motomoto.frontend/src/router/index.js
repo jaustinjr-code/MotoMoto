@@ -17,6 +17,7 @@ import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import EditProfile from '../views/EditProfileView.vue'
 
 const routes = [
   {
@@ -95,7 +96,7 @@ const routes = [
     component: PartComparison
   },
   {
-    path: '/UserProfile/:userid',
+    path: '/UserProfile/:username',
     name: 'UserProfile',
     component: UserProfile,
   },
@@ -114,6 +115,11 @@ const routes = [
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
   },
+  {
+    path: '/EditProfile',
+    name: 'EditProfile',
+    component: EditProfile
+  }
 ]
 
 const router = createRouter({
