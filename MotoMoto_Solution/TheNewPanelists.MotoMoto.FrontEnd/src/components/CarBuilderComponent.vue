@@ -6,40 +6,68 @@
     <!-- Section for selecting which car is the base of the build -->
     <div id='car_type' class='choose-car-type'>
         <label>Choose Car Make</label>
-        <select id='car-make-select' @change='handleCarMake($event)'>
-            <option value="">--Please choose an option--</option>
-            <option v-bind:value='make' v-for='make in carTypeList' >
-                {{ make }}
+        <select id='car-make-select' v-model="carID" @change='GetMake($event)'>
+            <!-- <option value="">--Please choose an option--</option>
+            <option value="Ford">Ford</option>
+            <option value="BMW">BMW</option>
+            <option value="Honda">Honda</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Mercedes">Mercedes</option>
+            <option value="Audi">Audi</option>
+            <option value="Cadillac">Cadillac</option>
+            <option value="Chevrolet">Chevrolet</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Jeep">Jeep</option>
+            <option value="Tesla">Tesla</option>
+            <option value="Porsche">Porsche</option>
+            <option value="Volkswagen">Volkswagen</option> -->
+            <option v-bind:value='carType.make' v-for="(carType, index) in carTypeList" :key='index'>
+                {{ carType.make }}
             </option>
         </select>
     </div>
     <div>
         <label>Choose Car Model</label>
-        <select id='car-model-select' @change='handleCarModel($event)'>
-            <option value="">--Please choose an option--</option>
-            <option value='civic'>Civic</option>
-            <option value='toyota'>Camry</option>
+        <select id='car-model-select' v-model="carID" @change='GetModel($event)'>
+            <!-- <option value="">--Please choose an option--</option>
+            <option value="F150">F150</option>
+            <option value="M5">M5</option>
+            <option value="Accord">Accord</option>
+            <option value="Corolla">Corolla</option>
+            <option value="CLA250">CLA250</option>
+            <option value="Q5">Q5</option>
+            <option value="CTS">CTS</option>
+            <option value="Silverado">Silverado</option>
+            <option value="Rogue">Rogue</option>
+            <option value="Wrangler">Wrangler</option>
+            <option value="Model Y">Model Y</option>
+            <option value="911">911</option>
+            <option value="Golf">Golf</option> -->
+            <option v-bind:value='carType.carID' v-for="(carType, index) in carTypeList" :key='index'>
+                {{ carType.model }}
+            </option>
         </select>
     </div>
-    <div class='builder-single-selection'>
+    <div class='builder-single-selection' @change='GetYear($event)'>
         <label>Choose Car Year</label>
-        <option value="">--Please choose an option--</option>
-        <select id='car-year-select' @change='handleCarYear($event)'>
+        <select id='car-year-select' >
         </select>
     </div>
 
-    <button @click='createCarBuild'> Submit </button> 
+    <button @click='CreateCarType'> Submit ></button> 
 
 
-    <!-- Section for selecting parts to put in vehicle build 
-    <div id='car_part' class='modify-car'>
+    <div id='car_part' class='modify-car' v-if="modifyCar">
         <label>Modify Car</label>
-        <select id='car-part-select' @change='modifyCarBuild()'>
-            <option value='honda'>OEM</option>
-            <option value='toyota'>Aftermarket</option>
+        <select id='car-part-select' v-model='partID' @change='GetPart()'>
+            <option value="">--Please choose an option--</option>
+            <option v-bind:value='carModify.partID' v-for="(carModify, index) in carPartList" :key='index'>
+                {{ carModify.partNumber }} 
+                <!-- {{ carModify.type }} -->
+            </option>
         </select>
     </div>
-    -->
+
 
 </div>
 </template>
@@ -48,57 +76,100 @@ import { nextTick } from "vue";
 
 import axios from 'axios';
 import {instance} from '../router/CarBuilderConnection'
+import { instanceSubmit } from "../router/CarBuilderConnection";
 
 export default {
     data()
     {
         return{
-            carTypeList: ["Honda", "Toyota"],
+            partName: "",
+            carTypeList: [],
+            carPartList: [],
+            userSavedCarsList: [],
             make: "",
             model: "",
             year: "",
             partNumber: "",
-            type: ""
+            type: "",
+            modifyCar: false,
+            username: this.$cookies.get("username"),
+            carID: "",
+            partID: ""
         }
     },
     methods: {
-        GetCarTypes(){
+        async GetCarTypes(){
+            debugger;
             //let car_type = {make: "Honda", model: "Accord", year: "2015"};
             //Instance is not descriptive enough: ajax client would be better
-            instance.get("CarBuilder/GetCarTypes").then((res) => 
+            await instance.get("CarBuilder/GetCarTypes").then((res) => 
             {console.log(res);
             this.carTypeList = res.data;
             console.log(this.carTypeList); //better to create your own LOG SERVICE
             }).catch((e) => {
                 console.log(e);
             });
+        },
+        GetCarPart(){
+            instance.get("CarBuilder/GetCarPart").then((res) =>
+            {console.log(res);
+            this.carPartList = res.data;
+            console.log(this.carPartList);
+            }).catch((e) => {
+                console.log(e);
+            });
+        },
+        // CreateCarType(make, model, year){
+        //     let carTypeModel = JSON.stringify({ "make": make, "model": model, "year": year });
+        //     instanceSubmit.post("CarBuilder/CreateCarType", carTypeModel, {
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     }).then((res) => {
+        //         console.log("Car succesfully created!");
+        //         this.make = make;
+        //         this.model = model;
+        //         this.year = year;
+        //     });
+        // },
+        UpdateCar(carID, partID, username){
+            let updateCarModel = JSON.stringify({ "carID": this.carID, "partID": this.partID, "username": this.username });
+            instanceSubmit.post("CarBuilder/UpdateCar", updateCarModel, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                console.log("Car succesfully created!");
+                this.make = make;
+                this.model = model;
+                this.year = year;
+            });
+        },
+        GetModifiedCarBuilds(username){
+            instance.get("CarBuilder/CarBuild", this.username).then((res) =>
+            {console.log(res);
+            this.userSavedCarsList = res.data;
+            console.log(this.userSavedCarsList);
+            }).catch((e) => {
+                console.log(e);
+            });
+        },
+        GetMake(e){
+            this.carID = e.target.value;
+            //var name = e.target.options[e.target.options.selectedIndex].text;
+        },
+        GetModel(e){
+            this.carID = carID;
         }
-        // GetCarParts(){
-        // let car_part = {partNumber: "", type: ""};
-        // instance.get("CarBuilder/GetCarTypes", car_type).then((res) => 
-        // {console.log(res);
-        // this.carTypeList = res.data;
-        // console.log(this.carTypeList);
-        // }).catch((e) => {
-        //     console.log(e);
-        // });
-        // }
-        // createCarBuild(){
-            
-        // },
-        // handleCarMake(a){
-        //     debugger
-        // },
-        // handleCarModel(){},
-        // handleCarYear(){}
     },
-
-    //Initializes year selector for car selection
     mounted() {
 
         this.GetCarTypes();
+        this.GetCarPart();
+        //this.CreateCarType();
+        //this.GetModifiedCarBuilds();
 
-
+        //Initializes year selector for car selection
         let yearSelector = document.getElementById('car-year-select')
         for (let yearIterator = 2022; yearIterator >= 1950; --yearIterator) //get current year to update year
         {
