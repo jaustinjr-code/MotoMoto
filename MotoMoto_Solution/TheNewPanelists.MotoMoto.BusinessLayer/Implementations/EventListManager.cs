@@ -20,8 +20,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public ISet<EventDetailsModel> FetchAllEventDetails()
         {
             // EventDetailsModel which will be used to store the fetched results from the database
-            var eventDetailsModel = new EventDetailsModel(){};
-            return _eventListService.FetchAllEventPosts(eventDetailsModel);
+            //var eventDetailsModel = new EventDetailsModel(){};
+            //return _eventListService.FetchAllEventPosts(eventDetailsModel);
+            return _eventListService.FetchAllEventPosts();
         }
     }
 }

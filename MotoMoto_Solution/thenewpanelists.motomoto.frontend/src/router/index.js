@@ -8,13 +8,17 @@ import DirectMessage from '../views/DirectMessageView.vue'
 import Login from '../views/LoginView.vue'
 import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
+import CarBuilder from '../views/CarBuilderView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
+import RegistrationConfirmation from '../views/RegistrationConfirmationView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
+import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
+import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import EditProfile from '../views/EditProfileView.vue'
@@ -71,6 +75,11 @@ const routes = [
     component: PartFlaggingPost
   },
   {
+    path: '/CarBuilder',
+    name: 'CarBuilder',
+    component: CarBuilder
+  },
+  {
     path: '/EventList',
     name: 'EventList',
     component: EventList
@@ -79,6 +88,11 @@ const routes = [
     path: '/Registration',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/Registration/Confirmation/:',
+    name: 'RegistrationConfirmation',
+    component: RegistrationConfirmation
   },
   {
     path: '/Parts',
@@ -104,6 +118,16 @@ const routes = [
     path: '/UserProfile/EditPreferences',
     name: 'EditPreferences',
     component: EditPreferences
+  },
+  {
+    path: '/MeetingPointDirections',
+    name: 'MeetingPointDirections',
+    component: MeetingPointDirections
+  },
+  {
+    path: '/noteDashboard',
+    name: 'noteDashabord',
+    component: NoteDashboardView
   },
   {
     path: '/NotificationSystem',

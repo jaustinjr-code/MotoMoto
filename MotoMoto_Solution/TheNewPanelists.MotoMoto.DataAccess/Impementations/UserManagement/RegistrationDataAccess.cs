@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
     {
         private MySqlConnection? _mySqlConnection { get; set; }
 
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string _connectionString = "server=localhost;user=root;database=dev_um;port=3306;password=12345;";
 
         public bool EstablishMariaDBConnection()
         {
@@ -36,7 +36,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 
                 MySqlCommand command = _mySqlConnection!.CreateCommand();
                 command.Connection = _mySqlConnection;
-                command.Transaction = _mySqlConnection.BeginTransaction();                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Transaction = _mySqlConnection.BeginTransaction();                
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandText = $"SELECT * FROM USER U WHERE U.email = @v1;";
                 command.Parameters.Add(new MySqlParameter("@v1", email));
 
@@ -70,9 +71,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     new MySqlParameter("@v1", email),
                     new MySqlParameter("@v2", DateTime.Now)
                 });
-
-                int response = command.ExecuteNonQuery();
-                return response == 1;     
+                
+                int result = command.ExecuteNonQuery();
+                return (result > 0);
             }
             catch (Exception e)
             {
@@ -85,7 +86,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
-        public bool UpdateRegistrationToValid(string email)
+        public bool UpdateRegistrationToValid(int registrationId)
         {
             try
             {
@@ -99,6 +100,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Transaction = sqlTrans;
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                 command.CommandText = $"UPDATE REGISTRATION R SET validated = TRUE WHERE R.registrationId = @v1";
+                command.Parameters.Add(new MySqlParameter("@v1", registrationId));
 
                 int response = command.ExecuteNonQuery();
 
@@ -272,13 +274,13 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 try
                 {
                     sqlTrans.Rollback();
+                    return false;
                 }
                 catch(MySqlException ex)
                 {
                     Console.WriteLine("ErrorType: " + ex.GetType() + "\nErrorMessage: " + ex.Message);
                     throw ex;
                 }
-                throw e;
             }
             finally
             {

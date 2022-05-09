@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TheNewPanelists.MotoMoto.DataStoreEntities.PersonalizedRecommendations;
 
-namespace TheNewPanelists.MotoMoto.DataAccess.Impementations.PersonalizedRecommendations
+namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecommendations
 {
     public class PersonalizedRecommendationsDataAccess
     {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
+using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
@@ -27,7 +28,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 make = carType!.make,
                 model = carType!.model,
                 year = carType!.year,
-                //country = carType!.country
             };
             return _carBuildDAO.InsertNewDataStoreCarTypeEntity(carTypeModel);
         }
@@ -36,32 +36,46 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             return _carBuildDAO.GetCarType();
         }
-
+        public List<ModifyCarBuildModel> FetchCarParts()
+        {
+            return _carBuildDAO.GetCarParts();
+        }
         public bool SaveModifiedCarBuild(ModifyCarBuildModel modifiedCar)
         {
             var modifyCarBuildModel = new ModifyCarBuildModel()
             {
-                partName = modifiedCar!.partName,
+                partNumber = modifiedCar!.partNumber,
                 type = modifiedCar!.type
             };
-            return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);   //WHAT DO I PUT CAUSE I DON'T HAVE AN ENTITY FOR MODIFY CAR BUILD BECAUSE CAR MODIFICATIONS JUST REFERENCE TO A PART ID
+            return _carBuildDAO.InsertNewDataStoreOEMAndAfterMarketPartsEntity(modifyCarBuildModel);
         }
 
-        public List<ModifyCarBuildModel> FetchModifiedCarBuild()
+        public List<UserCarBuildModel> FetchModifiedCarBuild(string username)
         {
-            return _carBuildDAO.GetModifiedCarBuild();
+            return _carBuildDAO.GetModifiedCarBuild(username);
         }
 
-        public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
+        public bool UpdateCarBuild(UpdateCarModel updatedCar)
         {
-            var dataStoreCarBuilds = new DataStoreCarBuilds()
+            var updateCarModel = new UpdateCarModel()
             {
-                carBuildID = carBuilds.carID,
-                carID = carBuilds?.carID,
-                username = carBuilds?.username
+                carID = updatedCar!.carID,
+                partID = updatedCar!.partID,
+                username = updatedCar!.username
             };
-            return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(dataStoreCarBuilds);
+            return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(updateCarModel);   
         }
+
+        //public bool SaveCarBuilds(DataStoreCarBuilds carBuilds)
+        //{
+        //    var dataStoreCarBuilds = new DataStoreCarBuilds()
+        //    {
+        //        carBuildID = carBuilds.carID,
+        //        carID = carBuilds?.carID,
+        //        username = carBuilds?.username
+        //    };
+        //    return _carBuildDAO.InsertNewDataStoreCarBuildsEntity(dataStoreCarBuilds);
+        //}
 
         //public bool SaveCarModifications(DataStoreCarModifications carModifications) 
         //{

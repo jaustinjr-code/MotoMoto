@@ -3,12 +3,15 @@ import http from "./Http-coman"
   <div class="home">
     <TabBarComponent/>
     <button @click = "goToEventList"> Event List </button>
+    <button @click = "goToCarBuilder"> Car Builder </button>
     <button @click = "goToRegistration"> Register </button>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
+    <button @click="goToNoteDashboard">Note Dashboard</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
-    <LogoutComponent/>
+    <button @click="goToCommunityBoard">Community Board</button>
+    <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
   </div>
 </template>
 
@@ -43,6 +46,9 @@ export default {
     goToLogin(){
       this.$router.push('/Login');
     },
+    goToCarBuilder(){
+      this.$router.push('/CarBuilder');
+    },
     goToEventList(){
       this.$router.push('/EventList');
     },
@@ -58,11 +64,18 @@ export default {
     goToPartFlaggingPost(){
       this.$router.push('/PartFlaggingPost')
     },
+    goToNoteDashboard()
+    {
+      this.$router.push('/noteDashboard');
+	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
     },
     goToCommunityBoard(){
       this.$router.push('/communityboard')
+    },
+    goToMeetingPointDirections() {
+      this.$router.push('/MeetingPointDirections')
     },
     goToPersonalizedRecommendations(){
       this.$router.push('/PersonalizedRecommendations')
