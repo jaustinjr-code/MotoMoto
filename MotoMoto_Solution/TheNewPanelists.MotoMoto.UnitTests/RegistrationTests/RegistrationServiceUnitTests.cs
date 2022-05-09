@@ -1,13 +1,13 @@
 ﻿using Xunit;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.ServiceLayer;
-using TheNewPanelists.MotoMoto.DataStoreEntities;
 
-namespace TheNewPanelists.MotoMoto.UnitTests
+namespace TheNewPanelists.MotoMoto.UnitTests.RegistrationTests
 {
-    public class RegistrationServiceUnitTest
+    public class RegistrationServiceUnitTests
     {
         private bool result;
+
 
         [Fact]
         public void Send_Email_Confirmation_Request_ReturnTrue()
@@ -31,7 +31,7 @@ namespace TheNewPanelists.MotoMoto.UnitTests
         {
             var testEmail = "motomoto1ca@gmail.com";
             var testRegistrationId = 35;
-            var expected = "035motomoto1ca";
+            var expected = "035motom";
 
             RegistrationService registrationService = new RegistrationService();
             RegistrationRequestModel model = new RegistrationRequestModel () {
