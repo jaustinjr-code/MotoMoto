@@ -76,6 +76,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 try
                 {
                     IUsageAnalyticEntity result = RefineData(command.ExecuteReader(), analyticModel);
+                    command.Transaction.Commit();
+                    _mySqlConnection.Close();
                     return result;
                     //foreach (var item in (List<IAxisDetailsEntity>)result.metricList)
                     //{
@@ -85,6 +87,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 catch (Exception)
                 {
+                    command.Transaction.Rollback();
+                    _mySqlConnection.Close();
                     throw new Exception("Failed to Process Request");
                 }
             }
