@@ -65,7 +65,7 @@ export default {
                 .then((res) => {
                     //window.alert(res.status);
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
                     //window.alert(res.data.postId);
                     if (res.data.output != null) {
                         this.postList = res.data.output.postList;
@@ -80,7 +80,8 @@ export default {
                     this.feedName = req; 
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
         },
         // changeFeedName(event) {
@@ -110,12 +111,13 @@ export default {
                 })
                 .then((res) => {
                     console.log(res);
-                    window.alert(res.data.responseMessage + ": " + title);
+                    //window.alert(res.data.responseMessage + ": " + title);
                     //router.push({path: '/${res.data.postId}'});
                     // Change button to reflect success of Upvote
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
             }
         },

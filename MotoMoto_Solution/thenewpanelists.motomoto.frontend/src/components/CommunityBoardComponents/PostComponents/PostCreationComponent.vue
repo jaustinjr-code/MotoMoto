@@ -87,13 +87,14 @@ export default {
             })
                 .then(res => {
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
                     if (res.status == '200') {
                         this.$router.push('/communityboard');
                     }
                 })
                 .catch(e => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                     this.$router.push('/communityboard');
                 });
         },

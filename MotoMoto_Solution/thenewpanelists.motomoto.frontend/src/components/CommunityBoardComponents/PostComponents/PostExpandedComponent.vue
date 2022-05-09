@@ -70,7 +70,7 @@ export default {
             )
                 .then(res => {
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
 
                     if(res.status == 200 && res.data.output != null) {
                         this.postId = res.data.output.postId;
@@ -124,7 +124,8 @@ export default {
                         location.reload();
                 })
                 .catch(e => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 })
         },
         UpvoteCommentButton(cid, pid) {
@@ -169,14 +170,15 @@ export default {
             })
                 .then((res) => {
                     console.log(res);
-                    window.alert(res.data.responseMessage + ": " + title);
+                    //window.alert(res.data.responseMessage + ": " + title);
                     //router.push({path: '/${res.data.postId}'});
                     // Change button to reflect success of Upvote
                     if(res.status == 200)
                         location.reload();
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
         }
     },
