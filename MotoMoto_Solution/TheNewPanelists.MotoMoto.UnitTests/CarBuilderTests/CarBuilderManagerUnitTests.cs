@@ -26,7 +26,8 @@ namespace TheNewPanelists.MotoMoto.UnitTests.CarBuilderTests
             carTypeModel.year = "2000";
 
             bool result = _buildManager.TestSaveCarTypeManager(carTypeModel);
-            Assert.True(result);
+            Assert.True(result);                                                //False positive, should be logging the error
+                    // Add additional assertion to ensure values are actually updated in the right location
         }
 
         //[Fact]

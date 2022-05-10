@@ -78,9 +78,9 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _carBuildService.UpdateCarBuild(updateCar);
         }
 
-        public IList<CarTypeModel> RetrieveAllCarTypes()
+        public IList<CarTypeModel> RetrieveAllCarTypes()    //add VALUE: possibly by Error Handling, Logging, Security Checks, Authorization Checks
         {
-            return _carBuildService.FetchCarType();
+            return _carBuildService.FetchCarType();         //Business Rule: How much do you want the user to view at a time?
         }
 
         public IList<ModifyCarBuildModel> RetrieveAllCarParts()
