@@ -1,0 +1,38 @@
+title User Profile Base Information Retrieval
+
+UserProfileView ->UserProfileManagementController: IActionResult RetrieveSpecifiedProfile(string username) : return Ok(ProfileModel)
+activate UserProfileView
+activate UserProfileManagementController
+
+UserProfileManagementController ->ProfileManagementManager: Initialize Profile Manager <<Call constructor>>
+
+activate ProfileManagementManager
+
+UserProfileManagementController->ProfileManagementManager:RetrieveSpecifiedProfileManager(string username): return userProfile.GetResponse(ResponseModel.response.success);
+
+
+ProfileManagementManager->ProfileManagementService: Initialize Profile Service <<Call constructor>>
+
+activate ProfileManagementService
+
+ProfileManagementManager->ProfileManagementService:RetrieveSpecifiedProfileService(ProfileModel profileModel) : return userProfile.GetResponse(ResponseModel.response.success);
+
+ProfileManagementService->ProfileManagementDataAccess: Initialize Data Access <<Call constructor>>
+activate ProfileManagementDataAccess
+ProfileManagementService->ProfileManagementDataAccess:RetrieveSpecifiedProfileDataAccess(ProfileModel profileModel) : return userProfile.GetResponse(ResponseModel.response.success);
+
+database pro_moto
+ProfileManagementDataAccess->pro_moto: CALL RetrieveProfile(username);
+activate pro_moto
+pro_moto -->ProfileManagementDataAccess: retrieve data back to data-reader
+deactivate pro_moto
+
+ProfileManagementDataAccess-->ProfileManagementService: return userProfile.GetResponse(ResponseModel.response.success);
+deactivate ProfileManagementDataAccess
+
+ProfileManagementService-->ProfileManagementManager: return userProfile.GetResponse(ResponseModel.response.success);
+deactivate ProfileManagementService
+
+ProfileManagementManager-->UserProfileManagementController: return userProfile.GetResponse(ResponseModel.response.success);
+
+UserProfileManagementController-->UserProfileView: return Ok(userProfile.GetResponse(ResponseModel.response.success);
