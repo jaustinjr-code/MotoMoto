@@ -22,6 +22,7 @@ import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
 import EditProfile from '../views/EditProfileView.vue'
+import CreateEventPost from '../views/CreateEventPostView.vue'
 
 const routes = [
   {
@@ -143,7 +144,12 @@ const routes = [
     path: '/EditProfile',
     name: 'EditProfile',
     component: EditProfile
-  }
+  },
+  {
+    path: '/CreateEventPost',
+    name: 'CreateEventPost',
+    component: CreateEventPost
+  },
 ]
 
 const router = createRouter({

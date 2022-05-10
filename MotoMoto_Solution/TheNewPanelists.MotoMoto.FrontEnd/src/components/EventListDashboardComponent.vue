@@ -1,6 +1,7 @@
 <template>
     <div class = "Feed">
         <h1>Feed</h1> 
+        <button type="button" class="btn btn-primary mb-2" @click="goToCreateEventPost"> Create Event </button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -67,6 +68,9 @@ export default {
             console.log(this.events);
             this.$router.push({ name: 'MeetingPointDirections', params: {data: this.id+1 } });
             // this.$router.push('/MeetingPointDirections')
+        },
+        goToCreateEventPost() {
+            this.$router.push({name: 'CreateEventPost'});
         }
     }
 }
