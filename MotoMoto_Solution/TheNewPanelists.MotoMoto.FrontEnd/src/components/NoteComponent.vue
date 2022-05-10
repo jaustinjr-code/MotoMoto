@@ -47,7 +47,7 @@ export default {
         },
         save()
         {
-            var user  = this.$cookies.username;
+            var user  = this.$cookies.get("username");
             let params = {username: user, title: this.noteTitle, notes: this.noteText};
             instance.get('NoteUpdate/UpdateNote', {params}).then((res) => {
                 console.log(`Server replied with: ${res.data}`);
@@ -60,7 +60,7 @@ export default {
         {
             this.clickedDelete = true;
             this.disableSave = true;
-            let params = {username: this.$cookies.username, title: this.noteTitle};
+            let params = {username: this.$cookies.get("username"), title: this.noteTitle};
             instance.get('NoteDelete/DeleteNote', {params}).then((res) => {
                 console.log(`Server replied with: ${res.data}`);
 
@@ -75,7 +75,7 @@ export default {
             //let test2 = this.noteText;
             if(this.titleText != '' || this.titleText != null)
             {
-                let params = {username: this.$cookies.username, notes: this.titleText};
+                let params = {username: this.$cookies.get("username"), notes: this.titleText};
                 instance.get('Note/AddNotes', {params}).then((res) => {
                     console.log(`Server replied with: ${res.data}`);
 
