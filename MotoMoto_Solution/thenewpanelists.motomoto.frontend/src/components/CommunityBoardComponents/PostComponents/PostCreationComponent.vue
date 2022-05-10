@@ -6,8 +6,8 @@
                 <br>
                 <textarea id="description" placeholder="Description" rows="5" cols="80" required ></textarea>
                 <br>
-                <input id="images" type="file" name="filename" multiple disabled />
-                <br>
+                <!-- <input id="images" type="file" name="filename" multiple disabled /> -->
+                <!-- <br> -->
                 <button>Submit</button>
         </form>
         <ul id="button-selection">
