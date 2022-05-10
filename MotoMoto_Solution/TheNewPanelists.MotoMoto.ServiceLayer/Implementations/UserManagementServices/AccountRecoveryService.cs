@@ -10,10 +10,10 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class AccountRecoveryService : IUserManagementService
     {
-        private readonly UserManagementDataAccess _userManagementDAO;
-        public AccountRecoveryService(UserManagementDataAccess userManagementDataAccess)
+        private readonly AccountRecoveryDataAccess _accountRecoveryDAO;
+        public AccountRecoveryService(AccountRecoveryDataAccess accountRecoveryDataAccess)
         {
-            _userManagementDAO = userManagementDataAccess;
+            _accountRecoveryDAO = accountRecoveryDataAccess;
 
         }
     }
