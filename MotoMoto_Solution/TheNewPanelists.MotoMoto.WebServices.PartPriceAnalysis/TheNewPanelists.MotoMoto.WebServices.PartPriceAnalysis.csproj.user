@@ -2,5 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <NameOfLastUsedPublishProfile>C:\Users\jacob\OneDrive\Desktop\MotoMoto\MotoMoto\MotoMoto_Solution\TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis\Properties\PublishProfiles\FolderProfile1.pubxml</NameOfLastUsedPublishProfile>
+    <ActiveDebugProfile>TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

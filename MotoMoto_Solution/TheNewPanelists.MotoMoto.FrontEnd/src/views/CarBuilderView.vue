@@ -3,9 +3,11 @@
       <TabBarComponent/>
       <CarBuilderComponent/>
     </div>
+  <kpi-submission-component viewTitle="Car Builder"></kpi-submission-component>
 </template>
 
 <script>
+import KpiSubmissionComponent from '@/components/KpiSubmissionComponent.vue'
 import CarBuilderComponent from '../components/CarBuilderComponent.vue'
 import TabBarComponent from '../components/TabBarComponent.vue'
 export default {
@@ -13,7 +15,8 @@ export default {
   components: 
   {
     TabBarComponent,
-    CarBuilderComponent
+    CarBuilderComponent,
+    KpiSubmissionComponent
   }
 }
 </script>
@@ -21,3 +24,4 @@ export default {
 <style>
 
 </style>
+    KpiSubmissionComponent

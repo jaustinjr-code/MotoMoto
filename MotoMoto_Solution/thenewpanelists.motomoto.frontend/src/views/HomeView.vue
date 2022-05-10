@@ -1,19 +1,15 @@
 import http from "./Http-coman"
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to MotoMoto!"/>
-    <button @click = "goToLogin"> Login </button>
-    <LoginComponent/>
+    <TabBarComponent/>
     <button @click = "goToEventList"> Event List </button>
-    <CarBuilderComponent/>
     <button @click = "goToCarBuilder"> Car Builder </button>
-    <EventListDashboardComponent/>
     <button @click = "goToRegistration"> Register </button>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <button @click = "goToParts"> Parts </button>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNoteDashboard">Note Dashboard</button>
+    <button @click="goToDirectMessage">DirectMessage</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
     <button @click="goToCommunityBoard">Community Board</button>
     <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
@@ -23,23 +19,31 @@ import http from "./Http-coman"
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import TabBarComponent from '../components/TabBarComponent.vue';
+import LogoutComponentVue from '../components/LogoutComponent.vue';
 import router from '../router'
 import { useCookies } from "vue3-cookies";
+import LogoutComponent from '../components/LogoutComponent.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
-  },
+    TabBarComponent,
+    LogoutComponent
+},
+mounted() {
+    if (!this.$cookies.isKey("userId")) {
+        this.$cookies.set("userId", -1,"1h")
+      }
+    if (!this.$cookies.isKey("username")) {
+        this.$cookies.set("username", "guest","1hr")
+      }
+},
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
-  created() {
-      if (!this.$cookies.isKey("userId")) {
-        this.$cookies.set("userId", "guest","1h")
-      }
-  },
+
   methods:{
     goToLogin(){
       this.$router.push('/Login');
@@ -65,6 +69,10 @@ export default {
     goToNoteDashboard()
     {
       this.$router.push('/noteDashboard');
+	  },
+    goToDirectMessage()
+    {
+      this.$router.push('/DM');
 	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')

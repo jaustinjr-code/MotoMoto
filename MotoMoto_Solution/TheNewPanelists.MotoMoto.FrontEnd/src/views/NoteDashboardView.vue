@@ -6,14 +6,16 @@
         <NoteDashboard v-if = !noteView @success = "noteClicked" @newNote = "newNote"></NoteDashboard>
         <NoteComponent v-if = noteView v-bind:isNewNote = "isNewNote" v-bind:noteTitle = "noteTitle" v-bind:noteArea = "noteArea"  @NoteClose = "closeNotes"></NoteComponent>
     </div>
+    <kpi-submission-component viewTitle="Note Dashboard"></kpi-submission-component>
 </template>
 
 <script>
 import NoteDashboard from "../components/NoteDashboardComponent.vue"
 import NoteComponent from "../components/NoteComponent.vue"
+import KpiSubmissionComponent from "../components/KpiSubmissionComponent.vue"
 export default {
     nome: 'NoteDashboardView',
-    components: {NoteDashboard, NoteComponent},
+    components: {NoteDashboard, NoteComponent, KpiSubmissionComponent},
     data()
     {
         return{

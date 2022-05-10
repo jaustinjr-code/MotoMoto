@@ -40,15 +40,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.UserManagement", "TheNewPanelists.MotoMoto.WebServices.UserManagement\TheNewPanelists.MotoMoto.WebServices.UserManagement.csproj", "{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NotificationSystem", "TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj", "{171F3699-C6D7-4A0B-99EF-C89B791F983D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.FetchContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.FetchContent\TheNewPanelists.MotoMoto.WebServices.FetchContent.csproj", "{D3305279-3D43-4274-ADCC-F21200F2654E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.SubmitContent", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.SubmitContent\TheNewPanelists.MotoMoto.WebServices.SubmitContent.csproj", "{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NotificationSystem", "TheNewPanelists.MotoMoto.WebServices.NotificationSystem\TheNewPanelists.MotoMoto.WebServices.NotificationSystem.csproj", "{171F3699-C6D7-4A0B-99EF-C89B791F983D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.Profile", "TheNewPanelists.MotoMoto.WebServices.Profile\TheNewPanelists.MotoMoto.WebServices.Profile.csproj", "{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4DEE8A4-D8FD-4410-B03C-4B69BDDD7C5E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.NoteDashboard", "TheNewPanelists.MotoMoto.WebServices.NoteDashboard\TheNewPanelists.MotoMoto.WebServices.NoteDashboard.csproj", "{C10C4078-3154-4E61-BBBC-E797309059E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections", "TheNewPanelists.MotoMoto.WebServices\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj", "{19D94C22-AA90-4604-9D5F-8ED73ED9CE80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections", "TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections\TheNewPanelists.MotoMoto.WebServices.MeetingPointDirections.csproj", "{5B7786FD-2679-4886-86D7-62785E83C1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +119,10 @@ Global
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE233DC-0B5C-4EE2-B6B7-B78981E2FAF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3305279-3D43-4274-ADCC-F21200F2654E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3305279-3D43-4274-ADCC-F21200F2654E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3305279-3D43-4274-ADCC-F21200F2654E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -120,18 +131,18 @@ Global
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{171F3699-C6D7-4A0B-99EF-C89B791F983D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{571B72DC-BBD3-4AAD-9B28-ADF82473A12E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C10C4078-3154-4E61-BBBC-E797309059E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C10C4078-3154-4E61-BBBC-E797309059E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10C4078-3154-4E61-BBBC-E797309059E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10C4078-3154-4E61-BBBC-E797309059E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19D94C22-AA90-4604-9D5F-8ED73ED9CE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19D94C22-AA90-4604-9D5F-8ED73ED9CE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19D94C22-AA90-4604-9D5F-8ED73ED9CE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19D94C22-AA90-4604-9D5F-8ED73ED9CE80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B7786FD-2679-4886-86D7-62785E83C1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B7786FD-2679-4886-86D7-62785E83C1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B7786FD-2679-4886-86D7-62785E83C1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B7786FD-2679-4886-86D7-62785E83C1F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,7 +156,6 @@ Global
 		{D3305279-3D43-4274-ADCC-F21200F2654E} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{3A6D4E37-349D-4BA6-B8C3-A0BC85CA0C17} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 		{C10C4078-3154-4E61-BBBC-E797309059E7} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
-		{19D94C22-AA90-4604-9D5F-8ED73ED9CE80} = {B97E2D09-07AD-457D-9935-51872B7A69F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BFB8863-7BFD-404A-9B19-6C16DEA14451}
