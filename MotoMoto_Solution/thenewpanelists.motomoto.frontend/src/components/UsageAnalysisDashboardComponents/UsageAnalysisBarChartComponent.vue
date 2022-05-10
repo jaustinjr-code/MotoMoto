@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import { useCookies } from 'vue3-cookies'
 import { instanceFetch } from '../../router/CommunityBoardConnection.js'
 import { Bar } from 'vue-chartjs'
 import Chart from 'chart.js/auto' // Imports any necessary chart js plugins
@@ -12,6 +13,10 @@ export default {
     props: ['id'],
     components: {
         Bar,
+    },
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
     },
     data() {
         return {
@@ -32,12 +37,20 @@ export default {
                 reqUrl += 'FetchViewDurationAnalytic';
             else if (this.analytic == 'feed')
                 reqUrl += 'FetchFeedPostAnalytic';
-            instanceFetch.get(reqUrl, { 
+            
+            let params = JSON.stringify({
+                username: this.cookies.get('username')
+            })
+            instanceFetch.post(reqUrl, params, { 
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
                 console.log(res);
+                if (res.data.isComplete == false) {
+                    window.alert("Invalid Request");
+                    this.$router.replace('/');
+                }
                 this.x_data = [];
                 this.y_data = [];
                 res.data.output.metricList.forEach(metric => {

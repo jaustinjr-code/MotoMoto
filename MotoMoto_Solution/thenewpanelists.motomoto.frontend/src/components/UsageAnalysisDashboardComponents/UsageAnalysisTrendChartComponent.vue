@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import { useCookies } from 'vue3-cookies'
 import { instanceFetch } from '../../router/CommunityBoardConnection.js'
 import { Line } from 'vue-chartjs'
 import Chart from 'chart.js/auto'
@@ -12,6 +13,10 @@ export default {
     props: ['id'],
     components: {
         Line,
+    },
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
     },
     data() {
         return {
@@ -32,7 +37,10 @@ export default {
                 reqUrl += 'FetchRegistrationAnalytic';
             else if (this.analytic == 'event')
                 reqUrl += 'FetchEventAnalytic';
-            instanceFetch.get(reqUrl, { 
+            let params = JSON.stringify({
+                username: this.cookies.get('username')
+            })
+            instanceFetch.post(reqUrl, params, { 
                 headers: {
                     'Content-Type': 'application/json'
                 }
