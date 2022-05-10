@@ -52,8 +52,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
                 command.CommandText = $"SELECT * FROM USER U WHERE email = @v1;";
                 command.Parameters.Add(new MySqlParameter("@v1", email));
 
-                int response = command.ExecuteNonQuery();
-                return (response == 1);                
+                MySqlDataReader reader = command.ExecuteReader();
+                return (reader.HasRows);                
             }
             catch (Exception e)
             {
@@ -89,8 +89,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
                     new MySqlParameter("@v2", DateTime.Now)
                 });
                 
-                int result = command.ExecuteNonQuery();
-                return (result == 1);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                return (reader.HasRows);
             }
             catch (Exception e)
             {

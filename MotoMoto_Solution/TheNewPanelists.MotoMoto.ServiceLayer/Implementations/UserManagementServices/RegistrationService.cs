@@ -29,6 +29,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         ///message to be processed in the frontend.</returns>
         public RegistrationRequestModel AccountRegistrationRequest(ref RegistrationRequestModel registrationRequest)
         {
+            int test = 0;
             if (_registrationDAO.QueryUserTable(registrationRequest.Email!))
                 registrationRequest.message = "An account already exists with that email. Please login to access the account.";
             else if (_registrationDAO.HasActiveRegistration(registrationRequest.Email!))
