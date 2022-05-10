@@ -23,8 +23,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 button{
     align-content: right;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    background-color: #555;
+    color: white;
+    border: none;
 }
 </style>

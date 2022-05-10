@@ -1,5 +1,8 @@
 <template>
-  <LogoutComponent/>
+  <div class = logout>
+    <button>Home</button>
+    <LogoutComponent/>
+  </div>
   <div class = dm>
     <DirectMessageSideBarComponent @receiver = "getUserClicked"></DirectMessageSideBarComponent>
     <DirectMessageComponent :receiver = "receiver"></DirectMessageComponent>
@@ -37,10 +40,27 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .dm
 {
   display:flex;
   min-height: 100vh;
 }
+.logout
+{
+  display: inline;
+  float: right;
+  
+}
+button
+{
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    background-color: #555;
+    color: white;
+    border: none;
+}
+
 </style>
