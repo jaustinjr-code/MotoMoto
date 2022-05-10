@@ -9,34 +9,34 @@ namespace TheNewPanelists.MotoMoto.WebServices.FetchContent.Controllers;
 [Route("[controller]")]
 public class FetchBarChartController
 {
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchViewDisplayAnalytic")]
-    public IResponseModel GetViewDisplayAnalytic()
+    public IResponseModel GetViewDisplayAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new BarChartAnalyticModel("Views", "displayTotal");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchBarChartManager("view");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;
     }
 
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchViewDurationAnalytic")]
-    public IResponseModel GetViewDurationAnalytic()
+    public IResponseModel GetViewDurationAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new BarChartAnalyticModel("Views", "durationAvg");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchBarChartManager("view");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;
     }
 
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchFeedPostAnalytic")]
-    public IResponseModel GetFeedPostAnalytic()
+    public IResponseModel GetFeedPostAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new BarChartAnalyticModel("Feeds", "feedPostTotal");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchBarChartManager("feed");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;

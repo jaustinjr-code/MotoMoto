@@ -9,34 +9,34 @@ namespace TheNewPanelists.MotoMoto.WebServices.FetchContent.Controllers;
 [Route("[controller]")]
 public class FetchTrendChartController
 {
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchLoginAnalytic")]
-    public IResponseModel GetLoginAnalytic()
+    public IResponseModel GetLoginAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new TrendChartAnalyticModel("Access Date", "Login Total");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchTrendChartManager("login");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;
     }
 
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchRegistrationAnalytic")]
-    public IResponseModel GetRegistrationAnalytic()
+    public IResponseModel GetRegistrationAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new TrendChartAnalyticModel("Access Date", "Registration Total");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchTrendChartManager("registration");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;
     }
 
-    //[HttpGet]
+    //[HttpPost]
     [Route("FetchEventAnalytic")]
-    public IResponseModel GetEventAnalytic()
+    public IResponseModel GetEventAnalytic(BaseUser user)
     {
         IUsageAnalyticModel model = new TrendChartAnalyticModel("Event Date", "Event Total");
-        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, "ran");
+        IUsageAnalyticFetchRequestModel request = new FetchUsageAnalyticRequestModel(model, user.username);
         IFetchChartManager manager = new FetchTrendChartManager("event");
         IResponseModel response = manager.IsAnalyticRequestValid(request);
         return response;
