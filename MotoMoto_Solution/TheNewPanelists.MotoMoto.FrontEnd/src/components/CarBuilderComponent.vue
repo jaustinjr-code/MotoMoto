@@ -1,6 +1,6 @@
 <template>
 <!-- Container for CarBuilder Component -->
-<div id='car_builder'>
+<div id='car_builder' class="car-builder-page">
     <h1>Car Builder</h1>
 
     <!-- Section for selecting which car is the base of the build -->
@@ -21,14 +21,15 @@
             <option value="Tesla">Tesla</option>
             <option value="Porsche">Porsche</option>
             <option value="Volkswagen">Volkswagen</option> -->
-            <option v-bind:value='carType.make' v-for="(carType, index) in carTypeList" :key='index'>
+            <option v-bind:value='carType.carID' v-for="(carType, index) in carTypeList" :key='index'>
                 {{ carType.make }}
             </option>
         </select>
     </div>
+    
     <div>
         <label>Choose Car Model</label>
-        <select id='car-model-select' v-model="carID" @change='GetModel($event)'>
+        <select id='car-model-select' v-model="model" @change='GetModel($event)'>
             <!-- <option value="">--Please choose an option--</option>
             <option value="F150">F150</option>
             <option value="M5">M5</option>
@@ -43,30 +44,39 @@
             <option value="Model Y">Model Y</option>
             <option value="911">911</option>
             <option value="Golf">Golf</option> -->
-            <option v-bind:value='carType.carID' v-for="(carType, index) in carTypeList" :key='index'>
+            <option v-bind:value='carType.model' v-for="(carType, index) in carTypeList" :key='index'>
                 {{ carType.model }}
             </option>
         </select>
     </div>
+
     <div class='builder-single-selection' @change='GetYear($event)'>
         <label>Choose Car Year</label>
         <select id='car-year-select' >
         </select>
     </div>
 
-    <button @click='CreateCarType'> Submit ></button> 
-
+    <div id="car-modify-part" class="choose-car-part">
+        <!-- <label>Modify Car with These Parts</label> -->
+        <!-- <button v-on:click="isHidden = true">Submit ></button> -->
+        <button @click='CreateCarType()'> Submit ></button> 
+        <h1 v-if="isHidden">Modify Your Car!</h1>
+    </div>
 
     <div id='car_part' class='modify-car' v-if="modifyCar">
         <label>Modify Car</label>
-        <select id='car-part-select' v-model='partID' @change='GetPart()'>
-            <option value="">--Please choose an option--</option>
+        <select id='car-part-select' v-model='partID' @change='GetPart($event)'>
+            <!-- <option value="">--Please choose an option--</option> -->
             <option v-bind:value='carModify.partID' v-for="(carModify, index) in carPartList" :key='index'>
                 {{ carModify.partNumber }} 
                 <!-- {{ carModify.type }} -->
             </option>
         </select>
+        <img src="../assets/carBuilderCar.jpg" alt="Car Camaro" width="1200" height="1000">
+        <button @click="UpdateCar()"> Save Car </button>
+        <h1>{{saveCar}}}</h1>
     </div>
+
 
 
 </div>
@@ -83,6 +93,9 @@ export default {
     {
         return{
             partName: "",
+            carModel: "",
+            carYear: "",
+            isHidden: false,
             carTypeList: [],
             carPartList: [],
             userSavedCarsList: [],
@@ -92,14 +105,16 @@ export default {
             partNumber: "",
             type: "",
             modifyCar: false,
-            username: this.$cookies.get("username"),
+            username: "ran",
+            //username: this.$cookies.get("username"),
             carID: "",
-            partID: ""
+            partID: "",
+            saveCar: ""
         }
     },
     methods: {
         async GetCarTypes(){
-            debugger;
+            //debugger;
             //let car_type = {make: "Honda", model: "Accord", year: "2015"};
             //Instance is not descriptive enough: ajax client would be better
             await instance.get("CarBuilder/GetCarTypes").then((res) => 
@@ -110,8 +125,8 @@ export default {
                 console.log(e);
             });
         },
-        GetCarPart(){
-            instance.get("CarBuilder/GetCarPart").then((res) =>
+        async GetCarPart(){
+            await instance.get("CarBuilder/GetCarPart").then((res) =>
             {console.log(res);
             this.carPartList = res.data;
             console.log(this.carPartList);
@@ -119,33 +134,38 @@ export default {
                 console.log(e);
             });
         },
-        // CreateCarType(make, model, year){
-        //     let carTypeModel = JSON.stringify({ "make": make, "model": model, "year": year });
-        //     instanceSubmit.post("CarBuilder/CreateCarType", carTypeModel, {
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         }
-        //     }).then((res) => {
-        //         console.log("Car succesfully created!");
-        //         this.make = make;
-        //         this.model = model;
-        //         this.year = year;
-        //     });
-        // },
-        UpdateCar(carID, partID, username){
+        CreateCarType(make, model, year){
+            this.isHidden = true;
+            this.modifyCar = true;
+            console.log(this.carID);
+            // let carTypeModel = JSON.stringify({ "make": make, "model": model, "year": year });
+            // instanceSubmit.post("CarBuilder/CreateCarType", carTypeModel, {
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // }).then((res) => {
+            //     console.log("Car succesfully created!");
+            //     this.make = make;
+            //     this.model = model;
+            //     this.year = year;
+            // });
+        },
+        UpdateCar(){
+            debugger;
             let updateCarModel = JSON.stringify({ "carID": this.carID, "partID": this.partID, "username": this.username });
             instanceSubmit.post("CarBuilder/UpdateCar", updateCarModel, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
-                console.log("Car succesfully created!");
-                this.make = make;
-                this.model = model;
-                this.year = year;
+                console.log("Car succesfully saved!");
+                this.saveCar = "Car Has Successfully Saved <3";
+                // this.make = make;
+                // this.model = model;
+                // this.year = year;
             });
         },
-        GetModifiedCarBuilds(username){
+        GetModifiedCarBuilds(){
             instance.get("CarBuilder/CarBuild", this.username).then((res) =>
             {console.log(res);
             this.userSavedCarsList = res.data;
@@ -159,7 +179,14 @@ export default {
             //var name = e.target.options[e.target.options.selectedIndex].text;
         },
         GetModel(e){
-            this.carID = carID;
+            this.carModel= e.target.value;
+        },
+        GetYear(e){
+            this.carYear = e.target.value;
+        },
+        GetPart(e){
+            debugger;
+            this.partID = e.target.value;
         }
     },
     mounted() {
@@ -182,3 +209,11 @@ export default {
 }
 
 </script>
+
+<style>
+.car-builder-page {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+</style>

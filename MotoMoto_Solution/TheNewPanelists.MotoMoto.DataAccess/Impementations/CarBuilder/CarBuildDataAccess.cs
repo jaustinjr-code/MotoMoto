@@ -100,7 +100,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
             try
             {
                 connection.Open();
-                string getSenderUserIdQuery = "SELECT partNumber, type FROM OEMAndAfterMarketParts";
+                string getSenderUserIdQuery = "SELECT partNumber, type, partID FROM OEMAndAfterMarketParts";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
@@ -110,6 +110,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.CarBuilder
                         ModifyCarBuildModel carPart = new ModifyCarBuildModel();
                         carPart.partNumber = reader["partNumber"].ToString();
                         carPart.type = reader["type"].ToString();
+                        carPart.partID = reader["partID"].ToString();
                         carPartsList.Add(carPart);
                     }
                 }

@@ -121,7 +121,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        [HttpPut("UpdateCar")]
+        [HttpPost("UpdateCar")]
         //[Route("UpdateCar")]
         public IActionResult UpdateCar(UpdateCarModel updateCarBuildModel) // What should I take in????
         {

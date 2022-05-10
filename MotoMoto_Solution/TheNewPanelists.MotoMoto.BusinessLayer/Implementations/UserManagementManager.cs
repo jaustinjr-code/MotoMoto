@@ -1,6 +1,5 @@
 ﻿using TheNewPanelists.MotoMoto.ServiceLayer;
 using TheNewPanelists.MotoMoto.Models;
-using TheNewPanelists.MotoMoto.Models.UserManagementModels.UserManagementOperationModels;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer
 {
