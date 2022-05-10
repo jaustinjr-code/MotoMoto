@@ -1,20 +1,18 @@
 <template>
   <div class="loginView">
-    <h1>MotoMoto</h1>
+    <TabBarComponent/>
     <div class="login">
-        <h4>Login</h4>
+        <h4 class="LoginString">Login</h4>
         <div class="username">
-            <p>Username: </p>
+            <p class="unString">Username:    </p>
             <input type = "usersname" required placeholder="username" v-model = "username">
         </div>
         <div class = "password">
-            <p>Password: </p>
+            <p class="pwString">Password:    </p>
             <input type = "password" required placeholder="password" v-model= "password"> 
         </div>
         <div class = "loginButton">
-            
             <button class = "submit" @click="loginClick">Submit</button>
-           
         </div>
     </div>
   </div>
@@ -25,24 +23,26 @@ import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {instance} from '../router/directMessageConnection'
 import { instanceSubmit } from '../router/CommunityBoardConnection.js'
+import TabBarComponent from "../components/TabBarComponent.vue";
 
 export default defineComponent({
-  setup() {
-    const { cookies } = useCookies();
-    return { cookies };
-  },
-
-  data()
-  {
-      return{
-          username: '',
-          password: '',
-          loginSuccessful:false
-      }
-  },
-
-  methods: {
-        login(){
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
+    components: {
+        TabBarComponent
+    },
+    data()
+    {
+        return{
+            username: '',
+            password: '',
+            loginSuccessful:false
+        }
+    },
+    methods: {
+        login() {
             let params = {username: this.username, password: this.password};
             instance.get('Login/Login', {params}).then((res)=>{
                 console.log(`Server replied with: ${res.data}`);
@@ -66,18 +66,16 @@ export default defineComponent({
                             });
                     }
                     //this.$router.push({path: '/CommunityDashboard'});
+                    this.$router.push({path: '/'});
                 }
             }).catch((e)=>{
-            console.log(e);
+                console.log(e);
             });
         },
         loginClick() {
             this.login();
         }
-
-  }
-
-
+    }
 })
 </script>
 
@@ -87,14 +85,9 @@ export default defineComponent({
 {
     top:0px;
     position:fixed;
-    background: rgb(102,153,204);
     width: 100%;
     height: 100%;
-    margin: 0px;
-    
-
-
-    
+    margin: 0px;   
 }
 
 h1{
@@ -110,10 +103,11 @@ h1{
     padding-left: 10px;
     padding-bottom: 3%;
     border-radius: 20px;
-    
-    
 }
-
+.LoginString {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
 .password
 {
     padding-bottom: 20px;
@@ -123,12 +117,6 @@ h1{
 {
     padding-bottom: 20px;
 }
-
-button.submit
-{
-    float:left;
-}
-
 button.signUp
 {
     float:right;
@@ -143,7 +131,6 @@ button
     margin: 30px 0 10px 0;
     text-decoration: none;
     text-align: center;
-
 }
 
 input
@@ -151,7 +138,14 @@ input
     border-radius: 5px;
     text-decoration: none;
 }
-
+unString 
+{
+    padding-right: 3%;
+}
+pwString
+{
+    padding-right: 3%;
+}
 p
 {
     

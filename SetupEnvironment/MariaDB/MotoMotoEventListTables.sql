@@ -13,10 +13,15 @@ CREATE TABLE Post (
 
 CREATE TABLE EventDetails (
     eventID INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-    eventLocation VARCHAR(75) NOT NULL,
+    --eventLocation VARCHAR(75) NOT NULL,
     eventTime VARCHAR(75) NOT NULL, -- Have to store in UTC Time
     eventDate VARCHAR(75) NOT NULL,
     registeredUsers VARCHAR(75) NOT NULL, -- Should I be storing username? 
+    eventStreetAddress VARCHAR(75) NOT NULL,
+    eventCity VARCHAR(75) NOT NULL,
+    eventState VARCHAR(75) NOT NULL,
+    eventCountry VARCHAR(75) NOT NULL,
+    eventZipCode VARCHAR(75) NOT NULL,
     postID INT UNSIGNED NOT NULL,
     CONSTRAINT EventDetails_PK PRIMARY KEY (eventID),
     CONSTRAINT Post_FK FOREIGN KEY (postID) REFERENCES Post (postID)

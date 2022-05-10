@@ -23,6 +23,7 @@ CREATE TABLE User (
     username VARCHAR(25) NOT NULL,
     password  VARCHAR(50) NOT NULL,
     email  VARCHAR(100) NOT NULL, 
+    salt VARCHAR(256) NOT NULL,
     CONSTRAINT user_Pk PRIMARY KEY (userId, username),
     CONSTRAINT Type_Name_FK FOREIGN KEY (typeName) REFERENCES Type (typeName)
 --     CONSTRAINT user_Pk PRIMARY KEY (userId, username)
@@ -60,12 +61,13 @@ CREATE TABLE EventAccount (
 );
 
 CREATE TABLE Registration (
-    registrationId INT NOT NULL AUTO_INCREMENT,ah
+    registrationId INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(35) NOT NULL,
     password VARCHAR(20) NOT NULL,
     expiration DATETIME NOT NULL,
     validated BOOL NOT NULL DEFAULT FALSE,
-    CONSTRAINT Registration_Pk PRIMARY KEY (registrationId)
+    CONSTRAINT Registration_Pk PRIMARY KEY (registrationId, expiration),
+    CONSTRAINT CK_Registration_password CHECK (LEN(password) >= 8)    
 );
 
 CREATE TABLE FollowedCountry (
@@ -93,8 +95,17 @@ CREATE TABLE FollowedModel (
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
-    (NULL, "DEFAULT");
+    (NULL, 'DEFAULT');
 
 INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', 'PASSWORD', 'ROOT@LOCALHOST');
-INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
+--INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
+
+INSERT INTO FollowedCountry VALUES (23, 'United States');
+INSERT INTO FollowedCountry VALUES (23, 'Germany');
+
+INSERT INTO FollowedMake VALUES (23, 'Mitsubishi');
+INSERT INTO FollowedMake VALUES (23, 'Honda');
+
+INSERT INTO FollowedModel VALUES (23, 'Chevrolet', 'Chevellev');
+INSERT INTO FollowedModel VALUES (23, 'Ford', 'Mustang');

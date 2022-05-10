@@ -19,34 +19,42 @@ namespace TheNewPanelists.MotoMoto.DataAccess
 
         public UserManagementDataAccess() 
         {
-            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
+            // ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 
-            if (settings != null)
-            {
-                foreach(ConnectionStringSettings cs in settings)
-                    _connectionString = cs.ConnectionString;
-            }
+            // if (settings != null)
+            // {
+            //     foreach(ConnectionStringSettings cs in settings)
+            //         _connectionString = cs.ConnectionString;
+            // }
+            _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+
         }
 
         public UserManagementDataAccess(string connectionString)
         {
-            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
+            // ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 
-            if (settings != null)
-            {
-                foreach (ConnectionStringSettings cs in settings)
-                    _connectionString = cs.ConnectionString;
-            }
+            // if (settings != null)
+            // {
+            //     foreach (ConnectionStringSettings cs in settings)
+            //         _connectionString = cs.ConnectionString;
+            // }
+            _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        private bool ExecuteQuery(MySqlCommand command)
+        private bool ExecuteQuery(MySqlCommand command, MySqlTransaction sqlTrans = null!, bool isCommit = false)
         {
             if (command.ExecuteNonQuery() == 1)
             {
+                if (isCommit)
+                    sqlTrans.Commit();
+                    
                 mySqlConnection!.Close();
                 return true;
             }
@@ -69,8 +77,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return false;
             }
-            return false;
         }
         /// <summary>
         /// 
@@ -113,7 +121,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
@@ -151,7 +159,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = '@v1'";
+                command.CommandText = $"SELECT * FROM User U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.username);
 
@@ -185,31 +193,32 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             {
                 throw new NullReferenceException();
             }
+
             GenerateCiphertext cipherText = new GenerateCiphertext();
             cipherText.GeneratePasswordHash(userAccount!.password!);
             cipherText.GenerateUsernameHash(userAccount!.username!);
             userAccount.salt = cipherText.Salt;
+            
+            MySqlTransaction sqlTrans;
+            sqlTrans = mySqlConnection!.BeginTransaction();
+            MySqlCommand command = mySqlConnection.CreateCommand();
+            command.Transaction = sqlTrans;
+            command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+            command.Connection = mySqlConnection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email, salt)" +
+                                    $"VALUES (@v0, @v1, @v2, @v3, @v4, @v5)";
+            
+            var parameters = new MySqlParameter[6];
+            parameters[0] = new MySqlParameter("@v0", userAccount!.userId);
+            parameters[1] = new MySqlParameter("@v1", userAccount!.userType);
+            parameters[2] = new MySqlParameter("@v2", userAccount!.username);
+            parameters[3] = new MySqlParameter("@v3", userAccount!.password);
+            parameters[4] = new MySqlParameter("@v4", userAccount!.email);
+            parameters[5] = new MySqlParameter("@v5", userAccount!.salt);
 
-            using (MySqlCommand command = new MySqlCommand())
-            {
-                command.Transaction = mySqlConnection!.BeginTransaction();
-                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.Connection = mySqlConnection!;
-                command.CommandType = CommandType.Text;
-
-                command.CommandText = $"INSERT INTO User (userId, typeName, username, password, email, salt)" +
-                                      $"VALUES (@v0, '@v1', '@v2', '@v3', '@v4', @v5)";
-                var parameters = new MySqlParameter[6];
-                parameters[0] = new MySqlParameter("@v0", userAccount!.userId);
-                parameters[1] = new MySqlParameter("@v1", userAccount!.userType);
-                parameters[2] = new MySqlParameter("@v2", userAccount!.username);
-                parameters[3] = new MySqlParameter("@v3", userAccount!.password);
-                parameters[4] = new MySqlParameter("@v4", userAccount!.email);
-                parameters[5] = new MySqlParameter("@v5", userAccount!.salt);
-
-                command.Parameters.AddRange(parameters);
-                return(ExecuteQuery(command));
-            }
+            command.Parameters.AddRange(parameters);
+            return(ExecuteQuery(command, sqlTrans, true));
         }
         /// <summary>
         /// 
@@ -371,7 +380,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE User U SET U.USERNAME = '@v1' WHERE U.USERNAME ='@v2'";
+                command.CommandText = $"UPDATE User U SET U.USERNAME = @v1 WHERE U.USERNAME = @v2";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", userAccount!.newUsername);
                 parameters[1] = new MySqlParameter("@v2", userAccount!.username);

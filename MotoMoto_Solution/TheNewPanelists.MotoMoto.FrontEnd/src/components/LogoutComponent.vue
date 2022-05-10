@@ -1,5 +1,5 @@
 <template>
-  <button @click = "Logout">Logout</button>
+  <button v-on:click="Logout()">Logout</button>
 </template>
 
 <script>
@@ -15,7 +15,9 @@ export default {
         Logout()
         {
             this.$cookies.remove("username");
+            this.$cookies.remove("userId");
             this.$router.push({path: '/'});
+            window.location.reload();
         }
     }
 }
