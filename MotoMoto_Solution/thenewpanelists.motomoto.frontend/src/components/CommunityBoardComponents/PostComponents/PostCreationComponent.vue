@@ -19,10 +19,16 @@
 
 <script>
 import {instanceSubmit} from '../../../router/CommunityBoardConnection.js'
+import { useCookies } from "vue3-cookies";
+
 export default {
     props: [
         'feedName'
     ],
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     data() {
         return {
             feed: this.feedName
@@ -62,7 +68,7 @@ export default {
                 let p =  {
                     postTitle: title,
                     contentType: this.feed,
-                    postUser: 'ran', // Temporary user until Authentication works
+                    postUser: this.$cookies.get("username"), // Temporary user until Authentication works
                     postDescription: description,
                     //imageList: images
                 }
@@ -81,13 +87,14 @@ export default {
             })
                 .then(res => {
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
                     if (res.status == '200') {
                         this.$router.push('/communityboard');
                     }
                 })
                 .catch(e => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                     this.$router.push('/communityboard');
                 });
         },

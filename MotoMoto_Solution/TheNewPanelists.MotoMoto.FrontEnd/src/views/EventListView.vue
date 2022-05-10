@@ -6,6 +6,7 @@
     <EventListDashboardSearchComponent/>    
     <EventListDashboardFilterComponent/>
     <EventListDashboardComponent/>
+    <kpi-submission-component viewTitle="Event List"></kpi-submission-component>
 </template>
 
 <script>
@@ -14,6 +15,7 @@ import EventListDashboardComponent from "../components/EventListDashboardCompone
 import EventListDashboardSearchComponent from "../components/EventListDashBoardSearchComponent.vue"
 import EventListDashboardFilterComponent from "../components/EventListDashboardFilterComponent.vue"
 import LogoutComponent from "../components/LogoutComponent.vue";
+import KpiSubmissionComponent from "../components/KpiSubmissionComponent.vue"
 
 export default {
     name: 'EventListView',
@@ -22,7 +24,8 @@ export default {
         EventListDashboardSearchComponent,
         EventListDashboardFilterComponent,
         EventListDashboardComponent,
-        LogoutComponent
+        LogoutComponent,
+        KpiSubmissionComponent
     },
     methods:
     {

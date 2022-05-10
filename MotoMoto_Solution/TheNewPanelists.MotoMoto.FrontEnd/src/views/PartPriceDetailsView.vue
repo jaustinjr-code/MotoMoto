@@ -1,6 +1,7 @@
 <template>
 <div>
     <TabBarComponent/>
+    <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
     <h5 class="partTitle">Part Details</h5>
     <table class="partDetails" align="center">
         <thead>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import KpiSubmissionComponent from '@/components/KpiSubmissionComponent.vue'
 import TabBarComponent from '../components/TabBarComponent.vue'
 import {instance} from '../router/PartPriceAnalysisConnection'
 export default {
@@ -67,7 +69,8 @@ export default {
         }
     },
     components: {
-        TabBarComponent
+        TabBarComponent,
+        KpiSubmissionComponent
     },
     props: ["baseURL", "parts"],
     beforeMount() {

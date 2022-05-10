@@ -31,7 +31,7 @@
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
             <tr v-for="post in postList" :key="post.postId" >
                 <td>{{ post.postUsername }}</td>
-                <td @click="ExpandPost(post.postId)">{{ post.postTitle }}</td>
+                <td class="postDetails" @click="ExpandPost(post.postId)" title="Click here for post details">{{ post.postTitle }}</td>
                 <button @click="UpvoteButton(post.postId, post.postTitle)">Upvote</button>
                 <!-- Want to pass in current user's username into UpvoteButton -->
             </tr>
@@ -43,7 +43,13 @@
 //import axios from 'axios'
 import {instanceFetch, instanceSubmit} from '../../../router/CommunityBoardConnection.js'
 //import router from '../../../router/index.js'
+import { useCookies } from "vue3-cookies";
+
 export default {
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     methods: {
         LoadFeed(req) {
             // Syntax Error?
@@ -59,7 +65,7 @@ export default {
                 .then((res) => {
                     //window.alert(res.status);
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
                     //window.alert(res.data.postId);
                     if (res.data.output != null) {
                         this.postList = res.data.output.postList;
@@ -74,7 +80,8 @@ export default {
                     this.feedName = req; 
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
         },
         // changeFeedName(event) {
@@ -82,10 +89,13 @@ export default {
         //     this.feedName = event.target.value;
         // },
         UpvoteButton(id, title) {
+            let valid = false;
+            if(this.cookies.get("username") != null && this.$cookies.get("username") != "guest")
+                valid = true;
             let interactionModel = JSON.stringify({ 
                 contentId: id,
                 contentTitle: title,
-                interactUsername: 'ran'
+                interactUsername: this.cookies.get("username"),
             });
             // this.postList.forEach(post => {
             //             if (post.postId == req) {
@@ -93,28 +103,33 @@ export default {
 
             //             }
             //         })
-            instanceSubmit.post('/SubmitUpvotePost/SubmitUpvotePost', interactionModel, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            if (valid) {
+                instanceSubmit.post('/SubmitUpvotePost/SubmitUpvotePost', interactionModel, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                 .then((res) => {
                     console.log(res);
-                    window.alert(res.data.responseMessage + ": " + title);
+                    //window.alert(res.data.responseMessage + ": " + title);
                     //router.push({path: '/${res.data.postId}'});
                     // Change button to reflect success of Upvote
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
+            }
         },
         ExpandPost(req) {
             //console.log(req);
-            this.$router.push({name: 'postdetails', params: { id: req }});
+            if(this.cookies.get("username") != null && this.cookies.get("username") != "guest")
+                this.$router.push({name: 'postdetails', params: { id: req }});
             // this.$router.push({path: '/postdetails/' + req});
         },
         CreatePost() {
-            this.$router.push({name: 'createpost', params: { feedName: this.feedName }});
+            if(this.cookies.get("username") != null && this.cookies.get("username") != "guest")
+                this.$router.push({name: 'createpost', params: { feedName: this.feedName }});
         }
     },
     data() {
@@ -133,5 +148,14 @@ export default {
 </script>
 
 <style>
+.postDetails {
+    cursor: pointer;
+}
 
+td {
+    max-width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 </style>

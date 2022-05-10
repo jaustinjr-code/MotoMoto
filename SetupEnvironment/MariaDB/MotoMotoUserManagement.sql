@@ -66,7 +66,8 @@ CREATE TABLE Registration (
     password VARCHAR(20) NOT NULL,
     expiration DATETIME NOT NULL,
     validated BOOL NOT NULL DEFAULT FALSE,
-    CONSTRAINT Registration_Pk PRIMARY KEY (registrationId, expiration)
+    CONSTRAINT Registration_Pk PRIMARY KEY (registrationId, expiration),
+    CONSTRAINT CK_Registration_password CHECK (LENGTH(password) >= 8)    
 );
 
 CREATE TABLE FollowedCountry (
