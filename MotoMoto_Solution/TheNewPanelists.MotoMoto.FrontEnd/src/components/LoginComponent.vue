@@ -12,7 +12,7 @@
             <input type = "password" required placeholder="password" v-model= "password"> 
         </div>
         <div class = "loginButton">
-            <button class = "submit" @click="loginClick">Submit</button>
+            <button class = "submit" v-on:click="loginClick">Submit</button>
         </div>
     </div>
   </div>
