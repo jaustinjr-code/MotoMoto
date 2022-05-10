@@ -9,6 +9,7 @@ import http from "./Http-coman"
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNoteDashboard">Note Dashboard</button>
+    <button @click="goToDirectMessage">DirectMessage</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
     <button @click="goToCommunityBoard">Community Board</button>
     <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
@@ -70,6 +71,10 @@ mounted() {
     goToNoteDashboard()
     {
       this.$router.push('/noteDashboard');
+	  },
+    goToDirectMessage()
+    {
+      this.$router.push('/DM');
 	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
