@@ -4,7 +4,7 @@ using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
-
+using TheNewPanelists.MotoMoto.DataAccess.Impementations.UserManagement;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
@@ -15,6 +15,21 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         {
             _accountRecoveryDAO = accountRecoveryDataAccess;
 
+        }
+
+        public bool RetrieveLostUsername(string email)
+        {
+            return _accountRecoveryDAO.FetchLostUsername(email);
+        }
+
+        public bool SendChangePasswordEmail(string email)
+        {
+            return _accountRecoveryDAO.FetchPasswordEmail(email);
+        }
+
+        public bool ChangeUserPassword(ChangePasswordModel changePasswordModel)
+        {
+            return _accountRecoveryDAO.ChangePassword(changePasswordModel);
         }
     }
 

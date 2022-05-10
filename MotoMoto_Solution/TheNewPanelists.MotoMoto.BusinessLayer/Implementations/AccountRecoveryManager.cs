@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheNewPanelists.MotoMoto.Models;
-using TheNewPanelists.MotoMoto.Models.UserManagementModels.AccountRecoveryModels;
 using TheNewPanelists.MotoMoto.ServiceLayer;
 
 namespace TheNewPanelists.MotoMoto.BusinessLayer.Implementations
@@ -41,7 +40,15 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer.Implementations
             {
                 return false;
             }
-            return _accountRecoveryService.ChangeUserPassword(accountRecoveryModel);
+            if (changePasswordModel.verifiedNewPassword!.Length == 0 || changePasswordModel.verifiedNewPassword!.Length > 30)   // Make sure user input is not null and is less than 30 characters
+            {
+                return false;
+            }
+            if (changePasswordModel.newPassword.ToString() != changePasswordModel.verifiedNewPassword.ToString())
+            {
+                return false;
+            }
+            return _accountRecoveryService.ChangeUserPassword(changePasswordModel);
         }
     }
 }
