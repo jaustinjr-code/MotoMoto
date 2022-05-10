@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Source: https://stackoverflow.com/questions/50982408/vue-js-get-selected-option-on-change -->
-        <select name="community_feeds" id="feedNames" @change="LoadFeed($event.target.value)">
+        <select name="community_feeds" id="feedNames" @change="loadFeed($event.target.value)">
             <option value="Main Feed">Main Feed</option>
             <option value="Lowrider">Lowrider</option>
             <option value="Supercar">Supercar</option>
@@ -18,7 +18,7 @@
         </select>
         <div>
             <h1>{{ feedName }}</h1>
-            <button @click="CreatePost()" v-if="feedName != 'Main Feed'">Create Post</button>
+            <button @click="createPost()" v-if="feedName != 'Main Feed'">Create Post</button>
         </div>
         <br>
         <table id="post-summary">
@@ -31,9 +31,9 @@
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
             <tr v-for="post in postList" :key="post.postId" >
                 <td>{{ post.postUsername }}</td>
-                <td class="postDetails" @click="ExpandPost(post.postId)" title="Click here for post details">{{ post.postTitle }}</td>
-                <button @click="UpvoteButton(post.postId, post.postTitle)">Upvote</button>
-                <!-- Want to pass in current user's username into UpvoteButton -->
+                <td class="postDetails" @click="expandPost(post.postId)" title="Click here for post details">{{ post.postTitle }}</td>
+                <button @click="upvoteButton(post.postId, post.postTitle)">Upvote</button>
+                <!-- Want to pass in current user's username into upvoteButton -->
             </tr>
         </table>
     </div>
@@ -51,7 +51,7 @@ export default {
         return { cookies };
     },
     methods: {
-        LoadFeed(req) {
+        loadFeed(req) {
             // Syntax Error?
             //console.log(req);
             let feedModel = JSON.stringify({ "feedName": req });
@@ -88,7 +88,7 @@ export default {
         //     console.log(event.target.value);
         //     this.feedName = event.target.value;
         // },
-        UpvoteButton(id, title) {
+        upvoteButton(id, title) {
             let valid = false;
             if(this.cookies.get("username") != null && this.$cookies.get("username") != "guest")
                 valid = true;
@@ -121,13 +121,13 @@ export default {
                 });
             }
         },
-        ExpandPost(req) {
+        expandPost(req) {
             //console.log(req);
             if(this.cookies.get("username") != null && this.cookies.get("username") != "guest")
                 this.$router.push({name: 'postdetails', params: { id: req }});
             // this.$router.push({path: '/postdetails/' + req});
         },
-        CreatePost() {
+        createPost() {
             if(this.cookies.get("username") != null && this.cookies.get("username") != "guest")
                 this.$router.push({name: 'createpost', params: { feedName: this.feedName }});
         }
@@ -139,7 +139,7 @@ export default {
         }
     },
     mounted() {
-        this.LoadFeed(this.feedName);
+        this.loadFeed(this.feedName);
     }
     // props: {
     //     feedName: "Main Feed"
