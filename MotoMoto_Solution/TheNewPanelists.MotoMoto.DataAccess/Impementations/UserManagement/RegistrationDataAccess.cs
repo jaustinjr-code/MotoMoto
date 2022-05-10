@@ -49,7 +49,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
                 command.Connection = _mySqlConnection;
                 command.Transaction = _mySqlConnection.BeginTransaction();                
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.CommandText = $"SELECT * FROM USER U WHERE email = @v1;";
+                command.CommandText = $"SELECT * FROM User U WHERE email = @v1;";
                 command.Parameters.Add(new MySqlParameter("@v1", email));
 
                 MySqlDataReader reader = command.ExecuteReader();
@@ -83,7 +83,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
                 command.Connection = _mySqlConnection;
                 command.Transaction = _mySqlConnection.BeginTransaction();
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.CommandText = $"SELECT * FROM REGISTRATION WHERE email = @v1 AND validated = FALSE AND @v2 < expiration;";
+                command.CommandText = $"SELECT * FROM Registration WHERE email = @v1 AND validated = FALSE AND @v2 < expiration;";
                 command.Parameters.AddRange(new MySqlParameter[2] {
                     new MySqlParameter("@v1", email),
                     new MySqlParameter("@v2", DateTime.Now)
@@ -122,7 +122,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
                 command.Connection = _mySqlConnection;
                 command.Transaction = sqlTrans;
                 command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                command.CommandText = $"UPDATE REGISTRATION R SET validated = TRUE WHERE R.registrationId = @v1";
+                command.CommandText = $"UPDATE Registration R SET validated = TRUE WHERE R.registrationId = @v1";
                 command.Parameters.Add(new MySqlParameter("@v1", registrationId));
 
                 int response = command.ExecuteNonQuery();
