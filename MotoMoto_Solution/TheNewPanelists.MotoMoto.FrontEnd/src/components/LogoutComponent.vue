@@ -17,7 +17,6 @@ export default {
             this.$cookies.remove("username");
             this.$cookies.remove("userId");
             this.$router.push({path: '/'});
-            window.location.reload();
         }
     }
 }
