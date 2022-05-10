@@ -99,10 +99,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public bool SendEmailConfirmationRequest(RegistrationRequestModel registrationRequest)
         {
             UriBuilder builder = new UriBuilder() {
-                    //Host = "motomotoca.com",
-                    //Scheme = "https"
-                    Port = 8080,
-                    Scheme = "http",
+                    Host = "motomotoca.com",
+                    Scheme = "https",
                     Fragment = "#"
             };
 
