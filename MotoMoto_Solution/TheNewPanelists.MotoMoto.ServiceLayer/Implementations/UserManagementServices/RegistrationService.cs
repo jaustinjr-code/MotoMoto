@@ -29,6 +29,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         ///message to be processed in the frontend.</returns>
         public RegistrationRequestModel AccountRegistrationRequest(ref RegistrationRequestModel registrationRequest)
         {
+            int test = 0;
             if (_registrationDAO.QueryUserTable(registrationRequest.Email!))
                 registrationRequest.message = "An account already exists with that email. Please login to access the account.";
             else if (_registrationDAO.HasActiveRegistration(registrationRequest.Email!))
@@ -98,10 +99,8 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         public bool SendEmailConfirmationRequest(RegistrationRequestModel registrationRequest)
         {
             UriBuilder builder = new UriBuilder() {
-                    //Host = "motomotoca.com",
-                    //Scheme = "https"
-                    Port = 8080,
-                    Scheme = "http",
+                    Host = "motomotoca.com",
+                    Scheme = "https",
                     Fragment = "#"
             };
 
