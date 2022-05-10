@@ -35,11 +35,16 @@
 
 <script>
 import {instanceFetch, instanceSubmit} from  '../../../router/CommunityBoardConnection.js'
+import { useCookies } from "vue3-cookies";
 
 export default {
     props: [
         'id'
     ],
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     data() {
         return {
             postId: this.id,
@@ -65,7 +70,7 @@ export default {
             )
                 .then(res => {
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
 
                     if(res.status == 200 && res.data.output != null) {
                         this.postId = res.data.output.postId;
@@ -95,7 +100,7 @@ export default {
             if(valid) {
                 let p = {
                     postID: parseInt(this.postId),
-                    postUser: 'ran',
+                    postUser: this.$cookies.get("username"),
                     postDescription: input
                 }
                 let params = JSON.stringify(p);
@@ -119,14 +124,15 @@ export default {
                         location.reload();
                 })
                 .catch(e => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 })
         },
         UpvoteCommentButton(cid, pid) {
             let params = JSON.stringify({
                 contentId: parseInt(cid),
                 postId: parseInt(pid),
-                interactUsername: 'ran'
+                interactUsername: this.$cookies.get("username")
             });
             //console.log(params);
             instanceSubmit.post('/SubmitUpvoteComment/SubmitUpvoteComment', params, {
@@ -149,7 +155,7 @@ export default {
             let interactionModel = JSON.stringify({ 
                 contentId: id,
                 contentTitle: title,
-                interactUsername: 'ran'
+                interactUsername: this.$cookies.get("username")
             });
             // this.postList.forEach(post => {
             //             if (post.postId == req) {
@@ -164,14 +170,15 @@ export default {
             })
                 .then((res) => {
                     console.log(res);
-                    window.alert(res.data.responseMessage + ": " + title);
+                    //window.alert(res.data.responseMessage + ": " + title);
                     //router.push({path: '/${res.data.postId}'});
                     // Change button to reflect success of Upvote
                     if(res.status == 200)
                         location.reload();
                 })
                 .catch((e) => {
-                    window.alert(e);
+                    console.log(e);
+                    //window.alert(e);
                 });
         }
     },

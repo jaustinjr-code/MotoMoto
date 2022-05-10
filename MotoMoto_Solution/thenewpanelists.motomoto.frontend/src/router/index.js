@@ -21,6 +21,7 @@ import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
 import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
 import EditProfile from '../views/EditProfileView.vue'
 
 const routes = [
@@ -138,6 +139,11 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/UsageAnalysisDashboard',
+    name: 'UsageAnalysisDashboard',
+    component: UsageAnalysisDashboard
   },
   {
     path: '/EditProfile',
