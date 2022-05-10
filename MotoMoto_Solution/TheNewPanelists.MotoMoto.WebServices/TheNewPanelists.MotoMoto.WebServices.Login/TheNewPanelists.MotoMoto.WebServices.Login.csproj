@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TheNewPanelists.MotoMoto.BusinessLayer\TheNewPanelists.MotoMoto.BusinessLayer.csproj" />
     <ProjectReference Include="..\..\TheNewPanelists.MotoMoto.ServiceLayer\TheNewPanelists.MotoMoto.ServiceLayer.csproj" />
   </ItemGroup>
 
