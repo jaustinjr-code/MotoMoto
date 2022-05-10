@@ -1,6 +1,6 @@
 <template>
   <div class = logout>
-    <button>Home</button>
+    <button @click="goHomePage">Home</button>
     <LogoutComponent/>
   </div>
   <div class = dm>
@@ -35,6 +35,10 @@ export default {
     getUserClicked(receiver)
     {
       this.receiver = receiver;
+    },
+    goHomePage()
+    {
+      this.$router.push('/');
     }
   }
 }
