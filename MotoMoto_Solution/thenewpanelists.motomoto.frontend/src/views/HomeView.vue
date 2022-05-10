@@ -32,20 +32,18 @@ export default {
     LogoutComponent
 },
 mounted() {
-    this.created();
+    if (!this.$cookies.isKey("userId")) {
+        this.$cookies.set("userId", -1,"1h")
+      }
+    if (!this.$cookies.isKey("username")) {
+        this.$cookies.set("username", "guest","1hr")
+      }
 },
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
-  created() {
-      if (!this.$cookies.isKey("userId")) {
-        this.$cookies.set("userId", -1,"1h")
-      }
-      if (!this.$cookies.isKey("username")) {
-        this.$cookies.set("username", "guest","1hr")
-      }
-  },
+
   methods:{
     goToLogin(){
       this.$router.push('/Login');
