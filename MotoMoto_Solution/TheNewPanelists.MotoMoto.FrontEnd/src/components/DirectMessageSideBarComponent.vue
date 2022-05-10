@@ -149,7 +149,7 @@ export default {
 <style>
 template
 {
-    background-color: blue;
+    background-color: rgb(0, 75, 73);;
 }
 .sidebar
 {
@@ -157,16 +157,16 @@ template
   width: 25%;
   height:fit-content;
   overflow: hidden;
-  background-color: slategray;
+  background-color: lightgray;
   
 }
 .users{
-  background-color: #04AA6D; /* Green background */
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
+  background-color: rgb(0, 75, 73);
+  border: 1px solid rgb(0, 75, 73);
+  color: white;
+  padding: 10px 24px; 
+  cursor: pointer;
 
-  display: block; /* Make the buttons appear below each other */
+  display: block;
 }
 </style>
