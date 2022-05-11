@@ -46,7 +46,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         }
 
         // Gets the user input retrieved from the frontend and stores it within the datastore
-        [HttpPost, Route("CreateEvent")]
+        [Route("CreateEvent")]
         public IActionResult CreateEventPost(string time, string date, string streetAddress, string city, string state, string country, string zipCode, string title)
         {
             EventListService eventListService = new EventListService(_eventPostContentDataAccess);

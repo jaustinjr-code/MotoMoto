@@ -11,9 +11,9 @@
     <h3>Enter Event City: </h3>
     <input v-model="eventCity" placeholder="Event City"/>
     <h3>Enter Event State: </h3>
-    <input v-model="eventState" placeholder="Event State"/>
-    <h3>Enter Event Title: </h3>
-    <input v-model="eventCountry" placeholder="Event Country"/>
+    <input v-model="eventState" placeholder="Event State ex. CA"/>
+    <h3>Enter Event Country: </h3>
+    <input v-model="eventCountry" placeholder="Event Country ex. USA"/>
     <h3>Enter Event ZipCode: </h3>
     <input v-model="eventZipCode" placeholder="Event ZipCode"/>
     <h3><button type="button" class="btn btn-primary mb-2" @click="postEvent()"> Post Event </button></h3>
@@ -43,18 +43,12 @@ export default {
     },
     methods: {
         postEvent() {
-            instance.put('/EventList/CreateEvent', {params: 
-                {eventTime: this.eventTime, 
-                eventDate: this.eventDate,
-                eventStreetAddress: this.eventStreetAddress,
-                eventCity: this.eventCity,
-                eventState: this.eventState,
-                eventCountry: this.eventCountry,
-                eventZipCode: this.eventZipCode,
-                eventTitle: this.eventTitle
-                }})
+            let params = {time: this.eventTime, date: this.eventDate, streetAddress: this.eventStreetAddress, city: this.eventCity, state: this.eventState, country: this.eventCountry, zipCode: this.eventZipCode, title: this.eventTitle}
+            console.log(params);
+            instance.get('EventList/CreateEvent', {params})
             .then((response) => {
-                window.alert("Server replied with " + response.data);
+                window.alert("Event has successfully been posted... Returning back to event list page...");
+                this.$router.push({name: 'EventList'});
             }).catch((e)=> {
                 this.error = e;
                 window.alert(this.error);
