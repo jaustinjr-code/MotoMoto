@@ -72,6 +72,7 @@
                 <!-- {{ carModify.type }} -->
             </option>
         </select>
+        <button class='flagging-builder-button' v-on:click='FlagPart()'>Flag Part</button>
         <img src="../assets/carBuilderCar.jpg" alt="Car Camaro" width="1200" height="1000">
         <button @click="UpdateCar()"> Save Car </button>
         <h1>{{saveCar}}</h1>
@@ -224,11 +225,20 @@ export default {
                 })
                 console.log(this.incompatibleParts)
             }
-            else {
-                console.log(this.partNumber)
-                console.log(this.carMake)
-                console.log(this.model)
-                console.log(this.carYear)
+        },
+        async FlagPart() {
+            let validInputs =  this.partNumber !== '' && typeof this.partNumber !== 'undefined'
+                            && this.carMake !== '' && typeof this.carMake !== 'undefined'
+                            && this.model !== '' && typeof this.model !== 'undefined'
+                            && this.carYear !== '' && typeof this.carYear !== 'undefined'
+            if (validInputs) {
+                await flaggingInstance.post('PartFlagging/CreateFlag', null, {
+                params: {
+                    partNum: this.partNumber, carMake: this.carMake, carModel: this.model, carYear: this.carYear
+                    }
+                }).then((res) => {
+                console.log(res.data)
+                })
             }
         }
     },
