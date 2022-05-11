@@ -2,7 +2,7 @@
     <div class="edit-profile">
         <TabBarComponent/>
         <h2>Edit Profile</h2>
-        <span class="insert">
+        <div class="insert">
             <div class="profile-description">
                 <div class="description-title">
                     <p id="edit">New Profile Description</p>
@@ -13,10 +13,8 @@
                 </div>
 
                 <p class="inputValues" v-text="charactersRemaining(description.length)"></p>
-                <input v-model="image" placeholder="Image URL">
-                <button class="submitDescription" v-on:click="updateProfileImage(image)">Edit Image URL</button>
             </div>
-        </span>
+        </div>
     </div>
 </template>
 
@@ -30,6 +28,7 @@ export default {
     },
     data() {
         return {
+            max: 160,
             username: "",
             profileImage: "",
             description: "",
@@ -84,8 +83,33 @@ export default {
 </script>
 
 <style>
-.edit {
-    padding-left: 1.5%;
+.centerBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submitDescription {
+    display: block;
+    margin: center;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+.inputValues {
+    padding-left : 2.5%;
+}
+.motoTextArea {
+    width: 50%;
+    height: 80px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+.profile-description {
+    padding-bottom: 20px;
 }
 .centerBtn {
     display: flex;
