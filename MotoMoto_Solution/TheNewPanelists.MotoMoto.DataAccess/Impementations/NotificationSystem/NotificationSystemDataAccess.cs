@@ -111,6 +111,10 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
         }
 
+        /// <summary>
+        /// Fetch notifications or all of registered events depends on the notification type
+        /// </summary>
+        /// <returns>Return a list with all the fetched data of registered events from data access layer</returns>
         public List<NotificationSystemResponseModel> GetRegisteredEvents(NotificationSystemRequestModel requestModel)
         {
             List<NotificationSystemResponseModel> registeredEventList = new List<NotificationSystemResponseModel>();

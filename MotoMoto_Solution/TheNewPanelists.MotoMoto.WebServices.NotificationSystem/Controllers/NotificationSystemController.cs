@@ -27,14 +27,5 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
 
             return registeredEventsList;
         }
-        
-        // [HttpPost("DeleteNotification")]
-        // public IActionResult RemoveNotification(int eventID, string username)
-        // {
-        //     NotificationSystemManager  notificationSystemManager = new NotificationSystemManager();
-        //     notificationSystemManager.RemoveNotification(eventID, username);
-        //     return Ok();
-        // }
-
     }
 }

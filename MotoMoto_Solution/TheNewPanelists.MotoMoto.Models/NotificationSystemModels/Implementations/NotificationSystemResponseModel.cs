@@ -23,12 +23,5 @@ namespace TheNewPanelists.MotoMoto.Models
             this.username = username;
             this.password = password;
         }
-
-        // public NotificationResponseModel(string username, string password, string eventTitme, string eventDate, string eventStreetAddress, string eventCity, string eventState, string eventCountry, string eventZipCode, string eventTitle, )
-        // {
-        //     this.username = username;
-        //     this.password = password;
-        // }
-        
     }
 }
