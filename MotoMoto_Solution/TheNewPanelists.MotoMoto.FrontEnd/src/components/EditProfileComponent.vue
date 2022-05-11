@@ -4,9 +4,10 @@
         <h2>Edit Profile</h2>
         <span class="insert">
             <div class="profile-description">
-                <p id="edit">New Profile Description</p>
-                <input v-model="description" placeholder="Edit Description">
+                <p id="edit">New Profile Description </p>
+                <textarea v-model="description" placeholder="Edit Description"/>
                 <button class="submitDescription" v-on:click="updateProfileDescription({description})">Edit Description</button>
+                <p class="input-group-addon" v-text="(max - description.length)"></p>
             </div>
             <div class="profile-image">
                 <p id="edit">Profile Image: </p>
@@ -27,6 +28,7 @@ export default {
     },
     data() {
         return {
+            max: 160,
             username: "",
             profileImage: "",
             description: "",
@@ -68,6 +70,11 @@ export default {
 			this.username = this.$cookies.get("username")
             console.log(this.username);
 		},
+        countMaxChars: function(description) {
+            const charCount = 160
+            let value = charCount - description.length
+            document.getElementById("charCount").innerHTML = value+' characters';
+        }
     }
 }
 </script>
