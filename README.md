@@ -10,6 +10,6 @@ Kayla Chu\
 Jacob Sunia\
 James Austin Jr\
 Justin Calma\
-Naeun Yu\
+Naeun Yu
 
 Team Leader: James Austin Jr
