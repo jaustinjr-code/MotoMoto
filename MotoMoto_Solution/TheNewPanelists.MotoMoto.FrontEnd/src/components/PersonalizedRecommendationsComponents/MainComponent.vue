@@ -1,13 +1,7 @@
 <template>
     <div class = "PersonalizedRecommendationsComponent">
         <div class = "top">
-            <h1 class = "header">Personalized Recommendations</h1>
-            <div class = "menunav">
-                <button @click = "$router.push('/')">Home</button>
-                <button @click = "$router.push('/DM')">Direct Messages</button>
-                <button @click = "$router.push('/Communityboard')">Community Board</button>
-                <button @click = "$router.push('/UserProfile')">Preferences</button>
-            </div>      
+            <h1 class = "header">Personalized Recommendations</h1>    
         </div>
 
         <div class = "container">
@@ -18,7 +12,7 @@
 
             <div class = "component" v-if="followedCountries.length > 0">
                 <h2 class = "header"><i>Followed Countries</i></h2>
-                <PersonalizedRecommendationsMakesComponent/>
+                <PersonalizedRecommendationsCountriesComponent/>
             </div>
             <div class = "component" v-if="followedMakes.length > 0">
                 <h2 class = "header"><i>Followed Makes</i></h2>
@@ -29,6 +23,8 @@
                 <h2 class = "header"><i>Specific Models</i></h2>
                 <PersonalizedRecommendationsModelsComponent/>
             </div>
+
+            <button style="margin-top: 20px;" @click = "GoToPreferences()">Preferences</button>
         </div>
     </div>
 </template>
@@ -36,10 +32,10 @@
 <script>
     import { useCookies } from "vue3-cookies";
     import { defineComponent } from "vue";
-    import PersonalizedRecommendationsDefaultComponent from '../components/PersonalizedRecommendationsDefaultComponent.vue';
-    import PersonalizedRecommendationsMakesComponent from '../components/PersonalizedRecommendationsMakesComponent.vue';
-    import PersonalizedRecommendationsModelsComponent from '../components/PersonalizedRecommendationsModelsComponent.vue';
-    import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
+    import DefaultComponent from '../../components/PersonalizedRecommendationsComponents/DefaultComponent.vue';
+    import CountriesComponent from '../PersonalizedRecommendationsComponents/CountriesComponent.vue';
+    import MakesComponent from '../PersonalizedRecommendationsComponents/MakesComponent.vue';
+    import ModelsComponent from '../PersonalizedRecommendationsComponents/ModelsComponent.vue';
 
     export default defineComponent ({
         setup() {
@@ -48,15 +44,17 @@
         },
         data () {
             return {
+                username: '',
                 followedCountries: '',
                 followedMakes: '',
                 followedModels: ''
             }
         },
         components: {
-            PersonalizedRecommendationsDefaultComponent,
-            PersonalizedRecommendationsMakesComponent,
-            PersonalizedRecommendationsModelsComponent
+            DefaultComponent,
+            CountriesComponent,
+            MakesComponent,
+            ModelsComponent,
         },
         methods: {
             GetPreferences: async function() {
@@ -67,14 +65,23 @@
                     this.followedModels = response.data.followedModels
                 }).catch((e)=>{
                     console.log(e);})
+            },
+            GoToPreferences: async function() {
+                this.$router.push({
+                    name: 'UserProfile',
+                    params: {
+                        username: this.username
+                    }
+                });
             }
         },
-        created: function () {
-            if (this.$cookies.get("userId") != "guest") {
-                this.GetPreferences();
+        mounted: function () {
+            if (this.$cookies.get("userId") == "guest") {
+                this.$router.push('/login');
             }
             else {
-                this.$router.push('/login');
+                this.username = this.$cookies.get("username");
+                this.GetPreferences();
             }
         }
     })
@@ -92,7 +99,6 @@
 	text-align: center; 
     height: 78px;
     width: 600px;
-    background-color: aliceblue;
     border-style: solid;
     border-width: .05ch;
 }

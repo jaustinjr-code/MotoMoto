@@ -111,4 +111,32 @@ export default {
 .profile-description {
     padding-bottom: 20px;
 }
+.centerBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submitDescription {
+    display: block;
+    margin: center;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+.inputValues {
+    padding-left : 2.5%;
+}
+.motoTextArea {
+    width: 50%;
+    height: 80px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+.profile-description {
+    padding-bottom: 20px;
+}
 </style>
