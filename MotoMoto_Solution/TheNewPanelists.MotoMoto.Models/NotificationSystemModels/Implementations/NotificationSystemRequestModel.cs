@@ -4,8 +4,6 @@ namespace TheNewPanelists.MotoMoto.Models
     {
         public string? username { get; set; }  
         public string? notificationType { get; set; }
-        //public string? notificationType { get; set; } 
-        //public string? password { get; }
 
         public NotificationSystemRequestModel() {}
 
@@ -13,8 +11,6 @@ namespace TheNewPanelists.MotoMoto.Models
         {
             this.username = username;
             this.notificationType = type;
-            //this.notificationType = type;
-            //this.password = password;
         }
         
     }
