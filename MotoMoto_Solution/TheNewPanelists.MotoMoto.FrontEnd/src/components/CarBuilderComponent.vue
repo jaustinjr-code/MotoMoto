@@ -21,7 +21,7 @@
             <option value="Tesla">Tesla</option>
             <option value="Porsche">Porsche</option>
             <option value="Volkswagen">Volkswagen</option> -->
-            <option v-bind:value='carType.carID' v-for="(carType, index) in carTypeList" :key='index'>
+            <option v-bind:value='carType.carID' v-bind:data-value='carType.make' v-for="(carType, index) in carTypeList" :key='index'>
                 {{ carType.make }}
             </option>
         </select>
@@ -66,16 +66,29 @@
     <div id='car_part' class='modify-car' v-if="modifyCar">
         <label>Modify Car</label>
         <select id='car-part-select' v-model='partID' @change='GetPart($event)'>
-            <!-- <option value="">--Please choose an option--</option> -->
-            <option v-bind:value='carModify.partID' v-for="(carModify, index) in carPartList" :key='index'>
+            <option value="">--Please choose an option--</option>
+            <option v-bind:value='carModify.partID' v-bind:data-part-number='carModify.partNumber' v-for="(carModify, index) in carPartList" :key='index'>
                 {{ carModify.partNumber }} 
                 <!-- {{ carModify.type }} -->
             </option>
         </select>
+        <button class='flagging-builder-button' v-on:click='FlagPart()'>Flag Part</button>
         <img src="../assets/carBuilderCar.jpg" alt="Car Camaro" width="1200" height="1000">
         <button @click="UpdateCar()"> Save Car </button>
-        <h1>{{saveCar}}}</h1>
+        <h1>{{saveCar}}</h1>
     </div>
+
+    <!-- Section for displaying part compatible and non-recommended flags. -->
+        <div id='builder__flag-display' class='builder-section'>
+            <h2>Compatibility</h2>
+            <p v-if='incompatibleParts.length == 0'>All parts are labeled 'Compatible' With the selected car based on user flags :)</p>
+            <p v-else>It appears the following parts are labeled 'Non-Recommended' with the selected car based on user flags: </p>
+            <ul>
+                <li v-for="(partName) in incompatibleParts" :key='partName'>
+                    {{ partName }}
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -85,7 +98,7 @@
 import { nextTick } from "vue";
 
 import axios from 'axios';
-import {instance} from '../router/CarBuilderConnection'
+import {instance, flaggingInstance} from '../router/CarBuilderConnection'
 import { instanceSubmit } from "../router/CarBuilderConnection";
 
 export default {
@@ -94,7 +107,7 @@ export default {
         return{
             partName: "",
             carModel: "",
-            carYear: "",
+            carYear: "2022",
             isHidden: false,
             carTypeList: [],
             carPartList: [],
@@ -109,7 +122,8 @@ export default {
             //username: this.$cookies.get("username"),
             carID: "",
             partID: "",
-            saveCar: ""
+            saveCar: "",
+            incompatibleParts: []
         }
     },
     methods: {
@@ -149,8 +163,10 @@ export default {
             //     this.model = model;
             //     this.year = year;
             // });
+            this.CheckCompatibility()
         },
         UpdateCar(){
+            debugger;
             let updateCarModel = JSON.stringify({ "carID": this.carID, "partID": this.partID, "username": this.username });
             instanceSubmit.post("CarBuilder/UpdateCar", updateCarModel, {
                 headers: {
@@ -175,7 +191,8 @@ export default {
         },
         GetMake(e){
             this.carID = e.target.value;
-            //var name = e.target.options[e.target.options.selectedIndex].text;
+            let opt = e.target[e.target.selectedIndex];
+            this.carMake = opt.dataset.value;
         },
         GetModel(e){
             this.carModel= e.target.value;
@@ -184,7 +201,45 @@ export default {
             this.carYear = e.target.value;
         },
         GetPart(e){
+            // debugger;
             this.partID = e.target.value;
+            let opt = e.target[e.target.selectedIndex];
+            this.partName = opt.dataset.partNumber
+            this.partNumber = opt.dataset.partNumber
+            this.CheckCompatibility()
+        },
+        async CheckCompatibility() {
+            let validInputs =  this.partNumber !== '' && typeof this.partNumber !== 'undefined'
+                            && this.carMake !== '' && typeof this.carMake !== 'undefined'
+                            && this.model !== '' && typeof this.model !== 'undefined'
+                            && this.carYear !== '' && typeof this.carYear !== 'undefined'
+            if (validInputs) {
+                this.incompatibleParts = []
+                let params = {partNum: this.partNumber, carMake: this.carMake, carModel: this.model, carYear: this.carYear};
+                await flaggingInstance.get('PartFlagging/IsPossibleIncompatibility', {params}).then((res) => {
+                    let isIncompatible = res.data.isPossibleIncompatiblility;
+                    if (isIncompatible)
+                    {
+                        this.incompatibleParts.push(this.partName);
+                    }
+                })
+                console.log(this.incompatibleParts)
+            }
+        },
+        async FlagPart() {
+            let validInputs =  this.partNumber !== '' && typeof this.partNumber !== 'undefined'
+                            && this.carMake !== '' && typeof this.carMake !== 'undefined'
+                            && this.model !== '' && typeof this.model !== 'undefined'
+                            && this.carYear !== '' && typeof this.carYear !== 'undefined'
+            if (validInputs) {
+                await flaggingInstance.post('PartFlagging/CreateFlag', null, {
+                params: {
+                    partNum: this.partNumber, carMake: this.carMake, carModel: this.model, carYear: this.carYear
+                    }
+                }).then((res) => {
+                console.log(res.data)
+                })
+            }
         }
     },
     mounted() {

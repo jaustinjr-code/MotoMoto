@@ -7,7 +7,7 @@
         <ul id="post-content">
             <p>{{this.postDescription}}</p>
             <br>
-            <button @click="UpvotePostButton(this.postId, this.postTitle)">Upvote</button>
+            <button @click="upvotePostButton(this.postId, this.postTitle)">Upvote</button>
             <p>{{this.upvoteCount}} Upvotes</p>
         </ul>
         <table id="comment-section">
@@ -20,12 +20,12 @@
                 <td>{{ comment.commentUsername }}</td>
                 <td>{{ comment.commentDescription }}</td>
                 <!-- commentUsername defaults to existing user right now -->
-                <button @click="UpvoteCommentButton(comment.commentId, comment.postId)">Upvote</button>
+                <button @click="upvoteCommentButton(comment.commentId, comment.postId)">Upvote</button>
             </tr>
         </table>
         <br>
         <br>
-        <form @submit="Validate">
+        <form @submit="validate">
             <textarea id="commentInput" cols="100" rows="10" placeholder="Input Comment Here"></textarea>
             <br>
             <button>Submit</button>
@@ -59,7 +59,7 @@ export default {
         }
     },
     methods: {
-        FetchDetails() {
+        fetchDetails() {
             //let param = JSON.stringify({ postId: parseInt(this.postId) });
             //console.log(param);
             instanceFetch.get('FetchPostDetails/FetchPostDetails?postId=' + this.postId
@@ -85,7 +85,7 @@ export default {
                     window.alert(e);
                 });
         },
-        Validate(event) {
+        validate(event) {
             let valid = false;
             var input = event.target.elements.commentInput.value;
 
@@ -104,12 +104,12 @@ export default {
                     postDescription: input
                 }
                 let params = JSON.stringify(p);
-                this.SubmitComment(params);
+                this.submitComment(params);
             }
             else
                 window.alert("Invalid Input") 
         },
-        SubmitComment(params) {
+        submitComment(params) {
             instanceSubmit.post("/SubmitComment/SubmitComment", params, {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
@@ -128,7 +128,7 @@ export default {
                     //window.alert(e);
                 })
         },
-        UpvoteCommentButton(cid, pid) {
+        upvoteCommentButton(cid, pid) {
             let params = JSON.stringify({
                 contentId: parseInt(cid),
                 postId: parseInt(pid),
@@ -151,7 +151,7 @@ export default {
                     window.alert(e);
                 })
         },
-        UpvotePostButton(id, title) {
+        upvotePostButton(id, title) {
             let interactionModel = JSON.stringify({ 
                 contentId: id,
                 contentTitle: title,
@@ -183,7 +183,7 @@ export default {
         }
     },
     mounted() { 
-        this.FetchDetails();
+        this.fetchDetails();
     }
 }
 </script>

@@ -1,4 +1,4 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -16,13 +16,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => {
-    builder.AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(o => true)
-    .AllowCredentials();
-});
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -30,6 +23,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 
 
 
