@@ -6,7 +6,9 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
     public class PersonalizedRecommendationsDataAccess
     {
         private MySqlConnection? _mySqlConnection { get; set; }
-        private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        //private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.comp;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
+        private string _connectionString = "server=local;user=root;database=dev_um;port=3306;password=12345;";
+
         public bool EstablishMariaDBConnection()
         {
             try
@@ -22,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
             }
         }
 
-        public void ReturnCountriesFollowed(int userId, ref DataStoreRequestPreferences dataStoreRequest)
+        public void ReturnCountriesFollowed(int userId, ref DataStoreUserPreferences dataStoreRequest)
         {
             try
             {
@@ -34,7 +36,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"SELECT (country) FROM FOLLOWEDCOUNTRY FC WHERE FC.userId = @v1";
+                    command.CommandText = $"SELECT (country) FROM FollowedCountry FC WHERE FC.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     MySqlDataReader myReader = command.ExecuteReader();
@@ -54,7 +56,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
             }
         }
 
-        public void ReturnMakesFollowed(int userId, ref DataStoreRequestPreferences dataStoreRequest)
+        public void ReturnMakesFollowed(int userId, ref DataStoreUserPreferences dataStoreRequest)
         {
             try
             {
@@ -66,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"SELECT (Make) FROM FOLLOWEDMAKE FM WHERE FM.userId = @v1";
+                    command.CommandText = $"SELECT (make) FROM FollowedMake FM WHERE FM.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     MySqlDataReader myReader = command.ExecuteReader();
@@ -87,7 +89,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
             }
         }
 
-        public void ReturnModelsFollowed(int userId, ref DataStoreRequestPreferences dataStoreRequest)
+        public void ReturnModelsFollowed(int userId, ref DataStoreUserPreferences dataStoreRequest)
         {
             try
             {
@@ -99,7 +101,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"SELECT (model) FROM FOLLOWEDMODEL FM WHERE FM.userId = @v1";
+                    command.CommandText = $"SELECT (model) FROM FollowedModel FM WHERE FM.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     MySqlDataReader myReader = command.ExecuteReader();
@@ -138,7 +140,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
-                    command.CommandText = $"INSERT INTO FOLLOWEDCOUNTRY VALUES ";
+                    command.CommandText = $"INSERT INTO FollowedCountry VALUES ";
 
                     for (int i = 0; i < countries.Count; i++)
                     {
@@ -193,7 +195,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
-                    command.CommandText = $"INSERT INTO FOLLOWEDMAKE VALUES ";
+                    command.CommandText = $"INSERT INTO FollowedMake VALUES ";
 
                     for (int i = 0; i < makes.Count; i++)
                     {
@@ -247,7 +249,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
-                    command.CommandText = $"INSERT INTO FOLLOWEDMODEL VALUES ";
+                    command.CommandText = $"INSERT INTO FollowedModel VALUES ";
 
                     for (int i = 0; i < models.Count; i++)
                     {
@@ -300,7 +302,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"DELETE FROM FOLLOWEDCOUNTRY FC WHERE FC.userId = @v1";
+                    command.CommandText = $"DELETE FROM FollowedCountry FC WHERE FC.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     try
@@ -347,7 +349,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"DELETE FROM FOLLOWEDMAKES FM WHERE FM.userId = @v1";
+                    command.CommandText = $"DELETE FROM FollowedMake FM WHERE FM.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     try
@@ -393,7 +395,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Implementations.PersonalizedRecomm
                     command.Connection = _mySqlConnection;
                     command.Transaction = sqlTrans;
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
-                    command.CommandText = $"DELETE FROM FOLLOWEDMODELS FM WHERE FM.userId = @v1";
+                    command.CommandText = $"DELETE FROM FollowedModel FM WHERE FM.userId = @v1";
                     command.Parameters.Add(new MySqlParameter("@v1", userId));
 
                     try
