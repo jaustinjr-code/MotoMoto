@@ -12,7 +12,7 @@
                 <th>Event Location</th>
             </tr>
             <tr v-for="event in registeredEventList" :key="event.eventID">
-                <td>{{ event.eventDate.split(" ")[0] }}</td>
+                <td>{{ event.eventDate }}</td>
                 <td>{{ event.eventTime }}</td>
                 <td>{{ event.eventTitle }}</td>
                 <td>{{ event.eventStreetAddress }},<br>{{ event.eventCity }}, 
@@ -43,8 +43,9 @@ export default {
     methods: { 
         fetchData() { 
             let params = JSON.stringify({
-                username: this.$cookies.get("username")
+                username: "ran",
             });
+            console.log(params.username)
             instance.post('NotificationSystem/GetRegisteredEventDetails', params, {
                 headers: {
                     'Content-Type': 'application/json'

@@ -10,7 +10,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
     // [ApiController]
     // [Route("api/[controller]")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
 
     public class NotificationSystemController : ControllerBase
     {
@@ -22,17 +22,17 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
         //[HttpGet("GetNotification")]
         // [HttpGet]
         [Route("GetRegisteredEventDetails")]
-        public List<NotificationSystemResponseModel> FetchRegisteredEvents(string username)
+        public List<NotificationSystemResponseModel> FetchRegisteredEvents(NotificationSystemRequestModel requestModel)
         {
-            Console.WriteLine("NotificationSystemController:FetchRegisteredEvents Hello " + username);
+            Console.WriteLine("notification controller" + requestModel.username);
 
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
             NotificationSystemManager notificationSystemManager = new NotificationSystemManager();
             List<NotificationSystemResponseModel> registeredEventsList = new List<NotificationSystemResponseModel>();
-            registeredEventsList = notificationSystemManager.ValidateUserInputs(username);
+            registeredEventsList = notificationSystemManager.ValidateUserInputs(requestModel);
             Console.WriteLine("after manager call");
-            return ;
+            return registeredEventsList;
         }
         
         // [HttpPost("DeleteNotification")]
