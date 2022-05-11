@@ -70,7 +70,6 @@ h1, h1:visited, h1:hover, h1:active {
   color: rgb(0, 75, 73);
   text-align: center;
   padding: 20px 0px 0px 0px;
-  font-family: "Copperplate", "Papyrus";
 }
 body{
 	padding-top: 10px;
