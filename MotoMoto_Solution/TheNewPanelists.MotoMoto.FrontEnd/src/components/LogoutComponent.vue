@@ -21,9 +21,11 @@ export default {
     }
 }
 </script>
-
 <style>
-button{
-    align-content: right;
+button {
+    align-content: center;
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
 }
 </style>

@@ -88,9 +88,12 @@ export default {
                 .then(res => {
                     console.log(res);
                     //window.alert(res.data.responseMessage);
-                    if (res.status == '200') {
+                    if (res.status == '200' && res.data.isSuccess === true) {
                         this.$router.push('/communityboard');
                     }
+                    // else {
+                        // Alert user that their operation did not work
+                    // }
                 })
                 .catch(e => {
                     console.log(e);

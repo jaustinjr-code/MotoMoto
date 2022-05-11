@@ -2,7 +2,7 @@ import http from "./Http-coman"
 <template>
   <div class="home">
     <TabBarComponent/>
-    <main-feed-home-display-component/>
+    <MainFeedHomeDisplayComponent/>
   </div>
 </template>
 

@@ -26,6 +26,8 @@ import EditProfile from '../views/EditProfileView.vue'
 import CreateEventPost from '../views/CreateEventPostView.vue'
 import EventAccountVerification from '../views/EventAccountVerificationView.vue'
 import CreateEventAccountReview from '../views/CreateEventAccountReviewView.vue'
+import AboutView from '../views/AboutView.vue'
+import FAQ from '../views/FAQView.vue'
 
 const routes = [
   {
@@ -37,6 +39,11 @@ const routes = [
     path:'/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path:'/FAQ',
+    name: 'FAQ',
+    component: FAQ
   },
   {
     path: '/accountdelete',
@@ -169,6 +176,10 @@ const routes = [
     components: CreateEventAccountReview,
     props: true,
   },
+    path: '/About',
+    name: 'About',
+    component: AboutView
+  }
 ]
 
 const router = createRouter({
