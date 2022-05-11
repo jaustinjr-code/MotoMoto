@@ -1,6 +1,6 @@
 <template>
   <h1>{{this.id}}</h1>
-  <Line :chart-data="this.chartData" />
+  <Line :chart-data="this.chartData" :key="reloadKey" />
 </template>
 
 <script>
@@ -25,6 +25,8 @@ export default {
             x_data: [],
             y_data: [],
             chartData: {},
+            reloadKey: 0,
+            reloadId: 0
         }
     },
     methods: {
@@ -65,17 +67,17 @@ export default {
                     fill: true,
                     borderColor: 'rgb(75, 192, 192)'
                 }]
-                this.chartData.options = {
-                    scales: {
-                        y: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'probability'
-                        }
-                        }]
-                    }     
-                }
-
+                // this.chartData.options = {
+                //     scales: {
+                //         y: [{
+                //         scaleLabel: {
+                //             display: true,
+                //             labelString: 'probability'
+                //         }
+                //         }]
+                //     }     
+                // }
+                ++this.reloadKey;
             }).catch((err) => {
                 console.log(err);
             })
@@ -83,6 +85,12 @@ export default {
     },
     mounted() {
         this.fetchChartData();
+        this.reloadId = window.setInterval(() => {
+            this.fetchChartData();
+        }, 60000)
+    },
+    unmounted() {
+        window.clearInterval(this.reloadId);
     }
 }
 </script>

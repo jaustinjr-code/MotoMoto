@@ -4,7 +4,6 @@ import http from "./Http-coman"
     <TabBarComponent/>
     <button @click = "goToEventList"> Event List </button>
     <button @click = "goToCarBuilder"> Car Builder </button>
-    <button @click = "goToRegistration"> Register </button>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
@@ -53,9 +52,6 @@ mounted() {
     },
     goToEventList(){
       this.$router.push('/EventList');
-    },
-    goToRegistration(){
-      this.$router.push('/Registration')
     },
     goToParts(){
       this.$router.push('/parts')
