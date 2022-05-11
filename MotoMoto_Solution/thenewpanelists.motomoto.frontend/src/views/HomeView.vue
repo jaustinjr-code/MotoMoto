@@ -28,7 +28,7 @@ export default {
     TabBarComponent,
     LogoutComponent
 },
-mounted() {
+mounted: function() {
     if (!this.$cookies.isKey("userId")) {
         this.$cookies.set("userId", -1,"1h")
       }
