@@ -164,6 +164,17 @@ const routes = [
     component: CreateEventPost
   },
   {
+    path: '/EventAccountVerification',
+    name: 'EventAccountVerification',
+    component: EventAccountVerification
+  },
+  {
+    path: '/CreateEventAccountReview',
+    name: 'CreateEventAccountReview',
+    components: CreateEventAccountReview,
+    props: true,
+  },
+  {
     path: '/About',
     name: 'About',
     component: AboutView
