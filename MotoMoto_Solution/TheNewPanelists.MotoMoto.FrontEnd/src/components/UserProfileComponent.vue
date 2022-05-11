@@ -48,7 +48,7 @@
             </thead>
             <thead v-if="{profilePosts} != null">
                 <tr class="postItems" v-for="(profilePost) in paginatedDataPost()" :key=profilePost>
-                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                    <td class="postTitles"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
                         {{profilePost.postTitle}}
                     </router-link></td>
                     <td class="postTitles">{{profilePost.feedName}}</td>
