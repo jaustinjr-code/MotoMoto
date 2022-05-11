@@ -25,6 +25,7 @@ import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
 import EditProfile from '../views/EditProfileView.vue'
 import CreateEventPost from '../views/CreateEventPostView.vue'
 import AboutView from '../views/AboutView.vue'
+import FAQ from '../views/FAQView.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path:'/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path:'/FAQ',
+    name: 'FAQ',
+    component: FAQ
   },
   {
     path: '/accountdelete',

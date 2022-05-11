@@ -56,8 +56,8 @@ export default defineComponent({
             alert("Missing confirmation details. Redirecting to the home page.");
             this.$router.push('/');
         }
-        //else    
-            //this.Confirmation();
+        else    
+            this.Confirmation();
     }
 })
 </script>
