@@ -11,14 +11,15 @@
             <p class="pwString">Password:    </p>
             <input type = "password" required placeholder="password" v-model= "password"> 
         </div>
-        <div class = "loginButton">
-            <button class = "submit" @click="loginClick">Submit</button>
-        </div>
+        <span class = "loginRegisterButton">
+            <button class="submit" v-on:click="loginClick">Submit</button>
+            <button class="registration" v-on:click = "goToRegistration"> Register </button>
+        </span>
     </div>
     <div class="forgotUsername">
         <p class="emailString">Forgot Username?    </p>
-        <input type = "email" required placeholder="email">
-        <button class = "submitEmail" @click="forgotUsername()">Submit</button>
+        <input type = "email" required placeholder="email" v-model="email">
+        <button class = "submitEmail" v-on:click="forgotUsername()">Submit</button>
     </div>
   </div>
 </template>
@@ -82,8 +83,9 @@ export default defineComponent({
             this.login();
         },
         forgotUsername() {
+            debugger;
             let params = {email: this.email};
-            instance.get("AccountRecovery/GetUsername", {params}).then((res) =>{
+            instance.get("/AccountRecovery/GetUsername", {params}).then((res) =>{
                 if(res.data == true) 
                 {
                     console.log("Email sent!");
@@ -91,29 +93,32 @@ export default defineComponent({
             }).catch((e) => {
                 console.log(e);
             });
+        },
+        goToRegistration(){
+            this.$router.push('/Registration')
         }
     }
 })
 </script>
 
-
 <style scoped>
-.loginView
+.forgotUsername
 {
+    padding-bottom: 10px;
+}
+.loginView {
     top:0px;
     position:fixed;
     width: 100%;
     height: 100%;
     margin: 0px;   
 }
-
-h1{
+h1 {
     padding-top: 5%;
     padding-bottom: 10%;
     font-family: "Copperplate", "Papyrus";
 }
-.login
-{
+.login {
     border-style: solid;
     display: inline-block;
     padding-right: 10px;
@@ -122,53 +127,66 @@ h1{
     border-radius: 20px;
 }
 .LoginString {
+    color: rgb(0, 75, 73);
+    text-align: center;
+    font-size: 25px;
+    font-family: "Copperplate";
     padding-top: 3%;
     padding-bottom: 3%;
 }
-.password
-{
-    padding-bottom: 20px;
+.password {
+    padding-bottom: 1px;
 }
-.forgotUsername
-{
+.loginButton {
     padding-bottom: 10px;
 }
-.loginButton
-{
-    padding-bottom: 20px;
+button.signUp {
+    color: #333;
+    border: 1px solid #eee;
+    padding: 8px;
+    margin: 20px 0 10px 0;
 }
-button.signUp
-{
-    float:right;
+.unInput {
+    font-size: 15px;
+    margin-left: 10px;
 }
-
-button
-{
+.pwInput {
+    font-size: 15px;
+    margin-left: 10px;
+}
+button {
     border-radius: 5px;
     color: #333;
     border: 1px solid #eee;
     padding: 8px;
-    margin: 30px 0 10px 0;
+    margin: 25px 0 10px 0;
     text-decoration: none;
     text-align: center;
 }
-
-input
-{
+input {
     border-radius: 5px;
     text-decoration: none;
 }
-unString 
-{
+unString {
     padding-right: 3%;
+    font-size: 15px;
 }
-pwString
-{
+pwString {
     padding-right: 3%;
+    font-size: 15px;
 }
-p
-{
-    
+#inputField {
+    font-size: 15px;
+}
+p {
     display: inline-block;
+}
+.submit {
+    margin-right: 10px;
+    font-size: 15px;
+}
+.registration {
+    margin-left: 10px;
+    font-size: 15px;
 }
 </style>
