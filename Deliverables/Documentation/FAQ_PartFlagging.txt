@@ -1,10 +1,18 @@
 Frequently Asked Questions For Part Flagging:
 
-Q: Why are there separate Part Flagging Car Builder and Part Flagging Car Post 
-   pages from the regular Car Builder and Part Flagging Car Post pages?
-A: Neither Car Builder or Car Post have been built yet, so in order to show frontend
-   functionality for part flagging, temporary static pages for these features had to be built.
+Q. How many part flags does it take for a part to get the label of "Non-Recommended"?
+A. 100
 
+Q: Can I downvote a part flag in the car builder?
+A: No, because user reviews are meant to monitor the validity of the user who
+   created the flag. If a user hasn't put a part in a build yet, they have
+   no idea whether or not that part is incompatible.
+
+Q: Why is there no part flagging for car posts.
+A: The car posting feature of MotoMoto has not been created yet!
+   For this reason, reviewing a flag is not available to a user.
+
+The following questions and answers are only applicable to the non-existent car posts:
 Q: Can I remove a flag from a car build?
 A: No, flags cannot be removed by users; however, their impact may be lessened by downvoting
    the part flag in the Part Flagging Car Post page.
@@ -18,6 +26,5 @@ A. Yes they do! Reviewing a part flag is just as impactful as creating one.
    It is based on a combination of part flags and part flag reviews that the
    "Compatible" and "Non-Recommended" labels are assigned to a part for a build.
 
-Q. How many part flags does it take for a part to get the label of "Non-Recommended"?
-A. 100
+
 
