@@ -4,7 +4,6 @@
         <div class="content">
             <div class="success" v-if="success">
                 <h2 style="font-size: 20px;">You can change your username or password under the user profile section.</h2>
-       
                 <div style="margin-top: 40px;">
                     <router-link to="/Login"><a class="login">Login</a></router-link>
                 </div>
