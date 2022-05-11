@@ -16,7 +16,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import { instance } from '../router/RegistrationConnection';
-import { instance as dump } from '../router/ProfileConnection'
+import { Profile } from '../router/ProfileConnection'
 
 export default defineComponent({
     setup() {
@@ -44,11 +44,10 @@ export default defineComponent({
             }).catch((e)=>{
                 console.log(e);
                 this.message = e
-                });
-            this.dumpNewUser();
+            });
         },
         dumpNewUser: async function(){
-            await dump.get('/ProfileManagement/Generate').then((response)=>{
+            await Profile.post('/ProfileManagement/Generate').then((response)=>{
                 console.log(`Server replied with: ${response.data}`);
             }).catch((e)=>{
                 console.log(e);
@@ -67,7 +66,10 @@ export default defineComponent({
             this.$router.push('/');
         }
         else    
+        {
             this.Confirmation();
+            this.dumpNewUser();
+        }
     }
 })
 </script>

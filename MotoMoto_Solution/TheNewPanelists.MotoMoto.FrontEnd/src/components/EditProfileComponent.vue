@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {instance} from '../router/ProfileConnection';
+import {Profile} from '../router/ProfileConnection';
 import TabBarComponent from "../components/TabBarComponent.vue";
 
 export default {
@@ -44,27 +44,27 @@ export default {
             if (newProfDescription.description > 160 || newProfDescription.description <= 0) {
                 return null;
             }
-            await instance.get('/ProfileUpdate/DescriptionUpdate', {params}).then((response) => {
+            await Profile.get('/ProfileUpdate/DescriptionUpdate', {params}).then((response) => {
                     console.log(response.data)
                 })
         },
         updateProfileImage: async function(_url) {
             let params = {username: this.username, newURL: _url.image}
-            await instance.get('/ProfileUpdate/ImageUpdate', {params}).then((response) =>{
+            await Profile.get('/ProfileUpdate/ImageUpdate', {params}).then((response) =>{
                 this.profile = response.data;
                 console.log(response.data);
             })
         },
         updateProfileUsername: async function(_username) {
             let params = {username: this.$cookies.get("username"), newUsername: _username.username}
-            await instance.get('/ProfileUpdate/UsernameUpdate', {params}).then((response) =>{
+            await Profile.get('/ProfileUpdate/UsernameUpdate', {params}).then((response) =>{
                 this.profile = response.data;
                 console.log(response.data);
             })
         },
         updateProfileStatus: async function(_status) {
             let params = {username: this.$cookies.get("username"), status: _status.status}
-            await instance.get('/ProfileUpdate/StatusUpdate', {username: this.$cookies.get("username"), newUsername: _username}).then((response) =>{
+            await Profile.get('/ProfileUpdate/StatusUpdate', {username: this.$cookies.get("username"), newUsername: _username}).then((response) =>{
                 this.profile = response.data;
                 console.log(response.data);
             })
