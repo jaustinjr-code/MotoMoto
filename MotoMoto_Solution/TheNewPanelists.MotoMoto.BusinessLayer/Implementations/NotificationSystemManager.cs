@@ -20,7 +20,6 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             if (String.IsNullOrEmpty(requestModel.username))
             {
                 responseModel.notificationSystemStatusMessage = "INVALID USER INPUTS";
-                Console.WriteLine("from notificationManager ", requestModel.username);
 
                 dataList.Add(responseModel);
 
