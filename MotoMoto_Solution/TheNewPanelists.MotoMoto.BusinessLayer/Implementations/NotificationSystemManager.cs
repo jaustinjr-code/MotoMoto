@@ -17,9 +17,10 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             NotificationSystemResponseModel responseModel = new NotificationSystemResponseModel();
             List<NotificationSystemResponseModel> dataList = new List<NotificationSystemResponseModel>();
 
-            if (String.IsNullOrEmpty(requestModel.username) || String.IsNullOrEmpty(requestModel.password))
+            if (String.IsNullOrEmpty(requestModel.username))
             {
                 responseModel.notificationSystemStatusMessage = "INVALID USER INPUTS";
+                Console.WriteLine("from notificationManager ", requestModel.username);
 
                 dataList.Add(responseModel);
 
@@ -36,48 +37,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             return _notificationSystemService.FetchRegisteredEvents(requestModel);
         }
 
-
-        /// <summary>
-        /// Calls RetchRegisteredEvents from the service layer then return the list of events
-        /// </summary>
-        ///
-        /// <param name="username">Logged-in username to receive in-app notification</param>
-        ///
-        /// <returns>Return a list with all the fetched data of registered events</returns>
-        // public List<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
-        // {
-        //     Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
-        //     List<NotificationSystemInAppModel> list;
-        //     list = _notificationSystemService.FetchRegisteredEvents(username);
-        //     //Console.WriteLine("return from business" + list[0].eventStreetAddress);
-        //     return list;
-        // }
-
-        // public bool RemoveNotification(int eventID, string username)
-        // {
-        //     if (eventID == 0 || username == null)
-        //     {
-        //         return false;
-        //     }
-        //     else
-        //     {
-        //         return (_notificationSystemService.DeleteNotification(eventID, username));
-        //     }
-        // }
-
-
-        // public bool IsTimeToSendEmailNotifications()
-        // {
-        //     bool result = false;
-        //     DateTime currentTime = DateTime.UtcNow;
-            
-        //     if (currentTime.Hour >= 22)
-        //     {
-        //         result = true;
-        //     }
-
-        //     return result;
-        // }
+        
 
     }
 }

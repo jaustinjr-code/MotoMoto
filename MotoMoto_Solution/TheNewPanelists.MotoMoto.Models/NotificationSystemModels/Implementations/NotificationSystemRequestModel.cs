@@ -2,15 +2,19 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class NotificationSystemRequestModel
     {
-        public string? username { get; }   
-        public string? password { get; }
+        public string? username { get; set; }  
+        public string? notificationType { get; set; }
+        //public string? notificationType { get; set; } 
+        //public string? password { get; }
 
         public NotificationSystemRequestModel() {}
 
-        public NotificationSystemRequestModel(string username, string password)
+        public NotificationSystemRequestModel(string username, string type)
         {
             this.username = username;
-            this.password = password;
+            this.notificationType = type;
+            //this.notificationType = type;
+            //this.password = password;
         }
         
     }

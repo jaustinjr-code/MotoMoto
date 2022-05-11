@@ -2,7 +2,8 @@ namespace TheNewPanelists.MotoMoto.Models
 {
     public class NotificationSystemResponseModel
     {
-        public string? username { get; }   
+        public int? eventID { get; set;}
+        public string? username { get; set; }   
         public string? password { get; }
         public string? eventTime { get; set; }
         public string? eventDate { get; set; }
@@ -13,6 +14,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? eventZipCode { get; set; }
         public string? eventTitle { get; set; }
         public string? notificationSystemStatusMessage { get; set; }
+        public string? email { get; set; }
 
         public NotificationSystemResponseModel() {}
 

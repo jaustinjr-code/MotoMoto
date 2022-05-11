@@ -24,15 +24,18 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
         [Route("GetRegisteredEventDetails")]
         public List<NotificationSystemResponseModel> FetchRegisteredEvents(NotificationSystemRequestModel requestModel)
         {
-            string username = "ran";
-            Console.WriteLine("notification controller " + requestModel);
-
-            // Create dependency objects before performing operation
-            // Create Service and Manager objects for EventList
+            Console.WriteLine("controller");
+            Console.WriteLine(requestModel.notificationType);
+            // NotificationSystemRequestModel requestModel = new NotificationSystemRequestModel();
+            NotificationSystemService emailService = new NotificationSystemService();
+            emailService.SendNotificationEmail();
+            // requestModel.username = username;
+            // requestModel.notificationType = type;
+            //requestModel.notificationType = type;
             NotificationSystemManager notificationSystemManager = new NotificationSystemManager();
             List<NotificationSystemResponseModel> registeredEventsList = new List<NotificationSystemResponseModel>();
             registeredEventsList = notificationSystemManager.ValidateUserInputs(requestModel);
-            Console.WriteLine("after manager call");
+
             return registeredEventsList;
         }
         
