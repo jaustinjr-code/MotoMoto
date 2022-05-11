@@ -43,14 +43,15 @@ export default {
     methods: { 
         fetchData() { 
             let params = JSON.stringify({
-                username: "ran",
+                username: this.$cookies.get("username")
             });
-            console.log(params.username)
+            console.log(params)
             instance.post('NotificationSystem/GetRegisteredEventDetails', params, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then((res) =>{
+                console.log(params);
                 //console.log(res.data.length); 
             // for(let i = 0; i < res.data.length; i++)
             // {

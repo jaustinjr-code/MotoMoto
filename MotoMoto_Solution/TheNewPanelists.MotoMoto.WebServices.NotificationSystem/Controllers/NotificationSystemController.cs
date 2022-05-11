@@ -24,7 +24,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.NotificationSystem.Controllers
         [Route("GetRegisteredEventDetails")]
         public List<NotificationSystemResponseModel> FetchRegisteredEvents(NotificationSystemRequestModel requestModel)
         {
-            Console.WriteLine("notification controller" + requestModel.username);
+            string username = "ran";
+            Console.WriteLine("notification controller " + requestModel);
 
             // Create dependency objects before performing operation
             // Create Service and Manager objects for EventList
