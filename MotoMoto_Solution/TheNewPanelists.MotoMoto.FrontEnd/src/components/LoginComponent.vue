@@ -85,7 +85,7 @@ export default defineComponent({
         forgotUsername() {
             debugger;
             let params = {email: this.email};
-            instance.get("/AccountRecovery/GetUsername", {params}).then((res) =>{
+            instance.get("api/AccountRecovery/GetUsername", {params}).then((res) =>{
                 if(res.data == true) 
                 {
                     console.log("Email sent!");
