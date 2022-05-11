@@ -5,8 +5,8 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, A
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://localhost:7006/Api'
-    //baseURL: 'http://localhost:5006'
+    //baseURL: 'https://localhost:7006/Api'
+    baseURL: 'http://motomotoca.com:7006/Api'
 });
 
 export {instance}

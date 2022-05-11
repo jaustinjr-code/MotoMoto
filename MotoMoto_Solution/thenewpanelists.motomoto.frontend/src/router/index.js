@@ -8,15 +8,24 @@ import DirectMessage from '../views/DirectMessageView.vue'
 import Login from '../views/LoginView.vue'
 import PartFlaggingBuilder from '../views/PartFlaggingBuilderView.vue'
 import PartFlaggingPost from '../views/PartFlaggingPostView.vue'
+import CarBuilder from '../views/CarBuilderView.vue'
 import EventList from '../views/EventListView.vue'
 import Registration from '../views/RegistrationView.vue'
+import RegistrationConfirmation from '../views/RegistrationConfirmationView.vue'
 import PartPriceAnalysis from '../views/PartPriceAnalysisView.vue'
 import PartPriceDetails from '../views/PartPriceDetailsView.vue'
 import PartComparison from '../views/PartPriceAnalysisComparisonView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import EditPreferences from '../views/EditPreferencesView'
+import MeetingPointDirections from '../views/MeetingPointDirectionsView.vue'
+import NoteDashboardView from '../views/NoteDashboardView.vue'
 import NotificationSystem from '../views/NotificationSystemView'
 import PersonalizedRecommendations from '../views/PersonalizedRecommendationsView.vue'
+import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
+import EditProfile from '../views/EditProfileView.vue'
+import CreateEventPost from '../views/CreateEventPostView.vue'
+import AboutView from '../views/AboutView.vue'
+import FAQ from '../views/FAQView.vue'
 
 const routes = [
   {
@@ -28,6 +37,11 @@ const routes = [
     path:'/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path:'/FAQ',
+    name: 'FAQ',
+    component: FAQ
   },
   {
     path: '/accountdelete',
@@ -70,6 +84,11 @@ const routes = [
     component: PartFlaggingPost
   },
   {
+    path: '/CarBuilder',
+    name: 'CarBuilder',
+    component: CarBuilder
+  },
+  {
     path: '/EventList',
     name: 'EventList',
     component: EventList
@@ -78,6 +97,11 @@ const routes = [
     path: '/Registration',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/Registration/Confirmation/:',
+    name: 'RegistrationConfirmation',
+    component: RegistrationConfirmation
   },
   {
     path: '/Parts',
@@ -95,7 +119,7 @@ const routes = [
     component: PartComparison
   },
   {
-    path: '/UserProfile',
+    path: '/UserProfile/:username',
     name: 'UserProfile',
     component: UserProfile,
   },
@@ -103,6 +127,16 @@ const routes = [
     path: '/UserProfile/EditPreferences',
     name: 'EditPreferences',
     component: EditPreferences
+  },
+  {
+    path: '/MeetingPointDirections',
+    name: 'MeetingPointDirections',
+    component: MeetingPointDirections
+  },
+  {
+    path: '/noteDashboard',
+    name: 'noteDashabord',
+    component: NoteDashboardView
   },
   {
     path: '/NotificationSystem',
@@ -113,6 +147,26 @@ const routes = [
     path: '/PersonalizedRecommendations',
     name: 'PersonalizedRecommendations',
     component: PersonalizedRecommendations
+  },
+  {
+    path: '/UsageAnalysisDashboard',
+    name: 'UsageAnalysisDashboard',
+    component: UsageAnalysisDashboard
+  },
+  {
+    path: '/EditProfile',
+    name: 'EditProfile',
+    component: EditProfile
+  },
+  {
+    path: '/CreateEventPost',
+    name: 'CreateEventPost',
+    component: CreateEventPost
+  },
+  {
+    path: '/About',
+    name: 'About',
+    component: AboutView
   }
 ]
 

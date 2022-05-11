@@ -20,6 +20,6 @@ export default {
 
 <style>
 .Filters {
-    padding-bottom: 100px;
+    padding-bottom: 50px;
 }
 </style>
