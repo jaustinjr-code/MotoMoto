@@ -46,7 +46,7 @@ export default defineComponent({
                 });
         },
     },
-    created: function() {
+    mounted() {
 
         this.email = this.$route.query.email;
         this.registrationId = this.$route.query.registrationID;
@@ -56,8 +56,8 @@ export default defineComponent({
             alert("Missing confirmation details. Redirecting to the home page.");
             this.$router.push('/');
         }
-        //else    
-            //this.Confirmation();
+        else    
+            this.Confirmation();
     }
 })
 </script>

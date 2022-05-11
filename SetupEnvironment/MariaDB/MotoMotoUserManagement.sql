@@ -70,28 +70,6 @@ CREATE TABLE Registration (
     CONSTRAINT CK_Registration_password CHECK (LENGTH(password) >= 8)    
 );
 
-CREATE TABLE FollowedCountry (
-    userId INT NOT NULL,
-    country VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedCountries_Pk PRIMARY KEY (userId, country),
-    CONSTRAINT FollowedCountries_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
-CREATE TABLE FollowedMake (
-    userId INT NOT NULL,
-    Make VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedMakes_Pk PRIMARY KEY (userId, make),
-    CONSTRAINT FollowedMakes_User__Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
-CREATE TABLE FollowedModel (
-    userId INT NOT NULL,
-    make VARCHAR(20) NOT NULL,
-    model VARCHAR(20) NOT NULL,
-    CONSTRAINT FollowedModels_Pk PRIMARY KEY (userId, make, model),
-    CONSTRAINT FollowedModels_User_Fk FOREIGN KEY (userId) REFERENCES User (userId)
-);
-
 INSERT INTO Type
 VALUES (NULL, 'ADMIN'),
     (NULL, 'REGISTERED'),
@@ -101,11 +79,3 @@ INSERT INTO User(TYPENAME, USERNAME, PASSWORD, EMAIL) VALUES ('ADMIN', 'ROOT', '
 --INSERT INTO PROFILE (userId, username) SELECT u.userId, u.username FROM USER u 
                     EXCEPT SELECT p.userId, p.username FROM PROFILE p;
 
-INSERT INTO FollowedCountry VALUES (23, 'United States');
-INSERT INTO FollowedCountry VALUES (23, 'Germany');
-
-INSERT INTO FollowedMake VALUES (23, 'Mitsubishi');
-INSERT INTO FollowedMake VALUES (23, 'Honda');
-
-INSERT INTO FollowedModel VALUES (23, 'Chevrolet', 'Chevellev');
-INSERT INTO FollowedModel VALUES (23, 'Ford', 'Mustang');

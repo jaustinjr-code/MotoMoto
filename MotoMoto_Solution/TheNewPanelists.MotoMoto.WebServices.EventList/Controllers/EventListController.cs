@@ -16,7 +16,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         private readonly EventPostContentDataAccess _eventPostContentDataAccess = new EventPostContentDataAccess();
 
         // Used to display the Index view of the project
-        [HttpOptions]
+        //[HttpOptions]
         public IActionResult Index()
         {
             return View(); // Display the view
@@ -24,7 +24,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
 
         // Web API call to fetch EventPostModel data from the data store and display it in the Frontend
         //[HttpGet]
-        [HttpGet, Route("GetEvents")]
+        [Route("GetEvents")]
         public IActionResult FetchAllEventPosts()
         {
             // Create dependency objects before performing operation
@@ -41,12 +41,13 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         // Gets the user input retrieved from the frontend and stores it within the datastore
-        [Route("CreateEvent")]
+        [HttpGet, Route("CreateEvent")]
         public IActionResult CreateEventPost(string time, string date, string streetAddress, string city, string state, string country, string zipCode, string title)
         {
             EventListService eventListService = new EventListService(_eventPostContentDataAccess);
@@ -66,5 +67,23 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
 
         }
 
+        [HttpGet, Route("GetAllEventAccounts")]
+        public IActionResult FetchAllEventAccounts()
+        {
+            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
+            EventListManager eventListManager = new EventListManager(eventListService);
+
+            try
+            {
+                // Make a call to the Event List Manager
+                ISet<ProfileModel> fetchedAllEventAccounts = eventListManager.FetchAllEventAccounts();
+                // Return the fetched EventDetails Model
+                return Ok(fetchedAllEventAccounts);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

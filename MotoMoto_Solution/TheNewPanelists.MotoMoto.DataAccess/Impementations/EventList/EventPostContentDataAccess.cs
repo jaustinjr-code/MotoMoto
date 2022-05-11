@@ -41,26 +41,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             return false;
         }
 
-        /// <summary>
-        /// Method that will be used to execute the created query command
-        /// If the query is executed then close the connection and return true
-        /// else close the connection and return false
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        private bool ExecuteQuery(MySqlCommand command)
-        {
-            switch (command.ExecuteNonQuery())
-            {
-                case 1:
-                    mySqlConnection?.Close();
-                    return true;
-                default:
-                    mySqlConnection?.Close();
-                    return false;
-            }
-        }
-
         // Used to fetch all of the posts within the data store
         public ISet<EventDetailsModel>? FetchAllPosts()
         {
@@ -142,6 +122,41 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 mySqlConnection?.Dispose();
             }
             return new EventDetailsModel().GetResponse(ResponseModel.response.success);
+        }
+
+        // Queries the datastore and fetches profiles that are event accounts
+        public ISet<ProfileModel>? FetchAllEventAccounts()
+        {
+            EstablishDBConnection();
+            string fetchEventAccountsQuery = "SELECT username FROM Profile WHERE eventAccount = 1";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(fetchEventAccountsQuery, mySqlConnection))
+                {
+
+                    MySqlDataReader myReader = command.ExecuteReader();
+                    ISet<ProfileModel> profiles = new HashSet<ProfileModel>();
+
+                    // Read queried rows and store into a Set of EventDetailsModels
+                    while (myReader.Read())
+                    {
+                        ProfileModel profile = new ProfileModel();
+                        profile.username = myReader.GetString("username");
+                        profiles.Add(profile);
+                    }
+                    myReader.Close();
+                    return profiles;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log here
+                throw new ArgumentException("ERROR: Could not retrieve information...", ex);
+            }
+            finally
+            {
+                mySqlConnection!.Dispose();
+            }
         }
     }
 }

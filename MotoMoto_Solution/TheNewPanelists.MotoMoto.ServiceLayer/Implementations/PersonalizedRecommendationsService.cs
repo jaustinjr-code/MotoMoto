@@ -14,9 +14,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             _personalizedRecommendationsDAO = new PersonalizedRecommendationsDataAccess();
         }
 
-        public DataStoreRequestPreferences GetUserPreferences(int userId)
+        public DataStoreUserPreferences GetUserPreferences(int userId)
         {
-            DataStoreRequestPreferences dataStoreRequest = new DataStoreRequestPreferences() {
+            DataStoreUserPreferences dataStoreRequest = new DataStoreUserPreferences() {
                 followedCountries = new List<Country>(),
                 followedMakes = new List<Make>(),
                 followedModels = new List<Model>(),
@@ -39,7 +39,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer.Implementations
             }
         }
 
-        public void UpdateUserPreferences(int userId, ref DataStoreRequestPreferences dataStoreRequest)
+        public void UpdateUserPreferences(int userId, ref DataStoreUserPreferences dataStoreRequest)
         {
             List<string> messages = new List<string>();
 
