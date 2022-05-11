@@ -46,5 +46,44 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
             }
         }
 
+        // Gets the user input retrieved from the frontend and stores it within the datastore
+        [HttpGet, Route("CreateEvent")]
+        public IActionResult CreateEventPost(string time, string date, string streetAddress, string city, string state, string country, string zipCode, string title)
+        {
+            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
+            EventListManager eventListManager = new EventListManager(eventListService);
+
+            try
+            {
+                // Make a call to the Event List Manager
+                EventDetailsModel postedEvent = eventListManager.CreateEventPost(time, date, streetAddress, city, state, country, zipCode, title);
+                // Return the fetched EventDetails Model
+                return Ok(postedEvent);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
+        [HttpGet, Route("GetAllEventAccounts")]
+        public IActionResult FetchAllEventAccounts()
+        {
+            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
+            EventListManager eventListManager = new EventListManager(eventListService);
+
+            try
+            {
+                // Make a call to the Event List Manager
+                ISet<ProfileModel> fetchedAllEventAccounts = eventListManager.FetchAllEventAccounts();
+                // Return the fetched EventDetails Model
+                return Ok(fetchedAllEventAccounts);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
