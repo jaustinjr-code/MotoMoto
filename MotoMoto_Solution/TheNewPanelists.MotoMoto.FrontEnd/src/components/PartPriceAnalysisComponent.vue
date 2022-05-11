@@ -67,5 +67,7 @@ export default {
 </script>
 
 <style>
-
+.part-selection {
+    font-size: 20px;
+}
 </style>

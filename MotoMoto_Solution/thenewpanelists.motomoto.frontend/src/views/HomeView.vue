@@ -3,14 +3,12 @@ import http from "./Http-coman"
   <div class="home">
     <TabBarComponent/>
     <button @click = "goToEventList"> Event List </button>
-    <button @click = "goToCarBuilder"> Car Builder </button>
     <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNoteDashboard">Note Dashboard</button>
     <button @click="goToDirectMessage">DirectMessage</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
-    <button @click="goToCommunityBoard">Community Board</button>
     <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
   </div>
 </template>
@@ -47,14 +45,8 @@ mounted() {
     goToLogin(){
       this.$router.push('/Login');
     },
-    goToCarBuilder(){
-      this.$router.push('/CarBuilder');
-    },
     goToEventList(){
       this.$router.push('/EventList');
-    },
-    goToParts(){
-      this.$router.push('/parts')
     },
     goToPartFlaggingBuilder(){
       this.$router.push('/PartFlaggingBuilder')
@@ -72,9 +64,6 @@ mounted() {
 	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
-    },
-    goToCommunityBoard(){
-      this.$router.push('/communityboard')
     },
     goToMeetingPointDirections() {
       this.$router.push('/MeetingPointDirections')
