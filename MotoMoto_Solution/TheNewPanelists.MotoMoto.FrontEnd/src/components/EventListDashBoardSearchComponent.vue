@@ -1,6 +1,5 @@
 <template>
     <div class = "Search">
-        <h1> Search </h1>
         <input type="text" v-model="search" placeholder="Search">
         <div v-for="event in events" :key="event.eventID" class="single-event"></div>
     </div>
@@ -29,8 +28,8 @@ export default {
 
 .Search
 {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 100px;
+    padding-bottom: 100px;
     width: 100%;
     overflow: hidden;
 }
