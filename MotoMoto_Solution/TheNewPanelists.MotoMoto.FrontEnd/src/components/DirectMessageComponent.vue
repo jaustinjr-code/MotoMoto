@@ -149,4 +149,5 @@ export default {
     width: 90vh;
 
 }
+
 </style>

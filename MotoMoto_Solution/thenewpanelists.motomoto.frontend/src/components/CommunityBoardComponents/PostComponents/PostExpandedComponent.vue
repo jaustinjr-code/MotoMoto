@@ -117,7 +117,7 @@ export default {
             })
                 .then(res => {
                     console.log(res);
-                    window.alert(res.data.responseMessage);
+                    //window.alert(res.data.responseMessage);
 
                     // Refreshes the page so you can see the new comment
                     if (res.status == 200)
