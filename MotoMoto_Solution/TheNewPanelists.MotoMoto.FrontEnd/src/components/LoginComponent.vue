@@ -16,6 +16,11 @@
             <button class="registration" v-on:click = "goToRegistration"> Register </button>
         </span>
     </div>
+    <div class="forgotUsername">
+        <p class="emailString">Forgot Username?    </p>
+        <input type = "email" required placeholder="email" v-model="email">
+        <button class = "submitEmail" v-on:click="forgotUsername()">Submit</button>
+    </div>
   </div>
 </template>
 
@@ -38,6 +43,7 @@ export default defineComponent({
         return{
             username: '',
             password: '',
+            email: '',
             loginSuccessful:false
         }
     },
@@ -76,11 +82,27 @@ export default defineComponent({
         goToRegistration(){
             this.$router.push('/Registration')
         },
+        forgotUsername() {
+            debugger;
+            let params = {email: this.email};
+            instance.get("api/AccountRecovery/GetUsername", {params}).then((res) =>{
+                if(res.data == true) 
+                {
+                    console.log("Email sent!");
+                }
+            }).catch((e) => {
+                console.log(e);
+            });
+        }
     }
 })
 </script>
 
 <style scoped>
+.forgotUsername
+{
+    padding-bottom: 10px;
+}
 .loginView {
     top:0px;
     position:fixed;
