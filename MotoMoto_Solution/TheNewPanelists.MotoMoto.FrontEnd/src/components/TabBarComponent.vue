@@ -90,13 +90,13 @@ nav {
   	background-color:rgb(0, 75, 73);
 }
 
-nav a {
+.navBar a {
 	display:inline;
   	float: left;
-	padding: 10px 10px;
+	padding: 13px 13px;
 	color:#fff !important;
 	font-weight:bold;
-	font-size:10px;
+	font-size:12px;
 	text-decoration:none !important;
 	line-height:1;
 	text-transform: uppercase;
@@ -124,7 +124,7 @@ nav.contact .contact{
 
 p {
 	display:inline;
-	font-size:14px;
+	font-size:15px;
 	font-weight:bold;
 	color:#7d9098;
 }
