@@ -4,16 +4,17 @@
     <div class="login">
         <h4 class="LoginString">Login</h4>
         <div class="username">
-            <p class="unString">Username:    </p>
-            <input type = "usersname" required placeholder="username" v-model = "username">
+            <p class="unString">Username:</p>
+            <input class="unInput" type = "usersname" required placeholder="username" v-model = "username">
         </div>
         <div class = "password">
-            <p class="pwString">Password:    </p>
-            <input type = "password" required placeholder="password" v-model= "password"> 
+            <p class="pwString">Password:</p>
+            <input class="pwInput" type = "password" required placeholder="password" v-model= "password">
         </div>
-        <div class = "loginButton">
-            <button class = "submit" @click="loginClick">Submit</button>
-        </div>
+        <span class = "loginRegisterButton">
+            <button class="submit" v-on:click="loginClick">Submit</button>
+            <button class="registration" v-on:click = "goToRegistration"> Register </button>
+        </span>
     </div>
   </div>
 </template>
@@ -24,7 +25,6 @@ import { defineComponent } from "vue";
 import {instance} from '../router/directMessageConnection'
 import { instanceSubmit } from '../router/CommunityBoardConnection.js'
 import TabBarComponent from "../components/TabBarComponent.vue";
-
 export default defineComponent({
     setup() {
         const { cookies } = useCookies();
@@ -50,7 +50,6 @@ export default defineComponent({
                 {
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
-
                     if(res.status == 200) {
                         let params = JSON.stringify({ metric: 1 })
                         instanceSubmit.post('SubmitKpi/SubmitLoginKpiMetric', params, {
@@ -65,7 +64,6 @@ export default defineComponent({
                                 console.log(err);
                             });
                     }
-                    //this.$router.push({path: '/CommunityDashboard'});
                     this.$router.push({path: '/'});
                 }
             }).catch((e)=>{
@@ -74,28 +72,28 @@ export default defineComponent({
         },
         loginClick() {
             this.login();
-        }
+        },
+        goToRegistration(){
+            this.$router.push('/Registration')
+        },
     }
 })
 </script>
 
 <style scoped>
-.loginView
-{
+.loginView {
     top:0px;
     position:fixed;
     width: 100%;
     height: 100%;
     margin: 0px;   
 }
-
-h1{
+h1 {
     padding-top: 5%;
     padding-bottom: 10%;
     font-family: "Copperplate", "Papyrus";
 }
-.login
-{
+.login {
     border-style: solid;
     display: inline-block;
     padding-right: 10px;
@@ -104,50 +102,66 @@ h1{
     border-radius: 20px;
 }
 .LoginString {
+    color: rgb(0, 75, 73);
+	text-align: center;
+    font-size: 25px;
+	font-family: "Copperplate";
     padding-top: 3%;
     padding-bottom: 3%;
 }
-.password
-{
-    padding-bottom: 20px;
+.password {
+    padding-bottom: 1px;
 }
-
-.loginButton
-{
-    padding-bottom: 20px;
+.loginButton {
+    padding-bottom: 10px;
 }
-button.signUp
-{
-    float:right;
+button.signUp {
+    color: #333;
+    border: 1px solid #eee;
+    padding: 8px;
+    margin: 20px 0 10px 0;
 }
-
-button
-{
+.unInput {
+    font-size: 15px;
+    margin-left: 10px;
+}
+.pwInput {
+    font-size: 15px;
+    margin-left: 10px;
+}
+button {
     border-radius: 5px;
     color: #333;
     border: 1px solid #eee;
     padding: 8px;
-    margin: 30px 0 10px 0;
+    margin: 25px 0 10px 0;
     text-decoration: none;
     text-align: center;
 }
-
-input
-{
+input {
     border-radius: 5px;
     text-decoration: none;
 }
-unString 
-{
+unString {
     padding-right: 3%;
+    font-size: 15px;
 }
-pwString
-{
+pwString {
     padding-right: 3%;
+    font-size: 15px;
 }
-p
-{
-    
+#inputField {
+    font-size: 15px;
+}
+p {
     display: inline-block;
+}
+.submit {
+    margin-right: 10px;
+    font-size: 15px;
+}
+.registration {
+    margin-left: 10px;
+    font-size: 15px;
 }
 </style>
