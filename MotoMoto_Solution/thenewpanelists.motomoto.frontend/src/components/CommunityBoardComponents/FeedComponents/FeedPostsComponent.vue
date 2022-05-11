@@ -1,7 +1,12 @@
 <template>
     <div>
         <!-- Source: https://stackoverflow.com/questions/50982408/vue-js-get-selected-option-on-change -->
-        <select name="community_feeds" id="feedNames" @change="loadFeed($event.target.value)">
+        <div>
+            <h1 class="postTitle">{{ feedName }}</h1>
+            <button @click="createPost()" v-if="feedName != 'Main Feed'">Create Post</button>
+        </div>
+        <br>
+        <select name="community_feeds" id="feedNames" class="feedDropdown" @change="loadFeed($event.target.value)">
             <option value="Main Feed">Main Feed</option>
             <option value="Lowrider">Lowrider</option>
             <option value="Supercar">Supercar</option>
@@ -16,12 +21,9 @@
             <option value="Truck">Truck</option>
             <option value="test">test</option>
         </select>
-        <div>
-            <h1>{{ feedName }}</h1>
-            <button @click="createPost()" v-if="feedName != 'Main Feed'">Create Post</button>
-        </div>
         <br>
-        <table id="post-summary">
+        <br>
+        <table id="post-summary" class="postSummary">
             <tr>
                 <th>User</th>
                 <th>Title</th>
@@ -29,8 +31,8 @@
             </tr>
             <!-- Consider filling in data for a component Post Summary -->
             <!-- Source: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_rendering_lists -->
-            <tr v-for="post in postList" :key="post.postId" >
-                <td>{{ post.postUsername }}</td>
+            <tr v-for="post in postList" :key="post.postId" class="postRow">
+                <td class="postUsername">{{ post.postUsername }}</td>
                 <td class="postDetails" @click="expandPost(post.postId)" title="Click here for post details">{{ post.postTitle }}</td>
                 <button @click="upvoteButton(post.postId, post.postTitle)">Upvote</button>
                 <!-- Want to pass in current user's username into upvoteButton -->
@@ -152,10 +154,27 @@ export default {
     cursor: pointer;
 }
 
-td {
+/* td {
     max-width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+} */
+
+.postSummary {
+    max-width: 50%;
+    height: 50%;
+    font-size:large;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.postUsername {
+    max-width: fit-content;
+}
+
+.feedDropdown {
+    size: 100%;
 }
 </style>

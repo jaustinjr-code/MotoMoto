@@ -2,14 +2,7 @@ import http from "./Http-coman"
 <template>
   <div class="home">
     <TabBarComponent/>
-    <button @click = "goToEventList"> Event List </button>
-    <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
-    <button @click="goToPartFlaggingPost">Part Flagging Post</button>
-    <button @click="goToNoteDashboard">Note Dashboard</button>
-    <button @click="goToDirectMessage">DirectMessage</button>
-    <button @click="goToNotificationSystem"> Notification Center </button>
-    <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
+    <main-feed-home-display-component/>
   </div>
 </template>
 
@@ -21,12 +14,14 @@ import LogoutComponentVue from '../components/LogoutComponent.vue';
 import router from '../router'
 import { useCookies } from "vue3-cookies";
 import LogoutComponent from '../components/LogoutComponent.vue';
+import MainFeedHomeDisplayComponent from '@/components/HomeDisplayComponents/MainFeedHomeDisplayComponent.vue';
 
 export default {
   name: 'HomeView',
   components: {
     TabBarComponent,
-    LogoutComponent
+    LogoutComponent,
+    MainFeedHomeDisplayComponent
 },
 mounted: function() {
     if (!this.$cookies.isKey("userId")) {
