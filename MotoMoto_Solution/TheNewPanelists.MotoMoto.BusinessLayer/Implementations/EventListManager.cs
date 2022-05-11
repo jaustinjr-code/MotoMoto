@@ -75,6 +75,12 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             }
         }
 
+        // Function that will be used to FetchAllEventAccounts from the datastore using the EventListService object
+        public ISet<ProfileModel> FetchAllEventAccounts()
+        {
+            return _eventListService.FetchAllEventAccounts();
+        }
+
         /// <summary>
         /// Determines if any field inputted by the user is null
         /// If one of the input is null then return false
