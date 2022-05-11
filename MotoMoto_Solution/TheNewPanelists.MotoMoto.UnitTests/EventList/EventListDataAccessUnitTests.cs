@@ -8,7 +8,7 @@ using Xunit;
 
 namespace TheNewPanelists.MotoMoto.UnitTests
 {
-    public class EventListDataAccessUnitTests
+/*    public class EventListDataAccessUnitTests
     {
         // Test to determine if the DAO is able to connect to the cloud data store (AWS RDS)
         [Fact]
@@ -21,5 +21,5 @@ namespace TheNewPanelists.MotoMoto.UnitTests
             // Assert
             Assert.True(result);
         }
-    }
+    }*/
 }
