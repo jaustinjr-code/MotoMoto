@@ -176,7 +176,6 @@ const routes = [
     components: CreateEventAccountReview,
     props: true,
   },
-  {
     path: '/About',
     name: 'About',
     component: AboutView
