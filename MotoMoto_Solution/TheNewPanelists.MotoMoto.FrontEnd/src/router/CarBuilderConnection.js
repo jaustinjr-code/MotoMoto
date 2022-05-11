@@ -13,4 +13,9 @@ const instanceSubmit = axios.create({
     //baseURL: 'http://motomotoca.com:5070/'
 });
 
-export {instance, instanceSubmit}
+const flaggingInstance = axios.create({
+    // baseURL: 'https://localhost:7285/api/'
+    baseURL: 'http://motomotoca.com:5555/api/'
+});
+
+export {instance, instanceSubmit, flaggingInstance}
