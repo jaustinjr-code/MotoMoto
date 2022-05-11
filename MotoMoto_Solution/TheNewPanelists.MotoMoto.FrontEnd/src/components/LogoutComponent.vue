@@ -21,16 +21,11 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-button{
-    align-content: right;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-top: 5px; 
-    margin-bottom: 5px; 
-    background-color: #555;
-    color: white;
-    border: none;
+<style>
+button {
+    align-content: center;
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
 }
 </style>
