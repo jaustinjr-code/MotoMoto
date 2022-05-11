@@ -8,7 +8,7 @@
 			<router-link to="/communityboard"><a class="communityboard">Community Board</a></router-link>
 			<router-link to=""><a class="contact">Contact</a></router-link>
 			<div v-if="loggedIn() === false">
-				<router-link to="/login"><a class="login">Login</a></router-link>
+				<router-link to="/login"><a class="login">Login / Register</a></router-link>
 			</div>
 			<div v-else>
 				<router-link :to="{name: 'UserProfile', params: { username: getLoginCredential()}}"><a class="profile">Profile</a></router-link>

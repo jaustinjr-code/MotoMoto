@@ -4,16 +4,17 @@
     <div class="login">
         <h4 class="LoginString">Login</h4>
         <div class="username">
-            <p class="unString">Username:    </p>
-            <input type = "usersname" required placeholder="username" v-model = "username">
+            <p class="unString">Username:</p>
+            <input class="unInput" type = "usersname" required placeholder="username" v-model = "username">
         </div>
         <div class = "password">
-            <p class="pwString">Password:    </p>
-            <input type = "password" required placeholder="password" v-model= "password"> 
+            <p class="pwString">Password:</p>
+            <input class="pwInput" type = "password" required placeholder="password" v-model= "password"> 
         </div>
-        <div class = "loginButton">
+        <span class = "loginRegisterButton">
             <button class = "submit" v-on:click="loginClick">Submit</button>
-        </div>
+            <button class= "registration" v-on:click = "goToRegistration"> Register </button>
+        </span>
     </div>
   </div>
 </template>
@@ -74,7 +75,10 @@ export default defineComponent({
         },
         loginClick() {
             this.login();
-        }
+        },
+        goToRegistration(){
+            this.$router.push('/Registration')
+        },
     }
 })
 </script>
@@ -110,12 +114,12 @@ h1{
 }
 .password
 {
-    padding-bottom: 20px;
+    padding-bottom: 1px;
 }
 
-.loginButton
+.loginRegisterButton
 {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 button.signUp
 {
@@ -128,11 +132,16 @@ button
     color: #333;
     border: 1px solid #eee;
     padding: 8px;
-    margin: 30px 0 10px 0;
+    margin: 20px 0 10px 0;
     text-decoration: none;
     text-align: center;
 }
-
+.unInput {
+    margin-left: 10px;
+}
+.pwInput {
+    margin-left: 10px;
+}
 input
 {
     border-radius: 5px;
@@ -150,5 +159,11 @@ p
 {
     
     display: inline-block;
+}
+.submit {
+    margin-right: 10px;
+}
+.registration {
+    margin-left: 10px;
 }
 </style>
