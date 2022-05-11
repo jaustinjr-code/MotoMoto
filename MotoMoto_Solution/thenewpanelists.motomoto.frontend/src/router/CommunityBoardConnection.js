@@ -8,7 +8,6 @@ const instanceFetch = axios.create({
     // baseURL: 'https://localhost:7047',
     // Production URL
     baseURL: 'http://motomotoca.com:5050'
-    // baseURL: 'http://motomotoca.com:5051'
 });
 
 const instanceSubmit = axios.create({

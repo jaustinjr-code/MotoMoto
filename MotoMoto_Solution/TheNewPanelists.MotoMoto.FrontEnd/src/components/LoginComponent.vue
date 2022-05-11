@@ -12,7 +12,7 @@
             <input type = "password" required placeholder="password" v-model= "password"> 
         </div>
         <div class = "loginButton">
-            <button class = "submit" @click="loginClick">Submit</button>
+            <button class = "submit" v-on:click="loginClick">Submit</button>
         </div>
     </div>
   </div>
@@ -21,8 +21,9 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
+import {instance} from '../router/directMessageConnection'
+import { instanceSubmit } from '../router/CommunityBoardConnection.js'
 import TabBarComponent from "../components/TabBarComponent.vue";
-import {instance} from "../router/directMessageConnection"
 
 export default defineComponent({
     setup() {
@@ -49,6 +50,22 @@ export default defineComponent({
                 {
                     this.$cookies.set("username", this.username, "1d");
                     console.log("inside the method");
+
+                    if(res.status == 200) {
+                        let params = JSON.stringify({ metric: 1 })
+                        instanceSubmit.post('SubmitKpi/SubmitLoginKpiMetric', params, {
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            }
+                            })
+                            .then(res => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
+                    //this.$router.push({path: '/CommunityDashboard'});
                     this.$router.push({path: '/'});
                 }
             }).catch((e)=>{

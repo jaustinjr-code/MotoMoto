@@ -46,7 +46,8 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
-import {instance} from '../router/RegistrationConnection';
+import {instance} from '../router/RegistrationConnection'
+import { instanceSubmit } from '../router/CommunityBoardConnection.js'
 
 export default defineComponent({
     setup() {
@@ -67,6 +68,21 @@ export default defineComponent({
         Registration: async function(){
             await instance.post('/Registration/Register', null, {params: {email: this.email, password: this.password}}).then((response)=>{
                 console.log(`Server replied with: ${response.data}`);
+                if (response.status == 200) {
+                    let params = JSON.stringify({ metric: 1 });
+                    instanceSubmit.post('SubmitKpi/SubmitRegistrationKpiMetric', params, {
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            }
+                        })
+                        .then(res => {
+                            console.log(res);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                }
+                this.$router.push({path: '/Login'});
                 this.message = response.data.message;
                 this.success = response.data.status;
             }).catch((e)=>{

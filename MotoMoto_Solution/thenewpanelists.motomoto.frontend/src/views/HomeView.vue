@@ -9,6 +9,7 @@ import http from "./Http-coman"
     <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
     <button @click="goToPartFlaggingPost">Part Flagging Post</button>
     <button @click="goToNoteDashboard">Note Dashboard</button>
+    <button @click="goToDirectMessage">DirectMessage</button>
     <button @click="goToNotificationSystem"> Notification Center </button>
     <button @click="goToCommunityBoard">Community Board</button>
     <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
@@ -31,20 +32,18 @@ export default {
     LogoutComponent
 },
 mounted() {
-    this.created();
+    if (!this.$cookies.isKey("userId")) {
+        this.$cookies.set("userId", -1,"1h")
+      }
+    if (!this.$cookies.isKey("username")) {
+        this.$cookies.set("username", "guest","1hr")
+      }
 },
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
-  created() {
-      if (!this.$cookies.isKey("userId")) {
-        this.$cookies.set("userId", -1,"1h")
-      }
-      if (!this.$cookies.isKey("username")) {
-        this.$cookies.set("username", "guest","1hr")
-      }
-  },
+
   methods:{
     goToLogin(){
       this.$router.push('/Login');
@@ -70,6 +69,10 @@ mounted() {
     goToNoteDashboard()
     {
       this.$router.push('/noteDashboard');
+	  },
+    goToDirectMessage()
+    {
+      this.$router.push('/DM');
 	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
