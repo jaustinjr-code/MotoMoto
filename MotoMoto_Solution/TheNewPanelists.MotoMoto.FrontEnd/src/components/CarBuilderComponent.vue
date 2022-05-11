@@ -151,6 +151,7 @@ export default {
             // });
         },
         UpdateCar(){
+            debugger;
             let updateCarModel = JSON.stringify({ "carID": this.carID, "partID": this.partID, "username": this.username });
             instanceSubmit.post("CarBuilder/UpdateCar", updateCarModel, {
                 headers: {
@@ -184,6 +185,7 @@ export default {
             this.carYear = e.target.value;
         },
         GetPart(e){
+            debugger;
             this.partID = e.target.value;
         }
     },
