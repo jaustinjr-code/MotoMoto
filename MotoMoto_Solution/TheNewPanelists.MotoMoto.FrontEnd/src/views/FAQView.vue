@@ -55,7 +55,26 @@
             </li>
         </ul>
     </div>
-    
+    <div class="section">
+        <h2>How do I compare vehicle parts with each other?</h2>
+        <ul>
+            <li>
+                Each user is able to select up to 2 parts at our current stage but, we hope
+                to include more detailed information on vehicle parts but, on the second click
+                you should be re-directed to the comparison page
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>What is Parts for?</h2>
+        <ul>
+            <li>
+                Parts is a detailed page where all users can view amazon linked products and 
+                view vehicle part price data over time. This is a great way to figure out what
+                to shop for and compare prices amongst other competitors sold on amazon.
+            </li>
+        </ul>
+    </div>
 </div>
 </template>
 
@@ -77,5 +96,9 @@ export default {
     text-align: left;
     margin-top: 25px;
     margin-left: 250px;
+}
+
+.section li {
+    font-size: 15px;
 }
 </style>
