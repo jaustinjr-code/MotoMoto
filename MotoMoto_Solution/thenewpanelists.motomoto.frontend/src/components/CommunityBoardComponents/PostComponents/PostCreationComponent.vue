@@ -1,41 +1,35 @@
 <template>
     <div>
         <h1>Creating a Post in {{this.feedName}}</h1>
-        <form @submit="validate">
+        <form @submit="Validate">
                 <input id="title" type="text" placeholder="Title" required />
                 <br>
                 <textarea id="description" placeholder="Description" rows="5" cols="80" required ></textarea>
                 <br>
-                <!-- <input id="images" type="file" name="filename" multiple disabled /> -->
-                <!-- <br> -->
+                <input id="images" type="file" name="filename" multiple disabled />
+                <br>
                 <button>Submit</button>
         </form>
         <ul id="button-selection">
             <button>Upload Car Build</button>
-            <button @click="discardPost()">Discard</button>
+            <button @click="DiscardPost()">Discard</button>
         </ul>
     </div>
 </template>
 
 <script>
 import {instanceSubmit} from '../../../router/CommunityBoardConnection.js'
-import { useCookies } from "vue3-cookies";
-
 export default {
     props: [
         'feedName'
     ],
-    setup() {
-        const { cookies } = useCookies();
-        return { cookies };
-    },
     data() {
         return {
             feed: this.feedName
         }
     },
     methods: {
-        validate(event) {
+        Validate(event) {
             console.log(event);
             let valid = false;
             var title = event.target.elements.title.value;
@@ -68,18 +62,18 @@ export default {
                 let p =  {
                     postTitle: title,
                     contentType: this.feed,
-                    postUser: this.$cookies.get("username"), // Temporary user until Authentication works
+                    postUser: 'ran', // Temporary user until Authentication works
                     postDescription: description,
                     //imageList: images
                 }
                 //console.log(p)
                 let params = JSON.stringify(p);
                 //console.log(params)
-                this.submitPost(params);
+                this.SubmitPost(params);
             } else
                 window.alert("Invalid Input")            
         },
-        submitPost(postModel) {
+        SubmitPost(postModel) {
             instanceSubmit.post('/SubmitPost/SubmitPost', postModel, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -87,21 +81,17 @@ export default {
             })
                 .then(res => {
                     console.log(res);
-                    //window.alert(res.data.responseMessage);
-                    if (res.status == '200' && res.data.isSuccess === true) {
+                    window.alert(res.data.responseMessage);
+                    if (res.status == '200') {
                         this.$router.push('/communityboard');
                     }
-                    // else {
-                        // Alert user that their operation did not work
-                    // }
                 })
                 .catch(e => {
-                    console.log(e);
-                    //window.alert(e);
+                    window.alert(e);
                     this.$router.push('/communityboard');
                 });
         },
-        discardPost() {
+        DiscardPost() {
             this.$router.push('/communityboard');
         }
     }

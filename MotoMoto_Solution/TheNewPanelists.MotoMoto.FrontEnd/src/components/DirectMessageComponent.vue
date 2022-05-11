@@ -119,17 +119,13 @@ export default {
 .left
 {
     text-align: left;
-    color:white;
+    color:red;
 
-}
-.left .message
-{
-    background:rgb(0, 75, 73);
 }
 .right
 {
     text-align: right;
-    color:black;
+    color:purple;
 
 }
 .message
@@ -139,7 +135,7 @@ export default {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
-    border:1px solid rgb(0, 75, 73);;
+    border:1px solid blue;
     border-radius:10px;
     max-width: 40vh;
     display:inline-block;
@@ -149,5 +145,4 @@ export default {
     width: 90vh;
 
 }
-
 </style>

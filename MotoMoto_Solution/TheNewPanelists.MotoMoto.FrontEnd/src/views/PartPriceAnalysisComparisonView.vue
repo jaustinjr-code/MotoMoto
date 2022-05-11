@@ -1,7 +1,6 @@
 <template>
 <div>
     <TabBarComponent/>
-    <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
     <h5>Part Price Comparison</h5>
     <table class="partComp">
         <thead>
@@ -58,7 +57,6 @@
 <script>
 import PopulatedTables from '../components/PopulatedTableComponent.vue'
 import TabBarComponent from '../components/TabBarComponent.vue'
-import KpiSubmissionComponent from '../components/KpiSubmissionComponent.vue'
 import {instance} from '../router/PartPriceAnalysisConnection'
 
 export default {
@@ -78,8 +76,7 @@ export default {
     },
     components: {
         TabBarComponent,
-        PopulatedTables,
-        KpiSubmissionComponent
+        PopulatedTables
     },
     mounted() {
         this.partIDOne = this.$route.params.id1;

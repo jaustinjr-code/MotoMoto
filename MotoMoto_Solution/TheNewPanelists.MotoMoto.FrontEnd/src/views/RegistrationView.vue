@@ -1,20 +1,14 @@
 <template>
-<div>
-    <TabBarComponent/>
-    <RegistrationComponent/>
-</div>
+   <RegistrationComponent/>
 </template>
 
-
 <script>
-import TabBarComponent from '../components/TabBarComponent.vue'
-import RegistrationComponent from '../components/RegistrationComponent.vue'
-
-export default {
-    name: 'Registration',
-    components: {
-        RegistrationComponent,
-        TabBarComponent
+    import RegistrationComponent from '../components/RegistrationComponent.vue'
+    export default {
+        name: 'RegistrationView',
+        components: 
+        {
+            RegistrationComponent
+        }
     }
-}
 </script>

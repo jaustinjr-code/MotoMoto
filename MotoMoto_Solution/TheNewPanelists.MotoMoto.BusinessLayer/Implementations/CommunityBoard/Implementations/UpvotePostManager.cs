@@ -19,8 +19,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public bool IsInteractionAuthorized(IInteractionModel inputModel)
         {
             AuthorizationService service = new AuthorizationService();
-            // return service.CheckAuthorized(inputModel.interactUsername);
-            return service.CheckAuthorized(inputModel.interactUsername, "upvoteContent");
+            return service.CheckAuthorized(inputModel.interactUsername);
         }
 
         /// <summary>

@@ -1,22 +1,16 @@
 <template>
     <div>
-        <TabBarComponent/>
-        <MainComponent/>
-        <kpi-submission-component viewTitle="Personalized Recommendations"></kpi-submission-component>
+        <PersonalizedRecommendationsComponent/>
     </div>
 </template>
 
 <script>
-    import MainComponent from '../components/PersonalizedRecommendationsComponents/MainComponent.vue'
-    import TabBarComponent from '../components/TabBarComponent.vue'
-    import KpiSubmissionComponent from '../components/KpiSubmissionComponent.vue'
+    import PersonalizedRecommendationsComponent from '../components/PersonalizedRecommendationsComponent.vue'
 
     export default {
         name: 'PersonalizedRecommendationsView',
         components: {
-            MainComponent,
-            KpiSubmissionComponent,
-            TabBarComponent
+            PersonalizedRecommendationsComponent
         }
     }
 </script>

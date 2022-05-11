@@ -1,12 +1,9 @@
 <template>
   <div class = "sidebar">
-      <div class = "divMessageRequest">
-        <button class = "messageRequest" @click="() => TogglePopup('buttonTrigger')">Message Request</button>
-        <span class="badge">{{numOfMessageRequest}}</span>
-      </div>
+      <button class = "messageRequest" @click="() => TogglePopup('buttonTrigger')">Message Request</button>
       <div class = "search">
           <input class = "input"  v-model = "newChatUser">
-          <button @click = "createNewChat">Send chat request</button>
+          <button @click = "createNewChat">search</button>
           </div>    
       <div class= "users"  v-for="item in items" :key="item" > 
             <buttons @click = "getUserClicked(item.username)">
@@ -15,7 +12,7 @@
       </div>
   </div>    
     <Popup v-if="popupTrigger.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')">
-        <h2>Message Request</h2>
+        <h2>My popup</h2>
         <div class="requestOption" v-for="request in requestList" :key="request">
             {{request}}
             <button @click="acceptRequest(request)">Accept</button>
@@ -48,8 +45,7 @@ export default {
             user: '',  
             items: [],
             timer: '',
-            requestList: [],
-            numOfMessageRequest: 0
+            requestList: []
         }
     
     },
@@ -74,7 +70,6 @@ export default {
             console.log(`Server replied with: ${res.data}`);
             for(let i = 0; i < res.data.length; i++)
             {
-                this.numOfMessageRequest = res.data.length;
                 if(!this.items.some(data => data.username === res.data[i]))
                 {
                     this.items.push({'username' :res.data[i]});
@@ -106,20 +101,13 @@ export default {
             this.user = this.$cookies.get("username")
             let params = {currentUser: this.user};
             instance.get('MessageRequest/GetRequest', {params}).then((res) =>{
-            console.log(`Server replied with Request request: ${res.data}`);
+            console.log(`Server replied with: ${res.data}`);
             for(let i = 0; i < res.data.length; i++)
             {
-                
-                
-                 
                 if(!this.requestList.some(data => data.time === res.data[i]))
                 {
                     this.requestList.push(res.data[i]);
-                 console.log("plz work" + this.requestList);
-                    
-                   
                 }
-                this.numOfMessageRequest = res.data.length;
             }
             }).catch((e)=>{
                 console.log(e);
@@ -152,16 +140,16 @@ export default {
     beforeUnmount()
     {
         clearInterval(this.timer);
-    },
+    }
 
 
 }
 </script>
 
-<style scoped>
+<style>
 template
 {
-    background-color: rgb(0, 75, 73);;
+    background-color: blue;
 }
 .sidebar
 {
@@ -169,46 +157,16 @@ template
   width: 25%;
   height:fit-content;
   overflow: hidden;
-  background-color: lightgray;
+  background-color: slategray;
   
 }
 .users{
-  background-color: rgb(0, 75, 73);
-  border: 1px solid rgb(0, 75, 73);
-  color: white;
-  padding: 10px 24px; 
-  cursor: pointer;
+  background-color: #04AA6D; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
 
-  display: block;
-}
-button
-{
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-top: 5px; 
-    margin-bottom: 5px; 
-    background-color: #555;
-    color: white;
-    border: none;
-}
-.divMessageRequest .badge {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  padding: 5px 10px;
-  border-radius: 50%;
-  background: red;
-  color: white;
-}
-
-.divMessageRequest {
-  background-color: #555;
-  margin-top: 15px;
-  color: white;
-  text-decoration: none;
-  padding: 5px 10ps;
-  position: relative;
-  display: inline-block;
-  border-radius: 2px;
+  display: block; /* Make the buttons appear below each other */
 }
 </style>

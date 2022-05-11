@@ -1,5 +1,5 @@
 <template>
-  <button v-on:click="Logout()">Logout</button>
+  <button @click = "Logout">Logout</button>
 </template>
 
 <script>
@@ -15,17 +15,14 @@ export default {
         Logout()
         {
             this.$cookies.remove("username");
-            this.$cookies.remove("userId");
             this.$router.push({path: '/'});
         }
     }
 }
 </script>
+
 <style>
-button {
-    align-content: center;
-    width: 100px;
-    height: 30px;
-    font-size: 15px;
+button{
+    align-content: right;
 }
 </style>

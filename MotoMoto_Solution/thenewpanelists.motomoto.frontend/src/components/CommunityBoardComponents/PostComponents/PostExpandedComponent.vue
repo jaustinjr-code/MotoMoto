@@ -7,7 +7,7 @@
         <ul id="post-content">
             <p>{{this.postDescription}}</p>
             <br>
-            <button @click="upvotePostButton(this.postId, this.postTitle)">Upvote</button>
+            <button @click="UpvotePostButton(this.postId, this.postTitle)">Upvote</button>
             <p>{{this.upvoteCount}} Upvotes</p>
         </ul>
         <table id="comment-section">
@@ -20,12 +20,12 @@
                 <td>{{ comment.commentUsername }}</td>
                 <td>{{ comment.commentDescription }}</td>
                 <!-- commentUsername defaults to existing user right now -->
-                <button @click="upvoteCommentButton(comment.commentId, comment.postId)">Upvote</button>
+                <button @click="UpvoteCommentButton(comment.commentId, comment.postId)">Upvote</button>
             </tr>
         </table>
         <br>
         <br>
-        <form @submit="validate">
+        <form @submit="Validate">
             <textarea id="commentInput" cols="100" rows="10" placeholder="Input Comment Here"></textarea>
             <br>
             <button>Submit</button>
@@ -35,16 +35,11 @@
 
 <script>
 import {instanceFetch, instanceSubmit} from  '../../../router/CommunityBoardConnection.js'
-import { useCookies } from "vue3-cookies";
 
 export default {
     props: [
         'id'
     ],
-    setup() {
-        const { cookies } = useCookies();
-        return { cookies };
-    },
     data() {
         return {
             postId: this.id,
@@ -59,7 +54,7 @@ export default {
         }
     },
     methods: {
-        fetchDetails() {
+        FetchDetails() {
             //let param = JSON.stringify({ postId: parseInt(this.postId) });
             //console.log(param);
             instanceFetch.get('FetchPostDetails/FetchPostDetails?postId=' + this.postId
@@ -70,7 +65,7 @@ export default {
             )
                 .then(res => {
                     console.log(res);
-                    //window.alert(res.data.responseMessage);
+                    window.alert(res.data.responseMessage);
 
                     if(res.status == 200 && res.data.output != null) {
                         this.postId = res.data.output.postId;
@@ -85,7 +80,7 @@ export default {
                     window.alert(e);
                 });
         },
-        validate(event) {
+        Validate(event) {
             let valid = false;
             var input = event.target.elements.commentInput.value;
 
@@ -100,16 +95,16 @@ export default {
             if(valid) {
                 let p = {
                     postID: parseInt(this.postId),
-                    postUser: this.$cookies.get("username"),
+                    postUser: 'ran',
                     postDescription: input
                 }
                 let params = JSON.stringify(p);
-                this.submitComment(params);
+                this.SubmitComment(params);
             }
             else
                 window.alert("Invalid Input") 
         },
-        submitComment(params) {
+        SubmitComment(params) {
             instanceSubmit.post("/SubmitComment/SubmitComment", params, {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
@@ -117,22 +112,21 @@ export default {
             })
                 .then(res => {
                     console.log(res);
-                    //window.alert(res.data.responseMessage);
+                    window.alert(res.data.responseMessage);
 
                     // Refreshes the page so you can see the new comment
                     if (res.status == 200)
                         location.reload();
                 })
                 .catch(e => {
-                    console.log(e);
-                    //window.alert(e);
+                    window.alert(e);
                 })
         },
-        upvoteCommentButton(cid, pid) {
+        UpvoteCommentButton(cid, pid) {
             let params = JSON.stringify({
                 contentId: parseInt(cid),
                 postId: parseInt(pid),
-                interactUsername: this.$cookies.get("username")
+                interactUsername: 'ran'
             });
             //console.log(params);
             instanceSubmit.post('/SubmitUpvoteComment/SubmitUpvoteComment', params, {
@@ -151,11 +145,11 @@ export default {
                     window.alert(e);
                 })
         },
-        upvotePostButton(id, title) {
+        UpvotePostButton(id, title) {
             let interactionModel = JSON.stringify({ 
                 contentId: id,
                 contentTitle: title,
-                interactUsername: this.$cookies.get("username")
+                interactUsername: 'ran'
             });
             // this.postList.forEach(post => {
             //             if (post.postId == req) {
@@ -170,20 +164,19 @@ export default {
             })
                 .then((res) => {
                     console.log(res);
-                    //window.alert(res.data.responseMessage + ": " + title);
+                    window.alert(res.data.responseMessage + ": " + title);
                     //router.push({path: '/${res.data.postId}'});
                     // Change button to reflect success of Upvote
                     if(res.status == 200)
                         location.reload();
                 })
                 .catch((e) => {
-                    console.log(e);
-                    //window.alert(e);
+                    window.alert(e);
                 });
         }
     },
     mounted() { 
-        this.fetchDetails();
+        this.FetchDetails();
     }
 }
 </script>

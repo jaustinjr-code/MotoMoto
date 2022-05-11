@@ -1,7 +1,6 @@
 <template>
 <div>
     <TabBarComponent/>
-    <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
     <h5 class="partTitle">Part Details</h5>
     <table class="partDetails" align="center">
         <thead>
@@ -19,36 +18,7 @@
         <div class="priceTrendGraph">
             <canvas id="partTrendGraph" width="585" height="450"></canvas>
         </div>
-        <div class="partPriceHistory">
-            <ul>
-                <table>
-                    <thead>
-                        <tr class="titles">
-                            <td class="titleString">Index</td>
-                            <td class="titleString">Date</td>
-                            <td class="titleString">Price Point</td>
-                        </tr>
-                    </thead>
-                    <thead>
-                        <tr class="values" v-for="(partHist, Index) in partHistory" :key=partHist>
-                            <td class="titleString">{{Index}}</td>
-                            <td class="titleString">{{partHist.dateTime.slice(0,10)}}</td>
-                            <td class="titleString">${{partHist.productPrice}}.00</td>
-                        </tr>
-                    </thead>
-                </table>
-            </ul>
-        </div>
-        <table class="ratingDetails">
-            <thead>
-                <tr class="ratingTitle">
-                    <div class="rating">
-                        <td class="titleString">Rating: {{part.rating}}</td>
-                        <td class="titleString">Number of Reviews: {{part.ratingCount}}</td>
-                    </div>
-                </tr>
-            </thead>
-        </table>
+        
     </div>
     <div class="partPriceHistory">
         <ul>
@@ -84,7 +54,6 @@
 </template>
 
 <script>
-import KpiSubmissionComponent from '@/components/KpiSubmissionComponent.vue'
 import TabBarComponent from '../components/TabBarComponent.vue'
 import {instance} from '../router/PartPriceAnalysisConnection'
 export default {
@@ -98,8 +67,7 @@ export default {
         }
     },
     components: {
-        TabBarComponent,
-        KpiSubmissionComponent
+        TabBarComponent
     },
     props: ["baseURL", "parts"],
     beforeMount() {

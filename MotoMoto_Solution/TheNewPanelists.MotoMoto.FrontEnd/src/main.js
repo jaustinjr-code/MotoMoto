@@ -11,9 +11,8 @@ createApp(App).use(router).use(VueCookies, {
     path: "/",
     domain: "",
     secure: true,
-    sameSite: "None"
+    sameSite: "None",
 }).use(store).mount('#app')
-
 
 
 

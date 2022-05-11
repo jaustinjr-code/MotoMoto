@@ -1,6 +1,7 @@
 <template>
   <div class = "EditPreferences">
-    <h2 style="font-size: 30px;">Edit Preferences</h2>
+    <form>
+
         <div class ="countries">
           <h1 class>Country of Origin:</h1>
           <div class = "selections" v-for="country in countries" :key=country.country>
@@ -22,33 +23,30 @@
           <h2 style="text-align: left; font-size: 16px; padding-left: 5px;">Add Model</h2>
           
           <label for="make" />Make:
-          <select v-model="makeOption" id="makeOption">
+          <select name="make" id="make">
             <option v-for="make in makes" :key=make.make value='make.make'>{{make.make}}</option>
           </select>
 
           <label style="padding-left: 15px;" for="model" />Model:
           <select name="model" id="model">
-            <option v-for="model in modelOptions" :key=model.model value=''>
-            <div v-if="this.modelOptions.length > 0">Select Model First</div>
-            <div v-else>{{modelOptions.model}}</div>
-            </option>
+            <option v-for="model in this.GetModelsByMake()" :key=model.model value=''>Select Make First</option>
           </select>
 
           <table>
-            <tbody>
-              <tr>
-                <th>Make</th>
-                <th>Model</th>
-              </tr>
-              <tr v-for="model in selectedModels" :key="model.model">
-                <td>{{model.model}}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div> 
+          <tbody>
+            <tr>
+              <th>Make</th>
+              <th>Model</th>
+            </tr>
+            <tr v-for="record in followedModels" :key=record.model>
+              <td>{{record.make}}</td>
+              <td>{{record.model}}</td>
+            </tr>
+          </tbody>
+        </table> 
 
-        <button style="font-size: 14px;" type="submit" name="submit">Submit</button>
+        </div>
+    </form>
   </div>
 </template>
 
@@ -60,7 +58,6 @@ import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnecti
 
 
 export default defineComponent({
-  el: '#makeOption',
   setup() {
     const { cookies } = useCookies();
     return { cookies };
@@ -77,23 +74,16 @@ export default defineComponent({
               {make: 'MINI'}, {make: "Mitsubishi"}, {make: "Nissan"}, {make: "Plymouth"}, {make: "Porsche"}, {make: "RAM"}, 
               {make: 'Rolls-Royce'}, {make: "Subaru"}, {make: "Suzuki"}, {make: "Tesla"}, {make: "Toyota"}, {make: "Volkswagen"},
               {make: 'Volvo'}],
-      makeOption: '',
-      modelOptions: [],
       selectedCountries: [],
       selectedMakes: [],
       selectedModels: []
-    }
-  },
-  watch: {
-    modelOptions: function(makeOption) {
-      this.modelOptions = GetModelsByMake(makeOption)
     }
   },
   methods: {
       GetModelsByMake: async function(make) {
         await VPICApi.get('/Vehicles/GetModelsForMake/' + make, null, {params: {format: 'json'}}).then((response)=>{
           console.log(`Server replied with: ${response.data}`);
-          selectedModels = response.data.results;
+          return(data.results);
         }).catch((e)=>{
           console.log(e);
           })
@@ -122,27 +112,26 @@ export default defineComponent({
 <style scoped>
 .EditPreferences
 {
-  display: inline-block;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .countries
 {
-  width: 750px;
-  height: 100px;
+  width: 450px;
+  height: 150px;
   margin: 20px;
   border: solid 1px;
 }
 .makes
 {
   width: 750px;
-  height: 300px;
+  height: 325px;
   margin: 20px;
   border: solid 1px;
 }
 .models
 {
   margin: 20px;
-  width: 750px;
+  width: 500px;
   height: fit-content;
   border: solid 1px;
   text-align: left;
@@ -163,11 +152,10 @@ label
 }
 h1
 {
-  border-bottom: solid 1px;
   font-weight: bold;
   text-decoration: underline;
-  padding-top: 3px;
-  padding-bottom: 2px;
+  padding-top: 8px;
+  padding-bottom: 5px;
   padding-left: 5px;
   background-color: lightgrey;
   font-size: 25px;
@@ -197,17 +185,5 @@ td,tr
 tr:nth-child(even) 
 {
   background-color: #dddddd;
-}
-button
-{
-  margin-top: 5px;
-  text-align: center;
-  background-color: rgb(0, 75, 73);
-  color: white;
-}
-button:hover
-{
-  color: black;
-  background-color: lightgrey;
 }
 </style>

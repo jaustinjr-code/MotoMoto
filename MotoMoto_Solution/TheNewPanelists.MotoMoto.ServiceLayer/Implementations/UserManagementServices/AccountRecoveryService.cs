@@ -4,32 +4,17 @@ using TheNewPanelists.MotoMoto.DataAccess;
 using TheNewPanelists.MotoMoto.Models;
 using TheNewPanelists.MotoMoto.DataStoreEntities;
 using System.Data;
-using TheNewPanelists.MotoMoto.DataAccess.Impementations.UserManagement;
+
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
     public class AccountRecoveryService : IUserManagementService
     {
-        private readonly AccountRecoveryDataAccess _accountRecoveryDAO;
-        public AccountRecoveryService(AccountRecoveryDataAccess accountRecoveryDataAccess)
+        private readonly UserManagementDataAccess _userManagementDAO;
+        public AccountRecoveryService(UserManagementDataAccess userManagementDataAccess)
         {
-            _accountRecoveryDAO = accountRecoveryDataAccess;
+            _userManagementDAO = userManagementDataAccess;
 
-        }
-
-        public bool RetrieveLostUsername(string email)
-        {
-            return _accountRecoveryDAO.FetchLostUsername(email);
-        }
-
-        public bool SendChangePasswordEmail(string email)
-        {
-            return _accountRecoveryDAO.FetchPasswordEmail(email);
-        }
-
-        public bool ChangeUserPassword(ChangePasswordModel changePasswordModel)
-        {
-            return _accountRecoveryDAO.ChangePassword(changePasswordModel);
         }
     }
 

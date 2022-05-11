@@ -1,19 +1,16 @@
 <template>
         <div class = PartAnalysis>
             <PartPriceAnalysisComponent/>
-            <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
         </div>
 </template>
 
 <script>
-import KpiSubmissionComponent from '@/components/KpiSubmissionComponent.vue';
 import PartPriceAnalysisComponent from '../components/PartPriceAnalysisPartsListComponent.vue'
 
 export default {
     name: 'PartPriceAnalysisView',
     components: {
-        PartPriceAnalysisComponent,
-        KpiSubmissionComponent
+        PartPriceAnalysisComponent
     },
     methods:
     {

@@ -75,7 +75,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "INSERT INTO Authentication (userId, username, attempts)"
+                command.CommandText = "INSERT INTO AUTHENTICATION (userId, username, attempts)"
                                     + "VALUES ((SELECT userId FROM User WHERE userId = @v1), (SELECT"
                                     + "username FROM User WHERE userId = @v2), "
                                     + "@v3);";
@@ -107,7 +107,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "SELECT * FROM User U WHERE U.username = @v1";
+                command.CommandText = "SELECT * FROM USER U WHERE U.USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", username);
 
@@ -178,7 +178,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "UPDATE Authentication SET accountStatus = '@v1'"
+                command.CommandText = "UPDATE AUTHENTICATION SET accountStatus = '@v1'"
                                     + "WHERE userId = @v2;";
                 var parameters = new MySqlParameter[2];
                 parameters[0] = new MySqlParameter("@v1", false);
@@ -206,7 +206,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "DELETE FROM Authentication WHERE userId = @v1;";
+                command.CommandText = "DELETE FROM AUTHENTICATION WHERE userId = @v1;";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", authenticationModel.UserId);
 
@@ -232,7 +232,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "UPDATE Authentication SET sessionEndTime = '@v1'"
+                command.CommandText = "UPDATE AUTHENTICATION SET sessionEndTime = '@v1'"
                                     + "WHERE userId = @v2;";
                 var parameters = new MySqlParameter[2];
                 parameters[0] = new MySqlParameter("@v1", authenticationModel.SessionEndTime);
@@ -260,7 +260,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "UPDATE Authentication SET attempts = @v1,"
+                command.CommandText = "UPDATE AUTHENTICATION SET attempts = @v1,"
                                     + "sessionEndTime = '@v2' WHERE userId = @v3;";
                 var parameters = new MySqlParameter[3];
                 parameters[0] = new MySqlParameter("@v1", authenticationModel.Attempts);
@@ -291,7 +291,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"SELECT SALT FROM User WHERE USERNAME = @v1";
+                command.CommandText = $"SELECT SALT FROM USER WHERE USERNAME = @v1";
                 var parameters = new MySqlParameter[1];
                 parameters[0] = new MySqlParameter("@v1", dataStoreUser!.username);
 
@@ -331,7 +331,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE Authentication SET attempts ="
+                command.CommandText = $"UPDATE AUTHENTICATION SET attempts ="
                                     + "'@v1', otp = '@v2', otpExpireTime = '@v3'"
                                     + "WHERE userId = @v4;";
                 var parameters = new MySqlParameter[4];
@@ -362,7 +362,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 command.Connection = mySqlConnection!;
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = $"UPDATE Authentication SET otpExpireTime ="
+                command.CommandText = $"UPDATE AUTHENTICATION SET otpExpireTime ="
                                     + "'@v1' WHERE userId = @v2;";
                 var parameters = new MySqlParameter[4];
 

@@ -6,7 +6,7 @@ const VPICApi = axios.create({
 });
 
 const PersonalizedRecsApi = axios.create({
-    baseURL: 'http://motomotoca.com:7167/Api'
+    baseURL: 'https://localhost:7167/Api'
 });
 
 export {VPICApi, PersonalizedRecsApi}

@@ -1,19 +1,16 @@
 <template>
-<div>
-    <TabBarComponent/>
-    <EditPreferencesComponent/>
-</div>
+    <div>
+        <EditPreferencesComponent/>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
     import EditPreferencesComponent from '../components/EditPreferencesComponent.vue'
-    import TabBarComponent from '../components/TabBarComponent.vue'
-
     export default {
-        name: 'EditPreferences',
+        name: 'EditPreferencesView',
         components: {
             EditPreferencesComponent,
-            TabBarComponent
         }
     }
 </script>
