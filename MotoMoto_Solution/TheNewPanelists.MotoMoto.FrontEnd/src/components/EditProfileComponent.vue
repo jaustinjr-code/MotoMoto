@@ -2,19 +2,19 @@
     <div class="edit-profile">
         <TabBarComponent/>
         <h2>Edit Profile</h2>
-        <span class="insert">
+        <div class="insert">
             <div class="profile-description">
-                <p id="edit">New Profile Description </p>
-                <textarea v-model="description" placeholder="Edit Description"/>
-                <button class="submitDescription" v-on:click="updateProfileDescription({description})">Edit Description</button>
-                <p class="input-group-addon" v-text="(max - description.length)"></p>
+                <div class="description-title">
+                    <p id="edit">New Profile Description</p>
+                </div>
+                <textarea class="motoTextArea" v-model="description" placeholder="Edit Description"/>
+                <div class="centerBtn">
+                    <button class="submitDescription" v-on:click="updateProfileDescription({description})">Edit Description</button>
+                </div>
+                
+                <p class="inputValues" v-text="charactersRemaining(description.length)"></p>
             </div>
-            <div class="profile-image">
-                <p id="edit">Profile Image: </p>
-                <input v-model="image" placeholder="Image URL">
-                <button class="submitDescription" v-on:click="updateProfileImage(image)">Edit Image URL</button>
-            </div>
-        </span>
+        </div>
     </div>
 </template>
 
@@ -38,9 +38,11 @@ export default {
         this.getLoginCredential();
     },
     methods : {
-        updateProfileDescription: async function(_description) {
+        updateProfileDescription: async function(newProfDescription) {
             this.username = this.$cookies.get("username")
-            let params = {username: this.username, newDescription: _description.description};
+            let params = {username: this.username, newDescription: newProfDescription.description};
+            if (newProfDescription.description > 160 || newProfDescription.description <= 0)
+                return null;
             await instance.get('/ProfileUpdate/DescriptionUpdate', {params}).then((response) =>{
                 this.profile = response.data;
             })
@@ -74,6 +76,10 @@ export default {
             const charCount = 160
             let value = charCount - description.length
             document.getElementById("charCount").innerHTML = value+' characters';
+        },
+        charactersRemaining: function(countValue) {
+            let value = "Characters Remaining " + (this.max - countValue).toString();
+            return value;
         }
     }
 }
@@ -82,5 +88,34 @@ export default {
 <style>
 .edit {
     padding-left: 1.5%;
+}
+.centerBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submitDescription {
+    display: block;
+    margin: center;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+.inputValues {
+    padding-left : 2.5%;
+}
+.motoTextArea {
+    width: 50%;
+    height: 80px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+.profile-description {
+    padding-bottom: 20px;
 }
 </style>

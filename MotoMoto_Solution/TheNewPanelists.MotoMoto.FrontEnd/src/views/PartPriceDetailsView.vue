@@ -1,56 +1,61 @@
 <template>
 <div>
     <TabBarComponent/>
-    <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
-    <h5 class="partTitle">Part Details</h5>
-    <table class="partDetails" align="center">
-        <thead>
-            <tr class="partTitle">
-                <div class="nameNprice">
-                    <td>{{part.partName}}</td>
-                    <td>Current Price Point: ${{part.currentPrice}}.00</td>
-                </div>
-            </tr>
-        </thead>
-    </table>
-    <a class="proURL" :href="part.productURL">Link to Product</a>
-    <div class="priceTrendGraph">
-        <h5 class="partHistoryTitle">Part History Past 6 Months</h5>
+    <div class="main">
+        <kpi-submission-component viewTitle="Part Price Analysis"></kpi-submission-component>
+        <h5 class="partDetailsTitle">Part Details</h5>
+        <table class="partDetails" align="center">
+            <thead class="partsAnalysis">
+                <tr class="Titles">
+                    <td class="partsDetails">Part Name</td>
+                    <td class="partsDetails">Current Price Point</td>
+                    <td></td>
+                </tr>
+                <tr class="partTitle">
+                    <td class="partsDetails">{{part.partName}}</td>
+                    <td class="partsDetails">Current Price Point: ${{part.currentPrice}}.00</td>
+                    <td class="partsDetails"><a class="proURL" :href="part.productURL">Link to Product</a></td>
+                </tr>
+            </thead>
+        </table>
         <div class="priceTrendGraph">
-            <canvas id="partTrendGraph" width="585" height="450"></canvas>
+            <h5 class="partHistoryTitle">Part History Past 6 Months</h5>
+            <div class="priceTrendGraph">
+                <canvas id="partTrendGraph" width="585" height="450"></canvas>
+            </div>
+            
         </div>
-        
+        <div class="partPriceHistory">
+            <ul>
+                <table>
+                    <thead>
+                        <tr class="titles">
+                            <td>Index</td>
+                            <td>Date</td>
+                            <td>Price Point</td>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="values" v-for="(partHist, Index) in partHistory" :key=partHist>
+                            <td>{{Index}}</td>
+                            <td>{{partHist.dateTime.slice(0,10)}}</td>
+                            <td>${{partHist.productPrice}}.00</td>
+                        </tr>
+                    </thead>
+                </table>
+            </ul>
+        </div>
+        <table class="ratingDetails">
+            <thead>
+                <tr class="ratingTitle">
+                    <div class="rating">
+                        <td class="partRating">Rating: {{part.rating}}</td>
+                        <td class="partratingCount">Number of Reviews: {{part.ratingCount}}</td>
+                    </div>
+                </tr>
+            </thead>
+        </table>
     </div>
-    <div class="partPriceHistory">
-        <ul>
-            <table>
-                <thead>
-                    <tr class="titles">
-                        <td>Index</td>
-                        <td>Date</td>
-                        <td>Price Point</td>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr class="values" v-for="(partHist, Index) in partHistory" :key=partHist>
-                        <td>{{Index}}</td>
-                        <td>{{partHist.dateTime.slice(0,10)}}</td>
-                        <td>${{partHist.productPrice}}.00</td>
-                    </tr>
-                </thead>
-            </table>
-        </ul>
-    </div>
-    <table class="ratingDetails">
-        <thead>
-            <tr class="ratingTitle">
-                <div class="rating">
-                    <td class="partRating">Rating: {{part.rating}}</td>
-                    <td class="partratingCount">Number of Reviews: {{part.ratingCount}}</td>
-                </div>
-            </tr>
-        </thead>
-    </table>
 </div>
 </template>
 
@@ -175,6 +180,9 @@ export default {
 </script>
 
 <style>
+.main {
+    padding-top: 3.5%;
+}
 a.proURL {
   background-color: #000000;
   color: white;
@@ -226,6 +234,24 @@ div.priceTrendGraph {
 }
 .partDetails {
     margin-left: auto;
-    margin-right: auto;   
+    margin-right: auto;
+    table-layout: fixed;   
+}
+.partDetailsTitle {
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 1.5%;
+}
+.partHistoryTitle {
+    font-weight: bold;
+    font-size: 15px;
+}
+.Titles td.partsDetails {
+    font-size: 15px;
+}
+.partTitle td.partsDetails {
+    max-width:450px;
+    overflow-wrap: break-word;
+    font-size: 15px;
 }
 </style>
