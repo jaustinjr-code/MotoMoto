@@ -48,6 +48,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }).ToHashSet();
             return profile; // Returns the retrieved data back to the manager
         }
+
         /// <summary>
         /// Using the passed in EventDetailsModel
         /// Insert the validated user inputted values into the datastore
@@ -66,6 +67,36 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                 return eventModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
             }
             return eventModel.GetResponse(ResponseModel.response.success);
+        }
+
+
+        public EventAccountVerificationModel CreateReview(EventAccountVerificationModel eventAccountVerificationModel)
+        {
+            EventAccountVerificationModel eventAccountModel = eventAccountVerificationModel;
+            try
+            {
+                eventAccountModel = _eventPostContentDAO.CreateReview(eventAccountModel);
+            }
+            catch
+            {
+                return eventAccountModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
+            }
+            return eventAccountModel.GetResponse(ResponseModel.response.success);
+        }
+
+        public ISet<EventAccountVerificationModel> FetchAllReviews(string username)
+        {
+            // Use the DAO object to retrieve all rows from the EventDetails table and store it in a HashSet
+            var eventAccountEntity = _eventPostContentDAO.FetchAllReviews(username);
+
+            // Selects each row from the retrieved HashSet and stores it 
+            var reviews = eventAccountEntity!.Select(account => new EventAccountVerificationModel()
+            {
+                username = account!.username,
+                rating = account!.rating,
+                review = account!.review,
+            }).ToHashSet();
+            return reviews; // Returns the retrieved data back to the manager
         }
     }
 }
