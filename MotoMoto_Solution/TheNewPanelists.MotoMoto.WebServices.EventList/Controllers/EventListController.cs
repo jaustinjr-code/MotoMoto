@@ -46,7 +46,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
         }
 
         // Gets the user input retrieved from the frontend and stores it within the datastore
-        [Route("CreateEvent")]
+        [HttpGet, Route("CreateEvent")]
         public IActionResult CreateEventPost(string time, string date, string streetAddress, string city, string state, string country, string zipCode, string title)
         {
             EventListService eventListService = new EventListService(_eventPostContentDataAccess);
@@ -78,6 +78,45 @@ namespace TheNewPanelists.MotoMoto.WebServices.EventList.Controllers
                 ISet<ProfileModel> fetchedAllEventAccounts = eventListManager.FetchAllEventAccounts();
                 // Return the fetched EventDetails Model
                 return Ok(fetchedAllEventAccounts);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        // Gets the user input retrieved from the frontend and stores it within the datastore
+        [HttpGet, Route("CreateReview")]
+        public IActionResult CreateReview(string username, int rating, string review)
+        {
+            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
+            EventListManager eventListManager = new EventListManager(eventListService);
+
+            try
+            {
+                // Make a call to the Event List Manager
+                EventAccountVerificationModel postedReview = eventListManager.CreateReview(username, rating, review);
+                // Return the fetched EventDetails Model
+                return Ok(postedReview);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet, Route("GetAllReviews")]
+        public IActionResult FetchAllReviews(string username)
+        {
+            EventListService eventListService = new EventListService(_eventPostContentDataAccess);
+            EventListManager eventListManager = new EventListManager(eventListService);
+
+            try
+            {
+                // Make a call to the Event List Manager
+                ISet<EventAccountVerificationModel> fetchedAllReviews= eventListManager.FetchAllReviews(username);
+                // Return the fetched EventDetails Model
+                return Ok(fetchedAllReviews);
             }
             catch (Exception ex)
             {

@@ -21,8 +21,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //private string _connectionString = "server=localhost;user=dev_moto;database=dev_EventList;port=3306;password=motomoto;";
 
         // Default and single argument constructor
-        public EventPostContentDataAccess(){}
-        public EventPostContentDataAccess(string connectionString){_connectionString = connectionString;}
+        public EventPostContentDataAccess() { }
+        public EventPostContentDataAccess(string connectionString) { _connectionString = connectionString; }
 
         // Function that will establish the connection to the AWS RDS MariaDB datastore
         public bool EstablishDBConnection()
@@ -68,7 +68,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             EstablishDBConnection();
 
             // Query that will be executed to retrieve all EventDetails from the EventDetails table
-            string selectAllQuery = "SELECT * FROM EventDetails"; 
+            string selectAllQuery = "SELECT * FROM EventDetails";
 
             // Using the desired query and open SQL connection, initialize an instance of MySqlCommand 
             MySqlCommand command = new MySqlCommand(selectAllQuery, mySqlConnection);
@@ -166,6 +166,70 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     }
                     myReader.Close();
                     return profiles;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log here
+                throw new ArgumentException("ERROR: Could not retrieve information...", ex);
+            }
+            finally
+            {
+                mySqlConnection!.Dispose();
+            }
+        }
+
+        public EventAccountVerificationModel CreateReview(EventAccountVerificationModel eventAccountModel)
+        {
+            if (!EstablishDBConnection())
+            {
+                return eventAccountModel;
+            }
+            try
+            {
+                string createPostQuery = "INSERT INTO EventAccount (username, rating, review) VALUES (@username, @rating, @review);";
+                using (MySqlCommand command = new MySqlCommand(createPostQuery, mySqlConnection))
+                {
+                    command.Parameters.AddWithValue("@username", eventAccountModel.username);
+                    command.Parameters.AddWithValue("@rating", eventAccountModel.rating);
+                    command.Parameters.AddWithValue("@review", eventAccountModel.review);
+                    var value = ExecuteQuery(command);
+                }
+            }
+            catch
+            {
+                return new EventAccountVerificationModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
+            }
+            finally
+            {
+                mySqlConnection?.Dispose();
+            }
+            return new EventAccountVerificationModel().GetResponse(ResponseModel.response.success);
+        }
+
+        // Queries the datastore and fetches profiles that are event accounts
+        public ISet<EventAccountVerificationModel>? FetchAllReviews(string username)
+        {
+            EstablishDBConnection();
+            string fetchEventAccountsQuery = "SELECT rating, review FROM EventAccount WHERE username = username";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(fetchEventAccountsQuery, mySqlConnection))
+                {
+
+                    MySqlDataReader myReader = command.ExecuteReader();
+                    ISet<EventAccountVerificationModel> reviews = new HashSet<EventAccountVerificationModel>();
+
+                    // Read queried rows and store into a Set of EventDetailsModels
+                    while (myReader.Read())
+                    {
+                        EventAccountVerificationModel review = new EventAccountVerificationModel();
+                        review.rating = myReader.GetInt32("rating");
+                        review.review = myReader.GetString("review");
+                        reviews.Add(review);
+                    }
+                    myReader.Close();
+                    return reviews;
                 }
             }
             catch (Exception ex)
