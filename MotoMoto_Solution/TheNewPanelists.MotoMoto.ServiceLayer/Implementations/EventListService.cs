@@ -35,25 +35,5 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             }).ToHashSet();
             return events; // Returns the retrieved data back to the manager
         }
-
-        /// <summary>
-        /// Using the passed in EventDetailsModel
-        /// Insert the validated user inputted values into the datastore
-        /// </summary>
-        /// <param name="eventDetailsModel"></param>
-        /// <returns></returns>
-        public EventDetailsModel CreateEventPost(EventDetailsModel eventDetailsModel)
-        {
-            EventDetailsModel eventModel = eventDetailsModel;
-            try
-            {
-                eventModel = _eventPostContentDAO.CreateEventPost(eventModel);
-            }
-            catch
-            {
-                return eventModel.GetResponse(ResponseModel.response.serviceObjectFailOnRetrievalFromDataAccess);
-            }
-            return eventModel.GetResponse(ResponseModel.response.success);
-        }
     }
 }

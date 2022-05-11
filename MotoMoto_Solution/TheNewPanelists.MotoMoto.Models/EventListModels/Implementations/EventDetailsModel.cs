@@ -22,22 +22,5 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? eventState { get; set; }
         public string? eventCountry { get; set; }
         public string? eventZipCode { get; set; }
-        public string? eventTitle { get; set; }
-        public string? systemResponse { get; set; }
-
-        public EventDetailsModel GetResponse(ResponseModel.response _responseAction)
-        {
-            if (systemResponse != null)
-            {
-                return this;
-            }
-            if (systemResponse == "success" || systemResponse == null)
-            {
-                systemResponse = _responseAction.ToString();
-                return this;
-            }
-            return this;
-        }
-
     }
 }

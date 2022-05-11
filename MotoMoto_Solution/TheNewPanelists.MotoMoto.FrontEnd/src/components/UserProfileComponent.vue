@@ -19,10 +19,9 @@
           <div class="profile-username" v-else>
           </div>
       </div>
-      <span class="profile-edit" v-if="profile.username === GetCookieUsername()">
-        <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
-        <LogoutComponentVue/>
-      </span>
+      <div class="profile-edit" v-if="profile.username === GetCookieUsername()">
+          <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
+      </div>
     </span>
     <div class="ProfileDescription">
         <body id="profileBod">
@@ -138,12 +137,10 @@ import { defineComponent } from "vue";
 import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
 import {instance} from '../router/ProfileConnection';
 import TabBarComponent from '../components/TabBarComponent';
-import LogoutComponentVue from "./LogoutComponent.vue";
 
 export default defineComponent({
   components: {
     TabBarComponent,
-    LogoutComponentVue,
   },
   setup() {
     const { cookies } = useCookies();
