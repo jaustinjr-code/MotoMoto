@@ -11,7 +11,6 @@
                 <div class="centerBtn">
                     <button class="submitDescription" v-on:click="updateProfileDescription({description})">Edit Description</button>
                 </div>
-
                 <p class="inputValues" v-text="charactersRemaining(description.length)"></p>
             </div>
         </div>
@@ -39,10 +38,15 @@ export default {
     },
     methods : {
         updateProfileDescription: async function(newProfDescription) {
+            console.log(newProfDescription)
             this.username = this.$cookies.get("username")
             let params = {username: this.username, newDescription: newProfDescription.description};
-            if (newProfDescription.description > 160 || newProfDescription.description <= 0)
+            if (newProfDescription.description > 160 || newProfDescription.description <= 0) {
                 return null;
+            }
+            await instance.get('/ProfileUpdate/DescriptionUpdate', {params}).then((response) => {
+                    console.log(response.data)
+                })
         },
         updateProfileImage: async function(_url) {
             let params = {username: this.username, newURL: _url.image}
