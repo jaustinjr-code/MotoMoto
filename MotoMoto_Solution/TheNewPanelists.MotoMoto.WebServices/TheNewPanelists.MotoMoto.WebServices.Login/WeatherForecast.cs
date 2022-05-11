@@ -1,4 +1,4 @@
-namespace TheNewPanelists.MotoMoto.WebServices.Login;
+namespace TheNewPanelists.MotoMoto.WebServices.Login_Tester;
 
 public class WeatherForecast
 {

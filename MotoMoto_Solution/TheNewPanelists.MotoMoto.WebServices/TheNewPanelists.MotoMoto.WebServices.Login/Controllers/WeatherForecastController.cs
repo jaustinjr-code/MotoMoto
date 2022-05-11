@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TheNewPanelists.MotoMoto.WebServices.Login.Controllers;
+namespace TheNewPanelists.MotoMoto.WebServices.Login_Tester.Controllers;
 
 [ApiController]
 [Route("[controller]")]
