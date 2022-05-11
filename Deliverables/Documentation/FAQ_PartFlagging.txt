@@ -8,7 +8,7 @@ A: No, because user reviews are meant to monitor the validity of the user who
    created the flag. If a user hasn't put a part in a build yet, they have
    no idea whether or not that part is incompatible.
 
-Q: Why is there no part flagging for car posts.
+Q: Why is there no part flagging for car posts?
 A: The car posting feature of MotoMoto has not been created yet!
    For this reason, reviewing a flag is not available to a user.
 

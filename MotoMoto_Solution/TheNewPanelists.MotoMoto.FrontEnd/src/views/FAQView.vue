@@ -30,6 +30,32 @@
             <li></li>
         </ul>
     </div>
+    <div class="section">
+        <h2>How many part flags does it take for a part to get the label of "Non-Recommended"?</h2>
+        <ul>
+            <li>100</li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Can I downvote a part flag in the car builder?</h2>
+        <ul>
+            <li>
+                No, because user reviews are meant to monitor the validity of the user who
+                created the flag. If a user hasn't put a part in a build yet, they have
+                no idea whether or not that part is incompatible.
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Why is there no part flagging for car posts?</h2>
+        <ul>
+            <li>
+                The car posting feature of MotoMoto has not been created yet!
+                For this reason, reviewing a flag is not available to a user.
+            </li>
+        </ul>
+    </div>
+    
 </div>
 </template>
 
