@@ -39,11 +39,11 @@
         <h3 class="userPostTitle">User Posts</h3>
         <table class="userPosts">
             <thead class="postThead">
-                <tr class="postTitles">
-                    <td>Post Title</td>
-                    <td>Feed Name</td>
-                    <td>Post Description</td>
-                    <td>Post Date</td>
+                <tr class="postItems">
+                    <td class="postTitles" >Post Title</td>
+                    <td class="postTitles" >Feed Name</td>
+                    <td class="postTitles" >Post Description</td>
+                    <td class="postTitles" >Post Date</td>
                 </tr>
             </thead>
             <thead v-if="{profilePosts} != null">
@@ -51,9 +51,9 @@
                     <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
                         {{profilePost.postTitle}}
                     </router-link></td>
-                    <td class="feedName">{{profilePost.feedName}}</td>
-                    <td class="postDescription">{{profilePost.postDescription.slice(0,25)}}</td>
-                    <td class="submitUTC">{{profilePost.submitUTC.slice(0,10)}}</td>
+                    <td class="postTitles">{{profilePost.feedName}}</td>
+                    <td class="postTitles">{{profilePost.postDescription.slice(0,25)}}</td>
+                    <td class="postTitles">{{profilePost.submitUTC.slice(0,10)}}</td>
                 </tr>
             </thead>
             <thead v-else>
@@ -71,7 +71,7 @@
     <div class="upvotedPostsDiv">
         <h3 class="upvotedPostTitle">Upvoted Posts</h3>
         <table class="upvotedPosts">
-            <thead class="upvotedPosts">
+            <thead class="postItems">
                 <tr class="postTitles">
                     <td class="upvoteTitle">Author</td>
                     <td class="upvoteTitle">Post Title</td>
@@ -82,13 +82,13 @@
             </thead>
             <thead v-if="{profilePosts} != null">
                 <tr class="postItems" v-for="(profilePost) in paginatedDataUpvo()" :key=profilePost>
-                    <td class="author">{{profilePost["postUsername"]}}</td>
-                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                    <td class="upvoteTitle">{{profilePost["postUsername"]}}</td>
+                    <td class="upvoteTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
                         {{profilePost["postTitle"]}}
                     </router-link></td>
-                    <td class="feedName">{{profilePost["feedName"]}}</td>
-                    <td class="postDescription">{{profilePost["postDescription"].slice(0,25)}}</td>
-                    <td class="submitUTC">{{profilePost["submitTime"].slice(0,10)}}</td>
+                    <td class="upvoteTitle">{{profilePost["feedName"]}}</td>
+                    <td class="upvoteTitle">{{profilePost["postDescription"].slice(0,25)}}</td>
+                    <td class="upvoteTitle">{{profilePost["submitTime"].slice(0,10)}}</td>
                 </tr>
             </thead>
         </table>
@@ -103,7 +103,6 @@
     <h2 style="font-size: 22px" class = "header"><i>Preferences</i></h2>
 
     <div class = "preferencesContainer">
-
         <table class="prefTable">
           <th class = "title">Countries Followed</th>
           <tbody class="prefBody">
@@ -439,5 +438,13 @@ tr:nth-child(even)
 .edit-profile-button 
 {
   margin-right: 10px;
+  width: 100px;
+  height: 30px;
 }
+.postItems td.upvoteTitle,
+.postItems td.postTitles
+{
+  font-size: 15px;
+}
+
 </style>
