@@ -24,6 +24,8 @@ import PersonalizedRecommendations from '../views/PersonalizedRecommendationsVie
 import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
 import EditProfile from '../views/EditProfileView.vue'
 import CreateEventPost from '../views/CreateEventPostView.vue'
+import EventAccountVerification from '../views/EventAccountVerificationView.vue'
+import CreateEventAccountReview from '../views/CreateEventAccountReviewView.vue'
 
 const routes = [
   {
@@ -155,6 +157,17 @@ const routes = [
     path: '/CreateEventPost',
     name: 'CreateEventPost',
     component: CreateEventPost
+  },
+  {
+    path: '/EventAccountVerification',
+    name: 'EventAccountVerification',
+    component: EventAccountVerification
+  },
+  {
+    path: '/CreateEventAccountReview',
+    name: 'CreateEventAccountReview',
+    components: CreateEventAccountReview,
+    props: true,
   },
 ]
 
