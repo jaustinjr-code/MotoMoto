@@ -142,7 +142,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                 }
                 else
                 {
-                    command.CommandText = "SELECT n.eventID, n.eventTime, n.eventDate, n.eventStreetAddress, n.eventCity, n.eventState, n.eventCountry, n.eventZipCode, p.postTitle FROM Notifications n INNER JOIN Post p ON n.postID = p.postID WHERE n.registeredUsers = @username ORDER BY eventDate DESC;";
+                    command.CommandText = "SELECT n.eventID, n.eventTime, n.eventDate, n.eventStreetAddress, n.eventCity, n.eventState, n.eventCountry, n.eventZipCode, p.postTitle FROM Notifications n INNER JOIN Post p ON n.postID = p.postID WHERE n.registeredUsers = @username ORDER BY eventDate;";
                     command.Parameters.AddWithValue("@username", requestModel.username);
                 }
 
