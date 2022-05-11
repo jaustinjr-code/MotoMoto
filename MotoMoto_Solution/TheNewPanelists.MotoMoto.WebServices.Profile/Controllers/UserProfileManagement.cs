@@ -18,7 +18,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
         /// a blank profile.
         /// </summary>
         /// <returns></returns>
-        [Route("Generate")]
+        [HttpGet("Generate")]
         public IActionResult GenerateProfilesForNewUsers()
         {
             IProfileManagementService profileService = new ProfileManagementService(_profileDAO);
@@ -42,7 +42,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.Profile.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [Route("DeleteProf")]
+        [HttpGet("DeleteProf")]
         public IActionResult DeleteProfile(string username)
         {
             IProfileManagementService profileService = new ProfileManagementService(_profileDAO);

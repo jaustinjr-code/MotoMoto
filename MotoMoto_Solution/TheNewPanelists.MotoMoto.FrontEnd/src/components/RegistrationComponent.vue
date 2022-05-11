@@ -82,7 +82,7 @@ export default defineComponent({
                             console.log(err);
                         });
                 }
-                
+                this.$router.push({path: '/Login'});
                 this.message = response.data.message;
                 this.success = response.data.status;
             }).catch((e)=>{

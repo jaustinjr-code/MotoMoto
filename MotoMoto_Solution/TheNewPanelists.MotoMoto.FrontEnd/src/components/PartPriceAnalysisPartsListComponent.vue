@@ -3,7 +3,7 @@
     <div id='part-list'>
         <TabBarComponent/>
         <div id='part_selection-list' class="part-selection">
-            <h4 class="title-list">Parts List</h4> 
+            <h4 class="title">Parts List</h4> 
             <label class='selectString'>Select Part Category:</label>
             <select id='part-category-select' @change="getCategoryID()">
                 <option value='N'>None</option>
@@ -25,25 +25,25 @@
                 <table class="partTable">
                     <thead>
                         <tr class="titles">
-                            <td class="titleString">Comparison Selection</td>
-                            <td class="titleString">Part Name</td>
-                            <td class="titleString">Part Rating</td>
-                            <td class="titleString">Rating Count</td>
-                            <td class="titleString">Current Price</td>
-                            <td class="titleString">Product Link</td>
+                            <td>Comparison Selection</td>
+                            <td>Part Name</td>
+                            <td>Part Rating</td>
+                            <td>Rating Count</td>
+                            <td>Current Price</td>
+                            <td>Product Link</td>
                         </tr>
                         <tr class="PartListings" v-for="(part) in paginatedData()" :key=part>
                             <td class="checkBox">
                                 <input type="checkbox" name="parts" v-model="checkedParts" :value="part.partID" @change="logProductsSelected(checkedParts)">
                             </td>
-                            <td class="titleString">
+                            <td class="partName">
                             <router-link class="productDescr" :to="{name: 'PartPriceDetails', params: {id: part.partID}}">
                                 {{part.partName}}
                             </router-link>
                             </td>
-                            <td class="titleString">{{part.rating}}</td>
-                            <td class="titleString">{{part.ratingCount}}</td>
-                            <td class="titleString">${{part.currentPrice}}.00</td>
+                            <td class="partRati">{{part.rating}}</td>
+                            <td class="ratCount">{{part.ratingCount}}</td>
+                            <td class="curPrice">${{part.currentPrice}}.00</td>
                             <td><a class="proURL" :href="part.productURL">Link</a></td>
                         </tr>
                     </thead>
@@ -169,7 +169,6 @@ table {
     margin-right: auto;
 }
 .selectString {
-    font-size: 15px;
     margin-right: 10px;
 }
 .buttonLeft {
@@ -178,14 +177,6 @@ table {
     background-color: rgb(9, 189, 144);
     text-decoration: white;
     margin-left: 2px;
-}
-select {
-    width: 150px;
-    height: 20px;
-}
-
-select option {
-    font-size: 18px;
 }
 .buttonRight {
     display: inline-block;
@@ -221,12 +212,6 @@ select option {
 
 .partTable {
     border-collapse: collapse;
-}
-.title-list {
-    font-size: 30px;
-}
-.titleString {
-    font-size: 18px;
 }
 </style>
 

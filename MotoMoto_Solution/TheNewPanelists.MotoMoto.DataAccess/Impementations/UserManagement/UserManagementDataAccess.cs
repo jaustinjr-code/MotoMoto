@@ -27,7 +27,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             //         _connectionString = cs.ConnectionString;
             // }
             _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-            //_connectionString = "server=local;user=root;database=dev_um;port=3306;password=12345;";
+
         }
 
         public UserManagementDataAccess(string connectionString)
@@ -40,7 +40,6 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             //         _connectionString = cs.ConnectionString;
             // }
             _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-            //_connectionString = "server=local;user=root;database=dev_um;port=3306;password=12345;";
 
         }
 

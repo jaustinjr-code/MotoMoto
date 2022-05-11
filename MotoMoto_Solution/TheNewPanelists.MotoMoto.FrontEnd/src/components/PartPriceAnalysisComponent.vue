@@ -3,7 +3,7 @@
         <h1>Vehicle Parts</h1>
         <div id='part_selection-list' class="part-selection">
             <label>Select Part Category: </label>
-            <select id='part-category-select' @change="GetCategoryID()" size="3">
+            <select id='part-category-select' @change="GetCategoryID()">
                 <option value='N'>None</option>
                 <option value='0'>Alternator</option>
                 <option value='1'>Brake Pads</option>
@@ -67,7 +67,5 @@ export default {
 </script>
 
 <style>
-.part-selection {
-    font-size: 20px;
-}
+
 </style>

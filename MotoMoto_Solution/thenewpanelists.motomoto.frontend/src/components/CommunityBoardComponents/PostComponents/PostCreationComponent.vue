@@ -1,18 +1,18 @@
 <template>
     <div>
         <h1>Creating a Post in {{this.feedName}}</h1>
-        <form @submit="validate">
+        <form @submit="Validate">
                 <input id="title" type="text" placeholder="Title" required />
                 <br>
                 <textarea id="description" placeholder="Description" rows="5" cols="80" required ></textarea>
                 <br>
-                <!-- <input id="images" type="file" name="filename" multiple disabled /> -->
-                <!-- <br> -->
+                <input id="images" type="file" name="filename" multiple disabled />
+                <br>
                 <button>Submit</button>
         </form>
         <ul id="button-selection">
             <button>Upload Car Build</button>
-            <button @click="discardPost()">Discard</button>
+            <button @click="DiscardPost()">Discard</button>
         </ul>
     </div>
 </template>
@@ -35,7 +35,7 @@ export default {
         }
     },
     methods: {
-        validate(event) {
+        Validate(event) {
             console.log(event);
             let valid = false;
             var title = event.target.elements.title.value;
@@ -75,11 +75,11 @@ export default {
                 //console.log(p)
                 let params = JSON.stringify(p);
                 //console.log(params)
-                this.submitPost(params);
+                this.SubmitPost(params);
             } else
                 window.alert("Invalid Input")            
         },
-        submitPost(postModel) {
+        SubmitPost(postModel) {
             instanceSubmit.post('/SubmitPost/SubmitPost', postModel, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,12 +88,9 @@ export default {
                 .then(res => {
                     console.log(res);
                     //window.alert(res.data.responseMessage);
-                    if (res.status == '200' && res.data.isSuccess === true) {
+                    if (res.status == '200') {
                         this.$router.push('/communityboard');
                     }
-                    // else {
-                        // Alert user that their operation did not work
-                    // }
                 })
                 .catch(e => {
                     console.log(e);
@@ -101,7 +98,7 @@ export default {
                     this.$router.push('/communityboard');
                 });
         },
-        discardPost() {
+        DiscardPost() {
             this.$router.push('/communityboard');
         }
     }

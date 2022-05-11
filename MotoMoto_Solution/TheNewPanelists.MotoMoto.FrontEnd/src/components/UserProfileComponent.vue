@@ -19,10 +19,9 @@
           <div class="profile-username" v-else>
           </div>
       </div>
-      <span class="profile-edit">
-        <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
-        <LogoutComponentVue/>
-      </span>
+      <div class="profile-edit" v-if="profile.username === GetCookieUsername()">
+          <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
+      </div>
     </span>
     <div class="ProfileDescription">
         <body id="profileBod">
@@ -39,39 +38,32 @@
         <h3 class="userPostTitle">User Posts</h3>
         <table class="userPosts">
             <thead class="postThead">
-                <tr class="postItems">
-                    <td class="postTitles" >Post Title</td>
-                    <td class="postTitles" >Feed Name</td>
-                    <td class="postTitles" >Post Description</td>
-                    <td class="postTitles" >Post Date</td>
+                <tr class="postTitles">
+                    <td>Post Title</td>
+                    <td>Feed Name</td>
+                    <td>Post Description</td>
+                    <td>Post Date</td>
                 </tr>
             </thead>
             <thead v-if="{profilePosts} != null">
-                <tr class="postItems" v-for="(profilePost) in paginatedDataPost()" :key=profilePost>
-                    <td class="postTitles"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                <tr class="postItems" v-for="(profilePost) in profilePosts" :key=profilePost>
+                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
                         {{profilePost.postTitle}}
                     </router-link></td>
-                    <td class="postTitles">{{profilePost.feedName}}</td>
-                    <td class="postTitles">{{profilePost.postDescription.slice(0,25)}}</td>
-                    <td class="postTitles">{{profilePost.submitUTC.slice(0,10)}}</td>
+                    <td class="feedName">{{profilePost.feedName}}</td>
+                    <td class="postDescription">{{profilePost.postDescription.slice(0,25)}}</td>
+                    <td class="submitUTC">{{profilePost.submitUTC.slice(0,10)}}</td>
                 </tr>
             </thead>
             <thead v-else>
                 <h2 class="no-posts">No Posts Created</h2>
             </thead>
         </table>
-        <div class="pageButtons">
-            <button class="buttonLeft" @click="prevPagePost()">Prev</button>
-            <button class="buttonRight" @click="nextPagePost()">Next</button>
-            <footer>
-                <p>{{displayPageNumberPost()}} of {{pageCountPost()}}</p>
-            </footer>
-        </div>
     </div>
     <div class="upvotedPostsDiv">
         <h3 class="upvotedPostTitle">Upvoted Posts</h3>
         <table class="upvotedPosts">
-            <thead class="postItems">
+            <thead class="upvotedPosts">
                 <tr class="postTitles">
                     <td class="upvoteTitle">Author</td>
                     <td class="upvoteTitle">Post Title</td>
@@ -81,28 +73,22 @@
                 </tr>
             </thead>
             <thead v-if="{profilePosts} != null">
-                <tr class="postItems" v-for="(profilePost) in paginatedDataUpvo()" :key=profilePost>
-                    <td class="upvoteTitle">{{profilePost["postUsername"]}}</td>
-                    <td class="upvoteTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
+                <tr class="postItems" v-for="(profilePost) in profileUpvotedPosts" :key=profilePost>
+                    <td class="author">{{profilePost["postUsername"]}}</td>
+                    <td class="postTitle"><router-link :to="{name: 'postdetails', params: {id: profilePost.postId}}">
                         {{profilePost["postTitle"]}}
                     </router-link></td>
-                    <td class="upvoteTitle">{{profilePost["feedName"]}}</td>
-                    <td class="upvoteTitle">{{profilePost["postDescription"].slice(0,25)}}</td>
-                    <td class="upvoteTitle">{{profilePost["submitTime"].slice(0,10)}}</td>
+                    <td class="feedName">{{profilePost["feedName"]}}</td>
+                    <td class="postDescription">{{profilePost["postDescription"].slice(0,25)}}</td>
+                    <td class="submitUTC">{{profilePost["submitTime"].slice(0,10)}}</td>
                 </tr>
             </thead>
         </table>
-        <div class="pageButtons">
-            <button class="buttonLeft" @click="prevPageUpvo()">Prev</button>
-            <button class="buttonRight" @click="nextPageUpvo()">Next</button>
-            <footer>
-                <p>{{displayPageNumberUpvo()}} of {{pageCountUpvo()}}</p>
-            </footer>
-        </div>
     </div>
     <h2 style="font-size: 22px" class = "header"><i>Preferences</i></h2>
 
     <div class = "preferencesContainer">
+
         <table class="prefTable">
           <th class = "title">Countries Followed</th>
           <tbody class="prefBody">
@@ -149,14 +135,12 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
-import {Profile} from '../router/ProfileConnection';
+import {instance} from '../router/ProfileConnection';
 import TabBarComponent from '../components/TabBarComponent';
-import LogoutComponentVue from "./LogoutComponent.vue";
 
 export default defineComponent({
   components: {
     TabBarComponent,
-    LogoutComponentVue,
   },
   setup() {
     const { cookies } = useCookies();
@@ -166,8 +150,6 @@ export default defineComponent({
     return {
       maxPagesPost: 0,
       maxPagesUpvo: 0,
-      pageNumberPost: 0,
-      pageNumberUpvo: 0, 
       profile: [],
       profilePosts: [],
       profileUpvotedPosts: [],
@@ -176,26 +158,6 @@ export default defineComponent({
       followedModels: [],
       hasPreferences: false
     }
-  },
-  props: {
-    profilePosts: {
-      type:Array,
-      required:true
-    },
-    sizePost:{
-        type:Number,
-        required:false,
-        default: 5
-    },
-    profileUpvotedPosts: {
-      type:Array,
-      required:true
-    },
-    sizeUpvo:{
-        type:Number,
-        required:false,
-        default: 5
-    },
   },
   mounted()
   {
@@ -206,7 +168,7 @@ export default defineComponent({
   methods: {
     GetProfleDetails: async function() {
         let params = {username: this.$cookies.get("username")}
-        await Profile.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
+        await instance.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
             this.profile = response.data;
             this.$cookies.set("userId", response.data.userId,"1hr")
             console.log(response.data);
@@ -214,7 +176,7 @@ export default defineComponent({
     },
     GetUserPosts: async function() {
         let params = {username: this.$cookies.get("username")}
-        await Profile.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
+        await instance.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profilePosts = response.data["userPosts"];
             console.log(response.data);
@@ -223,7 +185,7 @@ export default defineComponent({
         })
     },
     GetUserUpvotedPosts: async function() {
-        await Profile.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
+        await instance.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profileUpvotedPosts = response.data["upVotedPosts"];
             console.log(response.data);
@@ -255,73 +217,7 @@ export default defineComponent({
     },
     EditProfile: function() {
         this.$router.push('/EditProfile')
-    },
-    pageCountPost() {
-        let l = this.profilePosts.length,
-        s = this.sizePost;
-        this.maxPagesPost = Math.ceil(l/s);
-        // if (this.maxPagesPost <= 1) {
-            
-        // }
-        console.log(this.maxPagesPost);
-        return this.maxPagesPost;
-    },
-    paginatedDataPost() {
-        const start = this.pageNumberPost * this.sizePost,
-        end = start + this.sizePost;
-        return this.profilePosts.slice(start, end);
-    },
-    displayPageNumberPost() {
-        if (this.maxPagesPost === 0) {
-          return 0;
-        }
-        return this.pageNumberPost+1;
-    },
-    nextPagePost: function() {
-        if (this.pageNumberPost < this.pageCountPost()-1) {
-            this.pageNumberPost++;
-            console.log(this.pageNumberPost);
-        }
-    },
-    prevPagePost: function() {
-        if (this.pageNumberPost > 0) {
-            this.pageNumberPost--;
-            console.log(this.pageNumberPost);
-        }
-    },
-    pageCountUpvo() {
-        let l = this.profileUpvotedPosts.length,
-        s = this.sizeUpvo;
-        this.maxPagesUpvo = Math.ceil(l/s);
-        // if (this.maxPagesPost <= 1) {
-            
-        // }
-        console.log(this.maxPagesUpvo);
-        return this.maxPagesUpvo;
-    },
-    paginatedDataUpvo() {
-        const start = this.pageNumberUpvo * this.sizeUpvo,
-        end = start + this.sizeUpvo;
-        return this.profileUpvotedPosts.slice(start, end);
-    },
-    displayPageNumberUpvo() {
-        if (this.maxPagesUpvo === 0) {
-          return 0;
-        }
-        return this.pageNumberUpvo+1;
-    },
-    nextPageUpvo: function() {
-        if (this.pageNumberUpvo < this.pageCountUpvo()-1) {
-            this.pageNumberUpvo++;
-            console.log(this.pageNumberUpvo);
-        }
-    },
-    prevPageUpvo: function() {
-        if (this.pageNumberUpvo > 0) {
-            this.pageNumberUpvo--;
-            console.log(this.pageNumberUpvo);
-        }
-    },
+    }
   },
   created: function () {
       if (this.$cookies.get("userId") != "guest") {
@@ -435,16 +331,4 @@ tr:nth-child(even)
 {
   padding-top: 2.5%;
 }
-.edit-profile-button 
-{
-  margin-right: 10px;
-  width: 100px;
-  height: 30px;
-}
-.postItems td.upvoteTitle,
-.postItems td.postTitles
-{
-  font-size: 15px;
-}
-
 </style>

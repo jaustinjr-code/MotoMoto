@@ -17,15 +17,14 @@ export default {
             this.$cookies.remove("username");
             this.$cookies.remove("userId");
             this.$router.push({path: '/'});
+            window.location.reload();
         }
     }
 }
 </script>
+
 <style>
-button {
-    align-content: center;
-    width: 100px;
-    height: 30px;
-    font-size: 15px;
+button{
+    align-content: right;
 }
 </style>

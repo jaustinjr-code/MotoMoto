@@ -1,6 +1,6 @@
 <template>
   <h1>{{this.analytic}}</h1>
-  <Bar :chart-data="this.chartData" :key="reloadKey" />
+  <Bar :chart-data="this.chartData"/>
 </template>
 
 <script>
@@ -24,9 +24,7 @@ export default {
             labels: [],
             x_data: [],
             y_data: [],
-            chartData: {},
-            reloadKey: 0,
-            reloadId: 0
+            chartData: {}
         }
     },
     methods: {
@@ -72,7 +70,6 @@ export default {
                     data: y,
                     backgroundColor: ["gold", "silver", "brown", "orange", "navy"],
                     }];
-                ++this.reloadKey;
             }).catch((err) => {
                 console.log(err);
             });
@@ -80,14 +77,8 @@ export default {
     },
     mounted() {
         this.fetchChartData();
-        this.reloadId = window.setInterval(() => {
-            this.fetchChartData();
-        }, 60000);
         // console.log(this.id)
         // console.log(this.analytic)
-    },
-    unmounted() {
-        window.clearInterval(this.reloadId);
     }
 }
 </script>

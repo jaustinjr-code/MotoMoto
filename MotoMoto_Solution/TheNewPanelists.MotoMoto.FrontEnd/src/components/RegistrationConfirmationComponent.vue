@@ -4,6 +4,7 @@
         <div class="content">
             <div class="success" v-if="success">
                 <h2 style="font-size: 20px;">You can change your username or password under the user profile section.</h2>
+       
                 <div style="margin-top: 40px;">
                     <router-link to="/Login"><a class="login">Login</a></router-link>
                 </div>
@@ -16,7 +17,6 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import { instance } from '../router/RegistrationConnection';
-import { Profile } from '../router/ProfileConnection'
 
 export default defineComponent({
     setup() {
@@ -37,23 +37,14 @@ export default defineComponent({
             {params: {email: this.email , registrationId: this.registrationId}}).then((response)=>{
                 console.log(`Server replied with: ${response.data}`);
                 this.message = response.data.message;
-                if (response.data.status)
-                {
+                if(response.data.status == true) {
                     this.success = true;
                 }
             }).catch((e)=>{
                 console.log(e);
                 this.message = e
-            });
+                });
         },
-        dumpNewUser: async function(){
-            await Profile.post('/ProfileManagement/Generate').then((response)=>{
-                console.log(`Server replied with: ${response.data}`);
-            }).catch((e)=>{
-                console.log(e);
-                this.message = e
-            });
-        }
     },
     created: function() {
 
@@ -65,11 +56,8 @@ export default defineComponent({
             alert("Missing confirmation details. Redirecting to the home page.");
             this.$router.push('/');
         }
-        else    
-        {
-            this.Confirmation();
-            this.dumpNewUser();
-        }
+        //else    
+            //this.Confirmation();
     }
 })
 </script>

@@ -56,8 +56,8 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
             }
+            return false;
         }
 
         /// <summary>
@@ -176,13 +176,11 @@ namespace TheNewPanelists.MotoMoto.DataAccess
                     command.Transaction = _mySqlConnection.BeginTransaction();
                     command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
                     command.CommandType = CommandType.StoredProcedure;
-                    var value = command.ExecuteNonQuery();
-                    command.Transaction.Commit();
+                    var value = ExecuteQuery(command);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.ToString());
                 return new ProfileModel().GetResponse(ResponseModel.response.dataAccessFailedObjectNonExistent);
             }
             finally

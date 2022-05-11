@@ -13,7 +13,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Registration
 
         ///<value>Property <c>_connectionString</c> represents the connection string that _mySqlConnection will use to open a connection</value>
         private string _connectionString = "server=moto-moto.crd4iyvrocsl.us-west-1.rds.amazonaws.com;user=dev_moto;database=pro_moto;port=3306;password=motomoto;";
-        //private string _connectionString = "server=local;user=root;database=dev_um;port=3306;password=12345;";
+
         ///<summary>try/catch to open a connection to the database using <c>_mySqlConnection</c> and <c>_connectionString</c></summary/
         ///<remarks>The exception is caught but not thrown. Error type and error message are passed to the console for debugging reference.</remarks>
         ///<returns>True if opening a connection executes successfully. False if an exception is caught.</returns>
