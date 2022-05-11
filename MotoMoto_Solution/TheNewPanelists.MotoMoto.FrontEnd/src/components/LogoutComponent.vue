@@ -21,7 +21,6 @@ export default {
     }
 }
 </script>
-
 <style>
 button {
     align-content: center;
