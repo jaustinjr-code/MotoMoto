@@ -143,5 +143,40 @@ namespace TheNewPanelists.MotoMoto.DataAccess
             }
             return new EventDetailsModel().GetResponse(ResponseModel.response.success);
         }
+
+        // Queries the datastore and fetches profiles that are event accounts
+        public ISet<ProfileModel>? FetchAllEventAccounts()
+        {
+            EstablishDBConnection();
+            string fetchEventAccountsQuery = "SELECT username FROM Profile WHERE eventAccount = 1";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(fetchEventAccountsQuery, mySqlConnection))
+                {
+
+                    MySqlDataReader myReader = command.ExecuteReader();
+                    ISet<ProfileModel> profiles = new HashSet<ProfileModel>();
+
+                    // Read queried rows and store into a Set of EventDetailsModels
+                    while (myReader.Read())
+                    {
+                        ProfileModel profile = new ProfileModel();
+                        profile.username = myReader.GetString("username");
+                        profiles.Add(profile);
+                    }
+                    myReader.Close();
+                    return profiles;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log here
+                throw new ArgumentException("ERROR: Could not retrieve information...", ex);
+            }
+            finally
+            {
+                mySqlConnection!.Dispose();
+            }
+        }
     }
 }
