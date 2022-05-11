@@ -20,7 +20,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.Contr
         public IActionResult UpdatePreferences(int userId, string countries, string makes, string models)
         {
             PersonalizedRecommendationsService personalizedRecommendationsService = new PersonalizedRecommendationsService();
-            DataStoreUserPreferences requestPreferences = new DataStoreUserPreferences()
+            DataStoreRequestPreferences requestPreferences = new DataStoreRequestPreferences()
             {
                 followedCountries = JsonSerializer.Deserialize<List<Country>>(countries),
                 followedMakes = JsonSerializer.Deserialize<List<Make>>(makes),
@@ -35,7 +35,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PersonalizedRecommendations.Contr
         public IActionResult RetrievePreferences(int userId)
         {
             PersonalizedRecommendationsService personalizedRecommendationsService = new PersonalizedRecommendationsService();
-            DataStoreUserPreferences requestPreferences = personalizedRecommendationsService.GetUserPreferences(userId);
+            DataStoreRequestPreferences requestPreferences = personalizedRecommendationsService.GetUserPreferences(userId);
 
             if(requestPreferences.status)
                 return Ok(requestPreferences);

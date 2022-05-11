@@ -1,11 +1,12 @@
-﻿namespace TheNewPanelists.MotoMoto.DataStoreEntities.PersonalizedRecommendations
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheNewPanelists.MotoMoto.DataStoreEntities
 {
-    public class DataStoreUserPreferences
+    internal class DataStoreUserPreferences
     {
-        public List<Country>? followedCountries { get; set; }
-        public List<Make>? followedMakes { get; set; }
-        public List<Model>? followedModels { get; set; }
-        public bool status { get; set; }
-        public List<string>? messages { get; set; }
     }
 }

@@ -36,18 +36,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
             return events; // Returns the retrieved data back to the manager
         }
 
-        public ISet<ProfileModel> FetchAllEventAccounts() 
-        {
-            // Use the DAO object to retrieve all rows from the EventDetails table and store it in a HashSet
-            var profileEntity = _eventPostContentDAO.FetchAllEventAccounts();
-
-            // Selects each row from the retrieved HashSet and stores it 
-            var profile = profileEntity!.Select(profile => new ProfileModel()
-            {
-                username = profile!.username
-            }).ToHashSet();
-            return profile; // Returns the retrieved data back to the manager
-        }
         /// <summary>
         /// Using the passed in EventDetailsModel
         /// Insert the validated user inputted values into the datastore
