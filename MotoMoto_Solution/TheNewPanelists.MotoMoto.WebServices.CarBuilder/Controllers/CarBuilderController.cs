@@ -9,18 +9,19 @@ using TheNewPanelists.MotoMoto.Models.CarbuilderModels;
 
 namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
 {
-    [Route("[controller]")]
+    //[Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CarBuilderController : ControllerBase
     {
         private readonly CarBuildDataAccess _carBuildDataAccess = new CarBuildDataAccess();
 
 
-        // [HttpGet("GetCarTypes")]
-        [Route("GetCarTypes")]
+        [HttpGet("GetCarTypes")]
+        //[Route("GetCarTypes")]
         public IActionResult GetCarTypes()
         {
-            CarBuildService service = new CarBuildService(_carBuildDataAccess);
+            CarBuildService service = new CarBuildService(_carBuildDataAccess); //Move this to top, so you're not remaking instances
             CarBuildManager manager = new CarBuildManager(service);
 
             try
@@ -34,8 +35,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        // [HttpPost("CreateCarType")]
-        [Route("CreateCarType")]
+        [HttpPost("CreateCarType")]
+        //[Route("CreateCarType")]
         public IActionResult CreateCarTypes(CarTypeModel car)
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -59,8 +60,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        // [HttpGet("CarBuild")]
-        [Route("CarBuild")]
+        [HttpGet("CarBuild")]
+        //[Route("CarBuild")]
         public IActionResult GetModifiedCarBuilds(string username)
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -102,8 +103,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
         //    }
         //}
 
-        // [HttpGet("GetCarPart")]
-        [Route("GetCarPart")]
+        [HttpGet("GetCarPart")]
+        //[Route("GetCarPart")]
         public IActionResult GetCarPart()
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
@@ -120,8 +121,8 @@ namespace TheNewPanelists.MotoMoto.WebServices.CarBuilder.Controllers
             }
         }
 
-        // [HttpPut("UpdateCar")]
-        [Route("UpdateCar")]
+        [HttpPost("UpdateCar")]
+        //[Route("UpdateCar")]
         public IActionResult UpdateCar(UpdateCarModel updateCarBuildModel) // What should I take in????
         {
             CarBuildService service = new CarBuildService(_carBuildDataAccess);
