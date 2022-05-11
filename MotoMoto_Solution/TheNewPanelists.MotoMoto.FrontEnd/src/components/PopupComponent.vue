@@ -1,8 +1,8 @@
 <template>
   <div class="popup">
       <div class="popup-inner">
-          <slot />
           <button class = "popup-close" @click = "TogglePopup()"> Close Popup</button>
+           <slot />
       </div>
   </div>
 </template>
@@ -32,6 +32,18 @@ export default {
 
     background: #FFF;
     padding: 32px;
-    
+    display: inline;
+    flex-direction: column;
+    float: right;
+}
+button
+{
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    background-color: #555;
+    color: white;
+    border: none;
 }
 </style>>

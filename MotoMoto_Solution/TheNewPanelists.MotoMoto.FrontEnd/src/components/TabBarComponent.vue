@@ -1,14 +1,15 @@
 <template>
 <div>
-	<body>
-		  <router-link to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
-		<nav v-bind:class="active" v-on:click.prevent>
-			<router-link to="/carbuilder"><a class="carbuilder">Car Builder</a></router-link>
+	<body class="tab-bar-body">
+		  <router-link class="toHome" to="/"><h1 class="title" v-on:onclick="home">MotoMoto</h1></router-link>
+		<nav class="navBar" v-bind:class="active" v-on:click.prevent>
+			<router-link to="/CarBuilder"><a class="carbuilder">Car Builder</a></router-link>
 			<router-link to="/parts"><a class="projects">Vehicle Parts</a></router-link>
+			<router-link to="/eventlist"><a class="eventlist">Event List</a></router-link>
 			<router-link to="/communityboard"><a class="communityboard">Community Board</a></router-link>
-			<router-link to=""><a class="contact">Contact</a></router-link>
+			<router-link to="/About"><a class="about">About</a></router-link>
 			<div v-if="loggedIn() === false">
-				<router-link to="/login"><a class="login">Login</a></router-link>
+				<router-link to="/login"><a class="login">Login / Register</a></router-link>
 			</div>
 			<div v-else>
 				<router-link :to="{name: 'UserProfile', params: { username: getLoginCredential()}}"><a class="profile">Profile</a></router-link>
@@ -51,15 +52,19 @@ export default {
 }
 </script>
 <style>
-
-h1, h1:visited, h1:hover, h1:active {
-  text-decoration: none;
-  font: 30px;
-  color: rgb(0, 75, 73);
-  text-align: center;
-  padding: 20px 0px 0px 0px;
-  font-family: "Copperplate", "Papyrus";
+.toHome {
+	text-decoration: none !important;
 }
+.title {
+	text-decoration: none;
+	font-size: 50px;
+	font-weight: bold;
+	color: rgb(0, 75, 73);
+	text-align: center;
+	padding: 20px 0px 0px 0px;
+	font-family: "Copperplate";
+}
+
 body{
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -78,25 +83,24 @@ section, footer, header, aside, nav{
 }
 
 nav {
-  list-style-type: none;
+  	list-style-type: none;
 	margin:0;
-  padding: 0;
+	padding: 0;
 	overflow: hidden;
-  background-color:rgb(0, 75, 73);
+  	background-color:rgb(0, 75, 73);
 }
 
-nav a {
+.navBar a {
 	display:inline;
   	float: left;
-	padding: 10px 10px;
+	padding: 13px 13px;
 	color:#fff !important;
 	font-weight:bold;
-	font-size:10px;
+	font-size:12px;
 	text-decoration:none !important;
 	line-height:1;
 	text-transform: uppercase;
 	background-color:transparent;
-
 	-webkit-transition:background-color 0.25s;
 	-moz-transition:background-color 0.25s;
 	transition:background-color 0.25s;
@@ -120,7 +124,7 @@ nav.contact .contact{
 
 p {
 	display:inline;
-	font-size:14px;
+	font-size:15px;
 	font-weight:bold;
 	color:#7d9098;
 }
