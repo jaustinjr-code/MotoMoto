@@ -14,7 +14,7 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         private readonly EventListService _eventListService;
 
         // Single argument constructor
-        public EventListManager(EventListService eventListService){_eventListService = eventListService;}
+        public EventListManager(EventListService eventListService) { _eventListService = eventListService; }
 
         // Function that will be used to FetchAllEventDetails from the datastore using the EventListService object
         public ISet<EventDetailsModel> FetchAllEventDetails()
@@ -79,6 +79,55 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         public ISet<ProfileModel> FetchAllEventAccounts()
         {
             return _eventListService.FetchAllEventAccounts();
+        }
+
+        public EventAccountVerificationModel CreateReview(string _username, int _rating, string _review)
+        {
+            try
+            {
+                // Call function to validate input
+                bool result = ValidateRatingAndReviewInput(_username, _rating, _review);
+
+                if (result)
+                {
+                    // Create EventDetails model using passed in user input
+                    EventAccountVerificationModel eventAccountVerificationModel = new EventAccountVerificationModel
+                    {
+                        username = _username,
+                        rating = _rating,
+                        review = _review
+                    };
+
+                    // if all validate input is true then call service
+                    return _eventListService.CreateReview(eventAccountVerificationModel);
+                }
+                else
+                {
+                    return new EventAccountVerificationModel().GetResponse(ResponseModel.response.invalidStringParameter);
+                }
+            }
+            catch
+            {
+                return new EventAccountVerificationModel().GetResponse(ResponseModel.response.managerObjectFailOnRetrieval);
+            }
+        }
+
+        public ISet<EventAccountVerificationModel> FetchAllReviews(string username)
+        {
+            return _eventListService.FetchAllReviews(username);
+        }
+
+        // Method to validate the input for rating and review
+        private bool ValidateRatingAndReviewInput(string username, int rating, string review)
+        {
+            if (username != null || review != null || rating < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
