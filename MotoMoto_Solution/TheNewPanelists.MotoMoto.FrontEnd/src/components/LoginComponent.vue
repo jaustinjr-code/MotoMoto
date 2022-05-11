@@ -15,6 +15,11 @@
             <button class = "submit" @click="loginClick">Submit</button>
         </div>
     </div>
+    <div class="forgotUsername">
+        <p class="emailString">Forgot Username?    </p>
+        <input type = "email" required placeholder="email">
+        <button class = "submitEmail" @click="forgotUsername()">Submit</button>
+    </div>
   </div>
 </template>
 
@@ -38,6 +43,7 @@ export default defineComponent({
         return{
             username: '',
             password: '',
+            email: '',
             loginSuccessful:false
         }
     },
@@ -74,6 +80,17 @@ export default defineComponent({
         },
         loginClick() {
             this.login();
+        },
+        forgotUsername() {
+            let params = {email: this.email};
+            instance.get("AccountRecovery/GetUsername", {params}).then((res) =>{
+                if(res.data == true) 
+                {
+                    console.log("Email sent!");
+                }
+            }).catch((e) => {
+                console.log(e);
+            });
         }
     }
 })
@@ -112,7 +129,10 @@ h1{
 {
     padding-bottom: 20px;
 }
-
+.forgotUsername
+{
+    padding-bottom: 10px;
+}
 .loginButton
 {
     padding-bottom: 20px;

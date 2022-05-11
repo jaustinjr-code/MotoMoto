@@ -13,7 +13,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.Login.Controllers
     {
         private readonly AccountRecoveryDataAccess _accountRecoveryDataAccess = new AccountRecoveryDataAccess();
 
-
         [HttpGet("GetUsername")]
         //[Route("GetUsername")]
         public IActionResult GetUsername(string email)
@@ -23,7 +22,6 @@ namespace TheNewPanelists.MotoMoto.WebServices.Login.Controllers
             try
             {
                 bool retrieveUserUsername = manager.AccountRecoveryRetrieveUsername(email);
-
                 return Ok(retrieveUserUsername);
             }
             catch(Exception e)

@@ -8,6 +8,7 @@ using TheNewPanelists.MotoMoto.DataAccess.Impementations.UserManagement;
 using System.Net.Mail;
 using System.Net;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TheNewPanelists.MotoMoto.ServiceLayer
 {
@@ -38,8 +39,7 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     <h1><u>MotoMoto</u></h1>
                         <div style=""font-size: 16px;"">
                             <p></p>Hello,</p>
-                            <p>Thank you for registering with MotoMoto! Please click on the link below to complete  
-                            your account registration.<br><br>
+                            <p>You requested your username! Please contact us if you did not request this.<br><br>
                             
                             {username}
 
@@ -70,7 +70,6 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
                     Console.WriteLine("Exception Type:" + ex.GetType() + "\nException Message:" + ex.Message);
                     return false;
                 }
-
             }
         }
 
