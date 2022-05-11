@@ -20,16 +20,15 @@ namespace TheNewPanelists.MotoMoto.WebServices.Login.Controllers
         {
             AccountRecoveryService service = new AccountRecoveryService(_accountRecoveryDataAccess); //Move this to top, so you're not remaking instances
             AccountRecoveryManager manager = new AccountRecoveryManager(service);
+
             try
             {
                 bool retrieveUserUsername = manager.AccountRecoveryRetrieveUsername(email);
-
                 return Ok(retrieveUserUsername);
             }
-            catch(Exception e)
+            catch
             {
-                return BadRequest(e);
-                //return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 

@@ -1,18 +1,18 @@
 <template>
+    <button type="button" class="btn btn-primary mb-2" @click="goToCreateEventPost"> Create Event </button>
     <div class = "Feed">
-        <h1>Feed</h1> 
+        <button type="button" class="btn btn-primary mb-2" @click="goToEventAccountVerification"> Find Event Accounts to Review </button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Event ID</th>
+                        <td>Event ID</td>
                         <!-- <th>Street Address</th> -->
-                        <th>City</th>
+                        <td>City</td>
                         <!-- <th>State</th> -->
-                        <th>Event Time</th>
-                        <th>Event Date</th>
-                        <th>Registered Users</th>
-                        <th>Expand</th>
+                        <td>Event Time</td>
+                        <td>Event Date</td>
+                        <td>Registered Users</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,6 +67,12 @@ export default {
             console.log(this.events);
             this.$router.push({ name: 'MeetingPointDirections', params: {data: this.id+1 } });
             // this.$router.push('/MeetingPointDirections')
+        },
+        goToCreateEventPost() {
+            this.$router.push({name: 'CreateEventPost'});
+        },
+        goToEventAccountVerification() {
+            this.$router.push({name: 'EventAccountVerification'});
         }
     }
 }

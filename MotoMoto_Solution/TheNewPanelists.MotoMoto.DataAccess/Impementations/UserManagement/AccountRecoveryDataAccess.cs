@@ -51,24 +51,22 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations.UserManagement
             return false;
         }
 
-        public string FetchLostUsername(string email)
+        public bool FetchLostUsername(string email)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
-            string username = "";
             try
             {
                 connection.Open();
-                string getSenderUserIdQuery = "SELECT username FROM User where email = '" + email + "'";
+                string getSenderUserIdQuery = "SELECT username FROM Profile where email = '" + email + "'";
                 MySqlCommand cmd = new MySqlCommand(getSenderUserIdQuery, connection);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        username = reader["username"].ToString()!;
+                        string username = reader["username"].ToString();
                     }
                 }
-                return username;
             }
             catch (Exception ex)
             {
@@ -78,6 +76,7 @@ namespace TheNewPanelists.MotoMoto.DataAccess.Impementations.UserManagement
             {
                 connection.Close();
             }
+            return false;
         }
 
         public bool FetchPasswordEmail(string email)

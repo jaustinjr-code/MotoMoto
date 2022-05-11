@@ -2,17 +2,7 @@ import http from "./Http-coman"
 <template>
   <div class="home">
     <TabBarComponent/>
-    <button @click = "goToEventList"> Event List </button>
-    <button @click = "goToCarBuilder"> Car Builder </button>
-    <button @click = "goToRegistration"> Register </button>
-    <button @click = "goToPersonalizedRecommendations"> Personalized Recommendations </button>
-    <button @click="goToPartFlaggingBuilder">Part Flagging Builder</button>
-    <button @click="goToPartFlaggingPost">Part Flagging Post</button>
-    <button @click="goToNoteDashboard">Note Dashboard</button>
-    <button @click="goToDirectMessage">DirectMessage</button>
-    <button @click="goToNotificationSystem"> Notification Center </button>
-    <button @click="goToCommunityBoard">Community Board</button>
-    <button @click="goToMeetingPointDirections">Meeting Point Directions</button>
+    <MainFeedHomeDisplayComponent/>
   </div>
 </template>
 
@@ -24,14 +14,16 @@ import LogoutComponentVue from '../components/LogoutComponent.vue';
 import router from '../router'
 import { useCookies } from "vue3-cookies";
 import LogoutComponent from '../components/LogoutComponent.vue';
+import MainFeedHomeDisplayComponent from '@/components/HomeDisplayComponents/MainFeedHomeDisplayComponent.vue';
 
 export default {
   name: 'HomeView',
   components: {
     TabBarComponent,
-    LogoutComponent
+    LogoutComponent,
+    MainFeedHomeDisplayComponent
 },
-mounted() {
+mounted: function() {
     if (!this.$cookies.isKey("userId")) {
         this.$cookies.set("userId", -1,"1h")
       }
@@ -48,17 +40,8 @@ mounted() {
     goToLogin(){
       this.$router.push('/Login');
     },
-    goToCarBuilder(){
-      this.$router.push('/CarBuilder');
-    },
     goToEventList(){
       this.$router.push('/EventList');
-    },
-    goToRegistration(){
-      this.$router.push('/Registration')
-    },
-    goToParts(){
-      this.$router.push('/parts')
     },
     goToPartFlaggingBuilder(){
       this.$router.push('/PartFlaggingBuilder')
@@ -76,9 +59,6 @@ mounted() {
 	  },
     goToNotificationSystem() {
       this.$router.push('/NotificationSystem')
-    },
-    goToCommunityBoard(){
-      this.$router.push('/communityboard')
     },
     goToMeetingPointDirections() {
       this.$router.push('/MeetingPointDirections')

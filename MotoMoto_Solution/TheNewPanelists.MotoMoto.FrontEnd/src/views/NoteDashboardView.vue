@@ -1,4 +1,8 @@
 <template>
+    <div class = logout>
+        <button @click="goHome"> Home </button>
+        <LogoutComponent/>
+    </div>
     <div class = title>
         <h1> Note Dashboard </h1>
     </div>
@@ -12,10 +16,11 @@
 <script>
 import NoteDashboard from "../components/NoteDashboardComponent.vue"
 import NoteComponent from "../components/NoteComponent.vue"
+import LogoutComponent from "@/components/LogoutComponent.vue"
 import KpiSubmissionComponent from "../components/KpiSubmissionComponent.vue"
 export default {
     nome: 'NoteDashboardView',
-    components: {NoteDashboard, NoteComponent, KpiSubmissionComponent},
+    components: {NoteDashboard, NoteComponent, KpiSubmissionComponent, LogoutComponent},
     data()
     {
         return{
@@ -47,12 +52,31 @@ export default {
             this.isNewNote = false;
             this.noteTitle = "";
             this.noteArea = "";
-        }    
+        },
+        goHome()
+        {
+            this.$router.push("/");
+        }
     }
 
 }
 </script>
 
-<style>
-
+<style scoped>
+.logout
+{
+  display: inline;
+  float: right;
+  
+}
+button
+{
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    background-color: #555;
+    color: white;
+    border: none;
+}
 </style>
