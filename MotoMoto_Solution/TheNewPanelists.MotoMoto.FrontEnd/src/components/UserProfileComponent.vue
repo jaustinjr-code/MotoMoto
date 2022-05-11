@@ -149,7 +149,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
-import {instance} from '../router/ProfileConnection';
+import {Profile} from '../router/ProfileConnection';
 import TabBarComponent from '../components/TabBarComponent';
 import LogoutComponentVue from "./LogoutComponent.vue";
 
@@ -206,7 +206,7 @@ export default defineComponent({
   methods: {
     GetProfleDetails: async function() {
         let params = {username: this.$cookies.get("username")}
-        await instance.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
+        await Profile.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
             this.profile = response.data;
             this.$cookies.set("userId", response.data.userId,"1hr")
             console.log(response.data);
@@ -214,7 +214,7 @@ export default defineComponent({
     },
     GetUserPosts: async function() {
         let params = {username: this.$cookies.get("username")}
-        await instance.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
+        await Profile.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profilePosts = response.data["userPosts"];
             console.log(response.data);
@@ -223,7 +223,7 @@ export default defineComponent({
         })
     },
     GetUserUpvotedPosts: async function() {
-        await instance.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
+        await Profile.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profileUpvotedPosts = response.data["upVotedPosts"];
             console.log(response.data);

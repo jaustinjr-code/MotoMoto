@@ -37,16 +37,24 @@ export default defineComponent({
             {params: {email: this.email , registrationId: this.registrationId}}).then((response)=>{
                 console.log(`Server replied with: ${response.data}`);
                 this.message = response.data.message;
-                if(response.data.status == true) {
+                if (response.data.status)
+                {
                     this.success = true;
                 }
             }).catch((e)=>{
                 console.log(e);
                 this.message = e
                 });
-            if(this.success === true)
-                dump.get('Profile/Generate');
+            this.dumpNewUser();
         },
+        dumpNewUser: async function(){
+            await dump.get('/ProfileManagement/Generate').then((response)=>{
+                console.log(`Server replied with: ${response.data}`);
+            }).catch((e)=>{
+                console.log(e);
+                this.message = e
+            });
+        }
     },
     created: function() {
 
