@@ -7,20 +7,6 @@
     <div id='car_type' class='choose-car-type'>
         <label>Choose Car Make</label>
         <select id='car-make-select' v-model="carID" @change='GetMake($event)'>
-            <!-- <option value="">--Please choose an option--</option>
-            <option value="Ford">Ford</option>
-            <option value="BMW">BMW</option>
-            <option value="Honda">Honda</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Mercedes">Mercedes</option>
-            <option value="Audi">Audi</option>
-            <option value="Cadillac">Cadillac</option>
-            <option value="Chevrolet">Chevrolet</option>
-            <option value="Nissan">Nissan</option>
-            <option value="Jeep">Jeep</option>
-            <option value="Tesla">Tesla</option>
-            <option value="Porsche">Porsche</option>
-            <option value="Volkswagen">Volkswagen</option> -->
             <option v-bind:value='carType.carID' v-for="(carType, index) in carTypeList" :key='index'>
                 {{ carType.make }}
             </option>
