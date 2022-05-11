@@ -21,6 +21,7 @@
       </div>
       <span class="profile-edit">
         <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
+        <button class="edit-profile-button" v-on:click="RedirectNotification()">Notifications</button>
         <LogoutComponentVue/>
       </span>
     </span>
@@ -255,6 +256,9 @@ export default defineComponent({
     },
     EditProfile: function() {
         this.$router.push('/EditProfile')
+    },
+    RedirectNotification: function() {
+        this.$router.push('/NotificationSystem')
     },
     pageCountPost() {
         let l = this.profilePosts.length,
