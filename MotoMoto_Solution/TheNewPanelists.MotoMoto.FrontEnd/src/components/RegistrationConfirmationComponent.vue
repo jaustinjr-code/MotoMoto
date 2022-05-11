@@ -17,6 +17,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import { instance } from '../router/RegistrationConnection';
+import { instance as dump } from '../router/ProfileConnection'
 
 export default defineComponent({
     setup() {
@@ -44,6 +45,8 @@ export default defineComponent({
                 console.log(e);
                 this.message = e
                 });
+            if(this.success === true)
+                dump.get('Profile/Generate');
         },
     },
     created: function() {
