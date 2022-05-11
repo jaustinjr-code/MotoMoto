@@ -86,29 +86,3 @@ SELECT *
 FROM EventListAnalytics
 ORDER BY eventRegistrationTotal DESC
 LIMIT 5;
--- Finds the top 5 feeds with most posts
-select feedName,
-    COUNT(*) as feedPostTotal
-from Post
-group by feedName
-order by feedPostTotal desc
-limit 5;
--- DELIMITER //
--- CREATE PROCEDURE FetchViewAnalyticsDisplayTotal (IN metric VARCHAR, OUT param1) 
---     BEGIN
---         SELECT viewTitle, 
---     END
--- DELIMITER ;
--- # import datetime
--- # import random
--- # start = datetime.date(2022,4,9)
--- # print(start)
--- # end = datetime.date(2022,5,8)
--- # if start == end:
--- #     print("now")
--- # print(datetime.datetime.now().date)
--- # query = "INSERT INTO AdmissionAnalytics (accessDate, loginTotal, registrationTotal) VALUES "
--- # while start < end:
--- #     query += "(\'" + str(start) + "\', " + str(random.randrange(50)) + ", " + str(random.randrange(50)) + "),"
--- #     start += datetime.timedelta(days=1)
--- # print(query)

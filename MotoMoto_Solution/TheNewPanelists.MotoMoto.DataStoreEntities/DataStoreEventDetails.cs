@@ -16,13 +16,6 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
         public string? eventDate { get; }
         public string? registeredUsers { get; }
 
-        // USED FOR MEETING POINT DIRECTIONS
-        public string? streetAddress { get; set; }
-        public string? city { get; set; }
-        public string? state { get; set; }
-        public string? country { get; set; }
-        public string? zipCode { get; set; }
-
         // Columns that come from the PostEntity Model
         public int postId { get; }
         public string postTitle { get => throw new NotImplementedException(); } // Did not include in SQL table for EventDetails

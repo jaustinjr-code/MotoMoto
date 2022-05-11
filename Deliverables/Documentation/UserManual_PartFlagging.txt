@@ -2,26 +2,12 @@ How to use Part Flagging Within The MotoMoto Application:
 
 I. Part Flagging Car Builder
  A. Creating A Part Flag
-  1. Locate the "Car Builder" page on MotoMoto.
+  1. Locate the "Car Selection" section of the page.
   2. Select the car make, model, and year you would like to flag a part for.
-  3. Click submit to verify the base car information.
-  4. Locate the "Modify Car" section of the page.
-  5. Add the part that you would like to flag to the build.
-  6. Click the 'Flag Part' button next to the part.
+  3. Locate the "Parts Selection" section of the page.
+  4. Add the part that you would like to flag to the build.
+  5. Click the 'Flag Part' button next to the part.
 
- B. Viewing Flagged Parts In Build
-  1. Locate the "Car Builder" page on MotoMoto.
-  2. Select the car make, model, and year you would like to flag a part for.
-  3. Click submit to verify the base car information.
-  4. Locate the "Modify Car" section of the page.
-  5. Add a part to the car build.
-  6. Locate the "Compatibility" section at the bottom of the page.
-  7. If the part is labeled incompatible it will be listed here.
-  8. If no parts in the build are labeled incompatible a message
-     of complete compatibility will be displayed
-
-
-** Disclaimer: The following section will only be applicable once car posts have been implemented **
 II. Part Flagging Post
  A. Creating A Part Flag
   1. Locate the "Parts Selection" section of the page.

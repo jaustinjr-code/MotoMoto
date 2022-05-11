@@ -59,6 +59,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
+
         }
         /// <summary>
         /// EvaluateSpecifiedVehicle part allows a user to extract information on a specified part listed 
@@ -71,7 +72,7 @@ namespace TheNewPanelists.MotoMoto.WebServices.PartPriceAnalysis
         [HttpGet("Evaluate")]
         public IActionResult EvaluateSpecifiedVehiclePart(int _partId, CancellationToken token = default(CancellationToken))
         {
-            IPartPriceAnalysisService partService = new PartPriceAnalysisService(_partPriceAnalysisDAO);
+            IPartPriceAnalysisService partService = new PartPriceAnalysisService();
             IPartPriceAnalysisManager partManager = new PartPriceAnalysisManager(partService);
 
             try

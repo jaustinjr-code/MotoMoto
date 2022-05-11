@@ -2,8 +2,8 @@
     <TabBarComponent/>
     <div class = EventList></div>
     <h1>Event List Feed</h1>
-    <!-- <EventListDashboardSearchComponent/>    
-    <EventListDashboardFilterComponent/> -->
+    <EventListDashboardSearchComponent/>    
+    <EventListDashboardFilterComponent/>
     <EventListDashboardComponent/>
     <kpi-submission-component viewTitle="Event List"></kpi-submission-component>
 </template>
@@ -21,8 +21,8 @@ export default {
     name: 'EventListView',
     components:
     {
-        // EventListDashboardSearchComponent,
-        // EventListDashboardFilterComponent,
+        EventListDashboardSearchComponent,
+        EventListDashboardFilterComponent,
         EventListDashboardComponent,
         LogoutComponent,
         TabBarComponent,

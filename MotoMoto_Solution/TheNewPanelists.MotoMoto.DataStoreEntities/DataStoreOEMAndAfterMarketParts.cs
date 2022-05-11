@@ -9,7 +9,7 @@ namespace TheNewPanelists.MotoMoto.DataStoreEntities
     public class DataStoreOEMAndAfterMarketParts
     {
         public int partID { get; set; }         //Auto-incremented ID for each part in the table
-        public string? partNumber { get; set; }   //Name of the part
+        public string? partName { get; set; }   //Name of the part
         public string? type { get; set; }       //Whether the part is OEM or AfterMarket
     }
 }

@@ -22,8 +22,8 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
-import {instance} from '../router/directMessageConnection';
-import { instanceSubmit } from '../router/CommunityBoardConnection.js';
+import {instance} from '../router/directMessageConnection'
+import { instanceSubmit } from '../router/CommunityBoardConnection.js'
 import TabBarComponent from "../components/TabBarComponent.vue";
 export default defineComponent({
     setup() {

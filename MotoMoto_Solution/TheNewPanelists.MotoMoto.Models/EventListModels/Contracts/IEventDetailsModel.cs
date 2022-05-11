@@ -9,10 +9,10 @@ namespace TheNewPanelists.MotoMoto.Models
     public interface IEventDetailsModel
     {
         int eventID { get; }
-
-        /*string? eventLocation { get; set; }
+        string? eventLocation { get; set; }
         string? eventTime { get; set; }
         string? eventDate { get; set; }
-        IEnumerable<string>? registeredUsers { get; set; }*/
+        IEnumerable<string>? registeredUsers { get; set; }
+
     }
 }

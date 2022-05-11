@@ -19,7 +19,7 @@
           <div class="profile-username" v-else>
           </div>
       </div>
-      <span class="profile-edit">
+      <span class="profile-edit" v-if="profile.username === GetCookieUsername()">
         <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
         <LogoutComponentVue/>
       </span>
@@ -149,7 +149,7 @@
 import { useCookies } from "vue3-cookies";
 import { defineComponent } from "vue";
 import {PersonalizedRecsApi} from '../router/PersonalizedRecommendationsConnection';
-import {Profile} from '../router/ProfileConnection';
+import {instance} from '../router/ProfileConnection';
 import TabBarComponent from '../components/TabBarComponent';
 import LogoutComponentVue from "./LogoutComponent.vue";
 
@@ -206,7 +206,7 @@ export default defineComponent({
   methods: {
     GetProfleDetails: async function() {
         let params = {username: this.$cookies.get("username")}
-        await Profile.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
+        await instance.get('/ProfileRetrieval/Profile', {params}).then((response) =>{
             this.profile = response.data;
             this.$cookies.set("userId", response.data.userId,"1hr")
             console.log(response.data);
@@ -214,7 +214,7 @@ export default defineComponent({
     },
     GetUserPosts: async function() {
         let params = {username: this.$cookies.get("username")}
-        await Profile.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
+        await instance.get('/ProfileRetrieval/GetPosts', {params}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profilePosts = response.data["userPosts"];
             console.log(response.data);
@@ -223,7 +223,7 @@ export default defineComponent({
         })
     },
     GetUserUpvotedPosts: async function() {
-        await Profile.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
+        await instance.get('/ProfileRetrieval/ProfileUpvotePosts', {params: {username: this.$cookies.get("username")}}).then((response) => {
             console.log(`Server replied with ${response.data}`),
             this.profileUpvotedPosts = response.data["upVotedPosts"];
             console.log(response.data);
