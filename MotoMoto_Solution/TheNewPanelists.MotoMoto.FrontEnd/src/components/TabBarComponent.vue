@@ -7,7 +7,7 @@
 			<router-link to="/parts"><a class="projects">Vehicle Parts</a></router-link>
 			<router-link to="/eventlist"><a class="eventlist">Event List</a></router-link>
 			<router-link to="/communityboard"><a class="communityboard">Community Board</a></router-link>
-			<router-link to=""><a class="about">About</a></router-link>
+			<router-link to="/About"><a class="about">About</a></router-link>
 			<div v-if="loggedIn() === false">
 				<router-link to="/login"><a class="login">Login / Register</a></router-link>
 			</div>

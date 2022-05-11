@@ -24,6 +24,7 @@ import PersonalizedRecommendations from '../views/PersonalizedRecommendationsVie
 import UsageAnalysisDashboard from '../views/UsageAnalysisDashboardView.vue'
 import EditProfile from '../views/EditProfileView.vue'
 import CreateEventPost from '../views/CreateEventPostView.vue'
+import AboutView from '../views/AboutView.vue'
 
 const routes = [
   {
@@ -156,6 +157,11 @@ const routes = [
     name: 'CreateEventPost',
     component: CreateEventPost
   },
+  {
+    path: '/About',
+    name: 'About',
+    component: AboutView
+  }
 ]
 
 const router = createRouter({
