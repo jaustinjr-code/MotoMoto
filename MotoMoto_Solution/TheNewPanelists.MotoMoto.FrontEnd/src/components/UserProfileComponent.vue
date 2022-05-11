@@ -19,7 +19,7 @@
           <div class="profile-username" v-else>
           </div>
       </div>
-      <span class="profile-edit" v-if="profile.username === GetCookieUsername()">
+      <span class="profile-edit">
         <button class="edit-profile-button" v-on:click="EditProfile()">Edit Profile</button>
         <LogoutComponentVue/>
       </span>
