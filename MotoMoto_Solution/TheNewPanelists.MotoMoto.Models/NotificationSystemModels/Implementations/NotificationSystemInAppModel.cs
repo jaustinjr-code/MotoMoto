@@ -11,5 +11,7 @@ namespace TheNewPanelists.MotoMoto.Models
         public string? eventZipCode { get; set; }
         public int? eventID {get; set;}
         public string? eventTitle{get; set;}
+        public string? notificationStatusMessage { get; set; }
+        
     }
 }

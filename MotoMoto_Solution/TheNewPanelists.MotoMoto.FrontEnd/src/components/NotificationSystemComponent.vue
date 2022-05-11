@@ -3,7 +3,7 @@
         <h1>Notification Center</h1>
         <h2>Upcoming Events</h2>
         <br>
-        <p>current user: {{ username }}</p>
+        <p>current user: {{this.$cookies.get("username")}}</p>
         <table id="registered-events">
             <tr>
                 <th>Event Date</th>
@@ -24,11 +24,16 @@
 
 <script>
 import {instance} from '../router/NotificationSystemConnection'
+import { useCookies } from "vue3-cookies"
+
 export default {
+    setup() {
+        const { cookies } = useCookies();
+        return { cookies };
+    },
     data() { 
         return {
             registeredEventList: [],
-            username: "ran"
         }
     },
     mounted() { 
@@ -37,8 +42,14 @@ export default {
     },
     methods: { 
         fetchData() { 
-            let params = {username: "ran"}; 
-            instance.get('NotificationSystem/GetNotification?username=' + params.username).then((res) =>{
+            let params = JSON.stringify({
+                username: this.$cookies.get("username")
+            });
+            instance.post('NotificationSystem/GetRegisteredEventDetails', params, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) =>{
                 //console.log(res.data.length); 
             // for(let i = 0; i < res.data.length; i++)
             // {

@@ -12,6 +12,30 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
             _notificationSystemService = new NotificationSystemService();
         }
 
+        public List<NotificationSystemResponseModel> ValidateUserInputs(NotificationSystemRequestModel requestModel)
+        {
+            NotificationSystemResponseModel responseModel = new NotificationSystemResponseModel();
+            List<NotificationSystemResponseModel> dataList = new List<NotificationSystemResponseModel>();
+
+            if (String.IsNullOrEmpty(requestModel.username) || String.IsNullOrEmpty(requestModel.password))
+            {
+                responseModel.notificationSystemStatusMessage = "INVALID USER INPUTS";
+
+                dataList.Add(responseModel);
+
+                return dataList;
+            }
+
+            return RetrieveRegisteredEvents(requestModel, responseModel);
+        }
+
+        public List<NotificationSystemResponseModel> RetrieveRegisteredEvents(NotificationSystemRequestModel requestModel, NotificationSystemResponseModel responseModel)
+        {
+            responseModel.notificationSystemStatusMessage = "USER INPUTS ACCEPTED";
+
+            return _notificationSystemService.FetchRegisteredEvents(requestModel);
+        }
+
 
         /// <summary>
         /// Calls RetchRegisteredEvents from the service layer then return the list of events
@@ -20,14 +44,14 @@ namespace TheNewPanelists.MotoMoto.BusinessLayer
         /// <param name="username">Logged-in username to receive in-app notification</param>
         ///
         /// <returns>Return a list with all the fetched data of registered events</returns>
-        public List<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
-        {
-            Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
-            List<NotificationSystemInAppModel> list;
-            list = _notificationSystemService.FetchRegisteredEvents(username);
-            //Console.WriteLine("return from business" + list[0].eventStreetAddress);
-            return list;
-        }
+        // public List<NotificationSystemInAppModel> RetrieveRegisteredEvents(string username) 
+        // {
+        //     Console.WriteLine("NotificationSystemManager:RetrieveRegisteredEvents Hello " + username);
+        //     List<NotificationSystemInAppModel> list;
+        //     list = _notificationSystemService.FetchRegisteredEvents(username);
+        //     //Console.WriteLine("return from business" + list[0].eventStreetAddress);
+        //     return list;
+        // }
 
         // public bool RemoveNotification(int eventID, string username)
         // {

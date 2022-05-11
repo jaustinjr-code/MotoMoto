@@ -88,11 +88,64 @@ namespace TheNewPanelists.MotoMoto.DataAccess
         //     }
         // }
 
+        public List<NotificationSystemResponseModel> GetRegisteredEvents(NotificationSystemRequestModel requestModel)
+        {
+            List<NotificationSystemResponseModel> registeredEventList = new List<NotificationSystemResponseModel>();
+
+            if (!EstablishMariaDBConnection())
+            {
+                throw new NullReferenceException();
+            }
+
+            using (MySqlCommand command = new MySqlCommand())
+            {
+                command.Transaction = mySqlConnection!.BeginTransaction();
+                command.CommandTimeout = TimeSpan.FromSeconds(60).Seconds;
+                command.Connection = mySqlConnection!;
+                command.CommandType = CommandType.Text;
+                var todayDate = DateTime.UtcNow;
+                var endDate = todayDate.AddDays(2);
+
+                command.CommandText = "SELECT i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username AND (eventDate >= @todayDate AND eventDate <= @endDate) ORDER BY eventDate;";
+
+                // command.CommandText = "SELECT i.eventID, i.eventTime, i.eventDate, i.eventStreetAddress, i.eventCity, i.eventState, i.eventCountry, i.eventZipCode, p.postTitle FROM InAppEventDetails i INNER JOIN Post p ON i.postID = p.postID WHERE i.registeredUsers = @username;";
+                // command.CommandText = "SELECT eventID, eventTime, eventDate, eventStreetAddress, eventCity, eventState, eventCountry, eventZipCode FROM InAppEventDetails WHERE registeredUsers = @username;";
+                command.Parameters.AddWithValue("@username", requestModel.username);
+                command.Parameters.AddWithValue("@todayDate", todayDate.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@endDate", endDate.ToString("yyyy-MM-dd"));
+
+                MySqlDataReader myReader = command.ExecuteReader();
+        
+                while (myReader.Read())
+                {
+                    NotificationSystemResponseModel notificationData = new NotificationSystemResponseModel();
+        
+                    notificationData.eventTime = myReader.GetString("eventTime");
+                    notificationData.eventDate = myReader.GetString("eventDate");
+                    notificationData.eventStreetAddress = myReader.GetString("eventStreetAddress");
+                    notificationData.eventCity = myReader.GetString("eventCity");
+                    notificationData.eventState = myReader.GetString("eventState");
+                    notificationData.eventCountry = myReader.GetString("eventCountry");
+                    notificationData.eventZipCode= myReader.GetString("eventZipCode");
+                    notificationData.eventTitle = myReader.GetString("postTitle");
+                    notificationData.notificationSystemStatusMessage = "DATA FETCHED";
+
+                    registeredEventList.Add(notificationData);
+                }
+                myReader.Close();
+                mySqlConnection.Close();
+
+                //Console.WriteLine("Returning from NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
+                //Console.WriteLine("this is registered Events" + registeredEventList[0].eventTitle);
+                return registeredEventList;
+            }
+        }  
+
         /// <summary>
         /// Returns list of registered events within give date range
         /// </summary>
         /// <returns>List<NotificationSystemInAppModel> GetRegisteredEvents</returns>
-        public List<NotificationSystemInAppModel> GetRegisteredEvents(string username) //cookie   
+        public List<NotificationSystemInAppModel> GetRegisteredEvents_Dummy(string username) //cookie   
         {
             Console.WriteLine("NotificationSystemSDataAccess:FetchRegisteredEvents Hello " + username);
             if (!EstablishMariaDBConnection())

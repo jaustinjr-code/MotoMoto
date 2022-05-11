@@ -36,13 +36,9 @@ namespace TheNewPanelists.MotoMoto.ServiceLayer
         /// <param name="username">Logged-in username to receive in-app notification</param>
         ///
         /// <returns>Return a list with all the fetched data of registered events from data access layer</returns>
-        public List<NotificationSystemInAppModel> FetchRegisteredEvents(string username) 
+        public List<NotificationSystemResponseModel> FetchRegisteredEvents(NotificationSystemRequestModel requestModel) 
         {
-            Console.WriteLine("NotificationSystemService:FetchRegisteredEvents Hello " + username);
-            List<NotificationSystemInAppModel> list;
-            list = _notificationSystemDataAccess.GetRegisteredEvents(username);
-            //Console.WriteLine("return from service" + list[0].eventCity);
-            return list;
+            return _notificationSystemDataAccess.GetRegisteredEvents(requestModel);
         }
 
         // public bool SendEmailNotification(NotificationSystemModel notification)

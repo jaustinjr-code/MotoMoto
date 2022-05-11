@@ -13,6 +13,8 @@ namespace TheNewPanelists.MotoMoto.Models
 
         int? eventID { get; set; }
         string? eventTitle {get; set;}
+
+        string? notificationStatusMessage { get; set; }
         // bool isNotificationSent { get; set; }
         // int eventID { get; }
 
